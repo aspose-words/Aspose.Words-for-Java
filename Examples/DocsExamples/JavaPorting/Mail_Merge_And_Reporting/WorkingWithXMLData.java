@@ -8,6 +8,7 @@ import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.words.Document;
 import com.aspose.words.IMailMergeDataSource;
 import java.lang.Class;
+import java.lang.reflect.Field;
 import java.util.Iterator;
 import com.aspose.words.ref.Ref;
 
@@ -175,7 +176,7 @@ class WorkingWithXmlData extends DocsExamplesBase
             Object obj = mEnumerator.next();
             Class currentRecordType = obj.getClass();
 
-            PropertyInfo property = currentRecordType.GetProperty(fieldName);
+            Field property = currentRecordType.GetProperty(fieldName);
             if (property != null)
             {
                 fieldValue.set(property.GetValue(obj, null));

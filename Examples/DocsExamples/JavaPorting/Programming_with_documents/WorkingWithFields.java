@@ -225,25 +225,18 @@ class WorkingWithFields extends DocsExamplesBase
 
         // We want to insert a merge field like this:
         // { " MERGEFIELD Test1 \\b Test2 \\f Test3 \\m \\v" }
-
         FieldMergeField field = (FieldMergeField) builder.insertField(FieldType.FIELD_MERGE_FIELD, false);
-
         // { " MERGEFIELD Test1" }
         field.setFieldName("Test1");
-
         // { " MERGEFIELD Test1 \\b Test2" }
         field.setTextBefore("Test2");
-
         // { " MERGEFIELD Test1 \\b Test2 \\f Test3 }
         field.setTextAfter("Test3");
-
         // { " MERGEFIELD Test1 \\b Test2 \\f Test3 \\m" }
         field.isMapped(true);
-
         // { " MERGEFIELD Test1 \\b Test2 \\f Test3 \\m \\v" }
         field.isVerticalFormatting(true);
 
-        // Finally update this merge field
         field.update();
 
         doc.save(getArtifactsDir() + "WorkingWithFields.InsertMergeFieldUsingDOM.docx");
@@ -257,27 +250,20 @@ class WorkingWithFields extends DocsExamplesBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Paragraph para = (Paragraph) doc.getChildNodes(NodeType.PARAGRAPH, true).get(0);
-
+        Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
         builder.moveTo(para);
 
         // We want to insert a mail merge address block like this:
         // { ADDRESSBLOCK \\c 1 \\d \\e Test2 \\f Test3 \\l \"Test 4\" }
-
         FieldAddressBlock field = (FieldAddressBlock) builder.insertField(FieldType.FIELD_ADDRESS_BLOCK, false);
-
         // { ADDRESSBLOCK \\c 1" }
         field.setIncludeCountryOrRegionName("1");
-
         // { ADDRESSBLOCK \\c 1 \\d" }
         field.setFormatAddressOnCountryOrRegion(true);
-
         // { ADDRESSBLOCK \\c 1 \\d \\e Test2 }
         field.setExcludedCountryOrRegionName("Test2");
-
         // { ADDRESSBLOCK \\c 1 \\d \\e Test2 \\f Test3 }
         field.setNameAndAddressFormat("Test3");
-
         // { ADDRESSBLOCK \\c 1 \\d \\e Test2 \\f Test3 \\l \"Test 4\" }
         field.setLanguageId("Test 4");
 
@@ -297,7 +283,6 @@ class WorkingWithFields extends DocsExamplesBase
 
         // We want to insert an INCLUDETEXT field like this:
         // { INCLUDETEXT  "file path" }
-
         FieldIncludeText fieldIncludeText = (FieldIncludeText) para.appendField(FieldType.FIELD_INCLUDE_TEXT, false);
         fieldIncludeText.setBookmarkName("bookmark");
         fieldIncludeText.setSourceFullName(getMyDir() + "IncludeText.docx");
@@ -368,13 +353,12 @@ class WorkingWithFields extends DocsExamplesBase
         //ExStart:InsertAuthorField
         Document doc = new Document();
 
-        Paragraph para = (Paragraph) doc.getChildNodes(NodeType.PARAGRAPH, true).get(0);
+        Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
         // We want to insert an AUTHOR field like this:
         // { AUTHOR Test1 }
-
-        FieldAuthor field = (FieldAuthor) para.appendField(FieldType.FIELD_AUTHOR, false);            
-        field.setAuthorName("Test1"); // { AUTHOR Test1 }
+        FieldAuthor field = (FieldAuthor) para.appendField(FieldType.FIELD_AUTHOR, false);
+        field.setAuthorName("Test1");
 
         field.update();
 
@@ -388,22 +372,16 @@ class WorkingWithFields extends DocsExamplesBase
         //ExStart:InsertASKFieldWithOutDocumentBuilder
         Document doc = new Document();
 
-        Paragraph para = (Paragraph) doc.getChildNodes(NodeType.PARAGRAPH, true).get(0);
-
+        Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
         // We want to insert an Ask field like this:
         // { ASK \"Test 1\" Test2 \\d Test3 \\o }
-
         FieldAsk field = (FieldAsk) para.appendField(FieldType.FIELD_ASK, false);
-
         // { ASK \"Test 1\" " }
         field.setBookmarkName("Test 1");
-
         // { ASK \"Test 1\" Test2 }
         field.setPromptText("Test2");
-
         // { ASK \"Test 1\" Test2 \\d Test3 }
         field.setDefaultResponse("Test3");
-
         // { ASK \"Test 1\" Test2 \\d Test3 \\o }
         field.setPromptOnceOnMailMerge(true);
 
@@ -419,28 +397,20 @@ class WorkingWithFields extends DocsExamplesBase
         //ExStart:InsertAdvanceFieldWithOutDocumentBuilder
         Document doc = new Document();
 
-        Paragraph para = (Paragraph) doc.getChildNodes(NodeType.PARAGRAPH, true).get(0);
-
+        Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
         // We want to insert an Advance field like this:
         // { ADVANCE \\d 10 \\l 10 \\r -3.3 \\u 0 \\x 100 \\y 100 }
-
         FieldAdvance field = (FieldAdvance) para.appendField(FieldType.FIELD_ADVANCE, false);
-        
         // { ADVANCE \\d 10 " }
         field.setDownOffset("10");
-
         // { ADVANCE \\d 10 \\l 10 }
         field.setLeftOffset("10");
-
         // { ADVANCE \\d 10 \\l 10 \\r -3.3 }
         field.setRightOffset("-3.3");
-
         // { ADVANCE \\d 10 \\l 10 \\r -3.3 \\u 0 }
         field.setUpOffset("0");
-
         // { ADVANCE \\d 10 \\l 10 \\r -3.3 \\u 0 \\x 100 }
         field.setHorizontalPosition("100");
-
         // { ADVANCE \\d 10 \\l 10 \\r -3.3 \\u 0 \\x 100 \\y 100 }
         field.setVerticalPosition("100");
 

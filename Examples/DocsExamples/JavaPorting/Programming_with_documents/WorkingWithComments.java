@@ -34,11 +34,9 @@ class WorkingWithComments extends DocsExamplesBase
         //ExEnd:CreateSimpleDocumentUsingDocumentBuilder
         
         Comment comment = new Comment(doc, "Awais Hafeez", "AH", DateTime.getToday());
+        comment.setText("Comment text.");
 
         builder.getCurrentParagraph().appendChild(comment);
-
-        comment.getParagraphs().add(new Paragraph(doc));
-        comment.getFirstParagraph().getRuns().add(new Run(doc, "Comment text."));
 
         doc.save(getArtifactsDir() + "WorkingWithComments.AddComments.docx");
         //ExEnd:AddComments
@@ -180,7 +178,7 @@ class WorkingWithComments extends DocsExamplesBase
     }
     //ExEnd:RemoveCommentsByAuthor
 
-    //ExStart:CommentResolvedandReplies
+    //ExStart:CommentResolvedAndReplies
     private void commentResolvedAndReplies(Document doc)
     {
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
@@ -196,6 +194,6 @@ class WorkingWithComments extends DocsExamplesBase
             childComment.setDone(true);
         }
     }
-    //ExEnd:CommentResolvedandReplies
+    //ExEnd:CommentResolvedAndReplies
 }
 
