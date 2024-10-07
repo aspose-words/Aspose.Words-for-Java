@@ -671,7 +671,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 Assert.AreEqual("2.0", pdfDocument.Version);
                 break;
             case PdfCompliance.PDF_A_4:
-                Assert.AreEqual(PdfFormat.v_2_0, pdfDocument.PdfFormat);
+                Assert.AreEqual(PdfFormat.PDF_A_4, pdfDocument.PdfFormat);
                 Assert.AreEqual("2.0", pdfDocument.Version);
                 break;
             case PdfCompliance.PDF_A_4_UA_2:
