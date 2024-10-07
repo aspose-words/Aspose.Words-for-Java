@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
@@ -280,6 +281,42 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
 
         String outDocContents = Files.readAllLines(Paths.get(getArtifactsDir() + "MarkdownSaveOptions.LinkExportMode.Inline.md")).get(1);
         Assert.assertEquals("![](MarkdownSaveOptions.LinkExportMode.Inline.001.png)", outDocContents.trim());
+    }
+
+    @Test
+    public void exportTableAsHtml() throws Exception
+    {
+        //ExStart:ExportTableAsHtml
+        //GistId:bb594993b5fe48692541e16f4d354ac2
+        //ExFor:MarkdownExportAsHtml
+        //ExFor:MarkdownSaveOptions.ExportAsHtml
+        //ExSummary:Shows how to export a table to Markdown as raw HTML.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("Sample table:");
+
+        // Create table.
+        builder.insertCell();
+        builder.getParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
+        builder.write("Cell1");
+        builder.insertCell();
+        builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
+        builder.write("Cell2");
+
+        MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
+        saveOptions.setExportAsHtml(MarkdownExportAsHtml.TABLES);
+
+        doc.save(getArtifactsDir() + "MarkdownSaveOptions.ExportTableAsHtml.md", saveOptions);
+        //ExEnd:ExportTableAsHtml
+
+        String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "MarkdownSaveOptions.ExportTableAsHtml.md"), StandardCharsets.UTF_8);
+        Assert.assertEquals("Sample table:\r\n<table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%; border:0.75pt solid #000000; border-collapse:collapse\">" +
+                "<tr><td style=\"border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top\">" +
+                "<p style=\"margin-top:0pt; margin-bottom:0pt; text-align:right; font-size:12pt\"><span style=\"font-family:'Times New Roman'\">Cell1</span></p>" +
+                "</td><td style=\"border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top\">" +
+                "<p style=\"margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:12pt\"><span style=\"font-family:'Times New Roman'\">Cell2</span></p>" +
+                "</td></tr></table>", outDocContents.trim());
     }
 }
 
