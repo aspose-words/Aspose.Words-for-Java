@@ -2759,7 +2759,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertVideoWithUrl.docx");
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImageInShape(480, 360, ImageType.PNG, shape);
+        TestUtil.verifyImageInShape(480, 360, ImageType.JPEG, shape);
 
         Assert.assertEquals(360.0d, shape.getWidth());
         Assert.assertEquals(270.0d, shape.getHeight());
