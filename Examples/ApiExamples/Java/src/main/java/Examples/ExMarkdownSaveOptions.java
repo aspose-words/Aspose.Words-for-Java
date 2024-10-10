@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -287,7 +287,7 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
     public void exportTableAsHtml() throws Exception
     {
         //ExStart:ExportTableAsHtml
-        //GistId:bb594993b5fe48692541e16f4d354ac2
+        //GistId:3f058a176ba0e9f656c60c6d60d757a1
         //ExFor:MarkdownExportAsHtml
         //ExFor:MarkdownSaveOptions.ExportAsHtml
         //ExSummary:Shows how to export a table to Markdown as raw HTML.

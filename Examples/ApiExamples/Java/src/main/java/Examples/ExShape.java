@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -3414,7 +3414,7 @@ public class ExShape extends ApiExampleBase {
     public void combineGroupShape() throws Exception
     {
         //ExStart:CombineGroupShape
-        //GistId:bb594993b5fe48692541e16f4d354ac2
+        //GistId:3f058a176ba0e9f656c60c6d60d757a1
         //ExFor:DocumentBuilder.InsertGroupShape(ShapeBase[])
         //ExSummary:Shows how to combine group shape with the shape.
         Document doc = new Document();
@@ -3445,7 +3445,7 @@ public class ExShape extends ApiExampleBase {
     public void insertCommandButton() throws Exception
     {
         //ExStart:InsertCommandButton
-        //GistId:bb594993b5fe48692541e16f4d354ac2
+        //GistId:3f058a176ba0e9f656c60c6d60d757a1
         //ExFor:CommandButtonControl
         //ExFor:DocumentBuilder.InsertForms2OleControl(Forms2OleControl)
         //ExSummary:Shows how to insert ActiveX control.
@@ -3461,7 +3461,7 @@ public class ExShape extends ApiExampleBase {
     public void hidden() throws Exception
     {
         //ExStart:Hidden
-        //GistId:bb594993b5fe48692541e16f4d354ac2
+        //GistId:3f058a176ba0e9f656c60c6d60d757a1
         //ExFor:ShapeBase.Hidden
         //ExSummary:Shows how to hide the shape.
         Document doc = new Document(getMyDir() + "Shadow color.docx");
