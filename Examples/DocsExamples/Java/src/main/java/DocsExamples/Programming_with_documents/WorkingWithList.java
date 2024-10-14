@@ -22,25 +22,25 @@ public class WorkingWithList extends DocsExamplesBase
     {
         //ExStart:RestartListAtEachSection
         Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
         
         doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
 
         List list = doc.getLists().get(0);
         list.isRestartAtEachSection(true);
 
-        DocumentBuilder builder = new DocumentBuilder(doc);
+        // The "IsRestartAtEachSection" property will only be applicable when
+        // the document's OOXML compliance level is to a standard that is newer than "OoxmlComplianceCore.Ecma376".
+        OoxmlSaveOptions options = new OoxmlSaveOptions();
+        options.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
+
         builder.getListFormat().setList(list);
 
-        for (int i = 1; i < 45; i++)
-        {
-            builder.writeln(MessageFormat.format("List Item {0}", i));
-
-            if (i == 15)
-                builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
-        }
-
-        // IsRestartAtEachSection will be written only if compliance is higher then OoxmlComplianceCore.Ecma376.
-        OoxmlSaveOptions options = new OoxmlSaveOptions(); { options.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL); }
+        builder.writeln("List item 1");
+        builder.writeln("List item 2");
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.writeln("List item 3");
+        builder.writeln("List item 4");
 
         doc.save(getArtifactsDir() + "WorkingWithList.RestartListAtEachSection.docx", options);
         //ExEnd:RestartListAtEachSection

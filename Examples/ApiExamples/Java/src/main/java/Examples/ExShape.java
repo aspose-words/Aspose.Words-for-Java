@@ -3378,8 +3378,8 @@ public class ExShape extends ApiExampleBase {
     {
         //ExStart:InsertGroupShape
         //GistId:6280fd6c1c1854468bea095ec2af902b
-        //ExFor:DocumentBuilder.InsertGroupShape(double, double, double, double, Shape[])
-        //ExFor:DocumentBuilder.InsertGroupShape(Shape[])
+        //ExFor:DocumentBuilder.InsertGroupShape(double, double, double, double, ShapeBase[])
+        //ExFor:DocumentBuilder.InsertGroupShape(ShapeBase[])
         //ExSummary:Shows how to insert DML group shape.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -3408,5 +3408,69 @@ public class ExShape extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Shape.InsertGroupShape.docx");
         //ExEnd:InsertGroupShape
+    }
+
+    @Test
+    public void combineGroupShape() throws Exception
+    {
+        //ExStart:CombineGroupShape
+        //GistId:3f058a176ba0e9f656c60c6d60d757a1
+        //ExFor:DocumentBuilder.InsertGroupShape(ShapeBase[])
+        //ExSummary:Shows how to combine group shape with the shape.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape1 = builder.insertShape(ShapeType.RECTANGLE, 200.0, 250.0);
+        shape1.setLeft(20.0);
+        shape1.setTop(20.0);
+        shape1.getStroke().setColor(Color.RED);
+
+        Shape shape2 = builder.insertShape(ShapeType.ELLIPSE, 150.0, 200.0);
+        shape2.setLeft(40.0);
+        shape2.setTop(50.0);
+        shape2.getStroke().setColor(Color.GREEN);
+
+        // Combine shapes into a GroupShape node which is inserted into the specified position.
+        GroupShape groupShape1 = builder.insertGroupShape(shape1, shape2);
+
+        // Combine Shape and GroupShape nodes.
+        Shape shape3 = (Shape)shape1.deepClone(true);
+        GroupShape groupShape2 = builder.insertGroupShape(groupShape1, shape3);
+
+        doc.save(getArtifactsDir() + "Shape.CombineGroupShape.docx");
+        //ExEnd:CombineGroupShape
+    }
+
+    @Test
+    public void insertCommandButton() throws Exception
+    {
+        //ExStart:InsertCommandButton
+        //GistId:3f058a176ba0e9f656c60c6d60d757a1
+        //ExFor:CommandButtonControl
+        //ExFor:DocumentBuilder.InsertForms2OleControl(Forms2OleControl)
+        //ExSummary:Shows how to insert ActiveX control.
+        DocumentBuilder builder = new DocumentBuilder();
+
+        CommandButtonControl button1 = new CommandButtonControl();
+        Shape shape = builder.insertForms2OleControl(button1);
+        Assert.assertEquals(Forms2OleControlType.COMMAND_BUTTON, ((Forms2OleControl)shape.getOleFormat().getOleControl()).getType());
+        //ExEnd:InsertCommandButton
+    }
+
+    @Test
+    public void hidden() throws Exception
+    {
+        //ExStart:Hidden
+        //GistId:3f058a176ba0e9f656c60c6d60d757a1
+        //ExFor:ShapeBase.Hidden
+        //ExSummary:Shows how to hide the shape.
+        Document doc = new Document(getMyDir() + "Shadow color.docx");
+
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        if (!shape.getHidden())
+            shape.setHidden(true);
+
+        doc.save(getArtifactsDir() + "Shape.Hidden.docx");
+        //ExEnd:Hidden
     }
 }

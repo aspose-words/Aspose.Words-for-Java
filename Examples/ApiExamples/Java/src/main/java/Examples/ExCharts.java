@@ -2240,4 +2240,59 @@ public class ExCharts extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Charts.TickLabelsOrientationRotation.docx");
         //ExEnd:TickLabelsOrientationRotation
     }
+
+    @Test
+    public void doughnutChart() throws Exception
+    {
+        //ExStart:DoughnutChart
+        //GistId:3f058a176ba0e9f656c60c6d60d757a1
+        //ExFor:ChartSeriesGroup.DoughnutHoleSize
+        //ExFor:ChartSeriesGroup.FirstSliceAngle
+        //ExSummary:Shows how to create and format Doughnut chart.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.DOUGHNUT, 400.0, 400.0);
+        Chart chart = shape.getChart();
+        // Delete the default generated series.
+        chart.getSeries().clear();
+
+        String[] categories = new String[] { "Category 1", "Category 2", "Category 3" };
+        chart.getSeries().add("Series 1", categories, new double[] { 4.0, 2.0, 5.0 });
+
+        // Format the Doughnut chart.
+        ChartSeriesGroup seriesGroup = chart.getSeriesGroups().get(0);
+        seriesGroup.setDoughnutHoleSize(10);
+        seriesGroup.setFirstSliceAngle(270);
+
+        doc.save(getArtifactsDir() + "Charts.DoughnutChart.docx");
+        //ExEnd:DoughnutChart
+    }
+
+    @Test
+    public void pieOfPieChart() throws Exception
+    {
+        //ExStart:PieOfPieChart
+        //GistId:3f058a176ba0e9f656c60c6d60d757a1
+        //ExFor:ChartSeriesGroup.SecondSectionSize
+        //ExSummary:Shows how to create and format pie of Pie chart.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.PIE_OF_PIE, 440.0, 300.0);
+        Chart chart = shape.getChart();
+        // Delete the default generated series.
+        chart.getSeries().clear();
+
+        String[] categories = new String[] { "Category 1", "Category 2", "Category 3", "Category 4" };
+        chart.getSeries().add("Series 1", categories, new double[] { 11.0, 8.0, 4.0, 3.0 });
+
+        // Format the Pie of Pie chart.
+        ChartSeriesGroup seriesGroup = chart.getSeriesGroups().get(0);
+        seriesGroup.setGapWidth(10);
+        seriesGroup.setSecondSectionSize(77);
+
+        doc.save(getArtifactsDir() + "Charts.PieOfPieChart.docx");
+        //ExEnd:PieOfPieChart
+    }
 }

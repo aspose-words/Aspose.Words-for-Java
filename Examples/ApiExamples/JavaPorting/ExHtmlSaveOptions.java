@@ -1000,24 +1000,24 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         //ExEnd
 
         TestUtil.docPackageFileContainsString("<navLabel><text>Heading #1</text></navLabel>", 
-            getArtifactsDir() + "HtmlSaveOptions.EpubHeadings.epub", "HtmlSaveOptions.EpubHeadings.ncx");
+            getArtifactsDir() + "HtmlSaveOptions.EpubHeadings.epub", "toc.ncx");
         TestUtil.docPackageFileContainsString("<navLabel><text>Heading #2</text></navLabel>", 
-            getArtifactsDir() + "HtmlSaveOptions.EpubHeadings.epub", "HtmlSaveOptions.EpubHeadings.ncx");
+            getArtifactsDir() + "HtmlSaveOptions.EpubHeadings.epub", "toc.ncx");
         TestUtil.docPackageFileContainsString("<navLabel><text>Heading #4</text></navLabel>", 
-            getArtifactsDir() + "HtmlSaveOptions.EpubHeadings.epub", "HtmlSaveOptions.EpubHeadings.ncx");
+            getArtifactsDir() + "HtmlSaveOptions.EpubHeadings.epub", "toc.ncx");
         TestUtil.docPackageFileContainsString("<navLabel><text>Heading #5</text></navLabel>", 
-            getArtifactsDir() + "HtmlSaveOptions.EpubHeadings.epub", "HtmlSaveOptions.EpubHeadings.ncx");
+            getArtifactsDir() + "HtmlSaveOptions.EpubHeadings.epub", "toc.ncx");
 
         Assert.<AssertionError>Throws(() =>
         {
             TestUtil.docPackageFileContainsString("<navLabel><text>Heading #3</text></navLabel>", 
-                getArtifactsDir() + "HtmlSaveOptions.EpubHeadings.epub", "HtmlSaveOptions.EpubHeadings.ncx");
+                getArtifactsDir() + "HtmlSaveOptions.EpubHeadings.epub", "toc.ncx");
         });
 
         Assert.<AssertionError>Throws(() =>
         {
             TestUtil.docPackageFileContainsString("<navLabel><text>Heading #6</text></navLabel>", 
-                getArtifactsDir() + "HtmlSaveOptions.EpubHeadings.epub", "HtmlSaveOptions.EpubHeadings.ncx");
+                getArtifactsDir() + "HtmlSaveOptions.EpubHeadings.epub", "toc.ncx");
         });
     }
 

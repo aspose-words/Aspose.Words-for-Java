@@ -2,9 +2,11 @@ package DocsExamples.Programming_with_documents.Working_with_document;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.*;
+import com.aspose.words.List;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.awt.*;
 import java.text.MessageFormat;
 import java.util.HashMap;
 
@@ -465,16 +467,30 @@ public class JoinAndAppendDocuments extends DocsExamplesBase
     public void smartStyleBehavior() throws Exception
     {
         //ExStart:SmartStyleBehavior
-        Document srcDoc = new Document(getMyDir() + "Document source.docx");
-        Document dstDoc = new Document(getMyDir() + "Northwind traders.docx");
+        Document dstDoc = new Document();
         DocumentBuilder builder = new DocumentBuilder(dstDoc);
-        
-        builder.moveToDocumentEnd();
-        builder.insertBreak(BreakType.PAGE_BREAK);
 
-        ImportFormatOptions options = new ImportFormatOptions(); { options.setSmartStyleBehavior(true); }
+        Style myStyle = builder.getDocument().getStyles().add(StyleType.PARAGRAPH, "MyStyle");
+        myStyle.getFont().setSize(14.0);
+        myStyle.getFont().setName("Courier New");
+        myStyle.getFont().setColor(Color.BLUE);
 
-        builder.insertDocument(srcDoc, ImportFormatMode.USE_DESTINATION_STYLES, options);
+        builder.getParagraphFormat().setStyleName(myStyle.getName());
+        builder.writeln("Hello world!");
+
+        // Clone the document and edit the clone's "MyStyle" style, so it is a different color than that of the original.
+        // If we insert the clone into the original document, the two styles with the same name will cause a clash.
+        Document srcDoc = dstDoc.deepClone();
+        srcDoc.getStyles().get("MyStyle").getFont().setColor(Color.RED);
+
+        // When we enable SmartStyleBehavior and use the KeepSourceFormatting import format mode,
+        // Aspose.Words will resolve style clashes by converting source document styles.
+        // with the same names as destination styles into direct paragraph attributes.
+        ImportFormatOptions options = new ImportFormatOptions();
+        options.setSmartStyleBehavior(true);
+
+        builder.insertDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, options);
+
         builder.getDocument().save(getArtifactsDir() + "JoinAndAppendDocuments.SmartStyleBehavior.docx");
         //ExEnd:SmartStyleBehavior
     }
@@ -525,21 +541,18 @@ public class JoinAndAppendDocuments extends DocsExamplesBase
     public void keepSourceNumbering() throws Exception
     {
         //ExStart:KeepSourceNumbering
-        Document srcDoc = new Document(getMyDir() + "Document source.docx");
-        Document dstDoc = new Document(getMyDir() + "Northwind traders.docx");
+        Document srcDoc = new Document(getMyDir() + "List source.docx");
+        Document dstDoc = new Document(getMyDir() + "List destination.docx");
 
-        // Keep source list formatting when importing numbered paragraphs.
-        ImportFormatOptions importFormatOptions = new ImportFormatOptions(); { importFormatOptions.setKeepSourceNumbering(true); }
-        
-        NodeImporter importer = new NodeImporter(srcDoc, dstDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING,
-            importFormatOptions);
+        ImportFormatOptions options = new ImportFormatOptions();
+        // If there is a clash of list styles, apply the list format of the source document.
+        // Set the "KeepSourceNumbering" property to "false" to not import any list numbers into the destination document.
+        // Set the "KeepSourceNumbering" property to "true" import all clashing
+        // list style numbering with the same appearance that it had in the source document.
+        options.setKeepSourceNumbering(true);
 
-        ParagraphCollection srcParas = srcDoc.getFirstSection().getBody().getParagraphs();
-        for (Paragraph srcPara : (Iterable<Paragraph>) srcParas)
-        {
-            Node importedNode = importer.importNode(srcPara, false);
-            dstDoc.getFirstSection().getBody().appendChild(importedNode);
-        }
+        dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, options);
+        dstDoc.updateListLabels();
 
         dstDoc.save(getArtifactsDir() + "JoinAndAppendDocuments.KeepSourceNumbering.docx");
         //ExEnd:KeepSourceNumbering

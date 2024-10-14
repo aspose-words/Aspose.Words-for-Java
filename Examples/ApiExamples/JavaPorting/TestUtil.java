@@ -95,7 +95,7 @@ class TestUtil extends ApiExampleBase
         finally { if (bitmap != null) bitmap.close(); }
 
         Assert.fail($"The image from \"{filename}\" does not contain any transparency.");
-    }private VerifyWebResponseStatusCodeAsyncverifyWebResponseStatusCodeAsync(/*HttpStatusCode*/int expectedHttpStatusCode, String webAddress)
+    }private VerifyWebResponseStatusCodeAsyncverifyWebResponseStatusCodeAsync(int expectedHttpStatusCode, String webAddress)
     {
         var myClient = new System.Net.Http.HttpClient();
         var response = await myClient.GetAsync(webAddress);

@@ -5,12 +5,12 @@ package DocsExamples.Programming_with_Documents;
 import DocsExamples.DocsExamplesBase;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
 import com.aspose.words.ListTemplate;
 import com.aspose.words.List;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.BreakType;
 import com.aspose.words.OoxmlSaveOptions;
 import com.aspose.words.OoxmlCompliance;
+import com.aspose.words.BreakType;
 import java.awt.Color;
 import com.aspose.words.ListLevelAlignment;
 
@@ -22,27 +22,29 @@ class WorkingWithList extends DocsExamplesBase
     {
         //ExStart:RestartListAtEachSection
         Document doc = new Document();
-        
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
         doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
 
         List list = doc.getLists().get(0);
         list.isRestartAtEachSection(true);
 
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.getListFormat().setList(list);
-
-        for (int i = 1; i < 45; i++)
+        // The "IsRestartAtEachSection" property will only be applicable when
+        // the document's OOXML compliance level is to a standard that is newer than "OoxmlComplianceCore.Ecma376".
+        OoxmlSaveOptions options = new OoxmlSaveOptions();
         {
-            builder.writeln($"List Item {i}");
-
-            if (i == 15)
-                builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+            options.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
         }
 
-        // IsRestartAtEachSection will be written only if compliance is higher then OoxmlComplianceCore.Ecma376.
-        OoxmlSaveOptions options = new OoxmlSaveOptions(); { options.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL); }
+        builder.getListFormat().setList(list);
 
-        doc.save(getArtifactsDir() + "WorkingWithList.RestartListAtEachSection.docx", options);
+        builder.writeln("List item 1");
+        builder.writeln("List item 2");
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.writeln("List item 3");
+        builder.writeln("List item 4");
+
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.RestartingDocumentList.docx", options);
         //ExEnd:RestartListAtEachSection
     }
 
