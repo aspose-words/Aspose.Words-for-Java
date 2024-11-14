@@ -510,7 +510,7 @@ class JoinAndAppendDocuments extends DocsExamplesBase
 
         builder.insertDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, options);
 
-        dstDoc.save(getArtifactsDir() + "DocumentBuilder.SmartStyleBehavior.docx");
+        dstDoc.save(getArtifactsDir() + "JoinAndAppendDocuments.SmartStyleBehavior.docx");
         //ExEnd:SmartStyleBehavior
     }
 
