@@ -20,6 +20,7 @@ import com.aspose.ms.System.IO.File;
 import com.aspose.words.TxtExportHeadersFootersMode;
 import com.aspose.words.HeaderFooter;
 import com.aspose.words.HeaderFooterType;
+import com.aspose.ms.System.Environment;
 import com.aspose.words.SaveFormat;
 import org.testng.annotations.DataProvider;
 
@@ -247,10 +248,11 @@ public class ExTxtSaveOptions extends ApiExampleBase
         doc.save(getArtifactsDir() + "TxtSaveOptions.TxtListIndentation.txt", txtSaveOptions);
 
         String docText = File.readAllText(getArtifactsDir() + "TxtSaveOptions.TxtListIndentation.txt");
+        String newLine= Environment.getNewLine();
 
-        Assert.assertEquals("1. Item 1\r\n" +
-                        "   a. Item 2\r\n" +
-                        "      i. Item 3\r\n", docText);
+        Assert.assertEquals($"1. Item 1{newLine}" +
+                        $"   a. Item 2{newLine}" +
+                        $"      i. Item 3{newLine}", docText);
         //ExEnd
     }
 

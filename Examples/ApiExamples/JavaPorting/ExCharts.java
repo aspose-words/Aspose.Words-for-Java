@@ -2038,7 +2038,7 @@ public class ExCharts extends ApiExampleBase
         series.hasDataLabels(true);
         series.getDataLabels().setShowValue(true);
         series.getDataLabels().setShowCategoryName(true);
-        String thousandSeparator = msCultureInfo.getCurrentCulture().getNumberFormat().CurrencyGroupSeparator;
+        String thousandSeparator = msCultureInfo.getCurrentCulture().getNumberFormat().getCurrencyGroupSeparator();
         series.getDataLabels().getNumberFormat().setFormatCode("#{thousandSeparator}0");
 
         doc.save(getArtifactsDir() + "Charts.Treemap.docx");
@@ -2252,7 +2252,7 @@ public class ExCharts extends ApiExampleBase
 
         // Show data labels.
         series.hasDataLabels(true);
-        String decimalSeparator = msCultureInfo.getCurrentCulture().getNumberFormat().CurrencyDecimalSeparator;
+        String decimalSeparator = msCultureInfo.getCurrentCulture().getNumberFormat().getCurrencyDecimalSeparator();
         series.getDataLabels().getNumberFormat().setFormatCode("0{decimalSeparator}0%");
 
         doc.save(getArtifactsDir() + "Charts.Funnel.docx");
@@ -2377,6 +2377,58 @@ public class ExCharts extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Charts.PieOfPieChart.docx");
         //ExEnd:PieOfPieChart
+    }
+
+    @Test
+    public void formatCode() throws Exception
+    {
+        //ExStart:FormatCode
+        //GistId:366eb64fd56dec3c2eaa40410e594182
+        //ExFor:ChartXValueCollection.FormatCode
+        //ExFor:ChartYValueCollection.FormatCode
+        //ExFor:BubbleSizeCollection.FormatCode
+        //ExSummary:Shows how to work with the format code of the chart data.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a Bubble chart.
+        Shape shape = builder.insertChart(ChartType.BUBBLE, 432.0, 252.0);
+        Chart chart = shape.getChart();
+
+        // Delete default generated series.
+        chart.getSeries().clear();
+
+        ChartSeries series = chart.getSeries().add(
+            "Series1",
+            new double[] { 1.0, 1.9, 2.45, 3.0 },
+            new double[] { 1.0, -0.9, 1.82, 0.0 },
+            new double[] { 2.0, 1.1, 2.95, 2.0 });
+
+        // Show data labels.
+        series.hasDataLabels(true);
+        series.getDataLabels().setShowCategoryName(true);
+        series.getDataLabels().setShowValue(true);
+        series.getDataLabels().setShowBubbleSize(true);
+
+        // Set data format codes.
+        series.getXValues().setFormatCode("#,##0.0#");
+        series.getYValues().setFormatCode("#,##0.0#;[Red]\\-#,##0.0#");
+        series.getBubbleSizes().setFormatCode("#,##0.0#");
+
+        doc.save(getArtifactsDir() + "Charts.FormatCode.docx");
+        //ExEnd:FormatCode
+
+        doc = new Document(getArtifactsDir() + "Charts.FormatCode.docx");
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        chart = shape.getChart();
+
+        ChartSeriesCollection seriesCollection = chart.getSeries();
+        for (ChartSeries seriesProperties : seriesCollection)
+        {
+            Assert.assertEquals("#,##0.0#", seriesProperties.getXValues().getFormatCode());
+            Assert.assertEquals("#,##0.0#;[Red]\\-#,##0.0#", seriesProperties.getYValues().getFormatCode());
+            Assert.assertEquals("#,##0.0#", seriesProperties.getBubbleSizes().getFormatCode());
+        }
     }
 }
 

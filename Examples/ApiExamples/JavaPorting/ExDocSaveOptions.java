@@ -118,7 +118,9 @@ public class ExDocSaveOptions extends ApiExampleBase
         //ExFor:SaveOptions.UpdateLastPrintedProperty
         //ExSummary:Shows how to update a document's "Last printed" property when saving.
         Document doc = new Document();
-        doc.getBuiltInDocumentProperties().setLastPrintedInternal(new DateTime(2019, 12, 20));
+
+        DateTime lastPrinted = new DateTime(2019, 12, 20);
+        doc.getBuiltInDocumentProperties().setLastPrintedInternal(lastPrinted);
 
         // This flag determines whether the last printed date, which is a built-in property, is updated.
         // If so, then the date of the document's most recent save operation
@@ -133,7 +135,10 @@ public class ExDocSaveOptions extends ApiExampleBase
         // Open the saved document, then verify the value of the property.
         doc = new Document(getArtifactsDir() + "DocSaveOptions.UpdateLastPrintedProperty.doc");
 
-        Assert.assertNotEquals(isUpdateLastPrintedProperty, DateTime.equals(new DateTime(2019, 12, 20), doc.getBuiltInDocumentProperties().getLastPrintedInternal()));
+        if (isUpdateLastPrintedProperty)
+            Assert.assertNotEquals(lastPrinted, doc.getBuiltInDocumentProperties().getLastPrintedInternal());
+        else
+            Assert.assertEquals(lastPrinted, doc.getBuiltInDocumentProperties().getLastPrintedInternal());
         //ExEnd
     }
 
@@ -155,7 +160,9 @@ public class ExDocSaveOptions extends ApiExampleBase
         //ExFor:SaveOptions.UpdateCreatedTimeProperty
         //ExSummary:Shows how to update a document's "CreatedTime" property when saving.
         Document doc = new Document();
-        doc.getBuiltInDocumentProperties().setCreatedTimeInternal(new DateTime(2019, 12, 20));
+
+        DateTime createdTime = new DateTime(2019, 12, 20);
+        doc.getBuiltInDocumentProperties().setCreatedTimeInternal(createdTime);
 
         // This flag determines whether the created time, which is a built-in property, is updated.
         // If so, then the date of the document's most recent save operation
@@ -168,7 +175,11 @@ public class ExDocSaveOptions extends ApiExampleBase
         // Open the saved document, then verify the value of the property.
         doc = new Document(getArtifactsDir() + "DocSaveOptions.UpdateCreatedTimeProperty.docx");
 
-        Assert.assertNotEquals(isUpdateCreatedTimeProperty, DateTime.equals(new DateTime(2019, 12, 20), doc.getBuiltInDocumentProperties().getCreatedTimeInternal()));
+        if (isUpdateCreatedTimeProperty)
+            Assert.assertNotEquals(createdTime, doc.getBuiltInDocumentProperties().getCreatedTimeInternal());
+        else
+            Assert.assertEquals(createdTime, doc.getBuiltInDocumentProperties().getCreatedTimeInternal());
+
         //ExEnd
     }
 

@@ -9,6 +9,7 @@ package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
 
+import com.aspose.ms.java.collections.StringSwitchMap;
 import org.testng.annotations.Test;
 import com.aspose.words.Merger;
 import com.aspose.words.OoxmlSaveOptions;
@@ -25,6 +26,18 @@ import com.aspose.words.Converter;
 import com.aspose.words.ImageSaveOptions;
 import com.aspose.words.PageSet;
 import com.aspose.ms.System.IO.Stream;
+import com.aspose.words.LoadOptions;
+import com.aspose.words.PdfSaveOptions;
+import com.aspose.words.HtmlFixedSaveOptions;
+import com.aspose.words.XpsSaveOptions;
+import com.aspose.words.SaveOptions;
+import java.io.FileInputStream;
+import com.aspose.ms.System.IO.File;
+import com.aspose.ms.System.IO.MemoryStream;
+import java.util.ArrayList;
+import com.aspose.ms.System.Text.RegularExpressions.Regex;
+import com.aspose.ms.System.IO.Directory;
+import org.testng.annotations.DataProvider;
 
 
 @Test
@@ -222,5 +235,188 @@ class ExLowCode !Test class should be public in Java to run, please fix .Net sou
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:ConvertToImagesFromStream
     }
+
+    @Test (dataProvider = "pdfRendererDataProvider")
+    public void pdfRenderer(String docName, String format) throws Exception
+    {
+        switch (gStringSwitchMap.of(format))
+        {
+            case /*"PDF"*/0:
+                LoadOptions loadOptions = new LoadOptions(); { loadOptions.setPassword("{Asp0se}P@ssw0rd"); }
+                saveTo(docName, loadOptions, new PdfSaveOptions(), "pdf");
+                assertResult("pdf");
+
+                break;
+
+            case /*"HTML"*/1:
+                HtmlFixedSaveOptions htmlSaveOptions = new HtmlFixedSaveOptions(); { htmlSaveOptions.setPageSet(new PageSet(0)); }
+                saveTo(docName, new LoadOptions(), htmlSaveOptions, "html");
+                assertResult("html");
+
+                break;
+
+            case /*"XPS"*/2:
+                saveTo(docName, new LoadOptions(), new XpsSaveOptions(), "xps");
+                assertResult("xps");
+
+                break;
+
+            case /*"JPEG"*/3:
+                ImageSaveOptions jpegSaveOptions = new ImageSaveOptions(SaveFormat.JPEG); { jpegSaveOptions.setJpegQuality(10); }
+                saveTo(docName, new LoadOptions(), jpegSaveOptions, "jpeg");
+                assertResult("jpeg");
+
+                break;
+
+            case /*"PNG"*/4:
+                ImageSaveOptions pngSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
+                {
+                    pngSaveOptions.setPageSet(new PageSet(0, 1));
+                    pngSaveOptions.setJpegQuality(50);
+                }
+                saveTo(docName, new LoadOptions(), pngSaveOptions, "png");
+                assertResult("png");
+
+                break;
+
+            case /*"TIFF"*/5:
+                ImageSaveOptions tiffSaveOptions = new ImageSaveOptions(SaveFormat.TIFF); { tiffSaveOptions.setJpegQuality(100); }
+                saveTo(docName, new LoadOptions(), tiffSaveOptions, "tiff");
+                assertResult("tiff");
+
+                break;
+
+            case /*"BMP"*/6:
+                ImageSaveOptions bmpSaveOptions = new ImageSaveOptions(SaveFormat.BMP);
+                saveTo(docName, new LoadOptions(), bmpSaveOptions, "bmp");
+                assertResult("bmp");
+
+                break;
+        }
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "pdfRendererDataProvider")
+	public static Object[][] pdfRendererDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{"Protected pdf document.pdf",  "PDF"},
+			{"Pdf Document.pdf",  "HTML"},
+			{"Pdf Document.pdf",  "XPS"},
+			{"Images.pdf",  "JPEG"},
+			{"Images.pdf",  "PNG"},
+			{"Images.pdf",  "TIFF"},
+			{"Images.pdf",  "BMP"},
+		};
+	}
+
+    private void saveTo(String docName, LoadOptions loadOptions, SaveOptions saveOptions, String fileExt) throws Exception
+    {
+        FileStream pdfDoc = new FileInputStream(getMyDir() + docName);
+        try /*JAVA: was using*/
+        {
+            Stream stream = new MemoryStream();
+            IReadOnlyList<Stream> imagesStream = new ArrayList<Stream>();
+
+            if ("pdf".equals(fileExt))
+            {
+                Converter.convertInternal(pdfDoc, loadOptions, stream, saveOptions);
+            }
+            else if ("html".equals(fileExt))
+            {
+                Converter.convertInternal(pdfDoc, loadOptions, stream, saveOptions);
+            }
+            else if ("xps".equals(fileExt))
+            {
+                Converter.convertInternal(pdfDoc, loadOptions, stream, saveOptions);
+            }
+            else if ("jpeg".equals(fileExt) || "png".equals(fileExt) || "tiff".equals(fileExt) || "bmp".equals(fileExt))
+            {
+                imagesStream = Converter.convertToImagesInternal(pdfDoc, loadOptions, (ImageSaveOptions)saveOptions);
+            }
+
+            if (imagesStream.Count != 0)
+            {
+                for (int i = 0; i < imagesStream.Count; i++)
+                {
+                    FileStream resultDoc = new FileStream(getArtifactsDir() + $"PdfRenderer_{i}.{fileExt}", FileMode.CREATE);
+                    try /*JAVA: was using*/
+                	{
+                        imagesStream.(i).copyTo(resultDoc);
+                	}
+                    finally { if (resultDoc != null) resultDoc.close(); }
+                }
+            }
+            else
+            {
+                FileStream resultDoc = new FileStream(getArtifactsDir() + $"PdfRenderer.{fileExt}", FileMode.CREATE);
+                try /*JAVA: was using*/
+            	{
+                    stream.copyTo(resultDoc);
+            	}
+                finally { if (resultDoc != null) resultDoc.close(); }
+            }
+        }
+        finally { if (pdfDoc != null) pdfDoc.close(); }
+    }
+
+    private void assertResult(String fileExt) throws Exception
+    {
+        if ("jpeg".equals(fileExt) || "png".equals(fileExt) || "tiff".equals(fileExt) || "bmp".equals(fileExt))
+        {
+            Regex reg = new Regex("PdfRenderer_*");
+
+            var images = Directory.getFiles(getArtifactsDir(), $"*.{fileExt}")
+                                 .Where(path => reg.IsMatch(path))
+                                 .ToList();
+
+            if ("png".equals(fileExt))
+                Assert.AreEqual(2, images.Count);
+            else
+                Assert.AreEqual(5, images.Count);
+        }
+        else
+        {
+            if ("xps".equals(fileExt))
+            {
+                var doc = new XpsDocument(getArtifactsDir() + $"PdfRenderer.{fileExt}");
+                AssertXpsText(doc);
+            }
+            else
+            {
+                Document doc = new Document(getArtifactsDir() + $"PdfRenderer.{fileExt}");
+                String content = doc.getText().replace("\r", " ");
+
+                Assert.assertTrue(content.contains("Heading 1 Heading 1.1.1.1 Heading 1.1.1.2"));
+            }
+        }
+    }
+
+    private static void assertXpsText(XpsDocument doc)
+    {
+        AssertXpsText(doc.SelectActivePage(1));
+    }
+
+    private static void assertXpsText(XpsElement element)
+    {
+        for (int i = 0; i < element.Count; i++)
+            AssertXpsText(element[i]);
+        if (element instanceof XpsGlyphs)
+            Assert.True(new String[] { "Heading 1", "Head", "ing 1" }.Any(c => ((XpsGlyphs)element).UnicodeString.Contains(c)));
+    }
+
+	//JAVA-added for string switch emulation
+	private static final StringSwitchMap gStringSwitchMap = new StringSwitchMap
+	(
+		"PDF",
+		"HTML",
+		"XPS",
+		"JPEG",
+		"PNG",
+		"TIFF",
+		"BMP"
+	);
+
 }
 

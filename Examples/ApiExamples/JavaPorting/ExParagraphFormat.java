@@ -488,6 +488,8 @@ class ExParagraphFormat !Test class should be public in Java to run, please fix 
     @Test (dataProvider = "usePdfDocumentForSuppressHyphensDataProvider")
     public void usePdfDocumentForSuppressHyphens(boolean suppressAutoHyphens) throws Exception
     {
+        final String UNICODE_OPTIONAL_HYPHEN = "\u00ad";
+
         suppressHyphens(suppressAutoHyphens);
 
         Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "ParagraphFormat.SuppressHyphens.pdf");
@@ -499,8 +501,8 @@ class ExParagraphFormat !Test class should be public in Java to run, please fix 
                                                    $"Doppelte um da am spateren verlogen {Environment.NewLine}" +
                                                    $"gekommen achtzehn blaulich."));
         else
-            Assert.True(textAbsorber.Text.Replace("  ", " ").Contains($"La ob storen an deinen am sachen. Dop-{Environment.NewLine}" +
-                                                   $"pelte um da am spateren verlogen ge-{Environment.NewLine}" +
+            Assert.True(textAbsorber.Text.Replace("  ", " ").Contains($"La ob storen an deinen am sachen. Dop{unicodeOptionalHyphen}{Environment.NewLine}" +
+                                                   $"pelte um da am spateren verlogen ge{unicodeOptionalHyphen}{Environment.NewLine}" +
                                                    $"kommen achtzehn blaulich."));
     }
 
