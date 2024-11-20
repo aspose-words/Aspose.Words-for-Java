@@ -606,4 +606,20 @@ public class ExDocumentProperties extends ApiExampleBase {
         Assert.assertEquals(123.45d, properties.get("Authorized Amount").toDouble());
         //ExEnd
     }
+
+    @Test
+    public void extendedProperties() throws Exception
+    {
+        //ExStart:ExtendedProperties
+        //GistId:366eb64fd56dec3c2eaa40410e594182
+        //ExFor:BuiltInDocumentProperties.ScaleCrop
+        //ExFor:BuiltInDocumentProperties.SharedDocument
+        //ExFor:BuiltInDocumentProperties.HyperlinksChanged
+        //ExSummary:Shows how to get extended properties.
+        Document doc = new Document(getMyDir() + "Extended properties.docx");
+        Assert.assertTrue(doc.getBuiltInDocumentProperties().getScaleCrop());
+        Assert.assertTrue(doc.getBuiltInDocumentProperties().getSharedDocument());
+        Assert.assertTrue(doc.getBuiltInDocumentProperties().getHyperlinksChanged());
+        //ExEnd:ExtendedProperties
+    }
 }

@@ -753,5 +753,22 @@ public class ExRevision extends ApiExampleBase {
         Assert.assertEquals(0, docA.getRevisions().getCount());
         //ExEnd:IgnoreStoreItemId
     }
+
+    @Test
+    public void revisionCellColor() throws Exception
+    {
+        //ExStart:RevisionCellColor
+        //GistId:366eb64fd56dec3c2eaa40410e594182
+        //ExFor:RevisionOptions.InsertCellColor
+        //ExFor:RevisionOptions.DeleteCellColor
+        //ExSummary:Shows how to work with insert/delete cell revision color.
+        Document doc = new Document(getMyDir() + "Cell revisions.docx");
+
+        doc.getLayoutOptions().getRevisionOptions().setInsertCellColor(RevisionColor.BLUE);
+        doc.getLayoutOptions().getRevisionOptions().setDeleteCellColor(RevisionColor.DARK_RED);
+
+        doc.save(getArtifactsDir() + "Revision.RevisionCellColor.pdf");
+        //ExEnd:RevisionCellColor
+    }
 }
 

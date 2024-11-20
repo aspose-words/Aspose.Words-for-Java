@@ -2521,4 +2521,21 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "PdfSaveOptions.SdtTagAsFormFieldName.pdf", saveOptions);
         //ExEnd:SdtTagAsFormFieldName
     }
+
+    @Test
+    public void renderChoiceFormFieldBorder() throws Exception
+    {
+        //ExStart:RenderChoiceFormFieldBorder
+        //GistId:366eb64fd56dec3c2eaa40410e594182
+        //ExFor:PdfSaveOptions.RenderChoiceFormFieldBorder
+        //ExSummary:Shows how to render PDF choice form field border.
+        Document doc = new Document(getMyDir() + "Legacy drop-down.docx");
+
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setPreserveFormFields(true);
+        saveOptions.setRenderChoiceFormFieldBorder(true);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.RenderChoiceFormFieldBorder.pdf", saveOptions);
+        //ExEnd:RenderChoiceFormFieldBorder
+    }
 }
