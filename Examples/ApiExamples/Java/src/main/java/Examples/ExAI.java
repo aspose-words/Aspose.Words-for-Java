@@ -7,8 +7,8 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.words.*;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
 
 @Test
 public class ExAI extends ApiExampleBase
@@ -36,12 +36,16 @@ public class ExAI extends ApiExampleBase
 
         String apiKey = System.getenv("API_KEY");
         // Use OpenAI or Google generative language models.
-        IAiModelText model = (IAiModelText)AiModel.create(AiModelType.GPT_4_O_MINI).withApiKey(apiKey);
-        
-        Document oneDocumentSummary = model.summarize(firstDoc, new SummarizeOptions(); { oneDocumentSummary.setSummaryLength(SummaryLength.SHORT); });
+        IAiModelText model = (IAiModelText) AiModel.create(AiModelType.GPT_4_O_MINI).withApiKey(apiKey);
+
+        SummarizeOptions options = new SummarizeOptions();
+        options.setSummaryLength(SummaryLength.SHORT);
+        Document oneDocumentSummary = model.summarize(firstDoc, options);
         oneDocumentSummary.save(getArtifactsDir() + "AI.AiSummarize.One.docx");
 
-        Document multiDocumentSummary = model.summarize(new Document[] { firstDoc, secondDoc }, new SummarizeOptions(); { multiDocumentSummary.setSummaryLength(SummaryLength.LONG); });
+        options = new SummarizeOptions();
+        options.setSummaryLength(SummaryLength.LONG);
+        Document multiDocumentSummary = model.summarize(new Document[] { firstDoc, secondDoc }, options);
         multiDocumentSummary.save(getArtifactsDir() + "AI.AiSummarize.Multi.docx");
         //ExEnd:AiSummarize
     }
