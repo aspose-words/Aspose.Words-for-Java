@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -2526,7 +2526,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     public void renderChoiceFormFieldBorder() throws Exception
     {
         //ExStart:RenderChoiceFormFieldBorder
-        //GistId:366eb64fd56dec3c2eaa40410e594182
+        //GistId:72d57eeddb7fb342fd51b26e5fcf9642
         //ExFor:PdfSaveOptions.RenderChoiceFormFieldBorder
         //ExSummary:Shows how to render PDF choice form field border.
         Document doc = new Document(getMyDir() + "Legacy drop-down.docx");

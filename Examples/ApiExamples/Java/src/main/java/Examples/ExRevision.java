@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -758,7 +758,7 @@ public class ExRevision extends ApiExampleBase {
     public void revisionCellColor() throws Exception
     {
         //ExStart:RevisionCellColor
-        //GistId:366eb64fd56dec3c2eaa40410e594182
+        //GistId:72d57eeddb7fb342fd51b26e5fcf9642
         //ExFor:RevisionOptions.InsertCellColor
         //ExFor:RevisionOptions.DeleteCellColor
         //ExSummary:Shows how to work with insert/delete cell revision color.

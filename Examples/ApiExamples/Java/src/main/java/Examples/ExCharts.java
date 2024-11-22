@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -2300,7 +2300,7 @@ public class ExCharts extends ApiExampleBase {
     public void formatCode() throws Exception
     {
         //ExStart:FormatCode
-        //GistId:366eb64fd56dec3c2eaa40410e594182
+        //GistId:72d57eeddb7fb342fd51b26e5fcf9642
         //ExFor:ChartXValueCollection.FormatCode
         //ExFor:ChartYValueCollection.FormatCode
         //ExFor:BubbleSizeCollection.FormatCode

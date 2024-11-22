@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -3487,7 +3487,7 @@ public class ExShape extends ApiExampleBase {
     public void commandButtonCaption() throws Exception
     {
         //ExStart:CommandButtonCaption
-        //GistId:366eb64fd56dec3c2eaa40410e594182
+        //GistId:72d57eeddb7fb342fd51b26e5fcf9642
         //ExFor:Forms2OleControl.Caption
         //ExSummary:Shows how to set caption for ActiveX control.
         DocumentBuilder builder = new DocumentBuilder();
