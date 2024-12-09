@@ -17,6 +17,7 @@ import com.aspose.words.AiModel;
 import com.aspose.words.AiModelType;
 import com.aspose.words.SummarizeOptions;
 import com.aspose.words.SummaryLength;
+import com.aspose.words.Language;
 
 
 @Test
@@ -53,6 +54,24 @@ public class ExAI extends ApiExampleBase
         Document multiDocumentSummary = model.summarize(new Document[] { firstDoc, secondDoc }, new SummarizeOptions(); { multiDocumentSummary.setSummaryLength(SummaryLength.LONG); });
         multiDocumentSummary.save(getArtifactsDir() + "AI.AiSummarize.Multi.docx");
         //ExEnd:AiSummarize
+    }
+
+    @Test (enabled = false, description = "This test should be run manually to manage API requests amount")
+    public void aiTranslate() throws Exception
+    {
+        //ExStart:AiTranslate
+        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //ExFor:IAiModelText.Translate(Document, AI.Language)
+        //ExSummary:Shows how to translate text using Google models.
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        String apiKey = System.getenv("API_KEY");
+        // Use Google generative language models.
+        IAiModelText model = (IAiModelText)AiModel.create(AiModelType.GEMINI_15_FLASH).withApiKey(apiKey);
+
+        Document translatedDoc = model.translate(doc, Language.ARABIC);
+        translatedDoc.save(getArtifactsDir() + "AI.AiTranslate.docx");
+        //ExEnd:AiTranslate
     }
 }
 
