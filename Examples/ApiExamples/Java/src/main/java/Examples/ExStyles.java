@@ -180,7 +180,6 @@ public class ExStyles extends ApiExampleBase {
     @Test
     public void copyStyleSameDocument() throws Exception {
         //ExStart
-        //ExFor:StyleCollection.Add(Style)
         //ExFor:StyleCollection.AddCopy(Style)
         //ExFor:Style.Name
         //ExSummary:Shows how to clone a document's style.
