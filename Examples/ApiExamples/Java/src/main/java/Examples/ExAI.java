@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
 //
@@ -54,7 +54,7 @@ public class ExAI extends ApiExampleBase
     public void aiTranslate() throws Exception
     {
         //ExStart:AiTranslate
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:IAiModelText.Translate(Document, AI.Language)
         //ExSummary:Shows how to translate text using Google models.
         Document doc = new Document(getMyDir() + "Document.docx");

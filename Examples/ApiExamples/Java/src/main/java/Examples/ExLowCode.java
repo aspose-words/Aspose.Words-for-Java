@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -177,7 +177,7 @@ public class ExLowCode extends ApiExampleBase
     public void compareDocuments() throws Exception
     {
         //ExStart:CompareDocuments
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Comparer.Compare(String, String, String, String, DateTime)
         //ExFor:Comparer.Compare(String, String, String, SaveFormat, String, DateTime)
         //ExFor:Comparer.Compare(String, String, String, String, DateTime, CompareOptions)
@@ -199,7 +199,7 @@ public class ExLowCode extends ApiExampleBase
     @Test
     public void compareStreamDocuments() throws Exception {
         //ExStart:CompareStreamDocuments
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Comparer.Compare(Stream, Stream, Stream, SaveFormat, String, DateTime)
         //ExFor:Comparer.Compare(Stream, Stream, Stream, SaveFormat, String, DateTime, CompareOptions)
         //ExSummary:Shows how to compare documents from the stream.
@@ -224,7 +224,7 @@ public class ExLowCode extends ApiExampleBase
     public void mailMerge() throws Exception
     {
         //ExStart:MailMerge
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMerger.Execute(String, String, String[], Object[])
         //ExFor:MailMerger.Execute(String, String, SaveFormat, String[], Object[])
         //ExFor:MailMerger.Execute(String, String, SaveFormat, MailMergeOptions, String[], Object[])
@@ -246,7 +246,7 @@ public class ExLowCode extends ApiExampleBase
     @Test
     public void mailMergeStream() throws Exception {
         //ExStart:MailMergeStream
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMerger.Execute(Stream, Stream, SaveFormat, String[], Object[])
         //ExFor:MailMerger.Execute(Stream, Stream, SaveFormat, MailMergeOptions, String[], Object[])
         //ExSummary:Shows how to do mail merge operation for a single record from the stream.
@@ -272,7 +272,7 @@ public class ExLowCode extends ApiExampleBase
     public void mailMergeDataRow() throws Exception
     {
         //ExStart:MailMergeDataRow
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMerger.Execute(String, String, DataRow)
         //ExFor:MailMerger.Execute(String, String, SaveFormat, DataRow)
         //ExFor:MailMerger.Execute(String, String, SaveFormat, MailMergeOptions, DataRow)
@@ -299,7 +299,7 @@ public class ExLowCode extends ApiExampleBase
     @Test
     public void mailMergeStreamDataRow() throws Exception {
         //ExStart:MailMergeStreamDataRow
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMerger.Execute(Stream, Stream, SaveFormat, DataRow)
         //ExFor:MailMerger.Execute(Stream, Stream, SaveFormat, MailMergeOptions, DataRow)
         //ExSummary:Shows how to do mail merge operation from a DataRow using documents from the stream.
@@ -330,7 +330,7 @@ public class ExLowCode extends ApiExampleBase
     public void mailMergeDataTable() throws Exception
     {
         //ExStart:MailMergeDataTable
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMerger.Execute(String, String, DataTable)
         //ExFor:MailMerger.Execute(String, String, SaveFormat, DataTable)
         //ExFor:MailMerger.Execute(String, String, SaveFormat, MailMergeOptions, DataTable)
@@ -356,7 +356,7 @@ public class ExLowCode extends ApiExampleBase
     @Test
     public void mailMergeStreamDataTable() throws Exception {
         //ExStart:MailMergeStreamDataTable
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMerger.Execute(Stream, Stream, SaveFormat, DataTable)
         //ExFor:MailMerger.Execute(Stream, Stream, SaveFormat, MailMergeOptions, DataTable)
         //ExSummary:Shows how to do mail merge operation from a DataTable using documents from the stream.
@@ -386,7 +386,7 @@ public class ExLowCode extends ApiExampleBase
     public void mailMergeWithRegionsDataTable() throws Exception
     {
         //ExStart:MailMergeWithRegionsDataTable
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMerger.ExecuteWithRegions(String, String, DataTable)
         //ExFor:MailMerger.ExecuteWithRegions(String, String, SaveFormat, DataTable)
         //ExFor:MailMerger.ExecuteWithRegions(String, String, SaveFormat, MailMergeOptions, DataTable)
@@ -412,7 +412,7 @@ public class ExLowCode extends ApiExampleBase
     @Test
     public void mailMergeStreamWithRegionsDataTable() throws Exception {
         //ExStart:MailMergeStreamWithRegionsDataTable
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMerger.ExecuteWithRegions(Stream, Stream, SaveFormat, DataTable)
         //ExFor:MailMerger.ExecuteWithRegions(Stream, Stream, SaveFormat, MailMergeOptions, DataTable)
         //ExSummary:Shows how to do mail merge with regions operation from a DataTable using documents from the stream.
@@ -442,7 +442,7 @@ public class ExLowCode extends ApiExampleBase
     public void mailMergeWithRegionsDataSet() throws Exception
     {
         //ExStart:MailMergeWithRegionsDataSet
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMerger.ExecuteWithRegions(String, String, DataSet)
         //ExFor:MailMerger.ExecuteWithRegions(String, String, SaveFormat, DataSet)
         //ExFor:MailMerger.ExecuteWithRegions(String, String, SaveFormat, MailMergeOptions, DataSet)
@@ -480,7 +480,7 @@ public class ExLowCode extends ApiExampleBase
     @Test
     public void mailMergeStreamWithRegionsDataSet() throws Exception {
         //ExStart:MailMergeStreamWithRegionsDataSet
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMerger.ExecuteWithRegions(Stream, Stream, SaveFormat, DataSet)
         //ExFor:MailMerger.ExecuteWithRegions(Stream, Stream, SaveFormat, MailMergeOptions, DataSet)
         //ExSummary:Shows how to do mail merge with regions operation from a DataSet using documents from the stream.
@@ -522,7 +522,7 @@ public class ExLowCode extends ApiExampleBase
     public void replace() throws Exception
     {
         //ExStart:Replace
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Replacer.Replace(String, String, String, String)
         //ExFor:Replacer.Replace(String, String, SaveFormat, String, String)
         //ExFor:Replacer.Replace(String, String, SaveFormat, String, String, FindReplaceOptions)
@@ -543,7 +543,7 @@ public class ExLowCode extends ApiExampleBase
     @Test
     public void replaceStream() throws Exception {
         //ExStart:ReplaceStream
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Replacer.Replace(Stream, Stream, SaveFormat, String, String)
         //ExFor:Replacer.Replace(Stream, Stream, SaveFormat, String, String, FindReplaceOptions)
         //ExSummary:Shows how to replace string in the document using documents from the stream.
@@ -569,7 +569,7 @@ public class ExLowCode extends ApiExampleBase
     public void replaceRegex() throws Exception
     {
         //ExStart:ReplaceRegex
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Replacer.Replace(String, String, Regex, String)
         //ExFor:Replacer.Replace(String, String, SaveFormat, Regex, String)
         //ExFor:Replacer.Replace(String, String, SaveFormat, Regex, String, FindReplaceOptions)
@@ -590,7 +590,7 @@ public class ExLowCode extends ApiExampleBase
     @Test
     public void replaceStreamRegex() throws Exception {
         //ExStart:ReplaceStreamRegex
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Replacer.Replace(Stream, Stream, SaveFormat, Regex, String)
         //ExFor:Replacer.Replace(Stream, Stream, SaveFormat, Regex, String, FindReplaceOptions)
         //ExSummary:Shows how to replace string with regex in the document using documents from the stream.
@@ -613,7 +613,7 @@ public class ExLowCode extends ApiExampleBase
     }
 
     //ExStart:BuildReportData
-    //GistId:695136dbbe4f541a8a0a17b3d3468689
+    //GistId:93fefe5344a8337b931d0fed5c028225
     //ExFor:ReportBuilder.BuildReport(String, String, Object)
     //ExFor:ReportBuilder.BuildReport(String, String, Object, ReportBuilderOptions)
     //ExFor:ReportBuilder.BuildReport(String, String, SaveFormat, Object)
@@ -651,7 +651,7 @@ public class ExLowCode extends ApiExampleBase
     @Test
     public void buildReportDataStream() throws Exception {
         //ExStart:BuildReportDataStream
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:ReportBuilder.BuildReport(Stream, Stream, SaveFormat, Object)
         //ExFor:ReportBuilder.BuildReport(Stream, Stream, SaveFormat, Object, ReportBuilderOptions)
         //ExSummary:Shows how to populate document with data using documents from the stream.
@@ -679,7 +679,7 @@ public class ExLowCode extends ApiExampleBase
     }
 
     //ExStart:BuildReportDataSource
-    //GistId:695136dbbe4f541a8a0a17b3d3468689
+    //GistId:93fefe5344a8337b931d0fed5c028225
     //ExFor:ReportBuilder.BuildReport(String, String, Object, String)
     //ExFor:ReportBuilder.BuildReport(String, String, Object[], String[])
     //ExFor:ReportBuilder.BuildReport(String, String, Object, String, ReportBuilderOptions)
@@ -723,7 +723,7 @@ public class ExLowCode extends ApiExampleBase
     @Test
     public void buildReportDataSourceStream() throws Exception {
         //ExStart:BuildReportDataSourceStream
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:ReportBuilder.BuildReport(Stream, Stream, SaveFormat, Object[], String[])
         //ExFor:ReportBuilder.BuildReport(Stream, Stream, SaveFormat, Object, String)
         //ExFor:ReportBuilder.BuildReport(Stream, Stream, SaveFormat, Object, String, ReportBuilderOptions)
@@ -753,7 +753,7 @@ public class ExLowCode extends ApiExampleBase
     public void removeBlankPages() throws Exception
     {
         //ExStart:RemoveBlankPages
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Splitter.RemoveBlankPages(String, String)
         //ExFor:Splitter.RemoveBlankPages(String, String, SaveFormat)
         //ExSummary:Shows how to remove empty pages from the document.
@@ -768,7 +768,7 @@ public class ExLowCode extends ApiExampleBase
     @Test
     public void removeBlankPagesStream() throws Exception {
         //ExStart:RemoveBlankPagesStream
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Splitter.RemoveBlankPages(Stream, Stream, SaveFormat)
         //ExSummary:Shows how to remove empty pages from the document from the stream.
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Blank pages.docx")) {
@@ -783,7 +783,7 @@ public class ExLowCode extends ApiExampleBase
     public void extractPages() throws Exception
     {
         //ExStart:ExtractPages
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Splitter.ExtractPages(String, String, int, int)
         //ExFor:Splitter.ExtractPages(String, String, SaveFormat, int, int)
         //ExSummary:Shows how to extract pages from the document.
@@ -798,7 +798,7 @@ public class ExLowCode extends ApiExampleBase
     @Test
     public void extractPagesStream() throws Exception {
         //ExStart:ExtractPagesStream
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Splitter.ExtractPages(Stream, Stream, SaveFormat, int, int)
         //ExSummary:Shows how to extract pages from the document from the stream.
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Big document.docx")) {
@@ -813,7 +813,7 @@ public class ExLowCode extends ApiExampleBase
     public void splitDocument() throws Exception
     {
         //ExStart:SplitDocument
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Splitter.Split(String, String, SplitOptions)
         //ExFor:Splitter.Split(String, String, SaveFormat, SplitOptions)
         //ExSummary:Shows how to split document by pages.
@@ -829,7 +829,7 @@ public class ExLowCode extends ApiExampleBase
     @Test
     public void splitDocumentStream() throws Exception {
         //ExStart:SplitDocumentStream
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Splitter.Split(Stream, SaveFormat, SplitOptions)
         //ExSummary:Shows how to split document from the stream by pages.
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Big document.docx")) {
@@ -844,7 +844,7 @@ public class ExLowCode extends ApiExampleBase
     public void watermarkText() throws Exception
     {
         //ExStart:WatermarkText
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Watermarker.SetText(String, String, String)
         //ExFor:Watermarker.SetText(String, String, SaveFormat, String)
         //ExFor:Watermarker.SetText(String, String, String, TextWatermarkOptions)
@@ -865,7 +865,7 @@ public class ExLowCode extends ApiExampleBase
     @Test
     public void watermarkTextStream() throws Exception {
         //ExStart:WatermarkTextStream
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Watermarker.SetText(Stream, Stream, SaveFormat, String)
         //ExFor:Watermarker.SetText(Stream, Stream, SaveFormat, String, TextWatermarkOptions)
         //ExSummary:Shows how to insert watermark text to the document from the stream.
@@ -889,7 +889,7 @@ public class ExLowCode extends ApiExampleBase
     public void watermarkImage() throws Exception
     {
         //ExStart:WatermarkImage
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Watermarker.SetImage(String, String, String)
         //ExFor:Watermarker.SetImage(String, String, SaveFormat, String)
         //ExFor:Watermarker.SetImage(String, String, String, ImageWatermarkOptions)
@@ -910,7 +910,7 @@ public class ExLowCode extends ApiExampleBase
     @Test
     public void watermarkImageStream() throws Exception {
         //ExStart:WatermarkImageStream
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Watermarker.SetImage(Stream, Stream, SaveFormat, Image)
         //ExFor:Watermarker.SetImage(Stream, Stream, SaveFormat, Image, ImageWatermarkOptions)
         //ExSummary:Shows how to insert watermark image to the document from a stream.

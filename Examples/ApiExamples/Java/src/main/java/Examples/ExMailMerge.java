@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -1140,7 +1140,7 @@ public class ExMailMerge extends ApiExampleBase {
     public void removeEmptyTables() throws Exception
     {
         //ExStart:RemoveEmptyTables
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMergeCleanupOptions
         //ExSummary:Shows how to remove whole empty table during mail merge.
         DataTable tableCustomers = new DataTable("A");

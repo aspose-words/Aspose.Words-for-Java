@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -2353,7 +2353,7 @@ public class ExCharts extends ApiExampleBase {
     public void dataLablePosition() throws Exception
     {
         //ExStart:DataLablePosition
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:ChartDataLabelCollection.Position
         //ExFor:ChartDataLabel.Position
         //ExFor:ChartDataLabelPosition
@@ -2394,7 +2394,7 @@ public class ExCharts extends ApiExampleBase {
     public void doughnutChartLabelPosition() throws Exception
     {
         //ExStart:DoughnutChartLabelPosition
-        //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:ChartDataLabel.Left
         //ExFor:ChartDataLabel.LeftMode
         //ExFor:ChartDataLabel.Top
