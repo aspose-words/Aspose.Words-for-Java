@@ -189,8 +189,10 @@ public class ExLowCode extends ApiExampleBase
 
         Comparer.compare(firstDoc, secondDoc, getArtifactsDir() + "LowCode.CompareDocuments.1.docx", "Author", new Date());
         Comparer.compare(firstDoc, secondDoc, getArtifactsDir() + "LowCode.CompareDocuments.2.docx", SaveFormat.DOCX, "Author", new Date());
-        Comparer.compare(firstDoc, secondDoc, getArtifactsDir() + "LowCode.CompareDocuments.3.docx", "Author", new Date(), new CompareOptions(); { .setIgnoreCaseChanges(true); });
-        Comparer.compare(firstDoc, secondDoc, getArtifactsDir() + "LowCode.CompareDocuments.4.docx", SaveFormat.DOCX, "Author", new DateTime(), new CompareOptions(); { .setIgnoreCaseChanges(true); });
+        CompareOptions options = new CompareOptions();
+        options.setIgnoreCaseChanges(true);
+        Comparer.compare(firstDoc, secondDoc, getArtifactsDir() + "LowCode.CompareDocuments.3.docx", "Author", new Date(), options);
+        Comparer.compare(firstDoc, secondDoc, getArtifactsDir() + "LowCode.CompareDocuments.4.docx", SaveFormat.DOCX, "Author", new Date(), options);
         //ExEnd:CompareDocuments
     }
 
@@ -209,7 +211,9 @@ public class ExLowCode extends ApiExampleBase
                 }
 
                 try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.CompareStreamDocuments.2.docx")) {
-                    Comparer.compare(firstStreamIn, secondStreamIn, streamOut1, SaveFormat.DOCX, "Author", new Date(), new CompareOptions(); { .setIgnoreCaseChanges(true); });
+                    CompareOptions options = new CompareOptions();
+                    options.setIgnoreCaseChanges(true);
+                    Comparer.compare(firstStreamIn, secondStreamIn, streamOut1, SaveFormat.DOCX, "Author", new Date(), options);
                 }
             }
         }
@@ -233,7 +237,9 @@ public class ExLowCode extends ApiExampleBase
 
         MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMerge.1.docx", fieldNames, fieldValues);
         MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMerge.2.docx", SaveFormat.DOCX, fieldNames, fieldValues);
-        MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMerge.3.docx", SaveFormat.DOCX, new MailMergeOptions(); { .setTrimWhitespaces(true); }, fieldNames, fieldValues);
+        MailMergeOptions options = new MailMergeOptions();
+        options.setTrimWhitespaces(true);
+        MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMerge.3.docx", SaveFormat.DOCX, options, fieldNames, fieldValues);
         //ExEnd:MailMerge
     }
 
@@ -254,7 +260,9 @@ public class ExLowCode extends ApiExampleBase
             }
 
             try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.MailMergeStream.2.docx")) {
-                MailMerger.execute(streamIn, streamOut1, SaveFormat.DOCX, new MailMergeOptions(); { .setTrimWhitespaces(true); }, fieldNames, fieldValues);
+                MailMergeOptions options = new MailMergeOptions();
+                options.setTrimWhitespaces(true);
+                MailMerger.execute(streamIn, streamOut1, SaveFormat.DOCX, options, fieldNames, fieldValues);
             }
         }
         //ExEnd:MailMergeStream
@@ -282,7 +290,9 @@ public class ExLowCode extends ApiExampleBase
 
         MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataRow.1.docx", dataRow);
         MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataRow.2.docx", SaveFormat.DOCX, dataRow);
-        MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataRow.3.docx", SaveFormat.DOCX, new MailMergeOptions(); { .setTrimWhitespaces(true); }, dataRow);
+        MailMergeOptions options = new MailMergeOptions();
+        options.setTrimWhitespaces(true);
+        MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataRow.3.docx", SaveFormat.DOCX, options, dataRow);
         //ExEnd:MailMergeDataRow
     }
 
@@ -308,7 +318,9 @@ public class ExLowCode extends ApiExampleBase
             }
 
             try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.MailMergeStreamDataRow.2.docx")) {
-                MailMerger.execute(streamIn, streamOut1, SaveFormat.DOCX, new MailMergeOptions(); { .setTrimWhitespaces(true); }, dataRow);
+                MailMergeOptions options = new MailMergeOptions();
+                options.setTrimWhitespaces(true);
+                MailMerger.execute(streamIn, streamOut1, SaveFormat.DOCX, options, dataRow);
             }
         }
         //ExEnd:MailMergeStreamDataRow
@@ -335,7 +347,9 @@ public class ExLowCode extends ApiExampleBase
 
         MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataTable.1.docx", dataTable);
         MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataTable.2.docx", SaveFormat.DOCX, dataTable);
-        MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataTable.3.docx", SaveFormat.DOCX, new MailMergeOptions(); { .setTrimWhitespaces(true); }, dataTable);
+        MailMergeOptions options = new MailMergeOptions();
+        options.setTrimWhitespaces(true);
+        MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataTable.3.docx", SaveFormat.DOCX, options, dataTable);
         //ExEnd:MailMergeDataTable
     }
 
@@ -360,7 +374,9 @@ public class ExLowCode extends ApiExampleBase
             }
 
             try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.MailMergeDataTable.2.docx")) {
-                MailMerger.execute(streamIn, streamOut1, SaveFormat.DOCX, new MailMergeOptions(); { .setTrimWhitespaces(true); }, dataTable);
+                MailMergeOptions options = new MailMergeOptions();
+                options.setTrimWhitespaces(true);
+                MailMerger.execute(streamIn, streamOut1, SaveFormat.DOCX, options, dataTable);
             }
         }
         //ExEnd:MailMergeStreamDataTable
@@ -387,7 +403,9 @@ public class ExLowCode extends ApiExampleBase
 
         MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataTable.1.docx", dataTable);
         MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataTable.2.docx", SaveFormat.DOCX, dataTable);
-        MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataTable.3.docx", SaveFormat.DOCX, new MailMergeOptions(); { .setTrimWhitespaces(true); }, dataTable);
+        MailMergeOptions options = new MailMergeOptions();
+        options.setTrimWhitespaces(true);
+        MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataTable.3.docx", SaveFormat.DOCX, options, dataTable);
         //ExEnd:MailMergeWithRegionsDataTable
     }
 
@@ -412,7 +430,9 @@ public class ExLowCode extends ApiExampleBase
             }
 
             try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.MailMergeStreamWithRegionsDataTable.2.docx")) {
-                MailMerger.executeWithRegions(streamIn, streamOut1, SaveFormat.DOCX, new MailMergeOptions(); { .setTrimWhitespaces(true); }, dataTable);
+                MailMergeOptions options = new MailMergeOptions();
+                options.setTrimWhitespaces(true);
+                MailMerger.executeWithRegions(streamIn, streamOut1, SaveFormat.DOCX, options, dataTable);
             }
         }
         //ExEnd:MailMergeStreamWithRegionsDataTable
@@ -451,7 +471,9 @@ public class ExLowCode extends ApiExampleBase
 
         MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataSet.1.docx", dataSet);
         MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataSet.2.docx", SaveFormat.DOCX, dataSet);
-        MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataSet.3.docx", SaveFormat.DOCX, new MailMergeOptions(); { .setTrimWhitespaces(true); }, dataSet);
+        MailMergeOptions options = new MailMergeOptions();
+        options.setTrimWhitespaces(true);
+        MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataSet.3.docx", SaveFormat.DOCX, options, dataSet);
         //ExEnd:MailMergeWithRegionsDataSet
     }
 
@@ -488,7 +510,9 @@ public class ExLowCode extends ApiExampleBase
             }
 
             try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.MailMergeStreamWithRegionsDataTable.2.docx")) {
-                MailMerger.executeWithRegions(streamIn, streamOut1, SaveFormat.DOCX, new MailMergeOptions(); { .setTrimWhitespaces(true); }, dataSet);
+                MailMergeOptions options = new MailMergeOptions();
+                options.setTrimWhitespaces(true);
+                MailMerger.executeWithRegions(streamIn, streamOut1, SaveFormat.DOCX, options, dataSet);
             }
         }
         //ExEnd:MailMergeStreamWithRegionsDataSet
@@ -510,7 +534,9 @@ public class ExLowCode extends ApiExampleBase
 
         Replacer.replace(doc, getArtifactsDir() + "LowCode.Replace.1.docx", pattern, replacement);
         Replacer.replace(doc, getArtifactsDir() + "LowCode.Replace.2.docx", SaveFormat.DOCX, pattern, replacement);
-        Replacer.replace(doc, getArtifactsDir() + "LowCode.Replace.3.docx", SaveFormat.DOCX, pattern, replacement, new FindReplaceOptions(); { .setFindWholeWordsOnly(false); });
+        FindReplaceOptions options = new FindReplaceOptions();
+        options.setFindWholeWordsOnly(false);
+        Replacer.replace(doc, getArtifactsDir() + "LowCode.Replace.3.docx", SaveFormat.DOCX, pattern, replacement, options);
         //ExEnd:Replace
     }
 
@@ -531,7 +557,9 @@ public class ExLowCode extends ApiExampleBase
             }
 
             try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.ReplaceStream.2.docx")) {
-                Replacer.replace(streamIn, streamOut1, SaveFormat.DOCX, pattern, replacement, new FindReplaceOptions(); { .setFindWholeWordsOnly(false); });
+                FindReplaceOptions options = new FindReplaceOptions();
+                options.setFindWholeWordsOnly(false);
+                Replacer.replace(streamIn, streamOut1, SaveFormat.DOCX, pattern, replacement, options);
             }
         }
         //ExEnd:ReplaceStream
@@ -548,12 +576,14 @@ public class ExLowCode extends ApiExampleBase
         //ExSummary:Shows how to replace string with regex in the document.
         // There is a several ways to replace string with regex in the document:
         String doc = getMyDir() + "Footer.docx";
-        Regex pattern = new Regex("gr(a|e)y");
+        String pattern = "gr(a|e)y";
         String replacement = "lavender";
 
-        Replacer.replaceInternal(doc, getArtifactsDir() + "LowCode.ReplaceRegex.1.docx", pattern, replacement);
-        Replacer.replaceInternal(doc, getArtifactsDir() + "LowCode.ReplaceRegex.2.docx", SaveFormat.DOCX, pattern, replacement);
-        Replacer.replaceInternal(doc, getArtifactsDir() + "LowCode.ReplaceRegex.3.docx", SaveFormat.DOCX, pattern, replacement, new FindReplaceOptions(); { .setFindWholeWordsOnly(false); });
+        Replacer.replace(doc, getArtifactsDir() + "LowCode.ReplaceRegex.1.docx", pattern, replacement);
+        Replacer.replace(doc, getArtifactsDir() + "LowCode.ReplaceRegex.2.docx", SaveFormat.DOCX, pattern, replacement);
+        FindReplaceOptions options = new FindReplaceOptions();
+        options.setFindWholeWordsOnly(false);
+        Replacer.replace(doc, getArtifactsDir() + "LowCode.ReplaceRegex.3.docx", SaveFormat.DOCX, pattern, replacement, options);
         //ExEnd:ReplaceRegex
     }
 
@@ -565,7 +595,7 @@ public class ExLowCode extends ApiExampleBase
         //ExFor:Replacer.Replace(Stream, Stream, SaveFormat, Regex, String, FindReplaceOptions)
         //ExSummary:Shows how to replace string with regex in the document using documents from the stream.
         // There is a several ways to replace string with regex in the document using documents from the stream:
-        Regex pattern = new Regex("gr(a|e)y");
+        String pattern = "gr(a|e)y";
         String replacement = "lavender";
 
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Replace regex.docx")) {
@@ -574,7 +604,9 @@ public class ExLowCode extends ApiExampleBase
             }
 
             try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.ReplaceStreamRegex.2.docx")) {
-                Replacer.replace(streamIn, streamOut1, SaveFormat.DOCX, pattern, replacement, new FindReplaceOptions(); { .setFindWholeWordsOnly(false); });
+                FindReplaceOptions options = new FindReplaceOptions();
+                options.setFindWholeWordsOnly(false);
+                Replacer.replace(streamIn, streamOut1, SaveFormat.DOCX, pattern, replacement, options);
             }
         }
         //ExEnd:ReplaceStreamRegex
@@ -590,7 +622,7 @@ public class ExLowCode extends ApiExampleBase
     @Test //ExSkip
     public void buildReportData() throws Exception {
         // There is a several ways to populate document with data:
-        String doc = getMyDir() + "Reporting engine template - If greedy.docx";
+        String doc = getMyDir() + "Reporting engine template - If greedy (Java).docx";
 
         AsposeData obj = new AsposeData();
         {
@@ -601,9 +633,11 @@ public class ExLowCode extends ApiExampleBase
         }
 
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportWithObject.1.docx", obj);
-        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportWithObject.2.docx", obj, new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+        ReportBuilderOptions options = new ReportBuilderOptions();
+        options.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS);
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportWithObject.2.docx", obj, options);
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportWithObject.3.docx", SaveFormat.DOCX, obj);
-        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportWithObject.4.docx", SaveFormat.DOCX, obj, new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportWithObject.4.docx", SaveFormat.DOCX, obj, options);
     }
 
     public static class AsposeData
@@ -630,13 +664,15 @@ public class ExLowCode extends ApiExampleBase
             }
         }
 
-        try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Reporting engine template - If greedy.docx")) {
+        try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Reporting engine template - If greedy (Java).docx")) {
             try (FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "LowCode.BuildReportDataStream.1.docx")) {
                 ReportBuilder.buildReport(streamIn, streamOut, SaveFormat.DOCX, obj);
             }
 
             try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.BuildReportDataStream.2.docx")) {
-                ReportBuilder.buildReport(streamIn, streamOut1, SaveFormat.DOCX, obj, new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+                ReportBuilderOptions options = new ReportBuilderOptions();
+                options.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS);
+                ReportBuilder.buildReport(streamIn, streamOut1, SaveFormat.DOCX, obj, options);
             }
         }
         //ExEnd:BuildReportDataStream
@@ -660,9 +696,11 @@ public class ExLowCode extends ApiExampleBase
 
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.1.docx", sender, "s");
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.2.docx", new Object[] { sender }, new String[] { "s" });
-        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.3.docx", sender, "s", new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+        ReportBuilderOptions options = new ReportBuilderOptions();
+        options.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS);
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.3.docx", sender, "s", options);
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.4.docx", SaveFormat.DOCX, sender, "s");
-        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.5.docx", SaveFormat.DOCX, sender, "s", new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.5.docx", SaveFormat.DOCX, sender, "s", options);
     }
 
     public static class MessageTestClass
@@ -703,7 +741,9 @@ public class ExLowCode extends ApiExampleBase
             }
 
             try (FileOutputStream streamOut2 = new FileOutputStream(getArtifactsDir() + "LowCode.BuildReportDataSourceStream.3.docx")) {
-                ReportBuilder.buildReport(streamIn, streamOut2, SaveFormat.DOCX, sender, "s", new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+                ReportBuilderOptions options = new ReportBuilderOptions();
+                options.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS);
+                ReportBuilder.buildReport(streamIn, streamOut2, SaveFormat.DOCX, sender, "s", options);
             }
         }
         //ExEnd:BuildReportDataSourceStream
@@ -779,8 +819,10 @@ public class ExLowCode extends ApiExampleBase
         //ExSummary:Shows how to split document by pages.
         String doc = getMyDir() + "Big document.docx";
 
-        Splitter.split(doc, getArtifactsDir() + "LowCode.SplitDocument.1.docx", new SplitOptions(); { .setSplitCriteria(SplitCriteria.PAGE); });
-        Splitter.split(doc, getArtifactsDir() + "LowCode.SplitDocument.2.docx", SaveFormat.DOCX, new SplitOptions(); { .setSplitCriteria(SplitCriteria.PAGE); });
+        SplitOptions options = new SplitOptions();
+        options.setSplitCriteria(SplitCriteria.PAGE);
+        Splitter.split(doc, getArtifactsDir() + "LowCode.SplitDocument.1.docx", options);
+        Splitter.split(doc, getArtifactsDir() + "LowCode.SplitDocument.2.docx", SaveFormat.DOCX, options);
         //ExEnd:SplitDocument
     }
 
@@ -791,7 +833,9 @@ public class ExLowCode extends ApiExampleBase
         //ExFor:Splitter.Split(Stream, SaveFormat, SplitOptions)
         //ExSummary:Shows how to split document from the stream by pages.
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Big document.docx")) {
-            Stream[] stream = Splitter.splitInternal(streamIn, SaveFormat.DOCX, new SplitOptions(); { stream.setSplitCriteria(SplitCriteria.PAGE); });
+            SplitOptions options = new SplitOptions();
+            options.setSplitCriteria(SplitCriteria.PAGE);
+            InputStream[] stream = Splitter.split(streamIn, SaveFormat.DOCX, options);
         }
         //ExEnd:SplitDocumentStream
     }
@@ -811,8 +855,10 @@ public class ExLowCode extends ApiExampleBase
 
         Watermarker.setText(doc, getArtifactsDir() + "LowCode.WatermarkText.1.docx", watermarkText);
         Watermarker.setText(doc, getArtifactsDir() + "LowCode.WatermarkText.2.docx", SaveFormat.DOCX, watermarkText);
-        Watermarker.setText(doc, getArtifactsDir() + "LowCode.WatermarkText.3.docx", watermarkText, new TextWatermarkOptions(); { .setColor(Color.RED); });
-        Watermarker.setText(doc, getArtifactsDir() + "LowCode.WatermarkText.4.docx", SaveFormat.DOCX, watermarkText, new TextWatermarkOptions(); { .setColor(Color.RED); });
+        TextWatermarkOptions options = new TextWatermarkOptions();
+        options.setColor(Color.RED);
+        Watermarker.setText(doc, getArtifactsDir() + "LowCode.WatermarkText.3.docx", watermarkText, options);
+        Watermarker.setText(doc, getArtifactsDir() + "LowCode.WatermarkText.4.docx", SaveFormat.DOCX, watermarkText, options);
         //ExEnd:WatermarkText
     }
 
@@ -831,7 +877,9 @@ public class ExLowCode extends ApiExampleBase
             }
 
             try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.WatermarkTextStream.2.docx")) {
-                Watermarker.setText(streamIn, streamOut1, SaveFormat.DOCX, watermarkText, new TextWatermarkOptions(); { .setColor(Color.RED); });
+                TextWatermarkOptions options = new TextWatermarkOptions();
+                options.setColor(Color.RED);
+                Watermarker.setText(streamIn, streamOut1, SaveFormat.DOCX, watermarkText, options);
             }
         }
         //ExEnd:WatermarkTextStream
@@ -852,8 +900,10 @@ public class ExLowCode extends ApiExampleBase
 
         Watermarker.setImage(doc, getArtifactsDir() + "LowCode.SetWatermarkImage.1.docx", watermarkImage);
         Watermarker.setImage(doc, getArtifactsDir() + "LowCode.SetWatermarkText.2.docx", SaveFormat.DOCX, watermarkImage);
-        Watermarker.setImage(doc, getArtifactsDir() + "LowCode.SetWatermarkText.3.docx", watermarkImage, new ImageWatermarkOptions(); { .setScale(50.0); });
-        Watermarker.setImage(doc, getArtifactsDir() + "LowCode.SetWatermarkText.4.docx", SaveFormat.DOCX, watermarkImage, new ImageWatermarkOptions(); { .setScale(50.0); });
+        ImageWatermarkOptions options = new ImageWatermarkOptions();
+        options.setScale(50.0);
+        Watermarker.setImage(doc, getArtifactsDir() + "LowCode.SetWatermarkText.3.docx", watermarkImage, options);
+        Watermarker.setImage(doc, getArtifactsDir() + "LowCode.SetWatermarkText.4.docx", SaveFormat.DOCX, watermarkImage, options);
         //ExEnd:WatermarkImage
     }
 
@@ -872,7 +922,9 @@ public class ExLowCode extends ApiExampleBase
             }
 
             try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.SetWatermarkText.2.docx")) {
-                Watermarker.setImage(streamIn, streamOut1, SaveFormat.DOCX, image, new ImageWatermarkOptions(); { .setScale(50.0); });
+                ImageWatermarkOptions options = new ImageWatermarkOptions();
+                options.setScale(50.0);
+                Watermarker.setImage(streamIn, streamOut1, SaveFormat.DOCX, image, options);
             }
         }
         //ExEnd:WatermarkImageStream
