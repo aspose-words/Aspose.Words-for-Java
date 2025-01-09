@@ -15,6 +15,7 @@ import com.aspose.words.Merger;
 import com.aspose.words.OoxmlSaveOptions;
 import com.aspose.words.MergeFormatMode;
 import com.aspose.words.SaveFormat;
+import com.aspose.words.LoadOptions;
 import com.aspose.words.Document;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
@@ -26,7 +27,6 @@ import com.aspose.words.Converter;
 import com.aspose.words.ImageSaveOptions;
 import com.aspose.words.PageSet;
 import com.aspose.ms.System.IO.Stream;
-import com.aspose.words.LoadOptions;
 import com.aspose.words.PdfSaveOptions;
 import com.aspose.words.HtmlFixedSaveOptions;
 import com.aspose.words.XpsSaveOptions;
@@ -70,21 +70,33 @@ public class ExLowCode extends ApiExampleBase
         //ExStart
         //ExFor:Merger.Merge(String, String[])
         //ExFor:Merger.Merge(String[], MergeFormatMode)
+        //ExFor:Merger.Merge(String[], LoadOptions[], MergeFormatMode)
         //ExFor:Merger.Merge(String, String[], SaveOptions, MergeFormatMode)
         //ExFor:Merger.Merge(String, String[], SaveFormat, MergeFormatMode)
+        //ExFor:Merger.Merge(String, String[], LoadOptions[], SaveOptions, MergeFormatMode)
         //ExFor:LowCode.MergeFormatMode
         //ExFor:LowCode.Merger
         //ExSummary:Shows how to merge documents into a single output document.
         //There is a several ways to merge documents:
-        Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.SimpleMerge.docx", new String[] { getMyDir() + "Big document.docx", getMyDir() + "Tables.docx" });
+        String inputDoc1 = getMyDir() + "Big document.docx";
+        String inputDoc2 = getMyDir() + "Tables.docx";
+
+        Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.1.docx", new String[] { inputDoc1, inputDoc2 });
 
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setPassword("Aspose.Words"); }
-        Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.SaveOptions.docx", new String[] { getMyDir() + "Big document.docx", getMyDir() + "Tables.docx" }, saveOptions, MergeFormatMode.KEEP_SOURCE_FORMATTING);
+        Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.2.docx", new String[] { inputDoc1, inputDoc2 }, saveOptions, MergeFormatMode.KEEP_SOURCE_FORMATTING);
 
-        Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.SaveFormat.pdf", new String[] { getMyDir() + "Big document.docx", getMyDir() + "Tables.docx" }, SaveFormat.PDF, MergeFormatMode.KEEP_SOURCE_LAYOUT);
+        Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.3.pdf", new String[] { inputDoc1, inputDoc2 }, SaveFormat.PDF, MergeFormatMode.KEEP_SOURCE_LAYOUT);
 
-        Document doc = Merger.merge(new String[] { getMyDir() + "Big document.docx", getMyDir() + "Tables.docx" }, MergeFormatMode.MERGE_FORMATTING);
-        doc.save(getArtifactsDir() + "LowCode.MergeDocument.DocumentInstance.docx");
+        LoadOptions firstLoadOptions = new LoadOptions(); { firstLoadOptions.setIgnoreOleData(true); }
+        LoadOptions secondLoadOptions = new LoadOptions(); { secondLoadOptions.setIgnoreOleData(false); }
+        Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.4.docx", new String[] { inputDoc1, inputDoc2 }, new LoadOptions[] { firstLoadOptions, secondLoadOptions }, saveOptions, MergeFormatMode.KEEP_SOURCE_FORMATTING);
+
+        Document doc = Merger.merge(new String[] { inputDoc1, inputDoc2 }, MergeFormatMode.MERGE_FORMATTING);
+        doc.save(getArtifactsDir() + "LowCode.MergeDocument.5.docx");
+
+        doc = Merger.merge(new String[] { inputDoc1, inputDoc2 }, new LoadOptions[] { firstLoadOptions, secondLoadOptions }, MergeFormatMode.MERGE_FORMATTING);
+        doc.save(getArtifactsDir() + "LowCode.MergeDocument.6.docx");
         //ExEnd
     }
 
@@ -93,7 +105,9 @@ public class ExLowCode extends ApiExampleBase
     {
         //ExStart
         //ExFor:Merger.Merge(Stream[], MergeFormatMode)
+        //ExFor:Merger.Merge(Stream[], LoadOptions[], MergeFormatMode)
         //ExFor:Merger.Merge(Stream, Stream[], SaveOptions, MergeFormatMode)
+        //ExFor:Merger.Merge(Stream, Stream[], LoadOptions[], SaveOptions, MergeFormatMode)
         //ExFor:Merger.Merge(Stream, Stream[], SaveFormat)
         //ExSummary:Shows how to merge documents from stream into a single output document.
         //There is a several ways to merge documents from stream:
@@ -104,22 +118,34 @@ public class ExLowCode extends ApiExampleBase
             try /*JAVA: was using*/
             {
                 OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setPassword("Aspose.Words"); }
-                FileStream streamOut = new FileStream(getArtifactsDir() + "LowCode.MergeStreamDocument.SaveOptions.docx", FileMode.CREATE, FileAccess.READ_WRITE);
+                FileStream streamOut = new FileStream(getArtifactsDir() + "LowCode.MergeStreamDocument.1.docx", FileMode.CREATE, FileAccess.READ_WRITE);
                 try /*JAVA: was using*/
             	{
                     Merger.mergeInternal(streamOut, new FileStream[] { firstStreamIn, secondStreamIn }, saveOptions, MergeFormatMode.KEEP_SOURCE_FORMATTING);
             	}
                 finally { if (streamOut != null) streamOut.close(); }
 
-                FileStream streamOut1 = new FileStream(getArtifactsDir() + "LowCode.MergeStreamDocument.SaveFormat.docx", FileMode.CREATE, FileAccess.READ_WRITE);
+                FileStream streamOut1 = new FileStream(getArtifactsDir() + "LowCode.MergeStreamDocument.2.docx", FileMode.CREATE, FileAccess.READ_WRITE);
                 try /*JAVA: was using*/
             	{
                     Merger.mergeInternal(streamOut1, new FileStream[] { firstStreamIn, secondStreamIn }, SaveFormat.DOCX);
             	}
                 finally { if (streamOut1 != null) streamOut1.close(); }
 
-                Document doc = Merger.mergeInternal(new FileStream[] { firstStreamIn, secondStreamIn }, MergeFormatMode.MERGE_FORMATTING);
-                doc.save(getArtifactsDir() + "LowCode.MergeStreamDocument.DocumentInstance.docx");
+                LoadOptions firstLoadOptions = new LoadOptions(); { firstLoadOptions.setIgnoreOleData(true); }
+                LoadOptions secondLoadOptions = new LoadOptions(); { secondLoadOptions.setIgnoreOleData(false); }
+                FileStream streamOut2 = new FileStream(getArtifactsDir() + "LowCode.MergeStreamDocument.3.docx", FileMode.CREATE, FileAccess.READ_WRITE);
+                try /*JAVA: was using*/
+            	{
+                    Merger.mergeInternal(streamOut2, new FileStream[] { firstStreamIn, secondStreamIn }, new LoadOptions[] { firstLoadOptions, secondLoadOptions }, saveOptions, MergeFormatMode.KEEP_SOURCE_FORMATTING);
+            	}
+                finally { if (streamOut2 != null) streamOut2.close(); }
+
+                Document firstDoc = Merger.mergeInternal(new FileStream[] { firstStreamIn, secondStreamIn }, MergeFormatMode.MERGE_FORMATTING);
+                firstDoc.save(getArtifactsDir() + "LowCode.MergeStreamDocument.4.docx");
+
+                Document secondDoc = Merger.mergeInternal(new FileStream[] { firstStreamIn, secondStreamIn }, new LoadOptions[] { firstLoadOptions, secondLoadOptions }, MergeFormatMode.MERGE_FORMATTING);
+                secondDoc.save(getArtifactsDir() + "LowCode.MergeStreamDocument.5.docx");
             }
             finally { if (secondStreamIn != null) secondStreamIn.close(); }
         }
@@ -155,13 +181,19 @@ public class ExLowCode extends ApiExampleBase
         //ExFor:Converter.Convert(String, String)
         //ExFor:Converter.Convert(String, String, SaveFormat)
         //ExFor:Converter.Convert(String, String, SaveOptions)
+        //ExFor:Converter.Convert(String, LoadOptions, String, SaveOptions)
         //ExSummary:Shows how to convert documents with a single line of code.
-        Converter.convert(getMyDir() + "Document.docx", getArtifactsDir() + "LowCode.Convert.pdf");
+        String doc = getMyDir() + "Document.docx";
 
-        Converter.convert(getMyDir() + "Document.docx", getArtifactsDir() + "LowCode.Convert.rtf", SaveFormat.RTF);
+        Converter.convert(doc, getArtifactsDir() + "LowCode.Convert.pdf");
+
+        Converter.convert(doc, getArtifactsDir() + "LowCode.Convert.SaveFormat.rtf", SaveFormat.RTF);
 
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setPassword("Aspose.Words"); }
-        Converter.convert(getMyDir() + "Document.doc", getArtifactsDir() + "LowCode.Convert.docx", saveOptions);
+        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setIgnoreOleData(true); }
+        Converter.convert(doc, loadOptions, getArtifactsDir() + "LowCode.Convert.LoadOptions.docx", saveOptions);
+
+        Converter.convert(doc, getArtifactsDir() + "LowCode.Convert.SaveOptions.docx", saveOptions);
         //ExEnd:Convert
     }
 
@@ -172,11 +204,12 @@ public class ExLowCode extends ApiExampleBase
         //GistId:708ce40a68fac5003d46f6b4acfd5ff1
         //ExFor:Converter.Convert(Stream, Stream, SaveFormat)
         //ExFor:Converter.Convert(Stream, Stream, SaveOptions)
+        //ExFor:Converter.Convert(Stream, LoadOptions, Stream, SaveOptions)
         //ExSummary:Shows how to convert documents with a single line of code (Stream).
         FileStream streamIn = new FileStream(getMyDir() + "Big document.docx", FileMode.OPEN, FileAccess.READ);
         try /*JAVA: was using*/
         {
-            FileStream streamOut = new FileStream(getArtifactsDir() + "LowCode.ConvertStream.SaveFormat.docx", FileMode.CREATE, FileAccess.READ_WRITE);
+            FileStream streamOut = new FileStream(getArtifactsDir() + "LowCode.ConvertStream.1.docx", FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
         	{
                 Converter.convertInternal(streamIn, streamOut, SaveFormat.DOCX);
@@ -184,12 +217,20 @@ public class ExLowCode extends ApiExampleBase
             finally { if (streamOut != null) streamOut.close(); }
 
             OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setPassword("Aspose.Words"); }
-            FileStream streamOut1 = new FileStream(getArtifactsDir() + "LowCode.ConvertStream.SaveOptions.docx", FileMode.CREATE, FileAccess.READ_WRITE);
+            LoadOptions loadOptions = new LoadOptions(); { loadOptions.setIgnoreOleData(true); }
+            FileStream streamOut1 = new FileStream(getArtifactsDir() + "LowCode.ConvertStream.2.docx", FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
         	{
-                Converter.convertInternal(streamIn, streamOut1, saveOptions);
+                Converter.convertInternal(streamIn, loadOptions, streamOut1, saveOptions);
         	}
             finally { if (streamOut1 != null) streamOut1.close(); }
+
+            FileStream streamOut2 = new FileStream(getArtifactsDir() + "LowCode.ConvertStream.3.docx", FileMode.CREATE, FileAccess.READ_WRITE);
+            try /*JAVA: was using*/
+        	{
+                Converter.convertInternal(streamIn, streamOut2, saveOptions);
+        	}
+            finally { if (streamOut2 != null) streamOut2.close(); }
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:ConvertStream
@@ -203,14 +244,20 @@ public class ExLowCode extends ApiExampleBase
         //ExFor:Converter.ConvertToImages(String, String)
         //ExFor:Converter.ConvertToImages(String, String, SaveFormat)
         //ExFor:Converter.ConvertToImages(String, String, ImageSaveOptions)
+        //ExFor:Converter.ConvertToImages(String, LoadOptions, String, ImageSaveOptions)
         //ExSummary:Shows how to convert document to images.
-        Converter.convertToImages(getMyDir() + "Big document.docx", getArtifactsDir() + "LowCode.ConvertToImages.png");
+        String doc = getMyDir() + "Big document.docx";
 
-        Converter.convertToImages(getMyDir() + "Big document.docx", getArtifactsDir() + "LowCode.ConvertToImages.jpeg", SaveFormat.JPEG);
+        Converter.convertToImages(doc, getArtifactsDir() + "LowCode.ConvertToImages.1.png");
 
+        Converter.convertToImages(doc, getArtifactsDir() + "LowCode.ConvertToImages.2.jpeg", SaveFormat.JPEG);
+
+        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setIgnoreOleData(false); }
         ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
         imageSaveOptions.setPageSet(new PageSet(1));
-        Converter.convertToImages(getMyDir() + "Big document.docx", getArtifactsDir() + "LowCode.ConvertToImages.png", imageSaveOptions);
+        Converter.convertToImages(doc, loadOptions, getArtifactsDir() + "LowCode.ConvertToImages.3.png", imageSaveOptions);
+
+        Converter.convertToImages(doc, getArtifactsDir() + "LowCode.ConvertToImages.4.png", imageSaveOptions);
         //ExEnd:ConvertToImages
     }
 
@@ -224,15 +271,17 @@ public class ExLowCode extends ApiExampleBase
         //ExFor:Converter.ConvertToImages(Document, SaveFormat)
         //ExFor:Converter.ConvertToImages(Document, ImageSaveOptions)
         //ExSummary:Shows how to convert document to images stream.
-        Stream[] streams = Converter.convertToImagesInternal(getMyDir() + "Big document.docx", SaveFormat.PNG);
+        String doc = getMyDir() + "Big document.docx";
+
+        Stream[] streams = Converter.convertToImagesInternal(doc, SaveFormat.PNG);
 
         ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
         imageSaveOptions.setPageSet(new PageSet(1));
-        streams = Converter.convertToImagesInternal(getMyDir() + "Big document.docx", imageSaveOptions);
+        streams = Converter.convertToImagesInternal(doc, imageSaveOptions);
 
-        streams = Converter.convertToImagesInternal(new Document(getMyDir() + "Big document.docx"), SaveFormat.PNG);
+        streams = Converter.convertToImagesInternal(new Document(doc), SaveFormat.PNG);
 
-        streams = Converter.convertToImagesInternal(new Document(getMyDir() + "Big document.docx"), imageSaveOptions);
+        streams = Converter.convertToImagesInternal(new Document(doc), imageSaveOptions);
         //ExEnd:ConvertToImagesStream
     }
 
@@ -243,6 +292,7 @@ public class ExLowCode extends ApiExampleBase
         //GistId:708ce40a68fac5003d46f6b4acfd5ff1
         //ExFor:Converter.ConvertToImages(Stream, SaveFormat)
         //ExFor:Converter.ConvertToImages(Stream, ImageSaveOptions)
+        //ExFor:Converter.ConvertToImages(Stream, LoadOptions, ImageSaveOptions)
         //ExSummary:Shows how to convert document to images from stream.
         FileStream streamIn = new FileStream(getMyDir() + "Big document.docx", FileMode.OPEN, FileAccess.READ);
         try /*JAVA: was using*/
@@ -252,6 +302,9 @@ public class ExLowCode extends ApiExampleBase
             ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
             imageSaveOptions.setPageSet(new PageSet(1));
             streams = Converter.convertToImagesInternal(streamIn, imageSaveOptions);
+
+            LoadOptions loadOptions = new LoadOptions(); { loadOptions.setIgnoreOleData(false); }
+            Converter.convertToImagesInternal(streamIn, loadOptions, imageSaveOptions);
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:ConvertToImagesFromStream
@@ -488,6 +541,8 @@ public class ExLowCode extends ApiExampleBase
     {
         //ExStart:MailMerge
         //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //ExFor:MailMergeOptions
+        //ExFor:MailMergeOptions.TrimWhitespaces
         //ExFor:MailMerger.Execute(String, String, String[], Object[])
         //ExFor:MailMerger.Execute(String, String, SaveFormat, String[], Object[])
         //ExFor:MailMerger.Execute(String, String, SaveFormat, MailMergeOptions, String[], Object[])
@@ -917,6 +972,8 @@ public class ExLowCode extends ApiExampleBase
 
     //ExStart:BuildReportData
     //GistId:695136dbbe4f541a8a0a17b3d3468689
+    //ExFor:ReportBuilderOptions
+    //ExFor:ReportBuilderOptions.Options
     //ExFor:ReportBuilder.BuildReport(String, String, Object)
     //ExFor:ReportBuilder.BuildReport(String, String, Object, ReportBuilderOptions)
     //ExFor:ReportBuilder.BuildReport(String, String, SaveFormat, Object)
@@ -951,6 +1008,7 @@ public class ExLowCode extends ApiExampleBase
         //GistId:695136dbbe4f541a8a0a17b3d3468689
         //ExFor:ReportBuilder.BuildReport(Stream, Stream, SaveFormat, Object)
         //ExFor:ReportBuilder.BuildReport(Stream, Stream, SaveFormat, Object, ReportBuilderOptions)
+        //ExFor:ReportBuilder.BuildReport(Stream, Stream, SaveFormat, Object[], String[], ReportBuilderOptions)
         //ExSummary:Shows how to populate document with data using documents from the stream.
         // There is a several ways to populate document with data using documents from the stream:
         AsposeData obj = new AsposeData(); { obj.setList(new ArrayList<String>()); { obj.getList().add("abc"); } }
@@ -971,6 +1029,14 @@ public class ExLowCode extends ApiExampleBase
                 ReportBuilder.buildReportInternal(streamIn, streamOut1, SaveFormat.DOCX, obj, new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
         	}
             finally { if (streamOut1 != null) streamOut1.close(); }
+
+            MessageTestClass sender = new MessageTestClass("LINQ Reporting Engine", "Hello World");
+            FileStream streamOut2 = new FileStream(getArtifactsDir() + "LowCode.BuildReportDataStream.3.docx", FileMode.CREATE, FileAccess.READ_WRITE);
+            try /*JAVA: was using*/
+        	{
+                ReportBuilder.buildReportInternal(streamIn, streamOut2, SaveFormat.DOCX, new Object[] { sender }, new String[] { "s" }, new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+        	}
+            finally { if (streamOut2 != null) streamOut2.close(); }
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:BuildReportDataStream
@@ -982,7 +1048,10 @@ public class ExLowCode extends ApiExampleBase
     //ExFor:ReportBuilder.BuildReport(String, String, Object[], String[])
     //ExFor:ReportBuilder.BuildReport(String, String, Object, String, ReportBuilderOptions)
     //ExFor:ReportBuilder.BuildReport(String, String, SaveFormat, Object, String)
+    //ExFor:ReportBuilder.BuildReport(String, String, SaveFormat, Object[], String[])
     //ExFor:ReportBuilder.BuildReport(String, String, SaveFormat, Object, String, ReportBuilderOptions)
+    //ExFor:ReportBuilder.BuildReport(String, String, Object[], String[], ReportBuilderOptions)
+    //ExFor:ReportBuilder.BuildReport(String, String, SaveFormat, Object[], String[], ReportBuilderOptions)
     //ExSummary:Shows how to populate document with data sources.
     @Test //ExSkip
     public void buildReportDataSource() throws Exception
@@ -996,7 +1065,10 @@ public class ExLowCode extends ApiExampleBase
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.2.docx", new Object[] { sender }, new String[] { "s" });
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.3.docx", sender, "s", new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.4.docx", SaveFormat.DOCX, sender, "s");
-        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.5.docx", SaveFormat.DOCX, sender, "s", new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.5.docx", SaveFormat.DOCX, new Object[] { sender }, new String[] { "s" });
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.6.docx", SaveFormat.DOCX, sender, "s", new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.7.docx", SaveFormat.DOCX, new Object[] { sender }, new String[] { "s" }, new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.8.docx", new Object[] { sender }, new String[] { "s" }, new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
     }
 
     public static class MessageTestClass
@@ -1135,6 +1207,8 @@ public class ExLowCode extends ApiExampleBase
     {
         //ExStart:SplitDocument
         //GistId:695136dbbe4f541a8a0a17b3d3468689
+        //ExFor:SplitCriteria
+        //ExFor:SplitOptions.SplitCriteria
         //ExFor:Splitter.Split(String, String, SplitOptions)
         //ExFor:Splitter.Split(String, String, SaveFormat, SplitOptions)
         //ExSummary:Shows how to split document by pages.

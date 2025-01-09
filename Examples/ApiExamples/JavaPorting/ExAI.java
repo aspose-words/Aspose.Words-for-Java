@@ -13,11 +13,13 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.ms.System.Environment;
 import com.aspose.words.IAiModelText;
+import com.aspose.words.OpenAiModel;
 import com.aspose.words.AiModel;
 import com.aspose.words.AiModelType;
 import com.aspose.words.SummarizeOptions;
 import com.aspose.words.SummaryLength;
 import com.aspose.words.Language;
+import com.aspose.words.CheckGrammarOptions;
 
 
 @Test
@@ -30,10 +32,13 @@ public class ExAI extends ApiExampleBase
         //GistId:366eb64fd56dec3c2eaa40410e594182
         //ExFor:GoogleAiModel
         //ExFor:OpenAiModel
+        //ExFor:OpenAiModel.WithOrganization(String)
+        //ExFor:OpenAiModel.WithProject(String)
         //ExFor:IAiModelText
         //ExFor:IAiModelText.Summarize(Document, SummarizeOptions)
         //ExFor:IAiModelText.Summarize(Document[], SummarizeOptions)
         //ExFor:SummarizeOptions
+        //ExFor:SummarizeOptions.#ctor
         //ExFor:SummarizeOptions.SummaryLength
         //ExFor:SummaryLength
         //ExFor:AiModel
@@ -46,7 +51,7 @@ public class ExAI extends ApiExampleBase
 
         String apiKey = System.getenv("API_KEY");
         // Use OpenAI or Google generative language models.
-        IAiModelText model = (IAiModelText)AiModel.create(AiModelType.GPT_4_O_MINI).withApiKey(apiKey);
+        IAiModelText model = ((OpenAiModel)AiModel.create(AiModelType.GPT_4_O_MINI).withApiKey(apiKey)).withOrganization("Organization").withProject("Project");
 
         Document oneDocumentSummary = model.summarize(firstDoc, new SummarizeOptions(); { oneDocumentSummary.setSummaryLength(SummaryLength.SHORT); });
         oneDocumentSummary.save(getArtifactsDir() + "AI.AiSummarize.One.docx");
@@ -62,6 +67,7 @@ public class ExAI extends ApiExampleBase
         //ExStart:AiTranslate
         //GistId:695136dbbe4f541a8a0a17b3d3468689
         //ExFor:IAiModelText.Translate(Document, AI.Language)
+        //ExFor:AI.Language
         //ExSummary:Shows how to translate text using Google models.
         Document doc = new Document(getMyDir() + "Document.docx");
 
@@ -72,6 +78,28 @@ public class ExAI extends ApiExampleBase
         Document translatedDoc = model.translate(doc, Language.ARABIC);
         translatedDoc.save(getArtifactsDir() + "AI.AiTranslate.docx");
         //ExEnd:AiTranslate
+    }
+
+    @Test (enabled = false, description = "This test should be run manually to manage API requests amount")
+    public void aiGrammar() throws Exception
+    {
+        //ExStart:AiGrammar
+        //GistId:f86d49dc0e6781b93e576539a01e6ca2
+        //ExFor:IAiModelText.CheckGrammar(Document, CheckGrammarOptions)
+        //ExFor:CheckGrammarOptions
+        //ExSummary:Shows how to check the grammar of a document.
+        Document doc = new Document(getMyDir() + "Big document.docx");
+
+        String apiKey = System.getenv("API_KEY");
+        // Use OpenAI generative language models.
+        IAiModelText model = (IAiModelText)AiModel.create(AiModelType.GPT_4_O_MINI).withApiKey(apiKey);
+
+        CheckGrammarOptions grammarOptions = new CheckGrammarOptions();
+        grammarOptions.setImproveStylistics(true);
+
+        Document proofedDoc = model.checkGrammar(doc, grammarOptions);
+        proofedDoc.save("AI.AiGrammar.docx");
+        //ExEnd:AiGrammar
     }
 }
 

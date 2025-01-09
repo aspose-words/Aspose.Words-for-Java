@@ -25,6 +25,7 @@ import com.aspose.words.ShapeType;
 import com.aspose.words.MarkdownLinkExportMode;
 import com.aspose.words.MarkdownExportAsHtml;
 import com.aspose.ms.System.Environment;
+import com.aspose.words.MarkdownOfficeMathExportMode;
 import org.testng.annotations.DataProvider;
 
 
@@ -326,6 +327,39 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
             "</td><td style=\"border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top\">" +
             "<p style=\"margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:12pt\"><span style=\"font-family:'Times New Roman'\">Cell2</span></p>" +
             "</td></tr></table>", outDocContents.trim());
+    }
+
+    @Test
+    public void imageResolution() throws Exception
+    {
+        //ExStart:ImageResolution
+        //GistId:f86d49dc0e6781b93e576539a01e6ca2
+        //ExFor:MarkdownSaveOptions.ImageResolution
+        //ExSummary:Shows how to set the output resolution for images.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
+        saveOptions.setImageResolution(300);
+
+        doc.save(getArtifactsDir() + "MarkdownSaveOptions.ImageResolution.md", saveOptions);
+        //ExEnd:ImageResolution
+    }
+
+    @Test
+    public void officeMathExportMode() throws Exception
+    {
+        //ExStart:OfficeMathExportMode
+        //GistId:f86d49dc0e6781b93e576539a01e6ca2
+        //ExFor:MarkdownSaveOptions.OfficeMathExportMode
+        //ExFor:MarkdownOfficeMathExportMode
+        //ExSummary:Shows how OfficeMath will be written to the document.
+        Document doc = new Document(getMyDir() + "Office math.docx");
+
+        MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
+        saveOptions.setOfficeMathExportMode(MarkdownOfficeMathExportMode.IMAGE);
+
+        doc.save(getArtifactsDir() + "MarkdownSaveOptions.OfficeMathExportMode.md", saveOptions);
+        //ExEnd:OfficeMathExportMode
     }
 }
 

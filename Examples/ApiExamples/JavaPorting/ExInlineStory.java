@@ -707,7 +707,10 @@ public class ExInlineStory extends ApiExampleBase
         //ExStart:FootnoteSeparator
         //GistId:e06aa7a168b57907a5598e823a22bf0a
         //ExFor:DocumentBase.FootnoteSeparators
+        //ExFor:FootnoteSeparator
         //ExFor:FootnoteSeparatorType
+        //ExFor:FootnoteSeparatorCollection
+        //ExFor:FootnoteSeparatorCollection.Item(FootnoteSeparatorType)
         //ExSummary:Shows how to manage footnote separator format.
         Document doc = new Document(getMyDir() + "Footnotes and endnotes.docx");
 
