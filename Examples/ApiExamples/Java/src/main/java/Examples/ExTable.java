@@ -1875,6 +1875,8 @@ public class ExTable extends ApiExampleBase {
     {
         //ExStart:ContextTableFormatting
         //GistId:6280fd6c1c1854468bea095ec2af902b
+        //ExFor:DocumentBuilder.#ctor(Document, DocumentBuilderOptions)
+        //ExFor:DocumentBuilder.#ctor(DocumentBuilderOptions)
         //ExFor:DocumentBuilderOptions
         //ExFor:DocumentBuilderOptions.ContextTableFormatting
         //ExSummary:Shows how to ignore table formatting for content after.

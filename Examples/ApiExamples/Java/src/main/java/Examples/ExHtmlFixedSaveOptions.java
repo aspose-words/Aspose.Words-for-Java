@@ -595,4 +595,36 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
 
         Assert.assertEquals(16, count);
     }
+
+    @Test
+    public void idPrefix() throws Exception
+    {
+        //ExStart:IdPrefix
+        //GistId:f86d49dc0e6781b93e576539a01e6ca2
+        //ExFor:HtmlFixedSaveOptions.IdPrefix
+        //ExSummary:Shows how to add a prefix that is prepended to all generated element IDs.
+        Document doc = new Document(getMyDir() + "Id prefix.docx");
+
+        HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
+        saveOptions.setIdPrefix("pfx1_");
+
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.IdPrefix.html", saveOptions);
+        //ExEnd:IdPrefix
+    }
+
+    @Test
+    public void removeJavaScriptFromLinks() throws Exception
+    {
+        //ExStart:RemoveJavaScriptFromLinks
+        //GistId:f86d49dc0e6781b93e576539a01e6ca2
+        //ExFor:HtmlFixedSaveOptions.RemoveJavaScriptFromLinks
+        //ExSummary:Shows how to remove JavaScript from the links.
+        Document doc = new Document(getMyDir() + "JavaScript in HREF.docx");
+
+        HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
+        saveOptions.setRemoveJavaScriptFromLinks(true);
+
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.RemoveJavaScriptFromLinks.html", saveOptions);
+        //ExEnd:RemoveJavaScriptFromLinks
+    }
 }

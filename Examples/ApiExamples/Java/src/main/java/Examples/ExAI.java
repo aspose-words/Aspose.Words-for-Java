@@ -1,4 +1,4 @@
-﻿package Examples;
+package Examples;
 
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
 //
@@ -20,10 +20,13 @@ public class ExAI extends ApiExampleBase
         //GistId:72d57eeddb7fb342fd51b26e5fcf9642
         //ExFor:GoogleAiModel
         //ExFor:OpenAiModel
+        //ExFor:OpenAiModel.WithOrganization(String)
+        //ExFor:OpenAiModel.WithProject(String)
         //ExFor:IAiModelText
         //ExFor:IAiModelText.Summarize(Document, SummarizeOptions)
         //ExFor:IAiModelText.Summarize(Document[], SummarizeOptions)
         //ExFor:SummarizeOptions
+        //ExFor:SummarizeOptions.#ctor
         //ExFor:SummarizeOptions.SummaryLength
         //ExFor:SummaryLength
         //ExFor:AiModel
@@ -36,7 +39,7 @@ public class ExAI extends ApiExampleBase
 
         String apiKey = System.getenv("API_KEY");
         // Use OpenAI or Google generative language models.
-        IAiModelText model = (IAiModelText) AiModel.create(AiModelType.GPT_4_O_MINI).withApiKey(apiKey);
+        IAiModelText model = ((OpenAiModel)AiModel.create(AiModelType.GPT_4_O_MINI).withApiKey(apiKey)).withOrganization("Organization").withProject("Project");
 
         SummarizeOptions options = new SummarizeOptions();
         options.setSummaryLength(SummaryLength.SHORT);
@@ -56,6 +59,7 @@ public class ExAI extends ApiExampleBase
         //ExStart:AiTranslate
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:IAiModelText.Translate(Document, AI.Language)
+        //ExFor:AI.Language
         //ExSummary:Shows how to translate text using Google models.
         Document doc = new Document(getMyDir() + "Document.docx");
 

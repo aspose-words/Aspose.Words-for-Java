@@ -506,6 +506,7 @@ public class ExRevision extends ApiExampleBase {
     {
         //ExStart
         //ExFor:CompareOptions
+        //ExFor:CompareOptions.CompareMoves
         //ExFor:CompareOptions.IgnoreFormatting
         //ExFor:CompareOptions.IgnoreCaseChanges
         //ExFor:CompareOptions.IgnoreComments

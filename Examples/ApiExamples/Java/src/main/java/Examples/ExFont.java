@@ -1616,6 +1616,7 @@ public class ExFont extends ApiExampleBase {
         //GistId:0ede368e82d1e97d02e615a76923846b
         //ExFor:FontInfo.EmbeddingLicensingRights
         //ExFor:FontEmbeddingUsagePermissions
+        //ExFor:FontEmbeddingLicensingRights
         //ExFor:FontEmbeddingLicensingRights.EmbeddingUsagePermissions
         //ExFor:FontEmbeddingLicensingRights.BitmapEmbeddingOnly
         //ExFor:FontEmbeddingLicensingRights.NoSubsetting
