@@ -12,49 +12,113 @@ import com.aspose.words.*;
 import com.aspose.words.net.System.Data.DataRow;
 import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.words.net.System.Data.DataTable;
-import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
-import java.nio.file.Files;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.stream.Stream;
 
-public class ExLowCode extends ApiExampleBase
-{
+public class ExLowCode extends ApiExampleBase {
     @Test
-    public void mergeDocuments() throws Exception
-    {
+    public void mergeDocuments() throws Exception {
         //ExStart
         //ExFor:Merger.Merge(String, String[])
         //ExFor:Merger.Merge(String[], MergeFormatMode)
+        //ExFor:Merger.Merge(String[], LoadOptions[], MergeFormatMode)
         //ExFor:Merger.Merge(String, String[], SaveOptions, MergeFormatMode)
         //ExFor:Merger.Merge(String, String[], SaveFormat, MergeFormatMode)
+        //ExFor:Merger.Merge(String, String[], LoadOptions[], SaveOptions, MergeFormatMode)
         //ExFor:LowCode.MergeFormatMode
         //ExFor:LowCode.Merger
         //ExSummary:Shows how to merge documents into a single output document.
         //There is a several ways to merge documents:
-        Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.SimpleMerge.docx", new String[] { getMyDir() + "Big document.docx", getMyDir() + "Tables.docx" });
+        String inputDoc1 = getMyDir() + "Big document.docx";
+        String inputDoc2 = getMyDir() + "Tables.docx";
 
-        OoxmlSaveOptions ooxmlSaveOptions = new OoxmlSaveOptions();
-        ooxmlSaveOptions.setPassword("Aspose.Words");
-        Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.SaveOptions.docx", new String[] { getMyDir() + "Big document.docx", getMyDir() + "Tables.docx" }, ooxmlSaveOptions, MergeFormatMode.KEEP_SOURCE_FORMATTING);
+        Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.1.docx", new String[]{inputDoc1, inputDoc2});
 
-        Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.SaveFormat.pdf", new String[] { getMyDir() + "Big document.docx", getMyDir() + "Tables.docx" }, SaveFormat.PDF, MergeFormatMode.KEEP_SOURCE_LAYOUT);
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
+        {
+            saveOptions.setPassword("Aspose.Words");
+        }
+        Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.2.docx", new String[]{inputDoc1, inputDoc2}, saveOptions, MergeFormatMode.KEEP_SOURCE_FORMATTING);
 
-        Document doc = Merger.merge(new String[] { getMyDir() + "Big document.docx", getMyDir() + "Tables.docx" }, MergeFormatMode.MERGE_FORMATTING);
-        doc.save(getArtifactsDir() + "LowCode.MergeDocument.DocumentInstance.docx");
+        Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.3.pdf", new String[]{inputDoc1, inputDoc2}, SaveFormat.PDF, MergeFormatMode.KEEP_SOURCE_LAYOUT);
+
+        LoadOptions firstLoadOptions = new LoadOptions();
+        {
+            firstLoadOptions.setIgnoreOleData(true);
+        }
+        LoadOptions secondLoadOptions = new LoadOptions();
+        {
+            secondLoadOptions.setIgnoreOleData(false);
+        }
+        Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.4.docx", new String[]{inputDoc1, inputDoc2}, new LoadOptions[]{firstLoadOptions, secondLoadOptions},
+                saveOptions, MergeFormatMode.KEEP_SOURCE_FORMATTING);
+
+        Document doc = Merger.merge(new String[]{inputDoc1, inputDoc2}, MergeFormatMode.MERGE_FORMATTING);
+        doc.save(getArtifactsDir() + "LowCode.MergeDocument.5.docx");
+
+        doc = Merger.merge(new String[]{inputDoc1, inputDoc2}, new LoadOptions[]{firstLoadOptions, secondLoadOptions}, MergeFormatMode.MERGE_FORMATTING);
+        doc.save(getArtifactsDir() + "LowCode.MergeDocument.6.docx");
         //ExEnd
     }
 
     @Test
-    public void mergeDocumentInstances() throws Exception
-    {
+    public void mergeStreamDocument() throws Exception {
+        //ExStart
+        //ExFor:Merger.Merge(Stream[], MergeFormatMode)
+        //ExFor:Merger.Merge(Stream[], LoadOptions[], MergeFormatMode)
+        //ExFor:Merger.Merge(Stream, Stream[], SaveOptions, MergeFormatMode)
+        //ExFor:Merger.Merge(Stream, Stream[], LoadOptions[], SaveOptions, MergeFormatMode)
+        //ExFor:Merger.Merge(Stream, Stream[], SaveFormat)
+        //ExSummary:Shows how to merge documents from stream into a single output document.
+        //There is a several ways to merge documents from stream:
+        try (FileInputStream firstStreamIn = new FileInputStream(getMyDir() + "Big document.docx")) {
+            try (FileInputStream secondStreamIn = new FileInputStream(getMyDir() + "Tables.docx")) {
+                OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
+                {
+                    saveOptions.setPassword("Aspose.Words");
+                }
+                try (FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "LowCode.MergeStreamDocument.1.docx")) {
+                    Merger.merge(streamOut, new FileInputStream[]{firstStreamIn, secondStreamIn}, saveOptions, MergeFormatMode.KEEP_SOURCE_FORMATTING);
+                }
+
+                try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.MergeStreamDocument.2.docx")) {
+                    Merger.merge(streamOut1, new FileInputStream[]{firstStreamIn, secondStreamIn}, SaveFormat.DOCX);
+                }
+
+                LoadOptions firstLoadOptions = new LoadOptions();
+                {
+                    firstLoadOptions.setIgnoreOleData(true);
+                }
+                LoadOptions secondLoadOptions = new LoadOptions();
+                {
+                    secondLoadOptions.setIgnoreOleData(false);
+                }
+                try (FileOutputStream streamOut2 = new FileOutputStream(getArtifactsDir() + "LowCode.MergeStreamDocument.3.docx")) {
+                    Merger.merge(streamOut2, new FileInputStream[]{firstStreamIn, secondStreamIn}, new LoadOptions[]{firstLoadOptions, secondLoadOptions}, saveOptions, MergeFormatMode.KEEP_SOURCE_FORMATTING);
+                }
+
+                Document firstDoc = Merger.merge(new FileInputStream[]{firstStreamIn, secondStreamIn}, MergeFormatMode.MERGE_FORMATTING);
+                firstDoc.save(getArtifactsDir() + "LowCode.MergeStreamDocument.4.docx");
+
+                Document secondDoc = Merger.merge(new FileInputStream[]{firstStreamIn, secondStreamIn}, new LoadOptions[]{firstLoadOptions, secondLoadOptions}, MergeFormatMode.MERGE_FORMATTING);
+                secondDoc.save(getArtifactsDir() + "LowCode.MergeStreamDocument.5.docx");
+            }
+        }
+        //ExEnd
+    }
+
+    @Test
+    public void mergeDocumentInstances() throws Exception {
         //ExStart:MergeDocumentInstances
         //GistId:f0964b777330b758f6b82330b040b24c
         //ExFor:Merger.Merge(Document[], MergeFormatMode)
@@ -67,74 +131,101 @@ public class ExLowCode extends ApiExampleBase
         DocumentBuilder secondDoc = new DocumentBuilder();
         secondDoc.write("Hello second word!");
 
-        Document mergedDoc = Merger.merge(new Document[] { firstDoc.getDocument(), secondDoc.getDocument() }, MergeFormatMode.KEEP_SOURCE_LAYOUT);
+        Document mergedDoc = Merger.merge(new Document[]{firstDoc.getDocument(), secondDoc.getDocument()}, MergeFormatMode.KEEP_SOURCE_LAYOUT);
         Assert.assertEquals("Hello first word!\fHello second word!\f", mergedDoc.getText());
         //ExEnd:MergeDocumentInstances
     }
 
     @Test
-    public void convert() throws Exception
-    {
+    public void convert() throws Exception {
         //ExStart:Convert
         //GistId:0ede368e82d1e97d02e615a76923846b
         //ExFor:Converter.Convert(String, String)
         //ExFor:Converter.Convert(String, String, SaveFormat)
         //ExFor:Converter.Convert(String, String, SaveOptions)
+        //ExFor:Converter.Convert(String, LoadOptions, String, SaveOptions)
         //ExSummary:Shows how to convert documents with a single line of code.
-        Converter.convert(getMyDir() + "Document.docx", getArtifactsDir() + "LowCode.Convert.pdf");
+        String doc = getMyDir() + "Document.docx";
 
-        Converter.convert(getMyDir() + "Document.docx", getArtifactsDir() + "LowCode.Convert.rtf", SaveFormat.RTF);
+        Converter.convert(doc, getArtifactsDir() + "LowCode.Convert.pdf");
 
-        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setPassword("Aspose.Words"); }
-        Converter.convert(getMyDir() + "Document.doc", getArtifactsDir() + "LowCode.Convert.docx", saveOptions);
+        Converter.convert(doc, getArtifactsDir() + "LowCode.Convert.SaveFormat.rtf", SaveFormat.RTF);
+
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
+        {
+            saveOptions.setPassword("Aspose.Words");
+        }
+        LoadOptions loadOptions = new LoadOptions();
+        {
+            loadOptions.setIgnoreOleData(true);
+        }
+        Converter.convert(doc, loadOptions, getArtifactsDir() + "LowCode.Convert.LoadOptions.docx", saveOptions);
+
+        Converter.convert(doc, getArtifactsDir() + "LowCode.Convert.SaveOptions.docx", saveOptions);
         //ExEnd:Convert
     }
 
     @Test
-    public void convertStream() throws Exception
-    {
+    public void convertStream() throws Exception {
         //ExStart:ConvertStream
         //GistId:0ede368e82d1e97d02e615a76923846b
         //ExFor:Converter.Convert(Stream, Stream, SaveFormat)
         //ExFor:Converter.Convert(Stream, Stream, SaveOptions)
+        //ExFor:Converter.Convert(Stream, LoadOptions, Stream, SaveOptions)
         //ExSummary:Shows how to convert documents with a single line of code (Stream).
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Big document.docx")) {
-            try (FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "LowCode.ConvertStream.SaveFormat.docx"))
-            {
+            try (FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "LowCode.ConvertStream.1.docx")) {
                 Converter.convert(streamIn, streamOut, SaveFormat.DOCX);
             }
 
-            OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setPassword("Aspose.Words"); }
-            try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.ConvertStream.SaveOptions.docx"))
+            OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
             {
-                Converter.convert(streamIn, streamOut1, saveOptions);
+                saveOptions.setPassword("Aspose.Words");
+            }
+            LoadOptions loadOptions = new LoadOptions();
+            {
+                loadOptions.setIgnoreOleData(true);
+            }
+            try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.ConvertStream.2.docx")) {
+                Converter.convert(streamIn, loadOptions, streamOut1, saveOptions);
+            }
+
+            try (FileOutputStream streamOut2 = new FileOutputStream(getArtifactsDir() + "LowCode.ConvertStream.3.docx")) {
+                Converter.convert(streamIn, streamOut2, saveOptions);
             }
         }
         //ExEnd:ConvertStream
     }
 
     @Test
-    public void convertToImages() throws Exception
-    {
+    public void convertToImages() throws Exception {
         //ExStart:ConvertToImages
         //GistId:0ede368e82d1e97d02e615a76923846b
         //ExFor:Converter.ConvertToImages(String, String)
         //ExFor:Converter.ConvertToImages(String, String, SaveFormat)
         //ExFor:Converter.ConvertToImages(String, String, ImageSaveOptions)
+        //ExFor:Converter.ConvertToImages(String, LoadOptions, String, ImageSaveOptions)
         //ExSummary:Shows how to convert document to images.
-        Converter.convertToImages(getMyDir() + "Big document.docx", getArtifactsDir() + "LowCode.ConvertToImages.png");
+        String doc = getMyDir() + "Big document.docx";
 
-        Converter.convertToImages(getMyDir() + "Big document.docx", getArtifactsDir() + "LowCode.ConvertToImages.jpeg", SaveFormat.JPEG);
+        Converter.convertToImages(doc, getArtifactsDir() + "LowCode.ConvertToImages.1.png");
 
+        Converter.convertToImages(doc, getArtifactsDir() + "LowCode.ConvertToImages.2.jpeg", SaveFormat.JPEG);
+
+        LoadOptions loadOptions = new LoadOptions();
+        {
+            loadOptions.setIgnoreOleData(false);
+        }
         ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
         imageSaveOptions.setPageSet(new PageSet(1));
-        Converter.convertToImages(getMyDir() + "Big document.docx", getArtifactsDir() + "LowCode.ConvertToImages.png", imageSaveOptions);
+        Converter.convertToImages(doc, loadOptions, getArtifactsDir() + "LowCode.ConvertToImages.3.png", imageSaveOptions);
+
+        Converter.convertToImages(doc, getArtifactsDir() + "LowCode.ConvertToImages.4.png", imageSaveOptions);
         //ExEnd:ConvertToImages
     }
 
     @Test
-    public void convertToImagesStream() throws Exception
-    {
+    public void convertToImagesStream() throws Exception {
         //ExStart:ConvertToImagesStream
         //GistId:0ede368e82d1e97d02e615a76923846b
         //ExFor:Converter.ConvertToImages(String, SaveFormat)
@@ -142,40 +233,46 @@ public class ExLowCode extends ApiExampleBase
         //ExFor:Converter.ConvertToImages(Document, SaveFormat)
         //ExFor:Converter.ConvertToImages(Document, ImageSaveOptions)
         //ExSummary:Shows how to convert document to images stream.
-        InputStream[] streams = Converter.convertToImages(getMyDir() + "Big document.docx", SaveFormat.PNG);
+        String doc = getMyDir() + "Big document.docx";
+
+        InputStream[] streams = Converter.convertToImages(doc, SaveFormat.PNG);
 
         ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
         imageSaveOptions.setPageSet(new PageSet(1));
-        streams = Converter.convertToImages(getMyDir() + "Big document.docx", imageSaveOptions);
+        streams = Converter.convertToImages(doc, imageSaveOptions);
 
-        streams = Converter.convertToImages(new Document(getMyDir() + "Big document.docx"), SaveFormat.PNG);
+        streams = Converter.convertToImages(new Document(doc), SaveFormat.PNG);
 
-        streams = Converter.convertToImages(new Document(getMyDir() + "Big document.docx"), imageSaveOptions);
+        streams = Converter.convertToImages(new Document(doc), imageSaveOptions);
         //ExEnd:ConvertToImagesStream
     }
 
     @Test
-    public void convertToImagesFromStream() throws Exception
-    {
+    public void convertToImagesFromStream() throws Exception {
         //ExStart:ConvertToImagesFromStream
         //GistId:0ede368e82d1e97d02e615a76923846b
         //ExFor:Converter.ConvertToImages(Stream, SaveFormat)
         //ExFor:Converter.ConvertToImages(Stream, ImageSaveOptions)
+        //ExFor:Converter.ConvertToImages(Stream, LoadOptions, ImageSaveOptions)
         //ExSummary:Shows how to convert document to images from stream.
-        try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Big document.docx"))
-        {
+        try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Big document.docx")) {
             InputStream[] streams = Converter.convertToImages(streamIn, SaveFormat.JPEG);
 
             ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
             imageSaveOptions.setPageSet(new PageSet(1));
             streams = Converter.convertToImages(streamIn, imageSaveOptions);
+
+            LoadOptions loadOptions = new LoadOptions();
+            {
+                loadOptions.setIgnoreOleData(false);
+            }
+            Converter.convertToImages(streamIn, loadOptions, imageSaveOptions);
         }
         //ExEnd:ConvertToImagesFromStream
     }
 
     @Test
-    public void compareDocuments() throws Exception
-    {
+    public void compareDocuments() throws Exception {
         //ExStart:CompareDocuments
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Comparer.Compare(String, String, String, String, DateTime)
@@ -221,10 +318,11 @@ public class ExLowCode extends ApiExampleBase
     }
 
     @Test
-    public void mailMerge() throws Exception
-    {
+    public void mailMerge() throws Exception {
         //ExStart:MailMerge
         //GistId:93fefe5344a8337b931d0fed5c028225
+        //ExFor:MailMergeOptions
+        //ExFor:MailMergeOptions.TrimWhitespaces
         //ExFor:MailMerger.Execute(String, String, String[], Object[])
         //ExFor:MailMerger.Execute(String, String, SaveFormat, String[], Object[])
         //ExFor:MailMerger.Execute(String, String, SaveFormat, MailMergeOptions, String[], Object[])
@@ -232,8 +330,8 @@ public class ExLowCode extends ApiExampleBase
         // There is a several ways to do mail merge operation:
         String doc = getMyDir() + "Mail merge.doc";
 
-        String[] fieldNames = new String[] { "FirstName", "Location", "SpecialCharsInName()" };
-        String[] fieldValues = new String[] { "James Bond", "London", "Classified" };
+        String[] fieldNames = new String[]{"FirstName", "Location", "SpecialCharsInName()"};
+        String[] fieldValues = new String[]{"James Bond", "London", "Classified"};
 
         MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMerge.1.docx", fieldNames, fieldValues);
         MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMerge.2.docx", SaveFormat.DOCX, fieldNames, fieldValues);
@@ -269,8 +367,7 @@ public class ExLowCode extends ApiExampleBase
     }
 
     @Test
-    public void mailMergeDataRow() throws Exception
-    {
+    public void mailMergeDataRow() throws Exception {
         //ExStart:MailMergeDataRow
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMerger.Execute(String, String, DataRow)
@@ -285,7 +382,7 @@ public class ExLowCode extends ApiExampleBase
         dataTable.getColumns().add("Location");
         dataTable.getColumns().add("SpecialCharsInName()");
 
-        dataTable.getRows().add(new String[] { "James Bond", "London", "Classified" });
+        dataTable.getRows().add(new String[]{"James Bond", "London", "Classified"});
         DataRow dataRow = dataTable.getRows().get(0);
 
         MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataRow.1.docx", dataRow);
@@ -327,8 +424,7 @@ public class ExLowCode extends ApiExampleBase
     }
 
     @Test
-    public void mailMergeDataTable() throws Exception
-    {
+    public void mailMergeDataTable() throws Exception {
         //ExStart:MailMergeDataTable
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMerger.Execute(String, String, DataTable)
@@ -383,8 +479,7 @@ public class ExLowCode extends ApiExampleBase
     }
 
     @Test
-    public void mailMergeWithRegionsDataTable() throws Exception
-    {
+    public void mailMergeWithRegionsDataTable() throws Exception {
         //ExStart:MailMergeWithRegionsDataTable
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMerger.ExecuteWithRegions(String, String, DataTable)
@@ -397,9 +492,9 @@ public class ExLowCode extends ApiExampleBase
         DataTable dataTable = new DataTable("MyTable");
         dataTable.getColumns().add("FirstName");
         dataTable.getColumns().add("LastName");
-        dataTable.getRows().add(new Object[] { "John", "Doe" });
-        dataTable.getRows().add(new Object[] { "", "" });
-        dataTable.getRows().add(new Object[] { "Jane", "Doe" });
+        dataTable.getRows().add(new Object[]{"John", "Doe"});
+        dataTable.getRows().add(new Object[]{"", ""});
+        dataTable.getRows().add(new Object[]{"Jane", "Doe"});
 
         MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataTable.1.docx", dataTable);
         MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataTable.2.docx", SaveFormat.DOCX, dataTable);
@@ -439,8 +534,7 @@ public class ExLowCode extends ApiExampleBase
     }
 
     @Test
-    public void mailMergeWithRegionsDataSet() throws Exception
-    {
+    public void mailMergeWithRegionsDataSet() throws Exception {
         //ExStart:MailMergeWithRegionsDataSet
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMerger.ExecuteWithRegions(String, String, DataSet)
@@ -453,16 +547,16 @@ public class ExLowCode extends ApiExampleBase
         DataTable tableCustomers = new DataTable("Customers");
         tableCustomers.getColumns().add("CustomerID");
         tableCustomers.getColumns().add("CustomerName");
-        tableCustomers.getRows().add(new Object[] { 1, "John Doe" });
-        tableCustomers.getRows().add(new Object[] { 2, "Jane Doe" });
+        tableCustomers.getRows().add(new Object[]{1, "John Doe"});
+        tableCustomers.getRows().add(new Object[]{2, "Jane Doe"});
 
         DataTable tableOrders = new DataTable("Orders");
         tableOrders.getColumns().add("CustomerID");
         tableOrders.getColumns().add("ItemName");
         tableOrders.getColumns().add("Quantity");
-        tableOrders.getRows().add(new Object[] { 1, "Hawaiian", 2 });
-        tableOrders.getRows().add(new Object[] { 2, "Pepperoni", 1 });
-        tableOrders.getRows().add(new Object[] { 2, "Chicago", 1 });
+        tableOrders.getRows().add(new Object[]{1, "Hawaiian", 2});
+        tableOrders.getRows().add(new Object[]{2, "Pepperoni", 1});
+        tableOrders.getRows().add(new Object[]{2, "Chicago", 1});
 
         DataSet dataSet = new DataSet();
         dataSet.getTables().add(tableCustomers);
@@ -519,8 +613,7 @@ public class ExLowCode extends ApiExampleBase
     }
 
     @Test
-    public void replace() throws Exception
-    {
+    public void replace() throws Exception {
         //ExStart:Replace
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Replacer.Replace(String, String, String, String)
@@ -566,8 +659,7 @@ public class ExLowCode extends ApiExampleBase
     }
 
     @Test
-    public void replaceRegex() throws Exception
-    {
+    public void replaceRegex() throws Exception {
         //ExStart:ReplaceRegex
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Replacer.Replace(String, String, Regex, String)
@@ -614,6 +706,8 @@ public class ExLowCode extends ApiExampleBase
 
     //ExStart:BuildReportData
     //GistId:93fefe5344a8337b931d0fed5c028225
+    //ExFor:ReportBuilderOptions
+    //ExFor:ReportBuilderOptions.Options
     //ExFor:ReportBuilder.BuildReport(String, String, Object)
     //ExFor:ReportBuilder.BuildReport(String, String, Object, ReportBuilderOptions)
     //ExFor:ReportBuilder.BuildReport(String, String, SaveFormat, Object)
@@ -640,9 +734,18 @@ public class ExLowCode extends ApiExampleBase
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportWithObject.4.docx", SaveFormat.DOCX, obj, options);
     }
 
-    public static class AsposeData
-    {
-        public ArrayList<String> getList() { return mList; }; public void setList(ArrayList<String> value) { mList = value; };
+    public static class AsposeData {
+        public ArrayList<String> getList() {
+            return mList;
+        }
+
+        ;
+
+        public void setList(ArrayList<String> value) {
+            mList = value;
+        }
+
+        ;
 
         private ArrayList<String> mList;
     }
@@ -654,6 +757,7 @@ public class ExLowCode extends ApiExampleBase
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:ReportBuilder.BuildReport(Stream, Stream, SaveFormat, Object)
         //ExFor:ReportBuilder.BuildReport(Stream, Stream, SaveFormat, Object, ReportBuilderOptions)
+        //ExFor:ReportBuilder.BuildReport(Stream, Stream, SaveFormat, Object[], String[], ReportBuilderOptions)
         //ExSummary:Shows how to populate document with data using documents from the stream.
         // There is a several ways to populate document with data using documents from the stream:
         AsposeData obj = new AsposeData();
@@ -664,15 +768,20 @@ public class ExLowCode extends ApiExampleBase
             }
         }
 
-        try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Reporting engine template - If greedy (Java).docx")) {
+        try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Reporting engine template - If greedy.docx")) {
             try (FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "LowCode.BuildReportDataStream.1.docx")) {
                 ReportBuilder.buildReport(streamIn, streamOut, SaveFormat.DOCX, obj);
             }
 
+            ReportBuilderOptions options = new ReportBuilderOptions();
+            options.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS);
             try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.BuildReportDataStream.2.docx")) {
-                ReportBuilderOptions options = new ReportBuilderOptions();
-                options.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS);
                 ReportBuilder.buildReport(streamIn, streamOut1, SaveFormat.DOCX, obj, options);
+            }
+
+            MessageTestClass sender = new MessageTestClass("LINQ Reporting Engine", "Hello World");
+            try (FileOutputStream streamOut2 = new FileOutputStream(getArtifactsDir() + "LowCode.BuildReportDataStream.3.docx")) {
+                ReportBuilder.buildReport(streamIn, streamOut2, SaveFormat.DOCX, new Object[]{sender}, new String[]{"s"}, options);
             }
         }
         //ExEnd:BuildReportDataStream
@@ -684,36 +793,61 @@ public class ExLowCode extends ApiExampleBase
     //ExFor:ReportBuilder.BuildReport(String, String, Object[], String[])
     //ExFor:ReportBuilder.BuildReport(String, String, Object, String, ReportBuilderOptions)
     //ExFor:ReportBuilder.BuildReport(String, String, SaveFormat, Object, String)
+    //ExFor:ReportBuilder.BuildReport(String, String, SaveFormat, Object[], String[])
     //ExFor:ReportBuilder.BuildReport(String, String, SaveFormat, Object, String, ReportBuilderOptions)
+    //ExFor:ReportBuilder.BuildReport(String, String, Object[], String[], ReportBuilderOptions)
+    //ExFor:ReportBuilder.BuildReport(String, String, SaveFormat, Object[], String[], ReportBuilderOptions)
     //ExSummary:Shows how to populate document with data sources.
     @Test //ExSkip
-    public void buildReportDataSource() throws Exception
-    {
+    public void buildReportDataSource() throws Exception {
         // There is a several ways to populate document with data sources:
         String doc = getMyDir() + "Report building.docx";
 
         MessageTestClass sender = new MessageTestClass("LINQ Reporting Engine", "Hello World");
 
-        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.1.docx", sender, "s");
-        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.2.docx", new Object[] { sender }, new String[] { "s" });
         ReportBuilderOptions options = new ReportBuilderOptions();
         options.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS);
+
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.1.docx", sender, "s");
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.2.docx", new Object[]{sender}, new String[]{"s"});
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.3.docx", sender, "s", options);
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.4.docx", SaveFormat.DOCX, sender, "s");
-        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.5.docx", SaveFormat.DOCX, sender, "s", options);
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.5.docx", SaveFormat.DOCX, new Object[]{sender}, new String[]{"s"});
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.6.docx", SaveFormat.DOCX, sender, "s", options);
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.7.docx", SaveFormat.DOCX, new Object[]{sender}, new String[]{"s"}, options);
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.8.docx", new Object[]{sender}, new String[]{"s"}, options);
     }
 
-    public static class MessageTestClass
-    {
-        public String getName() { return mName; }; public void setName(String value) { mName = value; };
+    public static class MessageTestClass {
+        public String getName() {
+            return mName;
+        }
+
+        ;
+
+        public void setName(String value) {
+            mName = value;
+        }
+
+        ;
 
         private String mName;
-        public String getMessage() { return mMessage; }; public void setMessage(String value) { mMessage = value; };
+
+        public String getMessage() {
+            return mMessage;
+        }
+
+        ;
+
+        public void setMessage(String value) {
+            mMessage = value;
+        }
+
+        ;
 
         private String mMessage;
 
-        public MessageTestClass(String name, String message)
-        {
+        public MessageTestClass(String name, String message) {
             setName(name);
             setMessage(message);
         }
@@ -750,8 +884,7 @@ public class ExLowCode extends ApiExampleBase
     }
 
     @Test
-    public void removeBlankPages() throws Exception
-    {
+    public void removeBlankPages() throws Exception {
         //ExStart:RemoveBlankPages
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Splitter.RemoveBlankPages(String, String)
@@ -780,8 +913,7 @@ public class ExLowCode extends ApiExampleBase
     }
 
     @Test
-    public void extractPages() throws Exception
-    {
+    public void extractPages() throws Exception {
         //ExStart:ExtractPages
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Splitter.ExtractPages(String, String, int, int)
@@ -810,10 +942,11 @@ public class ExLowCode extends ApiExampleBase
     }
 
     @Test
-    public void splitDocument() throws Exception
-    {
+    public void splitDocument() throws Exception {
         //ExStart:SplitDocument
         //GistId:93fefe5344a8337b931d0fed5c028225
+        //ExFor:SplitCriteria
+        //ExFor:SplitOptions.SplitCriteria
         //ExFor:Splitter.Split(String, String, SplitOptions)
         //ExFor:Splitter.Split(String, String, SaveFormat, SplitOptions)
         //ExSummary:Shows how to split document by pages.
@@ -841,8 +974,7 @@ public class ExLowCode extends ApiExampleBase
     }
 
     @Test
-    public void watermarkText() throws Exception
-    {
+    public void watermarkText() throws Exception {
         //ExStart:WatermarkText
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Watermarker.SetText(String, String, String)
@@ -886,8 +1018,7 @@ public class ExLowCode extends ApiExampleBase
     }
 
     @Test
-    public void watermarkImage() throws Exception
-    {
+    public void watermarkImage() throws Exception {
         //ExStart:WatermarkImage
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Watermarker.SetImage(String, String, String)
