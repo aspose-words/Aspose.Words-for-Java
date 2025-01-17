@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -600,7 +600,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
     public void idPrefix() throws Exception
     {
         //ExStart:IdPrefix
-        //GistId:f86d49dc0e6781b93e576539a01e6ca2
+        //GistId:c012c14781944ce4cc5e31f35b08060a
         //ExFor:HtmlFixedSaveOptions.IdPrefix
         //ExSummary:Shows how to add a prefix that is prepended to all generated element IDs.
         Document doc = new Document(getMyDir() + "Id prefix.docx");
@@ -616,7 +616,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
     public void removeJavaScriptFromLinks() throws Exception
     {
         //ExStart:RemoveJavaScriptFromLinks
-        //GistId:f86d49dc0e6781b93e576539a01e6ca2
+        //GistId:c012c14781944ce4cc5e31f35b08060a
         //ExFor:HtmlFixedSaveOptions.RemoveJavaScriptFromLinks
         //ExSummary:Shows how to remove JavaScript from the links.
         Document doc = new Document(getMyDir() + "JavaScript in HREF.docx");

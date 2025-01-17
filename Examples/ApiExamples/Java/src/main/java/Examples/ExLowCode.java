@@ -768,7 +768,7 @@ public class ExLowCode extends ApiExampleBase {
             }
         }
 
-        try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Reporting engine template - If greedy.docx")) {
+        try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Reporting engine template - If greedy (Java).docx")) {
             try (FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "LowCode.BuildReportDataStream.1.docx")) {
                 ReportBuilder.buildReport(streamIn, streamOut, SaveFormat.DOCX, obj);
             }
