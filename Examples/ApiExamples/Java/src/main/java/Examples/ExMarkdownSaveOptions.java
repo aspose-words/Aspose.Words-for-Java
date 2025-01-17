@@ -1,4 +1,4 @@
-﻿package Examples;
+package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -323,7 +323,7 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
     public void imageResolution() throws Exception
     {
         //ExStart:ImageResolution
-        //GistId:c012c14781944ce4cc5e31f35b08060a
+        //GistId:f86d49dc0e6781b93e576539a01e6ca2
         //ExFor:MarkdownSaveOptions.ImageResolution
         //ExSummary:Shows how to set the output resolution for images.
         Document doc = new Document(getMyDir() + "Rendering.docx");
@@ -339,7 +339,7 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
     public void officeMathExportMode() throws Exception
     {
         //ExStart:OfficeMathExportMode
-        //GistId:c012c14781944ce4cc5e31f35b08060a
+        //GistId:f86d49dc0e6781b93e576539a01e6ca2
         //ExFor:MarkdownSaveOptions.OfficeMathExportMode
         //ExFor:MarkdownOfficeMathExportMode
         //ExSummary:Shows how OfficeMath will be written to the document.

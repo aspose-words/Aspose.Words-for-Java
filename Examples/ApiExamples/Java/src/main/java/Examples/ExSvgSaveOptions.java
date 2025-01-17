@@ -1,4 +1,4 @@
-﻿package Examples;
+package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -121,7 +121,7 @@ public class ExSvgSaveOptions extends ApiExampleBase {
     public void idPrefixSvg() throws Exception
     {
         //ExStart:IdPrefixSvg
-        //GistId:c012c14781944ce4cc5e31f35b08060a
+        //GistId:f86d49dc0e6781b93e576539a01e6ca2
         //ExFor:SvgSaveOptions.IdPrefix
         //ExSummary:Shows how to add a prefix that is prepended to all generated element IDs (svg).
         Document doc = new Document(getMyDir() + "Id prefix.docx");
@@ -137,7 +137,7 @@ public class ExSvgSaveOptions extends ApiExampleBase {
     public void removeJavaScriptFromLinksSvg() throws Exception
     {
         //ExStart:RemoveJavaScriptFromLinksSvg
-        //GistId:c012c14781944ce4cc5e31f35b08060a
+        //GistId:f86d49dc0e6781b93e576539a01e6ca2
         //ExFor:SvgSaveOptions.RemoveJavaScriptFromLinks
         //ExSummary:Shows how to remove JavaScript from the links (svg).
         Document doc = new Document(getMyDir() + "JavaScript in HREF.docx");
