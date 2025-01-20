@@ -1135,4 +1135,34 @@ public class ExMailMerge extends ApiExampleBase {
 
         Assert.assertEquals(4, doc.getFirstSection().getBody().getParagraphs().getCount());
     }
+
+    @Test
+    public void removeEmptyTables() throws Exception
+    {
+        //ExStart:RemoveEmptyTables
+        //GistId:93fefe5344a8337b931d0fed5c028225
+        //ExFor:MailMergeCleanupOptions
+        //ExSummary:Shows how to remove whole empty table during mail merge.
+        DataTable tableCustomers = new DataTable("A");
+        tableCustomers.getColumns().add("CustomerID");
+        tableCustomers.getColumns().add("CustomerName");
+        tableCustomers.getRows().add(new Object[] { 1, "John Doe" });
+        tableCustomers.getRows().add(new Object[] { 2, "Jane Doe" });
+
+        DataSet ds = new DataSet();
+        ds.getTables().add(tableCustomers);
+
+        Document doc = new Document(getMyDir() + "Mail merge tables.docx");
+        Assert.assertEquals(2, doc.getChildNodes(NodeType.TABLE, true).getCount());
+
+        doc.getMailMerge().setMergeDuplicateRegions(false);
+        doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_EMPTY_TABLES | MailMergeCleanupOptions.REMOVE_UNUSED_REGIONS);
+        doc.getMailMerge().executeWithRegions(ds.getTables().get("A"));
+
+        doc.save(getArtifactsDir() + "MailMerge.RemoveEmptyTables.docx");
+
+        doc = new Document(getArtifactsDir() + "MailMerge.RemoveEmptyTables.docx");
+        Assert.assertEquals(1, doc.getChildNodes(NodeType.TABLE, true).getCount());
+        //ExEnd:RemoveEmptyTables
+    }
 }

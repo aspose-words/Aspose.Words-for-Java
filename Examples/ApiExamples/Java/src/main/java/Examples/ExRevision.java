@@ -506,6 +506,7 @@ public class ExRevision extends ApiExampleBase {
     {
         //ExStart
         //ExFor:CompareOptions
+        //ExFor:CompareOptions.CompareMoves
         //ExFor:CompareOptions.IgnoreFormatting
         //ExFor:CompareOptions.IgnoreCaseChanges
         //ExFor:CompareOptions.IgnoreComments
@@ -752,6 +753,23 @@ public class ExRevision extends ApiExampleBase {
         docA.compare(docB, "user", new Date(), compareOptions);
         Assert.assertEquals(0, docA.getRevisions().getCount());
         //ExEnd:IgnoreStoreItemId
+    }
+
+    @Test
+    public void revisionCellColor() throws Exception
+    {
+        //ExStart:RevisionCellColor
+        //GistId:72d57eeddb7fb342fd51b26e5fcf9642
+        //ExFor:RevisionOptions.InsertCellColor
+        //ExFor:RevisionOptions.DeleteCellColor
+        //ExSummary:Shows how to work with insert/delete cell revision color.
+        Document doc = new Document(getMyDir() + "Cell revisions.docx");
+
+        doc.getLayoutOptions().getRevisionOptions().setInsertCellColor(RevisionColor.BLUE);
+        doc.getLayoutOptions().getRevisionOptions().setDeleteCellColor(RevisionColor.DARK_RED);
+
+        doc.save(getArtifactsDir() + "Revision.RevisionCellColor.pdf");
+        //ExEnd:RevisionCellColor
     }
 }
 

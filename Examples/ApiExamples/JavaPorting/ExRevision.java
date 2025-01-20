@@ -555,6 +555,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
     {
         //ExStart
         //ExFor:CompareOptions
+        //ExFor:CompareOptions.CompareMoves
         //ExFor:CompareOptions.IgnoreFormatting
         //ExFor:CompareOptions.IgnoreCaseChanges
         //ExFor:CompareOptions.IgnoreComments
@@ -618,15 +619,18 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         // A CompareOptions object has a series of flags that can suppress revisions
         // on each respective type of element, effectively ignoring their change.
         CompareOptions compareOptions = new CompareOptions();
-        compareOptions.setIgnoreFormatting(false);
-        compareOptions.setIgnoreCaseChanges(false);
-        compareOptions.setIgnoreComments(false);
-        compareOptions.setIgnoreTables(false);
-        compareOptions.setIgnoreFields(false);
-        compareOptions.setIgnoreFootnotes(false);
-        compareOptions.setIgnoreTextboxes(false);
-        compareOptions.setIgnoreHeadersAndFooters(false);
-        compareOptions.setTarget(ComparisonTargetType.NEW);
+        {
+            compareOptions.setCompareMoves(false);
+            compareOptions.setIgnoreFormatting(false);
+            compareOptions.setIgnoreCaseChanges(false);
+            compareOptions.setIgnoreComments(false);
+            compareOptions.setIgnoreTables(false);
+            compareOptions.setIgnoreFields(false);
+            compareOptions.setIgnoreFootnotes(false);
+            compareOptions.setIgnoreTextboxes(false);
+            compareOptions.setIgnoreHeadersAndFooters(false);
+            compareOptions.setTarget(ComparisonTargetType.NEW);
+        }
 
         docOriginal.compareInternal(docEdited, "John Doe", new Date(), compareOptions);
         docOriginal.save(getArtifactsDir() + "Document.CompareOptions.docx");
@@ -803,6 +807,23 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         docA.compareInternal(docB, "user", new Date(), compareOptions);
         Assert.assertEquals(0, docA.getRevisions().getCount());
         //ExEnd:IgnoreStoreItemId
+    }
+
+    @Test
+    public void revisionCellColor() throws Exception
+    {
+        //ExStart:RevisionCellColor
+        //GistId:366eb64fd56dec3c2eaa40410e594182
+        //ExFor:RevisionOptions.InsertCellColor
+        //ExFor:RevisionOptions.DeleteCellColor
+        //ExSummary:Shows how to work with insert/delete cell revision color.
+        Document doc = new Document(getMyDir() + "Cell revisions.docx");
+
+        doc.getLayoutOptions().getRevisionOptions().setInsertCellColor(RevisionColor.LIGHT_BLUE);
+        doc.getLayoutOptions().getRevisionOptions().setDeleteCellColor(RevisionColor.DARK_RED);
+
+        doc.save(getArtifactsDir() + "Revision.RevisionCellColor.pdf");
+        //ExEnd:RevisionCellColor
     }
 }
 

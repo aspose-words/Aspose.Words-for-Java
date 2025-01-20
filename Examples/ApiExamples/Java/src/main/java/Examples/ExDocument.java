@@ -773,7 +773,7 @@ public class ExDocument extends ApiExampleBase
         //ExEnd
 
         Assert.assertEquals(7, dstDoc.getStyles().getCount());
-        Assert.assertEquals(9, dstDoc.getSections().getCount());
+        Assert.assertEquals(10, dstDoc.getSections().getCount());
     }
 
     @Test
@@ -2559,5 +2559,30 @@ public class ExDocument extends ApiExampleBase
         FileFormatInfo fileFormatInfo = FileFormatUtil.detectFileFormat(getMyDir() + "Macro.docm");
         Assert.assertTrue(fileFormatInfo.hasMacros());
         //ExEnd:HasMacros
+    }
+
+    @Test
+    public void punctuationKerning() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.PunctuationKerning
+        //ExSummary:Shows how to work with kerning applies to both Latin text and punctuation.
+        Document doc = new Document(getMyDir() + "Document.docx");
+        Assert.assertTrue(doc.getPunctuationKerning());
+        //ExEnd
+    }
+
+    @Test
+    public void removeBlankPages() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.RemoveBlankPages
+        //ExSummary:Shows how to remove blank pages from the document.
+        Document doc = new Document(getMyDir() + "Blank pages.docx");
+        Assert.assertEquals(2, doc.getPageCount());
+        doc.removeBlankPages();
+        doc.updatePageLayout();
+        Assert.assertEquals(1, doc.getPageCount());
+        //ExEnd
     }
 }

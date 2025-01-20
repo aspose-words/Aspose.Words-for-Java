@@ -116,4 +116,36 @@ public class ExSvgSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "SvgSaveOptions.MaxImageResolution.svg", saveOptions);
         //ExEnd:MaxImageResolution
     }
+
+    @Test
+    public void idPrefixSvg() throws Exception
+    {
+        //ExStart:IdPrefixSvg
+        //GistId:f86d49dc0e6781b93e576539a01e6ca2
+        //ExFor:SvgSaveOptions.IdPrefix
+        //ExSummary:Shows how to add a prefix that is prepended to all generated element IDs (svg).
+        Document doc = new Document(getMyDir() + "Id prefix.docx");
+
+        SvgSaveOptions saveOptions = new SvgSaveOptions();
+        saveOptions.setIdPrefix("pfx1_");
+
+        doc.save(getArtifactsDir() + "SvgSaveOptions.IdPrefixSvg.html", saveOptions);
+        //ExEnd:IdPrefixSvg
+    }
+
+    @Test
+    public void removeJavaScriptFromLinksSvg() throws Exception
+    {
+        //ExStart:RemoveJavaScriptFromLinksSvg
+        //GistId:f86d49dc0e6781b93e576539a01e6ca2
+        //ExFor:SvgSaveOptions.RemoveJavaScriptFromLinks
+        //ExSummary:Shows how to remove JavaScript from the links (svg).
+        Document doc = new Document(getMyDir() + "JavaScript in HREF.docx");
+
+        SvgSaveOptions saveOptions = new SvgSaveOptions();
+        saveOptions.setRemoveJavaScriptFromLinks(true);
+
+        doc.save(getArtifactsDir() + "SvgSaveOptions.RemoveJavaScriptFromLinksSvg.html", saveOptions);
+        //ExEnd:RemoveJavaScriptFromLinksSvg
+    }
 }

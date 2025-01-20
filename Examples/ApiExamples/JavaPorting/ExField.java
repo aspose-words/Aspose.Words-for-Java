@@ -2015,6 +2015,7 @@ public class ExField extends ApiExampleBase
         //ExFor:FieldMergeField.IsVerticalFormatting
         //ExFor:FieldMergeField.TextAfter
         //ExFor:FieldMergeField.TextBefore
+        //ExFor:FieldMergeField.Type
         //ExSummary:Shows how to use MERGEFIELD fields to perform a mail merge.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2038,6 +2039,7 @@ public class ExField extends ApiExampleBase
         fieldMergeField.setTextAfter(" ");
 
         Assert.assertEquals(" MERGEFIELD  \"Courtesy Title\" \\m \\b \"Dear \" \\f \" \"", fieldMergeField.getFieldCode());
+        Assert.assertEquals(FieldType.FIELD_MERGE_FIELD, fieldMergeField.getType());
 
         // Insert another MERGEFIELD for a different column in the data source.
         fieldMergeField = (FieldMergeField)builder.insertField(FieldType.FIELD_MERGE_FIELD, true);
@@ -2748,6 +2750,7 @@ public class ExField extends ApiExampleBase
     }
 
     //ExStart
+    //ExFor:Bibliography.BibliographyStyle
     //ExFor:IBibliographyStylesProvider
     //ExFor:IBibliographyStylesProvider.GetStyle(String)
     //ExFor:FieldOptions.BibliographyStylesProvider
@@ -2759,6 +2762,9 @@ public class ExField extends ApiExampleBase
         CurrentThread.setCurrentCulture(new msCultureInfo("en-nz", false)); //ExSkip
 
         Document doc = new Document(getMyDir() + "Bibliography.docx");
+
+        // If the document already has a style you can change it with the following code:
+        // doc.Bibliography.BibliographyStyle = "Bibliography custom style.xsl";
 
         doc.getFieldOptions().setBibliographyStylesProvider(new BibliographyStylesProvider());
         doc.updateFields();
@@ -3101,6 +3107,7 @@ public class ExField extends ApiExampleBase
     //ExFor:ImageFieldMergingArgs.ImageFileName
     //ExFor:ImageFieldMergingArgs.ImageWidth
     //ExFor:ImageFieldMergingArgs.ImageHeight
+    //ExFor:ImageFieldMergingArgs.Shape
     //ExSummary:Shows how to set the dimensions of images as MERGEFIELDS accepts them during a mail merge.
     @Test //ExSkip
     public void mergeFieldImageDimension() throws Exception
@@ -3158,6 +3165,7 @@ public class ExField extends ApiExampleBase
             Assert.assertEquals(mUnit, args.getImageWidth().getUnit());
             Assert.assertEquals(mImageHeight, args.getImageHeight().getValue());
             Assert.assertEquals(mUnit, args.getImageHeight().getUnit());
+            Assert.assertNull(args.getShape());
         }
 
         private /*final*/ double mImageWidth;
@@ -7891,6 +7899,7 @@ public class ExField extends ApiExampleBase
         //ExFor:Bibliography
         //ExFor:Bibliography.Sources
         //ExFor:Source
+        //ExFor:Source.#ctor(string, SourceType)
         //ExFor:Source.Title
         //ExFor:Source.AbbreviatedCaseNumber
         //ExFor:Source.AlbumTitle
@@ -7908,6 +7917,7 @@ public class ExField extends ApiExampleBase
         //ExFor:Source.DayAccessed
         //ExFor:Source.Department
         //ExFor:Source.Distributor
+        //ExFor:Source.Doi
         //ExFor:Source.Edition
         //ExFor:Source.Guid
         //ExFor:Source.Institution
@@ -7965,6 +7975,7 @@ public class ExField extends ApiExampleBase
         //ExFor:PersonCollection
         //ExFor:PersonCollection.Count
         //ExFor:PersonCollection.Item(Int32)
+        //ExFor:Person.#ctor(string, string, string)
         //ExFor:Person
         //ExFor:Person.First
         //ExFor:Person.Middle
@@ -7975,6 +7986,7 @@ public class ExField extends ApiExampleBase
         Bibliography bibliography = document.getBibliography();
         Assert.assertEquals(12, bibliography.getSources().size());
 
+        // Get default data from bibliography sources.
         Source source = bibliography.getSources().FirstOrDefault();
         Assert.assertEquals("Book 0 (No LCID)", source.getTitle());
         Assert.assertEquals(SourceType.BOOK, source.getSourceType());
@@ -7994,6 +8006,7 @@ public class ExField extends ApiExampleBase
         Assert.assertNull(source.getDayAccessed());
         Assert.assertNull(source.getDepartment());
         Assert.assertNull(source.getDistributor());
+        Assert.assertNull(source.getDoi());
         Assert.assertNull(source.getEdition());
         Assert.assertNull(source.getGuid());
         Assert.assertNull(source.getInstitution());
@@ -8028,6 +8041,9 @@ public class ExField extends ApiExampleBase
         Assert.assertNull(source.getYear());
         Assert.assertNull(source.getYearAccessed());
 
+        // Also, you can create a new source.
+        Source newSource = new Source("New source", SourceType.MISC);
+
         ContributorCollection contributors = source.getContributors();
         Assert.assertNull(contributors.getArtist());
         Assert.assertNull(contributors.getBookAuthor());
@@ -8044,10 +8060,10 @@ public class ExField extends ApiExampleBase
         Assert.assertNull(contributors.getProducer());
         Assert.assertNotNull(contributors.getTranslator());
         Assert.assertNull(contributors.getWriter());
-        
+
         Contributor editor  = contributors.getEditor();
         Assert.AreEqual(2, ((PersonCollection)editor).Count());
-        
+
         PersonCollection authors = (PersonCollection)contributors.getAuthor();
         Assert.AreEqual(2, authors.Count());
 
@@ -8056,6 +8072,58 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("Brielle", person.getMiddle());
         Assert.assertEquals("Tejeda", person.getLast());
         //ExEnd:BibliographySources
+    }
+
+    @Test
+    public void bibliographyPersons()
+    {
+        //ExStart
+        //ExFor:Person.#ctor(string, string, string)
+        //ExFor:PersonCollection.#ctor
+        //ExFor:PersonCollection.#ctor(Person[])
+        //ExFor:PersonCollection.Add(Person)
+        //ExFor:PersonCollection.Contains(Person)
+        //ExFor:PersonCollection.Clear
+        //ExFor:PersonCollection.Remove(Person)
+        //ExFor:PersonCollection.RemoveAt(Int32)
+        //ExSummary:Shows how to work with person collection.
+        // Create a new person collection.
+        PersonCollection persons = new PersonCollection();
+        Person person = new Person("Roxanne", "Brielle", "Tejeda_updated");
+        // Add new person to the collection.
+        persons.add(person);
+        Assert.assertEquals(1, persons.getCount());
+        // Remove person from the collection if it exists.
+        if (persons.contains(person))
+            persons.remove(person);
+        Assert.assertEquals(0, persons.getCount());
+
+        // Create person collection with two persons.
+        persons = new PersonCollection(new Person[] { new Person("Roxanne_1", "Brielle_1", "Tejeda_1"), new Person("Roxanne_2", "Brielle_2", "Tejeda_2") });
+        Assert.assertEquals(2, persons.getCount());
+        // Remove person from the collection by the index.
+        persons.removeAt(0);
+        Assert.assertEquals(1, persons.getCount());
+        // Remove all persons from the collection.
+        persons.clear();
+        Assert.assertEquals(0, persons.getCount());
+        //ExEnd
+    }
+
+    @Test
+    public void captionlessTableOfFiguresLabel() throws Exception
+    {
+        //ExStart
+        //ExFor:FieldToc.CaptionlessTableOfFiguresLabel
+        //ExSummary:Shows how to set the name of the sequence identifier.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        FieldToc fieldToc = (FieldToc)builder.insertField(FieldType.FIELD_TOC, true);
+        fieldToc.setCaptionlessTableOfFiguresLabel("Test");
+
+        Assert.assertEquals(" TOC  \\a Test", fieldToc.getFieldCode());
+        //ExEnd
     }
 }
 

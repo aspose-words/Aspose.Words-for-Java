@@ -17,6 +17,7 @@ import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.text.DecimalFormatSymbols;
+import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -77,6 +78,7 @@ public class ExCharts extends ApiExampleBase {
         //ExFor:ChartDataLabelCollection.NumberFormat
         //ExFor:ChartDataLabelCollection.Font
         //ExFor:ChartNumberFormat.FormatCode
+        //ExFor:ChartSeries.HasDataLabels
         //ExSummary:Shows how to enable and configure data labels for a chart series.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -124,6 +126,9 @@ public class ExCharts extends ApiExampleBase {
         //ExFor:ChartAxis.MinorTickMark
         //ExFor:ChartAxis.MajorUnit
         //ExFor:ChartAxis.MinorUnit
+        //ExFor:ChartAxis.Document
+        //ExFor:ChartAxis.TickLabels
+        //ExFor:ChartAxis.Format
         //ExFor:AxisTickLabels
         //ExFor:AxisTickLabels.Offset
         //ExFor:AxisTickLabels.Position
@@ -167,6 +172,8 @@ public class ExCharts extends ApiExampleBase {
         xAxis.getTickLabels().isAutoSpacing(false);
         xAxis.setTickMarkSpacing(1);
 
+        Assert.assertEquals(doc, xAxis.getDocument());
+
         ChartAxis yAxis = chart.getAxisY();
         yAxis.setCategoryType(AxisCategoryType.AUTOMATIC);
         yAxis.setCrosses(AxisCrosses.MAXIMUM);
@@ -200,6 +207,7 @@ public class ExCharts extends ApiExampleBase {
         Assert.assertEquals(AxisTickLabelPosition.LOW, chart.getAxisX().getTickLabels().getPosition());
         Assert.assertFalse(chart.getAxisX().getTickLabels().isAutoSpacing());
         Assert.assertEquals(1, chart.getAxisX().getTickMarkSpacing());
+        Assert.assertTrue(chart.getAxisX().getFormat().isDefined());
 
         Assert.assertEquals(AxisCategoryType.CATEGORY, chart.getAxisY().getCategoryType());
         Assert.assertEquals(AxisCrosses.MAXIMUM, chart.getAxisY().getCrosses());
@@ -212,6 +220,7 @@ public class ExCharts extends ApiExampleBase {
         Assert.assertEquals(ParagraphAlignment.CENTER, chart.getAxisY().getTickLabels().getAlignment());
         Assert.assertEquals(Color.RED.getRGB(), chart.getAxisY().getTickLabels().getFont().getColor().getRGB());
         Assert.assertEquals(1, chart.getAxisY().getTickLabels().getSpacing());
+        Assert.assertTrue(chart.getAxisY().getFormat().isDefined());
     }
 
     @Test
@@ -546,6 +555,7 @@ public class ExCharts extends ApiExampleBase {
     //ExFor:ChartSeries.DataLabels
     //ExFor:ChartSeries.DataPoints
     //ExFor:ChartSeries.Name
+    //ExFor:ChartSeries.Explosion
     //ExFor:ChartDataLabel
     //ExFor:ChartDataLabel.Index
     //ExFor:ChartDataLabel.IsVisible
@@ -559,7 +569,10 @@ public class ExCharts extends ApiExampleBase {
     //ExFor:ChartDataLabel.ShowSeriesName
     //ExFor:ChartDataLabel.ShowValue
     //ExFor:ChartDataLabel.IsHidden
+    //ExFor:ChartDataLabel.Format
+    //ExFor:ChartDataLabel.ClearFormat
     //ExFor:ChartDataLabelCollection
+    //ExFor:ChartDataLabelCollection.ShowDataLabelsRange
     //ExFor:ChartDataLabelCollection.ClearFormat
     //ExFor:ChartDataLabelCollection.Count
     //ExFor:ChartDataLabelCollection.GetEnumerator
@@ -592,8 +605,11 @@ public class ExCharts extends ApiExampleBase {
             enumerator.next().setSeparator(" & ");
         }
 
+        ChartDataLabel dataLabel = chart.getSeries().get(1).getDataLabels().get(2);
+        dataLabel.getFormat().getFill().setColor(Color.RED);
+
         // For a cleaner looking graph, we can remove data labels individually.
-        chart.getSeries().get(1).getDataLabels().get(2).clearFormat();
+        dataLabel.clearFormat();
 
         // We can also strip an entire series of its data labels at once.
         chart.getSeries().get(2).getDataLabels().clearFormat();
@@ -605,9 +621,10 @@ public class ExCharts extends ApiExampleBase {
     /// Apply data labels with custom number format and separator to several data points in a series.
     /// </summary>
     private static void applyDataLabels(ChartSeries series, int labelsCount, String numberFormat, String separator) {
-        for (int i = 0; i < labelsCount; i++) {
-            series.hasDataLabels(true);
+        series.hasDataLabels(true);
+        series.setExplosion(40);
 
+        for (int i = 0; i < labelsCount; i++) {
             Assert.assertFalse(series.getDataLabels().get(i).isVisible());
 
             series.getDataLabels().get(i).setShowCategoryName(true);
@@ -616,7 +633,7 @@ public class ExCharts extends ApiExampleBase {
             series.getDataLabels().get(i).setShowLeaderLines(true);
             series.getDataLabels().get(i).setShowLegendKey(true);
             series.getDataLabels().get(i).setShowPercentage(false);
-            series.getDataLabels().get(i).isHidden(false);
+            Assert.assertFalse(series.getDataLabels().get(i).isHidden());
             Assert.assertFalse(series.getDataLabels().get(i).getShowDataLabelsRange());
 
             series.getDataLabels().get(i).getNumberFormat().setFormatCode(numberFormat);
@@ -631,7 +648,10 @@ public class ExCharts extends ApiExampleBase {
 
     //ExStart
     //ExFor:ChartSeries.Smooth
+    //ExFor:ChartSeries.InvertIfNegative
     //ExFor:ChartDataPoint
+    //ExFor:ChartDataPoint.Format
+    //ExFor:ChartDataPoint.ClearFormat
     //ExFor:ChartDataPoint.Index
     //ExFor:ChartDataPointCollection
     //ExFor:ChartDataPointCollection.ClearFormat
@@ -643,6 +663,7 @@ public class ExCharts extends ApiExampleBase {
     //ExFor:ChartMarker.Symbol
     //ExFor:IChartDataPoint
     //ExFor:IChartDataPoint.InvertIfNegative
+    //ExFor:ChartDataPoint.InvertIfNegative
     //ExFor:IChartDataPoint.Marker
     //ExFor:MarkerSymbol
     //ExSummary:Shows how to work with data points on a line chart.
@@ -672,8 +693,11 @@ public class ExCharts extends ApiExampleBase {
             Assert.assertFalse(enumerator.next().getInvertIfNegative());
         }
 
+        ChartDataPoint dataPoint = chart.getSeries().get(1).getDataPoints().get(2);
+        dataPoint.getFormat().getFill().setColor(Color.RED);
+
         // For a cleaner looking graph, we can clear format individually.
-        chart.getSeries().get(1).getDataPoints().get(2).clearFormat();
+        dataPoint.clearFormat();
 
         // We can also strip an entire series of data points at once.
         chart.getSeries().get(2).getDataPoints().clearFormat();
@@ -699,6 +723,7 @@ public class ExCharts extends ApiExampleBase {
     public void pieChartExplosion() throws Exception {
         //ExStart
         //ExFor:IChartDataPoint.Explosion
+        //ExFor:ChartDataPoint.Explosion
         //ExSummary:Shows how to move the slices of a pie chart away from the center.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -735,6 +760,7 @@ public class ExCharts extends ApiExampleBase {
         //ExFor:ChartDataLabel.ShowBubbleSize
         //ExFor:ChartDataLabel.Font
         //ExFor:IChartDataPoint.Bubble3D
+        //ExFor:ChartSeries.Bubble3D
         //ExSummary:Shows how to use 3D effects with bubble charts.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1124,6 +1150,7 @@ public class ExCharts extends ApiExampleBase {
         //ExFor:AxisDisplayUnit
         //ExFor:AxisDisplayUnit.CustomUnit
         //ExFor:AxisDisplayUnit.Unit
+        //ExFor:AxisDisplayUnit.Document
         //ExSummary:Shows how to manipulate the tick marks and displayed values of a chart axis.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1165,6 +1192,7 @@ public class ExCharts extends ApiExampleBase {
         axis.getTickLabels().setAlignment(ParagraphAlignment.RIGHT);
 
         Assert.assertEquals(1, axis.getTickLabels().getSpacing());
+        Assert.assertEquals(doc, axis.getDisplayUnit().getDocument());
 
         // Set the tick labels to display their value in millions.
         axis.getDisplayUnit().setUnit(AxisBuiltInUnit.MILLIONS);
@@ -1209,8 +1237,10 @@ public class ExCharts extends ApiExampleBase {
     public void markerFormatting() throws Exception
     {
         //ExStart
+        //ExFor:ChartDataPoint.Marker
         //ExFor:ChartMarker.Format
         //ExFor:ChartFormat.Fill
+        //ExFor:ChartSeries.Marker
         //ExFor:ChartFormat.Stroke
         //ExFor:Stroke.ForeColor
         //ExFor:Stroke.BackColor
@@ -1354,6 +1384,7 @@ public class ExCharts extends ApiExampleBase {
         //ExFor:ChartLegendEntry
         //ExFor:ChartLegendEntry.Font
         //ExFor:ChartLegend.Font
+        //ExFor:ChartSeries.LegendEntry
         //ExSummary:Shows how to work with a legend font.
         Document doc = new Document(getMyDir() + "Reporting engine template - Chart series (Java).docx");
         Chart chart = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart();
@@ -1364,6 +1395,8 @@ public class ExCharts extends ApiExampleBase {
         // Change font for specific legend entry.
         chartLegend.getLegendEntries().get(1).getFont().setItalic(true);
         chartLegend.getLegendEntries().get(1).getFont().setSize(12.0);
+        // Get legend entry for chart series.
+        ChartLegendEntry legendEntry = chart.getSeries().get(0).getLegendEntry();
 
         doc.save(getArtifactsDir() + "Charts.LegendFont.docx");
         //ExEnd:LegendFont
@@ -1402,10 +1435,14 @@ public class ExCharts extends ApiExampleBase {
         //ExFor:ChartXValue
         //ExFor:ChartXValue.FromDouble(Double)
         //ExFor:ChartYValue.FromDouble(Double)
+        //ExFor:ChartSeries.Add(ChartXValue)
         //ExFor:ChartSeries.Add(ChartXValue, ChartYValue)
+        //ExFor:ChartSeries.Add(ChartXValue, ChartYValue, double)
+        //ExFor:ChartSeries.ClearValues
+        //ExFor:ChartSeries.Clear
         //ExSummary:Shows how to populate chart series with data.
         Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
         Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
         Chart chart = shape.getChart();
@@ -1415,15 +1452,15 @@ public class ExCharts extends ApiExampleBase {
         series1.clearValues();
 
         // Populate the series with data.
-        series1.add(ChartXValue.fromDouble(3.0), ChartYValue.fromDouble(10.0));
+        series1.add(ChartXValue.fromDouble(3.0), ChartYValue.fromDouble(10.0), 10.0);
         series1.add(ChartXValue.fromDouble(5.0), ChartYValue.fromDouble(5.0));
         series1.add(ChartXValue.fromDouble(7.0), ChartYValue.fromDouble(11.0));
-        series1.add(ChartXValue.fromDouble(9.0), ChartYValue.fromDouble(17.0));
+        series1.add(ChartXValue.fromDouble(9.0));
 
         ChartSeries series2 = chart.getSeries().get(1);
 
         // Clear X and Y values of the second series.
-        series2.clearValues();
+        series2.clear();
 
         // Populate the series with data.
         series2.add(ChartXValue.fromDouble(2.0), ChartYValue.fromDouble(4.0));
@@ -1560,6 +1597,7 @@ public class ExCharts extends ApiExampleBase {
     {
         //ExStart:ChartAxisTitle
         //GistId:6d898be16b796fcf7448ad3bfe18e51c
+        //ExFor:ChartAxis.Title
         //ExFor:ChartAxisTitle
         //ExFor:ChartAxisTitle.Text
         //ExFor:ChartAxisTitle.Show
@@ -1690,6 +1728,12 @@ public class ExCharts extends ApiExampleBase {
         //ExFor:Chart.DataTable
         //ExFor:ChartDataTable
         //ExFor:ChartDataTable.Show
+        //ExFor:ChartDataTable.Format
+        //ExFor:ChartDataTable.Font
+        //ExFor:ChartDataTable.HasLegendKeys
+        //ExFor:ChartDataTable.HasHorizontalBorder
+        //ExFor:ChartDataTable.HasVerticalBorder
+        //ExFor:ChartDataTable.HasOutlineBorder
         //ExSummary:Shows how to show data table with chart series data.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1710,6 +1754,7 @@ public class ExCharts extends ApiExampleBase {
         dataTable.hasLegendKeys(false);
         dataTable.hasHorizontalBorder(false);
         dataTable.hasVerticalBorder(false);
+        dataTable.hasOutlineBorder(false);
 
         dataTable.getFont().setItalic(true);
         dataTable.getFormat().getStroke().setWeight(1.0);
@@ -1783,6 +1828,7 @@ public class ExCharts extends ApiExampleBase {
         //ExStart:SecondaryAxis
         //GistId:f99d87e10ab87a581c52206321d8b617
         //ExFor:ChartSeriesGroup
+        //ExFor:ChartSeriesGroup.SeriesType
         //ExFor:ChartSeriesGroup.AxisGroup
         //ExFor:ChartSeriesGroup.AxisX
         //ExFor:ChartSeriesGroup.AxisY
@@ -1814,6 +1860,8 @@ public class ExCharts extends ApiExampleBase {
         // Define title of the secondary Y axis.
         newSeriesGroup.getAxisY().getTitle().setShow(true);
         newSeriesGroup.getAxisY().getTitle().setText("Secondary Y axis");
+
+        Assert.assertEquals(ChartSeriesType.LINE, newSeriesGroup.getSeriesType());
 
         // Add a series to the new series group.
         ChartSeries series3 =
@@ -2294,5 +2342,227 @@ public class ExCharts extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Charts.PieOfPieChart.docx");
         //ExEnd:PieOfPieChart
+    }
+
+    @Test
+    public void formatCode() throws Exception
+    {
+        //ExStart:FormatCode
+        //GistId:72d57eeddb7fb342fd51b26e5fcf9642
+        //ExFor:ChartXValueCollection.FormatCode
+        //ExFor:ChartYValueCollection.FormatCode
+        //ExFor:BubbleSizeCollection.FormatCode
+        //ExFor:ChartSeries.BubbleSizes
+        //ExFor:ChartSeries.XValues
+        //ExFor:ChartSeries.YValues
+        //ExSummary:Shows how to work with the format code of the chart data.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a Bubble chart.
+        Shape shape = builder.insertChart(ChartType.BUBBLE, 432.0, 252.0);
+        Chart chart = shape.getChart();
+
+        // Delete default generated series.
+        chart.getSeries().clear();
+
+        ChartSeries series = chart.getSeries().add(
+                "Series1",
+                new double[] { 1.0, 1.9, 2.45, 3.0 },
+                new double[] { 1.0, -0.9, 1.82, 0.0 },
+                new double[] { 2.0, 1.1, 2.95, 2.0 });
+
+        // Show data labels.
+        series.hasDataLabels(true);
+        series.getDataLabels().setShowCategoryName(true);
+        series.getDataLabels().setShowValue(true);
+        series.getDataLabels().setShowBubbleSize(true);
+
+        // Set data format codes.
+        series.getXValues().setFormatCode("#,##0.0#");
+        series.getYValues().setFormatCode("#,##0.0#;[Red]\\-#,##0.0#");
+        series.getBubbleSizes().setFormatCode("#,##0.0#");
+
+        doc.save(getArtifactsDir() + "Charts.FormatCode.docx");
+        //ExEnd:FormatCode
+
+        doc = new Document(getArtifactsDir() + "Charts.FormatCode.docx");
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        chart = shape.getChart();
+
+        ChartSeriesCollection seriesCollection = chart.getSeries();
+        for (ChartSeries seriesProperties : seriesCollection)
+        {
+            Assert.assertEquals("#,##0.0#", seriesProperties.getXValues().getFormatCode());
+            Assert.assertEquals("#,##0.0#;[Red]\\-#,##0.0#", seriesProperties.getYValues().getFormatCode());
+            Assert.assertEquals("#,##0.0#", seriesProperties.getBubbleSizes().getFormatCode());
+        }
+    }
+
+    @Test
+    public void dataLablePosition() throws Exception
+    {
+        //ExStart:DataLablePosition
+        //GistId:93fefe5344a8337b931d0fed5c028225
+        //ExFor:ChartDataLabelCollection.Position
+        //ExFor:ChartDataLabel.Position
+        //ExFor:ChartDataLabelPosition
+        //ExSummary:Shows how to set the position of the data label.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert column chart.
+        Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
+        Chart chart = shape.getChart();
+        ChartSeriesCollection seriesColl = chart.getSeries();
+
+        // Delete default generated series.
+        seriesColl.clear();
+
+        // Add series.
+        ChartSeries series = seriesColl.add(
+                "Series 1",
+                new String[] { "Category 1", "Category 2", "Category 3" },
+                new double[] { 4.0, 5.0, 6.0 });
+
+        // Show data labels and set font color.
+        series.hasDataLabels(true);
+        ChartDataLabelCollection dataLabels = series.getDataLabels();
+        dataLabels.setShowValue(true);
+        dataLabels.getFont().setColor(Color.WHITE);
+
+        // Set data label position.
+        dataLabels.setPosition(ChartDataLabelPosition.INSIDE_BASE);
+        dataLabels.get(0).setPosition(ChartDataLabelPosition.OUTSIDE_END);
+        dataLabels.get(0).getFont().setColor(Color.RED);
+
+        doc.save(getArtifactsDir() + "Charts.LabelPosition.docx");
+        //ExEnd:DataLablePosition
+    }
+
+    @Test
+    public void doughnutChartLabelPosition() throws Exception
+    {
+        //ExStart:DoughnutChartLabelPosition
+        //GistId:93fefe5344a8337b931d0fed5c028225
+        //ExFor:ChartDataLabel.Left
+        //ExFor:ChartDataLabel.LeftMode
+        //ExFor:ChartDataLabel.Top
+        //ExFor:ChartDataLabel.TopMode
+        //ExFor:ChartDataLabelLocationMode
+        //ExSummary:Shows how to place data labels of doughnut chart outside doughnut.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        final int CHART_WIDTH = 432;
+        final int CHART_HEIGHT = 252;
+        Shape shape = builder.insertChart(ChartType.DOUGHNUT, CHART_WIDTH, CHART_HEIGHT);
+        Chart chart = shape.getChart();
+        ChartSeriesCollection seriesColl = chart.getSeries();
+        // Delete default generated series.
+        seriesColl.clear();
+
+        // Hide the legend.
+        chart.getLegend().setPosition(LegendPosition.NONE);
+
+        // Generate data.
+        final int DATA_LENGTH = 20;
+        double totalValue = 0.0;
+        String[] categories = new String[DATA_LENGTH];
+        double[] values = new double[DATA_LENGTH];
+        for (int i = 0; i < DATA_LENGTH; i++)
+        {
+            categories[i] = MessageFormat.format("Category {0}", i);
+            values[i] = DATA_LENGTH - i;
+            totalValue += values[i];
+        }
+
+        ChartSeries series = seriesColl.add("Series 1", categories, values);
+        series.hasDataLabels(true);
+
+        ChartDataLabelCollection dataLabels = series.getDataLabels();
+        dataLabels.setShowValue(true);
+        dataLabels.setShowLeaderLines(true);
+
+        // The Position property cannot be used for doughnut charts. Let's place data labels using the Left and Top
+        // properties around a circle outside of the chart doughnut.
+        // The origin is in the upper left corner of the chart.
+
+        final double TITLE_AREA_HEIGHT = 25.5; // This can be calculated using title text and font.
+        final double DOUGHNUT_CENTER_Y = TITLE_AREA_HEIGHT + (CHART_HEIGHT - TITLE_AREA_HEIGHT) / 2.0;
+        final double DOUGHNUT_CENTER_X = CHART_WIDTH / 2d;
+        final double LABEL_HEIGHT = 16.5; // This can be calculated using label font.
+        final double ONE_CHAR_LABEL_WIDTH = 12.75; // This can be calculated for each label using its text and font.
+        final double TWO_CHAR_LABEL_WIDTH = 17.25; // This can be calculated for each label using its text and font.
+        final double Y_MARGIN = 0.75;
+        final double LABEL_MARGIN = 1.5;
+        final double LABEL_CIRCLE_RADIUS = CHART_HEIGHT - DOUGHNUT_CENTER_Y - Y_MARGIN - LABEL_HEIGHT / 2.0;
+
+        // Because the data points start at the top, the X coordinates used in the Left and Top properties of
+        // the data labels point to the right and the Y coordinates point down, the starting angle is -PI/2.
+        double totalAngle = -Math.PI / 2f;
+        ChartDataLabel previousLabel = null;
+
+        for (int i = 0; i < series.getYValues().getCount(); i++)
+        {
+            ChartDataLabel dataLabel = dataLabels.get(i);
+
+            double value = series.getYValues().get(i).getDoubleValue();
+            double labelWidth = (value < 10) ? ONE_CHAR_LABEL_WIDTH : TWO_CHAR_LABEL_WIDTH;
+            double labelSegmentAngle = value / totalValue * 2.0 * Math.PI;
+            double labelAngle = labelSegmentAngle / 2.0 + totalAngle;
+            double labelCenterX = LABEL_CIRCLE_RADIUS * Math.cos(labelAngle) + DOUGHNUT_CENTER_X;
+            double labelCenterY = LABEL_CIRCLE_RADIUS * Math.sin(labelAngle) + DOUGHNUT_CENTER_Y;
+            double labelLeft = labelCenterX - labelWidth / 2.0;
+            double labelTop = labelCenterY - LABEL_HEIGHT / 2.0;
+
+            // If the current data label overlaps other labels, move it horizontally.
+            if ((previousLabel != null) &&
+                    (Math.abs(previousLabel.getTop() - labelTop) < LABEL_HEIGHT) &&
+                    (Math.abs(previousLabel.getLeft() - labelLeft) < labelWidth))
+            {
+                // Move right on the top, left on the bottom.
+                boolean isOnTop = (totalAngle < 0) || (totalAngle >= Math.PI);
+                labelLeft = previousLabel.getLeft() + labelWidth * (isOnTop ? 1 : -1) + LABEL_MARGIN;
+            }
+
+            dataLabel.setLeft(labelLeft);
+            dataLabel.setLeftMode(ChartDataLabelLocationMode.ABSOLUTE);
+            dataLabel.setTop(labelTop);
+            dataLabel.setTopMode(ChartDataLabelLocationMode.ABSOLUTE);
+
+            totalAngle += labelSegmentAngle;
+            previousLabel = dataLabel;
+        }
+
+        doc.save(getArtifactsDir() + "Charts.DoughnutChartLabelPosition.docx");
+        //ExEnd:DoughnutChartLabelPosition
+    }
+
+    @Test
+    public void insertChartSeries() throws Exception
+    {
+        //ExStart
+        //ExFor:ChartSeries.Insert(Int32, ChartXValue)
+        //ExFor:ChartSeries.Insert(Int32, ChartXValue, ChartYValue)
+        //ExFor:ChartSeries.Insert(Int32, ChartXValue, ChartYValue, double)
+        //ExSummary:Shows how to insert data into a chart series.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.LINE, 432.0, 252.0);
+        Chart chart = shape.getChart();
+        ChartSeries series1 = chart.getSeries().get(0);
+
+        // Clear X and Y values of the first series.
+        series1.clearValues();
+        // Populate the series with data.
+        series1.insert(0, ChartXValue.fromDouble(3.0));
+        series1.insert(1, ChartXValue.fromDouble(3.0), ChartYValue.fromDouble(10.0));
+        series1.insert(2, ChartXValue.fromDouble(3.0), ChartYValue.fromDouble(10.0));
+        series1.insert(3, ChartXValue.fromDouble(3.0), ChartYValue.fromDouble(10.0), 10.0);
+
+        doc.save(getArtifactsDir() + "Charts.PopulateChartWithData.docx");
+        //ExEnd
     }
 }

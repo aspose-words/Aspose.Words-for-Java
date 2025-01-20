@@ -5,6 +5,7 @@
 		<File project="Examples" dir="" name="CustomBarcodeGenerator" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="DocumentHelper" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExAbsolutePositionTab" status="AUTO" isTest="false" />
+		<File project="Examples" dir="" name="ExAI" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExBookmarks" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExBookmarksOutlineLevelCollection" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExBorder" status="AUTO" isTest="false" />

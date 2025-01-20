@@ -29,11 +29,15 @@ public class ExMetered extends ApiExampleBase {
         //ExFor:Metered.GetConsumptionCredit
         //ExFor:Metered.GetConsumptionQuantity
         //ExFor:Metered.SetMeteredKey(String, String)
+        //ExFor:Metered.IsMeteredLicensed
+        //ExFor:Metered.GetProductName
         //ExSummary:Shows how to activate a Metered license and track credit/consumption.
         // Create a new Metered license, and then print its usage statistics.
         Metered metered = new Metered();
         metered.setMeteredKey("MyPublicKey", "MyPrivateKey");
 
+        System.out.println("Is metered license accepted: {Metered.IsMeteredLicensed()}");
+        System.out.println("Product name: {metered.GetProductName()}");
         System.out.println("Credit before operation: {Metered.GetConsumptionCredit()}");
         System.out.println("Consumption quantity before operation: {Metered.GetConsumptionQuantity()}");
 

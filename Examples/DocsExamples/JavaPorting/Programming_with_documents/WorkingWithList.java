@@ -44,7 +44,7 @@ class WorkingWithList extends DocsExamplesBase
         builder.writeln("List item 3");
         builder.writeln("List item 4");
 
-        doc.save(getArtifactsDir() + "OoxmlSaveOptions.RestartingDocumentList.docx", options);
+        doc.save(getArtifactsDir() + "WorkingWithList.RestartingDocumentList.docx", options);
         //ExEnd:RestartListAtEachSection
     }
 

@@ -653,7 +653,10 @@ public class ExInlineStory extends ApiExampleBase {
         //ExStart:EndnoteSeparator
         //GistId:6280fd6c1c1854468bea095ec2af902b
         //ExFor:DocumentBase.FootnoteSeparators
+        //ExFor:FootnoteSeparator
         //ExFor:FootnoteSeparatorType
+        //ExFor:FootnoteSeparatorCollection
+        //ExFor:FootnoteSeparatorCollection.Item(FootnoteSeparatorType)
         //ExSummary:Shows how to remove endnote separator.
         Document doc = new Document(getMyDir() + "Footnotes and endnotes.docx");
 

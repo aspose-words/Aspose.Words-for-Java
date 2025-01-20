@@ -448,8 +448,8 @@ public class ExParagraphFormat extends ApiExampleBase {
                     "Doppelte um da am spateren verlogen \r\n" +
                     "gekommen achtzehn blaulich."));
         else
-            Assert.assertTrue(textAbsorber.getText().contains("La ob storen an deinen am sachen. Dop-\r\n" +
-                    "pelte um da am spateren verlogen ge-\r\n" +
+            Assert.assertTrue(textAbsorber.getText().contains("La ob storen an deinen am sachen. Dop\u00ad\r\n" +
+                    "pelte um da am spateren verlogen ge\u00ad\r\n" +
                     "kommen achtzehn blaulich."));
 
         pdfDoc.close();

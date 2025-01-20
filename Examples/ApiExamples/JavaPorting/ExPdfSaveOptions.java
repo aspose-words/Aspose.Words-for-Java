@@ -2678,11 +2678,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             mWarnings.Add(info);
         }
 
-         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!
-            mWarnings.Clear();
-        }
-
-        public int Count => private mWarnings.CountmWarnings;
+         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!private mWarnings.CountmWarnings;
 
         /// <summary>
         /// Returns true if a warning with the specified properties has been generated.
@@ -3235,6 +3231,23 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.SdtTagAsFormFieldName.pdf", saveOptions);
         //ExEnd:SdtTagAsFormFieldName
+    }
+
+    @Test
+    public void renderChoiceFormFieldBorder() throws Exception
+    {
+        //ExStart:RenderChoiceFormFieldBorder
+        //GistId:366eb64fd56dec3c2eaa40410e594182
+        //ExFor:PdfSaveOptions.RenderChoiceFormFieldBorder
+        //ExSummary:Shows how to render PDF choice form field border.
+        Document doc = new Document(getMyDir() + "Legacy drop-down.docx");
+
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setPreserveFormFields(true);
+        saveOptions.setRenderChoiceFormFieldBorder(true);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.RenderChoiceFormFieldBorder.pdf", saveOptions);
+        //ExEnd:RenderChoiceFormFieldBorder
     }
 }
 

@@ -3616,6 +3616,15 @@ public class ExShape extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Shape.CombineGroupShape.docx");
         //ExEnd:CombineGroupShape
+
+        doc = new Document(getArtifactsDir() + "Shape.CombineGroupShape.docx");
+
+        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
+        for (Shape shape : (Iterable<Shape>) shapes)
+        {
+            Assert.assertNotEquals(0, shape.getWidth());
+            Assert.assertNotEquals(0, shape.getHeight());
+        }
     }
 
     @Test
@@ -3624,13 +3633,15 @@ public class ExShape extends ApiExampleBase
         //ExStart:InsertCommandButton
         //GistId:bb594993b5fe48692541e16f4d354ac2
         //ExFor:CommandButtonControl
+        //ExFor:CommandButtonControl.#ctor
+        //ExFor:CommandButtonControl.Type
         //ExFor:DocumentBuilder.InsertForms2OleControl(Forms2OleControl)
         //ExSummary:Shows how to insert ActiveX control.
         DocumentBuilder builder = new DocumentBuilder();
 
         CommandButtonControl button1 = new CommandButtonControl();
         Shape shape = builder.insertForms2OleControl(button1);
-        Assert.assertEquals(Forms2OleControlType.COMMAND_BUTTON, ((Forms2OleControl)shape.getOleFormat().getOleControl()).getType());
+        Assert.assertEquals(Forms2OleControlType.COMMAND_BUTTON, button1.getType());
         //ExEnd:InsertCommandButton
     }
 
@@ -3649,6 +3660,21 @@ public class ExShape extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Shape.Hidden.docx");
         //ExEnd:Hidden
+    }
+
+    @Test
+    public void commandButtonCaption() throws Exception
+    {
+        //ExStart:CommandButtonCaption
+        //GistId:366eb64fd56dec3c2eaa40410e594182
+        //ExFor:Forms2OleControl.Caption
+        //ExSummary:Shows how to set caption for ActiveX control.
+        DocumentBuilder builder = new DocumentBuilder();
+
+        CommandButtonControl button1 = new CommandButtonControl(); { button1.setCaption("Button caption"); }
+        Shape shape = builder.insertForms2OleControl(button1);
+        Assert.assertEquals("Button caption", button1.getCaption());
+        //ExEnd:CommandButtonCaption
     }
 }
 

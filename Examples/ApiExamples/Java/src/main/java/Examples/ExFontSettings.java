@@ -694,6 +694,7 @@ public class ExFontSettings extends ApiExampleBase {
         //ExFor:FontSettings.ResetFontSources
         //ExFor:FontSettings.SubstitutionSettings
         //ExFor:FontSubstitutionSettings
+        //ExFor:FontSubstitutionSettings.FontNameSubstitution
         //ExFor:SystemFontSource
         //ExFor:SystemFontSource.#ctor
         //ExFor:SystemFontSource.#ctor(Int32)
@@ -737,6 +738,7 @@ public class ExFontSettings extends ApiExampleBase {
         Assert.assertEquals(1, doc.getFontSettings().getFontsSources().length);
         Assert.assertEquals(FontSourceType.SYSTEM_FONTS, doc.getFontSettings().getFontsSources()[0].getType());
         Assert.assertEquals(1, IterableUtils.size(doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular")));
+        Assert.assertTrue(doc.getFontSettings().getSubstitutionSettings().getFontNameSubstitution().getEnabled());
         //ExEnd
     }
 
