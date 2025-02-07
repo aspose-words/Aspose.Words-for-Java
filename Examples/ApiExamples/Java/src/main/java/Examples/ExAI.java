@@ -1,6 +1,6 @@
 package Examples;
 
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -65,11 +65,33 @@ public class ExAI extends ApiExampleBase
 
         String apiKey = System.getenv("API_KEY");
         // Use Google generative language models.
-        IAiModelText model = (IAiModelText)AiModel.create(AiModelType.GEMINI_15_FLASH).withApiKey(apiKey);
+        IAiModelText model = (GoogleAiModel)AiModel.create(AiModelType.GEMINI_15_FLASH).withApiKey(apiKey);
 
         Document translatedDoc = model.translate(doc, Language.ARABIC);
         translatedDoc.save(getArtifactsDir() + "AI.AiTranslate.docx");
         //ExEnd:AiTranslate
+    }
+
+    @Test (enabled = false, description = "This test should be run manually to manage API requests amount")
+    public void aiGrammar() throws Exception
+    {
+        //ExStart:AiGrammar
+        //GistId:f86d49dc0e6781b93e576539a01e6ca2
+        //ExFor:IAiModelText.CheckGrammar(Document, CheckGrammarOptions)
+        //ExFor:CheckGrammarOptions
+        //ExSummary:Shows how to check the grammar of a document.
+        Document doc = new Document(getMyDir() + "Big document.docx");
+
+        String apiKey = System.getenv("API_KEY");
+        // Use OpenAI generative language models.
+        IAiModelText model = (OpenAiModel)AiModel.create(AiModelType.GPT_4_O_MINI).withApiKey(apiKey);
+
+        CheckGrammarOptions grammarOptions = new CheckGrammarOptions();
+        grammarOptions.setImproveStylistics(true);
+
+        Document proofedDoc = model.checkGrammar(doc, grammarOptions);
+        proofedDoc.save(getArtifactsDir() + "AI.AiGrammar.docx");
+        //ExEnd:AiGrammar
     }
 }
 

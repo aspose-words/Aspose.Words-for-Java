@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -570,6 +570,7 @@ public class ExRevision extends ApiExampleBase {
         // A CompareOptions object has a series of flags that can suppress revisions
         // on each respective type of element, effectively ignoring their change.
         CompareOptions compareOptions = new CompareOptions();
+        compareOptions.setCompareMoves(false);
         compareOptions.setIgnoreFormatting(false);
         compareOptions.setIgnoreCaseChanges(false);
         compareOptions.setIgnoreComments(false);
@@ -581,10 +582,10 @@ public class ExRevision extends ApiExampleBase {
         compareOptions.setTarget(ComparisonTargetType.NEW);
 
         docOriginal.compare(docEdited, "John Doe", new Date(), compareOptions);
-        docOriginal.save(getArtifactsDir() + "Document.CompareOptions.docx");
+        docOriginal.save(getArtifactsDir() + "Revision.CompareOptions.docx");
         //ExEnd
 
-        docOriginal = new Document(getArtifactsDir() + "Document.CompareOptions.docx");
+        docOriginal = new Document(getArtifactsDir() + "Revision.CompareOptions.docx");
 
         TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
                 "OriginalEdited endnote text.", (Footnote)docOriginal.getChild(NodeType.FOOTNOTE, 0, true));
@@ -653,7 +654,7 @@ public class ExRevision extends ApiExampleBase {
         doc.getLayoutOptions().getRevisionOptions().setShowRevisionBars(false);
         doc.getLayoutOptions().getRevisionOptions().setRevisionBarsPosition(HorizontalAlignment.RIGHT);
 
-        doc.save(getArtifactsDir() + "Document.LayoutOptionsRevisions.pdf");
+        doc.save(getArtifactsDir() + "Revision.LayoutOptionsRevisions.pdf");
         //ExEnd
     }
 

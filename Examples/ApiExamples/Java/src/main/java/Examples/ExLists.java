@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -904,10 +904,10 @@ public class ExLists extends ApiExampleBase {
                 // Combine them together to include the list label with the text in the output.
                 System.out.println("\tList label combined with text: {label.LabelString} {paragraphText}");
             }
+            //ExEnd
 
-            Assert.assertEquals(10, DocumentHelper.getListItemCount(doc.getChildNodes(NodeType.PARAGRAPH, true))); //ExSkip
+            Assert.assertEquals(10, DocumentHelper.getListItemCount(doc.getChildNodes(NodeType.PARAGRAPH, true)));
         }
-        //ExEnd
     }
 
     @Test
@@ -1010,5 +1010,39 @@ public class ExLists extends ApiExampleBase {
         Assert.assertEquals("001.", paras.get(1).getListLabel().getLabelString());
         Assert.assertEquals("002.", paras.get(2).getListLabel().getLabelString());
         //ExEnd:SetCustomNumberStyleFormat
+    }
+
+    @Test
+    public void addSingleLevelList() throws Exception
+    {
+        //ExStart:AddSingleLevelList
+        //GistId:95fdae949cefbf2ce485acc95cccc495
+        //ExFor:ListCollection.AddSingleLevelList(ListTemplate)
+        //ExSummary:Shows how to create a new single level list based on the predefined template.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        ListCollection listCollection = doc.getLists();
+
+        // Creates the bulleted list from BulletCircle template.
+        List bulletedList = listCollection.addSingleLevelList(ListTemplate.BULLET_CIRCLE);
+
+        // Writes the bulleted list to the resulting document.
+        builder.writeln("Bulleted list starts below:");
+        builder.getListFormat().setList(bulletedList);
+        builder.writeln("Item 1");
+        builder.writeln("Item 2");
+        builder.getListFormat().removeNumbers();
+
+        // Creates the numbered list from NumberUppercaseLetterDot template.
+        List numberedList = listCollection.addSingleLevelList(ListTemplate.NUMBER_UPPERCASE_LETTER_DOT);
+
+        // Writes the numbered list to the resulting document.
+        builder.writeln("Numbered list starts below:");
+        builder.getListFormat().setList(numberedList);
+        builder.writeln("Item 1");
+        builder.writeln("Item 2");
+
+        doc.save(getArtifactsDir() + "Lists.AddSingleLevelList.docx");
+        //ExEnd:AddSingleLevelList
     }
 }

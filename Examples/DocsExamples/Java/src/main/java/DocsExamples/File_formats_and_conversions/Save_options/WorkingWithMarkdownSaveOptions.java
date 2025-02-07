@@ -11,12 +11,11 @@ import com.aspose.words.TableContentAlignment;
 import java.io.ByteArrayOutputStream;
 
 @Test
-public class WorkingWithMarkdownSaveOptions extends DocsExamplesBase
-{
+public class WorkingWithMarkdownSaveOptions extends DocsExamplesBase {
     @Test
-    public void exportIntoMarkdownWithTableContentAlignment() throws Exception
-    {
-        //ExStart:ExportIntoMarkdownWithTableContentAlignment
+    public void markdownTableContentAlignment() throws Exception {
+        //ExStart:MarkdownTableContentAlignment
+        //GistId:19de942ef8827201c1dca99f76c59133
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -43,22 +42,24 @@ public class WorkingWithMarkdownSaveOptions extends DocsExamplesBase
         // The alignment in this case will be taken from the first paragraph in corresponding table column.
         saveOptions.setTableContentAlignment(TableContentAlignment.AUTO);
         doc.save(getArtifactsDir() + "WorkingWithMarkdownSaveOptions.AutoTableContentAlignment.md", saveOptions);
-        //ExEnd:ExportIntoMarkdownWithTableContentAlignment
+        //ExEnd:MarkdownTableContentAlignment
     }
 
     @Test
-    public void setImagesFolder() throws Exception
-    {
-        //ExStart:SetImagesFolder
+    public void imagesFolder() throws Exception {
+        //ExStart:ImagesFolder
+        //GistId:51b4cb9c451832f23527892e19c7bca6
         Document doc = new Document(getMyDir() + "Image bullet points.docx");
 
-        MarkdownSaveOptions saveOptions = new MarkdownSaveOptions(); { saveOptions.setImagesFolder(getArtifactsDir() + "Images"); }
+        MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
+        {
+            saveOptions.setImagesFolder(getArtifactsDir() + "Images");
+        }
 
-        try(ByteArrayOutputStream stream = new ByteArrayOutputStream())
-    	{
+        try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
             doc.save(stream, saveOptions);
-    	}
-        //ExEnd:SetImagesFolder
+        }
+        //ExEnd:ImagesFolder
     }
 }
 

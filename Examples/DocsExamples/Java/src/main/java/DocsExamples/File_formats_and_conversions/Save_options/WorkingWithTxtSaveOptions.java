@@ -13,6 +13,7 @@ public class WorkingWithTxtSaveOptions extends DocsExamplesBase
     public void addBidiMarks() throws Exception
     {
         //ExStart:AddBidiMarks
+        //GistId:ddafc3430967fb4f4f70085fa577d01a
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -28,9 +29,10 @@ public class WorkingWithTxtSaveOptions extends DocsExamplesBase
     }
 
     @Test
-    public void useTabCharacterPerLevelForListIndentation() throws Exception
+    public void useTabForListIndentation() throws Exception
     {
-        //ExStart:UseTabCharacterPerLevelForListIndentation
+        //ExStart:UseTabForListIndentation
+        //GistId:ddafc3430967fb4f4f70085fa577d01a
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -46,14 +48,15 @@ public class WorkingWithTxtSaveOptions extends DocsExamplesBase
         saveOptions.getListIndentation().setCount(1);
         saveOptions.getListIndentation().setCharacter('\t');
 
-        doc.save(getArtifactsDir() + "WorkingWithTxtSaveOptions.UseTabCharacterPerLevelForListIndentation.txt", saveOptions);
-        //ExEnd:UseTabCharacterPerLevelForListIndentation
+        doc.save(getArtifactsDir() + "WorkingWithTxtSaveOptions.UseTabForListIndentation.txt", saveOptions);
+        //ExEnd:UseTabForListIndentation
     }
 
     @Test
-    public void useSpaceCharacterPerLevelForListIndentation() throws Exception
+    public void useSpaceForListIndentation() throws Exception
     {
-        //ExStart:UseSpaceCharacterPerLevelForListIndentation
+        //ExStart:UseSpaceForListIndentation
+        //GistId:ddafc3430967fb4f4f70085fa577d01a
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -69,7 +72,7 @@ public class WorkingWithTxtSaveOptions extends DocsExamplesBase
         saveOptions.getListIndentation().setCount(3);
         saveOptions.getListIndentation().setCharacter(' ');
 
-        doc.save(getArtifactsDir() + "WorkingWithTxtSaveOptions.UseSpaceCharacterPerLevelForListIndentation.txt", saveOptions);
-        //ExEnd:UseSpaceCharacterPerLevelForListIndentation
+        doc.save(getArtifactsDir() + "WorkingWithTxtSaveOptions.UseSpaceForListIndentation.txt", saveOptions);
+        //ExEnd:UseSpaceForListIndentation
     }
 }
