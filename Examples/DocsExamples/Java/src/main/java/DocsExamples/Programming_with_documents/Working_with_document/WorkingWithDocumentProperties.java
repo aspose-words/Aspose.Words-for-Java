@@ -15,6 +15,7 @@ public class WorkingWithDocumentProperties extends DocsExamplesBase
     public void getVariables() throws Exception
     {
         //ExStart:GetVariables
+        //GistId:0593a8803015363f3026f648332e7026
         Document doc = new Document(getMyDir() + "Document.docx");
         
         String variables = "";
@@ -23,23 +24,20 @@ public class WorkingWithDocumentProperties extends DocsExamplesBase
             String name = entry.getKey();
             String value = entry.getValue();
             if ("".equals(variables))
-            {
                 variables = "Name: " + name + "," + "Value: {1}" + value;
-            }
             else
-            {
                 variables = variables + "Name: " + name + "," + "Value: {1}" + value;
-            }
         }
-        //ExEnd:GetVariables
 
         System.out.println("\nDocument have following variables " + variables);
+        //ExEnd:GetVariables
     }
 
     @Test
     public void enumerateProperties() throws Exception
     {
-        //ExStart:EnumerateProperties            
+        //ExStart:EnumerateProperties
+        //GistId:0593a8803015363f3026f648332e7026
         Document doc = new Document(getMyDir() + "Properties.docx");
 
         System.out.println(MessageFormat.format("1. Document name: {0}", doc.getOriginalFileName()));
@@ -56,9 +54,10 @@ public class WorkingWithDocumentProperties extends DocsExamplesBase
     }
 
     @Test
-    public void addCustomDocumentProperties() throws Exception
+    public void addCustomProperties() throws Exception
     {
-        //ExStart:AddCustomDocumentProperties            
+        //ExStart:AddCustomProperties
+        //GistId:0593a8803015363f3026f648332e7026
         Document doc = new Document(getMyDir() + "Properties.docx");
 
         CustomDocumentProperties customDocumentProperties = doc.getCustomDocumentProperties();
@@ -70,22 +69,24 @@ public class WorkingWithDocumentProperties extends DocsExamplesBase
         customDocumentProperties.add("Authorized Date", new Date());
         customDocumentProperties.add("Authorized Revision", doc.getBuiltInDocumentProperties().getRevisionNumber());
         customDocumentProperties.add("Authorized Amount", 123.45);
-        //ExEnd:AddCustomDocumentProperties
+        //ExEnd:AddCustomProperties
     }
 
     @Test
-    public void removeCustomDocumentProperties() throws Exception
+    public void removeCustomProperties() throws Exception
     {
-        //ExStart:CustomRemove            
+        //ExStart:RemoveCustomProperties
+        //GistId:0593a8803015363f3026f648332e7026
         Document doc = new Document(getMyDir() + "Properties.docx");
         doc.getCustomDocumentProperties().remove("Authorized Date");
-        //ExEnd:CustomRemove
+        //ExEnd:RemoveCustomProperties
     }
 
     @Test
     public void removePersonalInformation() throws Exception
     {
-        //ExStart:RemovePersonalInformation            
+        //ExStart:RemovePersonalInformation
+        //GistId:0593a8803015363f3026f648332e7026
         Document doc = new Document(getMyDir() + "Properties.docx"); { doc.setRemovePersonalInformation(true); }
 
         doc.save(getArtifactsDir() + "DocumentPropertiesAndVariables.RemovePersonalInformation.docx");
@@ -95,7 +96,8 @@ public class WorkingWithDocumentProperties extends DocsExamplesBase
     @Test
     public void configuringLinkToContent() throws Exception
     {
-        //ExStart:ConfiguringLinkToContent            
+        //ExStart:ConfiguringLinkToContent
+        //GistId:0593a8803015363f3026f648332e7026
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         
@@ -110,9 +112,7 @@ public class WorkingWithDocumentProperties extends DocsExamplesBase
         customProperty = customProperties.get("Bookmark");
 
         boolean isLinkedToContent = customProperty.isLinkToContent();
-        
         String linkSource = customProperty.getLinkSource();
-        
         String customPropertyValue = customProperty.getValue().toString();
         //ExEnd:ConfiguringLinkToContent
     }
@@ -121,6 +121,7 @@ public class WorkingWithDocumentProperties extends DocsExamplesBase
     public void convertBetweenMeasurementUnits() throws Exception
     {
         //ExStart:ConvertBetweenMeasurementUnits
+        //GistId:f266e937d2c656f9441071e9a7b053c1
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -138,6 +139,7 @@ public class WorkingWithDocumentProperties extends DocsExamplesBase
     public void useControlCharacters()
     {
         //ExStart:UseControlCharacters
+        //GistId:6269ddb6427f9ad20623d975774a615e
         final String TEXT = "test\r";
         // Replace "\r" control character with "\r\n".
         String replace = TEXT.replace(ControlChar.CR, ControlChar.CR_LF);

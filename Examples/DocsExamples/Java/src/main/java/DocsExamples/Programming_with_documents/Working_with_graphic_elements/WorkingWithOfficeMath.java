@@ -15,6 +15,7 @@ public class WorkingWithOfficeMath extends DocsExamplesBase
     public void mathEquations() throws Exception
     {
         //ExStart:MathEquations
+        //GistId:e19d5874b376b07466fd7a397d554648
         Document doc = new Document(getMyDir() + "Office math.docx");
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
 

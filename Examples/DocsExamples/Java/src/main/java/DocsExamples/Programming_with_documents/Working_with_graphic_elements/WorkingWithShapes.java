@@ -17,6 +17,7 @@ public class WorkingWithShapes extends DocsExamplesBase
     public void addGroupShape() throws Exception
     {
         //ExStart:AddGroupShape
+        //GistId:072edc4bbb0dd0eebf1f61f610bd8d36
         Document doc = new Document();
         doc.ensureMinimum();
         
@@ -45,6 +46,7 @@ public class WorkingWithShapes extends DocsExamplesBase
     public void insertShape() throws Exception
     {
         //ExStart:InsertShape
+        //GistId:ad463bf5f128fe6e6c1485df3c046a4c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -70,6 +72,7 @@ public class WorkingWithShapes extends DocsExamplesBase
     public void aspectRatioLocked() throws Exception
     {
         //ExStart:AspectRatioLocked
+        //GistId:ad463bf5f128fe6e6c1485df3c046a4c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -84,6 +87,7 @@ public class WorkingWithShapes extends DocsExamplesBase
     public void layoutInCell() throws Exception
     {
         //ExStart:LayoutInCell
+        //GistId:ad463bf5f128fe6e6c1485df3c046a4c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -135,6 +139,7 @@ public class WorkingWithShapes extends DocsExamplesBase
     public void addCornersSnipped() throws Exception
     {
         //ExStart:AddCornersSnipped
+        //GistId:ad463bf5f128fe6e6c1485df3c046a4c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -153,6 +158,7 @@ public class WorkingWithShapes extends DocsExamplesBase
     public void getActualShapeBoundsPoints() throws Exception
     {
         //ExStart:GetActualShapeBoundsPoints
+        //GistId:ad463bf5f128fe6e6c1485df3c046a4c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -168,6 +174,7 @@ public class WorkingWithShapes extends DocsExamplesBase
     public void verticalAnchor() throws Exception
     {
         //ExStart:VerticalAnchor
+        //GistId:ad463bf5f128fe6e6c1485df3c046a4c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -185,6 +192,7 @@ public class WorkingWithShapes extends DocsExamplesBase
     public void detectSmartArtShape() throws Exception
     {
         //ExStart:DetectSmartArtShape
+        //GistId:ad463bf5f128fe6e6c1485df3c046a4c
         Document doc = new Document(getMyDir() + "SmartArt.docx");
 
         List<Shape> shapes = IterableUtils.toList(doc.getChildNodes(NodeType.SHAPE, true));
@@ -200,6 +208,7 @@ public class WorkingWithShapes extends DocsExamplesBase
         Document doc = new Document(getMyDir() + "SmartArt.docx");
 
         //ExStart:UpdateSmartArtDrawing
+        //GistId:683cdbe52b97598d9d4ee4695b4f83c9
         for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true))
             if (shape.hasSmartArt())
                 shape.updateSmartArtDrawing();

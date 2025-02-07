@@ -1,29 +1,118 @@
 package DocsExamples.Programming_with_documents.Protect_or_encrypt_document;
 
 import DocsExamples.DocsExamplesBase;
+import com.aspose.words.*;
+import org.testng.Assert;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.ProtectionType;
 
 @Test
 public class DocumentProtection extends DocsExamplesBase
 {
     @Test
-    public void protect() throws Exception
+    public void passwordProtection() throws Exception
     {
-        //ExStart:ProtectDocument
-        Document doc = new Document(getMyDir() + "Document.docx");
-        doc.protect(ProtectionType.ALLOW_ONLY_FORM_FIELDS, "password");
-        //ExEnd:ProtectDocument
+        //ExStart:PasswordProtection
+        //GistId:856ba85fa704fa728b0ec20aafddd16b
+        Document doc = new Document();
+
+        // Apply document protection.
+        doc.protect(ProtectionType.NO_PROTECTION, "password");
+
+        doc.save(getArtifactsDir() + "DocumentProtection.PasswordProtection.docx");
+        //ExEnd:PasswordProtection
     }
 
     @Test
-    public void unprotect() throws Exception
+    public void allowOnlyFormFieldsProtect() throws Exception
     {
-        //ExStart:UnprotectDocument
-        Document doc = new Document(getMyDir() + "Document.docx");
+        //ExStart:AllowOnlyFormFieldsProtect
+        //GistId:856ba85fa704fa728b0ec20aafddd16b
+        // Insert two sections with some text.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Text added to a document.");
+
+        // A document protection only works when document protection is turned and only editing in form fields is allowed.
+        doc.protect(ProtectionType.ALLOW_ONLY_FORM_FIELDS, "password");
+
+        // Save the protected document.
+        doc.save(getArtifactsDir() + "DocumentProtection.AllowOnlyFormFieldsProtect.docx");
+        //ExEnd:AllowOnlyFormFieldsProtect
+    }
+
+    @Test
+    public void removeDocumentProtection() throws Exception
+    {
+        //ExStart:RemoveDocumentProtection
+        //GistId:856ba85fa704fa728b0ec20aafddd16b
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("Text added to a document.");
+
+        // Documents can have protection removed either with no password, or with the correct password.
         doc.unprotect();
-        //ExEnd:UnprotectDocument
+        doc.protect(ProtectionType.READ_ONLY, "newPassword");
+        doc.unprotect("newPassword");
+
+        doc.save(getArtifactsDir() + "DocumentProtection.RemoveDocumentProtection.docx");
+        //ExEnd:RemoveDocumentProtection
+    }
+
+    @Test
+    public void unrestrictedEditableRegions() throws Exception
+    {
+        //ExStart:UnrestrictedEditableRegions
+        //GistId:856ba85fa704fa728b0ec20aafddd16b
+        // Upload a document and make it as read-only.
+        Document doc = new Document(getMyDir() + "Document.docx");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        doc.protect(ProtectionType.READ_ONLY, "MyPassword");
+
+        builder.writeln("Hello world! Since we have set the document's protection level to read-only, " + "we cannot edit this paragraph without the password.");
+
+        // Start an editable range.
+        EditableRangeStart edRangeStart = builder.startEditableRange();
+        // An EditableRange object is created for the EditableRangeStart that we just made.
+        EditableRange editableRange = edRangeStart.getEditableRange();
+
+        // Put something inside the editable range.
+        builder.writeln("Paragraph inside first editable range");
+
+        // An editable range is well-formed if it has a start and an end.
+        EditableRangeEnd edRangeEnd = builder.endEditableRange();
+
+        builder.writeln("This paragraph is outside any editable ranges, and cannot be edited.");
+
+        doc.save(getArtifactsDir() + "DocumentProtection.UnrestrictedEditableRegions.docx");
+        //ExEnd:UnrestrictedEditableRegions
+    }
+
+    @Test
+    public void unrestrictedSection() throws Exception
+    {
+        //ExStart:UnrestrictedSection
+        //GistId:856ba85fa704fa728b0ec20aafddd16b
+        // Insert two sections with some text.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("Section 1. Unprotected.");
+        builder.insertBreak(BreakType.SECTION_BREAK_CONTINUOUS);
+        builder.writeln("Section 2. Protected.");
+
+        // Section protection only works when document protection is turned and only editing in form fields is allowed.
+        doc.protect(ProtectionType.ALLOW_ONLY_FORM_FIELDS, "password");
+
+        // By default, all sections are protected, but we can selectively turn protection off.
+        doc.getSections().get(0).setProtectedForForms(false);
+        doc.save(getArtifactsDir() + "DocumentProtection.UnrestrictedSection.docx");
+
+        doc = new Document(getArtifactsDir() + "DocumentProtection.UnrestrictedSection.docx");
+        Assert.assertFalse(doc.getSections().get(0).getProtectedForForms());
+        Assert.assertTrue(doc.getSections().get(1).getProtectedForForms());
+        //ExEnd:UnrestrictedSection
     }
 
     @Test
@@ -33,5 +122,46 @@ public class DocumentProtection extends DocsExamplesBase
         Document doc = new Document(getMyDir() + "Document.docx");
         /*ProtectionType*/int protectionType = doc.getProtectionType();
         //ExEnd:GetProtectionType
+    }
+
+    @Test
+    public void readOnlyProtection() throws Exception
+    {
+        //ExStart:ReadOnlyProtection
+        //GistId:7cf6735e83804ba8942663695b22ee42
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Open document as read-only");
+
+        // Enter a password that's up to 15 characters long.
+        doc.getWriteProtection().setPassword("MyPassword");
+
+        // Make the document as read-only.
+        doc.getWriteProtection().setReadOnlyRecommended(true);
+
+        // Apply write protection as read-only.
+        doc.protect(ProtectionType.READ_ONLY);
+        doc.save(getArtifactsDir() + "DocumentProtection.ReadOnlyProtection.docx");
+        //ExEnd:ReadOnlyProtection
+    }
+
+    @Test
+    public void removeReadOnlyRestriction() throws Exception
+    {
+        //ExStart:RemoveReadOnlyRestriction
+        //GistId:7cf6735e83804ba8942663695b22ee42
+        Document doc = new Document();
+        
+        // Enter a password that's up to 15 characters long.
+        doc.getWriteProtection().setPassword("MyPassword");
+
+        // Remove the read-only option.
+        doc.getWriteProtection().setReadOnlyRecommended(false);
+
+        // Apply write protection without any protection.
+        doc.protect(ProtectionType.NO_PROTECTION);
+        doc.save(getArtifactsDir() + "DocumentProtection.RemoveReadOnlyRestriction.docx");
+        //ExEnd:RemoveReadOnlyRestriction
     }
 }

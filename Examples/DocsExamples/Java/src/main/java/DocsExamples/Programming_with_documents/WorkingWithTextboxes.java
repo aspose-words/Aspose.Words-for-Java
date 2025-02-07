@@ -10,9 +10,10 @@ import org.testng.annotations.Test;
 public class WorkingWithTextboxes
 {
     @Test
-    public void createALink() throws Exception
+    public void createLink() throws Exception
     {
-        //ExStart:CreateALink
+        //ExStart:CreateLink
+        //GistId:68b6041746b3d6bf5137cff8e6385b5f
         Document doc = new Document();
 
         Shape shape1 = new Shape(doc, ShapeType.TEXT_BOX);
@@ -23,13 +24,14 @@ public class WorkingWithTextboxes
 
         if (textBox1.isValidLinkTarget(textBox2))
             textBox1.setNext(textBox2);
-        //ExEnd:CreateALink
+        //ExEnd:CreateLink
     }
 
     @Test
     public void checkSequence() throws Exception
     {
         //ExStart:CheckSequence
+        //GistId:68b6041746b3d6bf5137cff8e6385b5f
         Document doc = new Document();
 
         Shape shape = new Shape(doc, ShapeType.TEXT_BOX);
@@ -53,9 +55,10 @@ public class WorkingWithTextboxes
     }
 
     @Test
-    public void breakALink() throws Exception
+    public void breakLink() throws Exception
     {
-        //ExStart:BreakALink
+        //ExStart:BreakLink
+        //GistId:68b6041746b3d6bf5137cff8e6385b5f
         Document doc = new Document();
 
         Shape shape = new Shape(doc, ShapeType.TEXT_BOX);
@@ -70,6 +73,6 @@ public class WorkingWithTextboxes
         // Break a link, which leads to this textbox
         if (textBox.getPrevious() != null)
             textBox.getPrevious().breakForwardLink();
-        //ExEnd:BreakALink
+        //ExEnd:BreakLink
     }
 }

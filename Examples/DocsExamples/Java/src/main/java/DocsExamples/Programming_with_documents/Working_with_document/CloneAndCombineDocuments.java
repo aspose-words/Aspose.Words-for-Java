@@ -2,6 +2,7 @@ package DocsExamples.Programming_with_documents.Working_with_document;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.*;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
@@ -11,14 +12,36 @@ import java.util.regex.Pattern;
 public class CloneAndCombineDocuments extends DocsExamplesBase
 {
     @Test
-    public void cloningDocument() throws Exception
+    public void cloneDocument() throws Exception
     {
-        //ExStart:CloningDocument
-        Document doc = new Document(getMyDir() + "Document.docx");
+        //ExStart:CloneDocument
+        //GistId:b2f62f736a2090163de7b0f221cf46d4
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("This is the original document before applying the clone method");
 
+        // Clone the document.
         Document clone = doc.deepClone();
+
+        // Edit the cloned document.
+        builder = new DocumentBuilder(clone);
+        builder.write("Section 1");
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.write("Section 2");
+
+        // This shows what is in the document originally. The document has two sections.
+        Assert.assertEquals("Section 1\fSection 2This is the original document before applying the clone method", clone.getText().trim());
+
+        // Duplicate the last section and append the copy to the end of the document.
+        int lastSectionIdx = clone.getSections().getCount() - 1;
+        Section newSection = clone.getSections().get(lastSectionIdx).deepClone();
+        clone.getSections().add(newSection);
+
+        // Check what the document contains after we changed it.
+        Assert.assertEquals("Section 1\fSection 2This is the original document before applying the clone method" +
+            "\r\fSection 2This is the original document before applying the clone method", clone.getText().trim());
         clone.save(getArtifactsDir() + "CloneAndCombineDocuments.CloningDocument.docx");
-        //ExEnd:CloningDocument
+        //ExEnd:CloneDocument
     }
 
     @Test
@@ -27,15 +50,13 @@ public class CloneAndCombineDocuments extends DocsExamplesBase
         //ExStart:InsertDocumentAtReplace
         //GistId:6e5c8fd2462c6d7ba26da4d9f66ff77b
         Document mainDoc = new Document(getMyDir() + "Document insertion 1.docx");
-
-        // Set find and replace options.
+                    
         FindReplaceOptions options = new FindReplaceOptions();
         {
             options.setDirection(FindReplaceDirection.BACKWARD); 
             options.setReplacingCallback(new InsertDocumentAtReplaceHandler());
         }
 
-        // Call the replace method.
         mainDoc.getRange().replace(Pattern.compile("\\[MY_DOCUMENT\\]"), "", options);
         mainDoc.save(getArtifactsDir() + "CloneAndCombineDocuments.InsertDocumentAtReplace.docx");
         //ExEnd:InsertDocumentAtReplace

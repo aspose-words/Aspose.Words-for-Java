@@ -11,9 +11,10 @@ import java.awt.*;
 public class WorkingWithWatermark extends DocsExamplesBase
 {
     @Test
-    public void addTextWatermarkWithSpecificOptions() throws Exception
+    public void addTextWatermark() throws Exception
     {
-        //ExStart:AddTextWatermarkWithSpecificOptions
+        //ExStart:AddTextWatermark
+        //GistId:1f690a31c188a851d80d7aed4ff7e44c
         Document doc = new Document(getMyDir() + "Document.docx");
 
         TextWatermarkOptions options = new TextWatermarkOptions();
@@ -27,21 +28,22 @@ public class WorkingWithWatermark extends DocsExamplesBase
 
         doc.getWatermark().setText("Test", options);
 
-        doc.save(getArtifactsDir() + "WorkWithWatermark.AddTextWatermarkWithSpecificOptions.docx");
-        //ExEnd:AddTextWatermarkWithSpecificOptions
+        doc.save(getArtifactsDir() + "WorkWithWatermark.AddTextWatermark.docx");
+        //ExEnd:AddTextWatermark
     }
 
 
-    //ExStart:AddWatermark
+    //ExStart:AddDocumentWatermark
+    //GistId:1f690a31c188a851d80d7aed4ff7e44c
     @Test
     public void addAndRemoveWatermark() throws Exception
     {
         Document doc = new Document(getMyDir() + "Document.docx");
 
         insertWatermarkText(doc, "CONFIDENTIAL");
-        doc.save(getArtifactsDir() + "TestFile.Watermark.docx");
+        doc.save(getArtifactsDir() + "WorkWithWatermark.AddWatermark.docx");
 
-        removeWatermarkText(doc);
+        removeWatermarkShape(doc);
         doc.save(getArtifactsDir() + "WorkWithWatermark.RemoveWatermark.docx");
     }
 
@@ -52,8 +54,11 @@ public class WorkingWithWatermark extends DocsExamplesBase
     /// <param name="watermarkText">Text of the watermark.</param>
     private void insertWatermarkText(Document doc, String watermarkText) throws Exception
     {
+        //ExStart:SetShapeName
+        //GistId:1f690a31c188a851d80d7aed4ff7e44c
         // Create a watermark shape, this will be a WordArt shape.
         Shape watermark = new Shape(doc, ShapeType.TEXT_PLAIN_TEXT); { watermark.setName("Watermark"); }
+        //ExEnd:SetShapeName
 
         watermark.getTextPath().setText(watermarkText);
         watermark.getTextPath().setFontFamily("Arial");
@@ -104,22 +109,23 @@ public class WorkingWithWatermark extends DocsExamplesBase
         // Insert a clone of the watermark into the header.
         header.appendChild(watermarkPara.deepClone(true));
     }
-    //ExEnd:AddWatermark
-    
-    //ExStart:RemoveWatermark
-    private void removeWatermarkText(Document doc)
+    //ExEnd:AddDocumentWatermark
+
+    //ExStart:RemoveWatermarkShape
+    //GistId:1f690a31c188a851d80d7aed4ff7e44c
+    private void removeWatermarkShape(Document doc)
     {
         for (HeaderFooter hf : (Iterable<HeaderFooter>) doc.getChildNodes(NodeType.HEADER_FOOTER, true))
         {
             for (Shape shape : (Iterable<Shape>) hf.getChildNodes(NodeType.SHAPE, true))
             {
-                if (shape.getName().contains("WaterMark"))
+                if (shape.getName().contains("Watermark"))
                 {
                     shape.remove();
                 }
             }
         }
     }
-    //ExEnd:RemoveWatermark
+    //ExEnd:RemoveWatermarkShape
 }
 

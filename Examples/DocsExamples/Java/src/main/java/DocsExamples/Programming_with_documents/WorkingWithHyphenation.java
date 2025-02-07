@@ -14,33 +14,36 @@ import java.text.MessageFormat;
 public class WorkingWithHyphenation extends DocsExamplesBase
 {
     @Test
-    public void hyphenateWordsOfLanguages() throws Exception
+    public void hyphenateWords() throws Exception
     {
-        //ExStart:HyphenateWordsOfLanguages
+        //ExStart:HyphenateWords
+        //GistId:a52aacf87a36f7881ba29d25de92fb83
         Document doc = new Document(getMyDir() + "German text.docx");
 
         Hyphenation.registerDictionary("en-US", getMyDir() + "hyph_en_US.dic");
         Hyphenation.registerDictionary("de-CH", getMyDir() + "hyph_de_CH.dic");
 
-        doc.save(getArtifactsDir() + "WorkingWithHyphenation.HyphenateWordsOfLanguages.pdf");
-        //ExEnd:HyphenateWordsOfLanguages
+        doc.save(getArtifactsDir() + "WorkingWithHyphenation.HyphenateWords.pdf");
+        //ExEnd:HyphenateWords
     }
 
     @Test
-    public void loadHyphenationDictionaryForLanguage() throws Exception
+    public void loadHyphenationDictionary() throws Exception
     {
-        //ExStart:LoadHyphenationDictionaryForLanguage
+        //ExStart:LoadHyphenationDictionary
+        //GistId:a52aacf87a36f7881ba29d25de92fb83
         Document doc = new Document(getMyDir() + "German text.docx");
         
         FileInputStream stream = new FileInputStream(getMyDir() + "hyph_de_CH.dic");
         Hyphenation.registerDictionary("de-CH", stream);
 
-        doc.save(getArtifactsDir() + "WorkingWithHyphenation.LoadHyphenationDictionaryForLanguage.pdf");
-        //ExEnd:LoadHyphenationDictionaryForLanguage
+        doc.save(getArtifactsDir() + "WorkingWithHyphenation.LoadHyphenationDictionary.pdf");
+        //ExEnd:LoadHyphenationDictionary
     }
 
-    @Test 
+    @Test
     //ExStart:CustomHyphenation
+    //GistId:a52aacf87a36f7881ba29d25de92fb83
     public void hyphenationCallback() throws Exception
     {
         try

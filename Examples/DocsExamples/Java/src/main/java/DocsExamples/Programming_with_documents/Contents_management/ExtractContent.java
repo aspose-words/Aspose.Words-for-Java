@@ -362,6 +362,7 @@ public class ExtractContent extends DocsExamplesBase {
     @Test
     public void extractContentBasedOnStyles() throws Exception {
         //ExStart:ExtractContentBasedOnStyles
+        //GistId:a73b495f610523670f0847331ef4d6fc
         Document doc = new Document(getMyDir() + "Styles.docx");
 
         ArrayList<Paragraph> paragraphs = paragraphsByStyleName(doc, "Heading 1");
@@ -379,7 +380,9 @@ public class ExtractContent extends DocsExamplesBase {
     }
 
     //ExStart:RunsByStyleName
-    public ArrayList<Run> runsByStyleName(Document doc, String styleName) {
+    //GistId:a73b495f610523670f0847331ef4d6fc
+    public ArrayList<Run> runsByStyleName(Document doc, String styleName)
+    {
         ArrayList<Run> runsWithStyle = new ArrayList<Run>();
         NodeCollection runs = doc.getChildNodes(NodeType.RUN, true);
 

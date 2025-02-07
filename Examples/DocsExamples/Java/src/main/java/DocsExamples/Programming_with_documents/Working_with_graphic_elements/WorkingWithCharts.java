@@ -2,8 +2,10 @@ package DocsExamples.Programming_with_documents.Working_with_graphic_elements;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.*;
+import com.aspose.words.Shape;
 import org.testng.annotations.Test;
 
+import java.awt.*;
 import java.util.Date;
 
 @Test
@@ -13,6 +15,7 @@ public class WorkingWithCharts extends DocsExamplesBase
     public void formatNumberOfDataLabel() throws Exception
     {
         //ExStart:FormatNumberOfDataLabel
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -46,6 +49,7 @@ public class WorkingWithCharts extends DocsExamplesBase
     public void createChartUsingShape() throws Exception
     {
         //ExStart:CreateChartUsingShape
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -69,6 +73,7 @@ public class WorkingWithCharts extends DocsExamplesBase
     public void insertSimpleColumnChart() throws Exception
     {
         //ExStart:InsertSimpleColumnChart
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -76,7 +81,8 @@ public class WorkingWithCharts extends DocsExamplesBase
         Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
 
         Chart chart = shape.getChart();
-        //ExStart:ChartSeriesCollection 
+        //ExStart:ChartSeriesCollection
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         ChartSeriesCollection seriesColl = chart.getSeries();
 
         System.out.println(seriesColl.getCount());
@@ -103,6 +109,7 @@ public class WorkingWithCharts extends DocsExamplesBase
     public void insertColumnChart() throws Exception
     {
         //ExStart:InsertColumnChart
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -119,6 +126,7 @@ public class WorkingWithCharts extends DocsExamplesBase
     public void insertAreaChart() throws Exception
     {
         //ExStart:InsertAreaChart
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -143,6 +151,7 @@ public class WorkingWithCharts extends DocsExamplesBase
     public void insertBubbleChart() throws Exception
     {
         //ExStart:InsertBubbleChart
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -160,6 +169,7 @@ public class WorkingWithCharts extends DocsExamplesBase
     public void insertScatterChart() throws Exception
     {
         //ExStart:InsertScatterChart
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -173,9 +183,10 @@ public class WorkingWithCharts extends DocsExamplesBase
     }
 
     @Test
-    public void defineXYAxisProperties() throws Exception
+    public void defineAxisProperties() throws Exception
     {
-        //ExStart:DefineXYAxisProperties
+        //ExStart:DefineAxisProperties
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -213,14 +224,15 @@ public class WorkingWithCharts extends DocsExamplesBase
         yAxis.getScaling().setMinimum(new AxisBound(100.0));
         yAxis.getScaling().setMaximum(new AxisBound(700.0));
 
-        doc.save(getArtifactsDir() + "WorkingWithCharts.DefineXYAxisProperties.docx");
-        //ExEnd:DefineXYAxisProperties
+        doc.save(getArtifactsDir() + "WorkingWithCharts.DefineAxisProperties.docx");
+        //ExEnd:DefineAxisProperties
     }
 
     @Test
     public void dateTimeValuesToAxis() throws Exception
     {
-        //ExStart:SetDateTimeValuesToAxis
+        //ExStart:DateTimeValuesToAxis
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -248,13 +260,14 @@ public class WorkingWithCharts extends DocsExamplesBase
         xAxis.setMinorTickMark(AxisTickMark.OUTSIDE);
 
         doc.save(getArtifactsDir() + "WorkingWithCharts.DateTimeValuesToAxis.docx");
-        //ExEnd:SetDateTimeValuesToAxis
+        //ExEnd:DateTimeValuesToAxis
     }
 
     @Test
     public void numberFormatForAxis() throws Exception
     {
-        //ExStart:SetNumberFormatForAxis
+        //ExStart:NumberFormatForAxis
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -271,13 +284,14 @@ public class WorkingWithCharts extends DocsExamplesBase
         chart.getAxisY().getNumberFormat().setFormatCode("#,##0");
 
         doc.save(getArtifactsDir() + "WorkingWithCharts.NumberFormatForAxis.docx");
-        //ExEnd:SetNumberFormatForAxis
+        //ExEnd:NumberFormatForAxis
     }
 
     @Test
     public void boundsOfAxis() throws Exception
     {
-        //ExStart:SetboundsOfAxis
+        //ExStart:BoundsOfAxis
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -295,13 +309,14 @@ public class WorkingWithCharts extends DocsExamplesBase
         chart.getAxisY().getScaling().setMaximum(new AxisBound(6.0));
 
         doc.save(getArtifactsDir() + "WorkingWithCharts.BoundsOfAxis.docx");
-        //ExEnd:SetboundsOfAxis
+        //ExEnd:BoundsOfAxis
     }
 
     @Test
     public void intervalUnitBetweenLabelsOnAxis() throws Exception
     {
-        //ExStart:SetIntervalUnitBetweenLabelsOnAxis
+        //ExStart:IntervalUnitBetweenLabelsOnAxis
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -318,13 +333,14 @@ public class WorkingWithCharts extends DocsExamplesBase
         chart.getAxisX().getTickLabels().setSpacing(2);
 
         doc.save(getArtifactsDir() + "WorkingWithCharts.IntervalUnitBetweenLabelsOnAxis.docx");
-        //ExEnd:SetIntervalUnitBetweenLabelsOnAxis
+        //ExEnd:IntervalUnitBetweenLabelsOnAxis
     }
 
     @Test
     public void hideChartAxis() throws Exception
     {
         //ExStart:HideChartAxis
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -348,6 +364,7 @@ public class WorkingWithCharts extends DocsExamplesBase
     public void tickMultiLineLabelAlignment() throws Exception
     {
         //ExStart:TickMultiLineLabelAlignment
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -365,6 +382,7 @@ public class WorkingWithCharts extends DocsExamplesBase
     public void chartDataLabel() throws Exception
     {
         //ExStart:WorkWithChartDataLabel
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -394,6 +412,7 @@ public class WorkingWithCharts extends DocsExamplesBase
     public void defaultOptionsForDataLabels() throws Exception
     {
         //ExStart:DefaultOptionsForDataLabels
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -421,6 +440,7 @@ public class WorkingWithCharts extends DocsExamplesBase
     public void singleChartDataPoint() throws Exception
     {
         //ExStart:WorkWithSingleChartDataPoint
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -461,6 +481,7 @@ public class WorkingWithCharts extends DocsExamplesBase
         Chart chart = shape.getChart();
 
         //ExStart:WorkWithSingleChartSeries
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         ChartSeries series0 = chart.getSeries().get(0);
         ChartSeries series1 = chart.getSeries().get(1);
 
@@ -472,7 +493,8 @@ public class WorkingWithCharts extends DocsExamplesBase
         series1.setSmooth(true);
         //ExEnd:WorkWithSingleChartSeries
 
-        //ExStart:ChartDataPoint 
+        //ExStart:ChartDataPoint
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
         // Specifies whether by default the parent element shall inverts its colors if the value is negative.
         series0.setInvertIfNegative(true);
 
@@ -481,9 +503,74 @@ public class WorkingWithCharts extends DocsExamplesBase
 
         series1.getMarker().setSymbol(MarkerSymbol.STAR);
         series1.getMarker().setSize(10);
-        //ExEnd:ChartDataPoint 
+        //ExEnd:ChartDataPoint
 
         doc.save(getArtifactsDir() + "WorkingWithCharts.SingleChartSeries.docx");
+    }
+
+    @Test
+    public void fillFormatting() throws Exception
+    {
+        //ExStart:FillFormatting
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
+
+        Chart chart = shape.getChart();
+        ChartSeriesCollection seriesColl = chart.getSeries();
+
+        // Delete default generated series.
+        seriesColl.clear();
+
+        // Create category names array.
+        String[] categories = new String[] { "AW Category 1", "AW Category 2" };
+
+        // Adding new series. Value and category arrays must be the same size.
+        ChartSeries series1 = seriesColl.add("AW Series 1", categories, new double[] { 1.0, 2.0 });
+        ChartSeries series2 = seriesColl.add("AW Series 2", categories, new double[] { 3.0, 4.0 });
+        ChartSeries series3 = seriesColl.add("AW Series 3", categories, new double[] { 5.0, 6.0 });
+
+        // Set series color.
+        series1.getFormat().getFill().setForeColor(Color.RED);
+        series2.getFormat().getFill().setForeColor(Color.YELLOW);
+        series3.getFormat().getFill().setForeColor(Color.BLUE);
+
+        doc.save(getArtifactsDir() + "WorkingWithCharts.FillFormatting.docx");
+        //ExEnd:FillFormatting
+    }
+
+    @Test
+    public void strokeFormatting() throws Exception
+    {
+        //ExStart:StrokeFormatting
+        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.LINE, 432.0, 252.0);
+
+        Chart chart = shape.getChart();
+        ChartSeriesCollection seriesColl = chart.getSeries();
+
+        // Delete default generated series.
+        seriesColl.clear();
+
+        // Adding new series.
+        ChartSeries series1 = seriesColl.add("AW Series 1", new double[] { 0.7, 1.8, 2.6 },
+            new double[] { 2.7, 3.2, 0.8 });
+        ChartSeries series2 = seriesColl.add("AW Series 2", new double[] { 0.5, 1.5, 2.5 },
+            new double[] { 3.0, 1.0, 2.0 });
+
+        // Set series color.
+        series1.getFormat().getStroke().setForeColor(Color.RED);
+        series1.getFormat().getStroke().setWeight(5.0);
+        series2.getFormat().getStroke().setForeColor(Color.GREEN);
+        series2.getFormat().getStroke().setWeight(5.0);
+
+        doc.save(getArtifactsDir() + "WorkingWithCharts.StrokeFormatting.docx");
+        //ExEnd:StrokeFormatting
     }
 }
 

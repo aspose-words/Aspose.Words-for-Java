@@ -8,80 +8,321 @@ import org.testng.annotations.Test;
 public class WorkingWithMarkdown extends DocsExamplesBase
 {
     @Test
-    public void createMarkdownDocument() throws Exception
+    public void boldText() throws Exception
     {
-        //ExStart:CreateMarkdownDocument
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
+        //ExStart:BoldText
+        //GistId:0697355b7f872839932388d269ed6a63
+        // Use a document builder to add content to the document.
+        DocumentBuilder builder = new DocumentBuilder();
 
-        // Specify the "Heading 1" style for the paragraph.
-        builder.getParagraphFormat().setStyleName("Heading 1");
-        builder.writeln("Heading 1");
+        // Make the text Bold.
+        builder.getFont().setBold(true);
+        builder.writeln("This text will be Bold");
+        //ExEnd:BoldText
+    }
 
-        // Reset styles from the previous paragraph to not combine styles between paragraphs.
-        builder.getParagraphFormat().setStyleName("Normal");
+    @Test
+    public void italicText() throws Exception
+    {
+        //ExStart:ItalicText
+        //GistId:0697355b7f872839932388d269ed6a63
+        // Use a document builder to add content to the document.
+        DocumentBuilder builder = new DocumentBuilder();
+
+        // Make the text Italic.
+        builder.getFont().setItalic(true);
+        builder.writeln("This text will be Italic");
+        //ExEnd:ItalicText
+    }
+
+    @Test
+    public void strikethrough() throws Exception
+    {
+        //ExStart:Strikethrough
+        //GistId:0697355b7f872839932388d269ed6a63
+        // Use a document builder to add content to the document.
+        DocumentBuilder builder = new DocumentBuilder();
+
+        // Make the text Strikethrough.
+        builder.getFont().setStrikeThrough(true);
+        builder.writeln("This text will be StrikeThrough");
+        //ExEnd:Strikethrough
+    }
+
+    @Test
+    public void inlineCode() throws Exception
+    {
+        //ExStart:InlineCode
+        //GistId:51b4cb9c451832f23527892e19c7bca6
+        // Use a document builder to add content to the document.
+        DocumentBuilder builder = new DocumentBuilder();
+
+        // Number of backticks is missed, one backtick will be used by default.
+        Style inlineCode1BackTicks = builder.getDocument().getStyles().add(StyleType.CHARACTER, "InlineCode");
+        builder.getFont().setStyle(inlineCode1BackTicks);
+        builder.writeln("Text with InlineCode style with 1 backtick");
+
+        // There will be 3 backticks.
+        Style inlineCode3BackTicks = builder.getDocument().getStyles().add(StyleType.CHARACTER, "InlineCode.3");
+        builder.getFont().setStyle(inlineCode3BackTicks);
+        builder.writeln("Text with InlineCode style with 3 backtick");
+        //ExEnd:InlineCode
+    }
+
+    @Test
+    public void autolink() throws Exception
+    {
+        //ExStart:Autolink
+        //GistId:0697355b7f872839932388d269ed6a63
+        // Use a document builder to add content to the document.
+        DocumentBuilder builder = new DocumentBuilder();
+
+        // Insert hyperlink.
+        builder.insertHyperlink("https://www.aspose.com", "https://www.aspose.com", false);
+        builder.insertHyperlink("email@aspose.com", "mailto:email@aspose.com", false);
+        //ExEnd:Autolink
+    }
+
+    @Test
+    public void link() throws Exception
+    {
+        //ExStart:Link
+        //GistId:0697355b7f872839932388d269ed6a63
+        // Use a document builder to add content to the document.
+        DocumentBuilder builder = new DocumentBuilder();
+
+        // Insert hyperlink.
+        builder.insertHyperlink("Aspose", "https://www.aspose.com", false);
+        //ExEnd:Link
+    }
+
+    @Test
+    public void image() throws Exception
+    {
+        //ExStart:Image
+        //GistId:0697355b7f872839932388d269ed6a63
+        // Use a document builder to add content to the document.
+        DocumentBuilder builder = new DocumentBuilder();
+
+        // Insert image.
+        Shape shape = builder.insertImage(getImagesDir() + "Logo.jpg");
+        shape.getImageData().setTitle("title");
+        //ExEnd:Image
+    }
+
+    @Test
+    public void horizontalRule() throws Exception
+    {
+        //ExStart:HorizontalRule
+        //GistId:0697355b7f872839932388d269ed6a63
+        // Use a document builder to add content to the document.
+        DocumentBuilder builder = new DocumentBuilder();
 
         // Insert horizontal rule.
         builder.insertHorizontalRule();
+        //ExEnd:HorizontalRule
+    }
 
-        // Specify the ordered list.
-        builder.insertParagraph();
-        builder.getListFormat().applyNumberDefault();
+    @Test
+    public void heading() throws Exception
+    {
+        //ExStart:Heading
+        //GistId:0697355b7f872839932388d269ed6a63
+        // Use a document builder to add content to the document.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Specify the Italic emphasis for the text.
-        builder.getFont().setItalic(true);
-        builder.writeln("Italic Text");
+        // By default Heading styles in Word may have Bold and Italic formatting.
+        //If we do not want to be emphasized, set these properties explicitly to false.
+        builder.getFont().setBold(false);
         builder.getFont().setItalic(false);
 
-        // Specify the Bold emphasis for the text.
+        builder.writeln("The following produces headings:");
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 1"));
+        builder.writeln("Heading1");
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 2"));
+        builder.writeln("Heading2");
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 3"));
+        builder.writeln("Heading3");
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 4"));
+        builder.writeln("Heading4");
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 5"));
+        builder.writeln("Heading5");
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 6"));
+        builder.writeln("Heading6");
+
+        // Note, emphases are also allowed inside Headings:
         builder.getFont().setBold(true);
-        builder.writeln("Bold Text");
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 1"));
+        builder.writeln("Bold Heading1");
+
+        doc.save(getArtifactsDir() + "WorkingWithMarkdown.Heading.md");
+        //ExEnd:Heading
+    }
+
+    @Test
+    public void setextHeading() throws Exception
+    {
+        //ExStart:SetextHeading
+        //GistId:0697355b7f872839932388d269ed6a63
+        // Use a document builder to add content to the document.
+        DocumentBuilder builder = new DocumentBuilder();
+
+        builder.getParagraphFormat().setStyleName("Heading 1");
+        builder.writeln("This is an H1 tag");
+
+        // Reset styles from the previous paragraph to not combine styles between paragraphs.
         builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
 
-        // Specify the StrikeThrough emphasis for the text.
-        builder.getFont().setStrikeThrough(true);
-        builder.writeln("StrikeThrough Text");
-        builder.getFont().setStrikeThrough(false);
+        Style setexHeading1 = builder.getDocument().getStyles().add(StyleType.PARAGRAPH, "SetextHeading1");
+        builder.getParagraphFormat().setStyle(setexHeading1);
+        builder.getDocument().getStyles().get("SetextHeading1").setBaseStyleName("Heading 1");
+        builder.writeln("Setext Heading level 1");
 
-        // Stop paragraphs numbering.
-        builder.getListFormat().removeNumbers();
+        builder.getParagraphFormat().setStyle(builder.getDocument().getStyles().get("Heading 3"));
+        builder.writeln("This is an H3 tag");
 
-        // Specify the "Quote" style for the paragraph.
+        // Reset styles from the previous paragraph to not combine styles between paragraphs.
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+
+        Style setexHeading2 = builder.getDocument().getStyles().add(StyleType.PARAGRAPH, "SetextHeading2");
+        builder.getParagraphFormat().setStyle(setexHeading2);
+        builder.getDocument().getStyles().get("SetextHeading2").setBaseStyleName("Heading 3");
+
+        // Setex heading level will be reset to 2 if the base paragraph has a Heading level greater than 2.
+        builder.writeln("Setext Heading level 2");
+        //ExEnd:SetextHeading
+
+        builder.getDocument().save(getArtifactsDir() + "WorkingWithMarkdown.SetextHeading.md");
+    }
+
+    @Test
+    public void indentedCode() throws Exception
+    {
+        //ExStart:IndentedCode
+        //GistId:0697355b7f872839932388d269ed6a63
+        // Use a document builder to add content to the document.
+        DocumentBuilder builder = new DocumentBuilder();
+
+        Style indentedCode = builder.getDocument().getStyles().add(StyleType.PARAGRAPH, "IndentedCode");
+        builder.getParagraphFormat().setStyle(indentedCode);
+        builder.writeln("This is an indented code");
+        //ExEnd:IndentedCode
+    }
+
+    @Test
+    public void fencedCode() throws Exception
+    {
+        //ExStart:FencedCode
+        //GistId:0697355b7f872839932388d269ed6a63
+        // Use a document builder to add content to the document.
+        DocumentBuilder builder = new DocumentBuilder();
+
+        Style fencedCode = builder.getDocument().getStyles().add(StyleType.PARAGRAPH, "FencedCode");
+        builder.getParagraphFormat().setStyle(fencedCode);
+        builder.writeln("This is an fenced code");
+
+        Style fencedCodeWithInfo = builder.getDocument().getStyles().add(StyleType.PARAGRAPH, "FencedCode.C#");
+        builder.getParagraphFormat().setStyle(fencedCodeWithInfo);
+        builder.writeln("This is a fenced code with info string");
+        //ExEnd:FencedCode
+    }
+
+    @Test
+    public void quote() throws Exception
+    {
+        //ExStart:Quote
+        //GistId:0697355b7f872839932388d269ed6a63
+        // Use a document builder to add content to the document.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // By default a document stores blockquote style for the first level.
         builder.getParagraphFormat().setStyleName("Quote");
-        builder.writeln("A Quote block");
+        builder.writeln("Blockquote");
 
-        // Specify nesting Quote.
-        Style nestedQuote = doc.getStyles().add(StyleType.PARAGRAPH, "Quote1");
-        nestedQuote.setBaseStyleName("Quote");
-        builder.getParagraphFormat().setStyleName("Quote1");
-        builder.writeln("A nested Quote block");
+        // Create styles for nested levels through style inheritance.
+        Style quoteLevel2 = builder.getDocument().getStyles().add(StyleType.PARAGRAPH, "Quote1");
+        builder.getParagraphFormat().setStyle(quoteLevel2);
+        builder.getDocument().getStyles().get("Quote1").setBaseStyleName("Quote");
+        builder.writeln("1. Nested blockquote");
 
-        // Reset paragraph style to Normal to stop Quote blocks. 
-        builder.getParagraphFormat().setStyleName("Normal");
+        doc.save(getArtifactsDir() + "WorkingWithMarkdown.Quote.md");
+        //ExEnd:Quote
+    }
 
-        // Specify a Hyperlink for the desired text.
-        builder.getFont().setBold(true);
-        // Note, the text of hyperlink can be emphasized.
-        builder.insertHyperlink("Aspose", "https://www.aspose.com", false);
-        builder.getFont().setBold(false);
+    @Test
+    public void bulletedList() throws Exception
+    {
+        //ExStart:BulletedList
+        //GistId:0697355b7f872839932388d269ed6a63
+        // Use a document builder to add content to the document.
+        DocumentBuilder builder = new DocumentBuilder();
 
-        // Insert a simple table.
-        builder.startTable();
+        builder.getListFormat().applyBulletDefault();
+        builder.getListFormat().getList().getListLevels().get(0).setNumberFormat("-");
+
+        builder.writeln("Item 1");
+        builder.writeln("Item 2");
+
+        builder.getListFormat().listIndent();
+
+        builder.writeln("Item 2a");
+        builder.writeln("Item 2b");
+        //ExEnd:BulletedList
+    }
+
+    @Test
+    public void orderedList() throws Exception
+    {
+        //ExStart:OrderedList
+        //GistId:0697355b7f872839932388d269ed6a63
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.getListFormat().applyNumberDefault();
+
+        builder.writeln("Item 1");
+        builder.writeln("Item 2");
+
+        builder.getListFormat().listIndent();
+
+        builder.writeln("Item 2a");
+        builder.writeln("Item 2b");
+        //ExEnd:OrderedList
+    }
+
+    @Test
+    public void table() throws Exception
+    {
+        //ExStart:Table
+        //GistId:0697355b7f872839932388d269ed6a63
+        // Use a document builder to add content to the document.
+        DocumentBuilder builder = new DocumentBuilder();
+
+        // Add the first row.
         builder.insertCell();
-        builder.write("Cell1");
+        builder.writeln("a");
         builder.insertCell();
-        builder.write("Cell2");
-        builder.endTable();
+        builder.writeln("b");
 
-        // Save your document as a Markdown file.
-        doc.save(getArtifactsDir() + "WorkingWithMarkdown.CreateMarkdownDocument.md");
-        //ExEnd:CreateMarkdownDocument
+        builder.endRow();
+
+        // Add the second row.
+        builder.insertCell();
+        builder.writeln("c");
+        builder.insertCell();
+        builder.writeln("d");
+        //ExEnd:Table
     }
 
     @Test
     public void readMarkdownDocument() throws Exception
     {
         //ExStart:ReadMarkdownDocument
+        //GistId:19de942ef8827201c1dca99f76c59133
         Document doc = new Document(getMyDir() + "Quotes.md");
 
         // Let's remove Heading formatting from a Quote in the very last paragraph.
@@ -96,6 +337,7 @@ public class WorkingWithMarkdown extends DocsExamplesBase
     public void emphases() throws Exception
     {
         //ExStart:Emphases
+        //GistId:19de942ef8827201c1dca99f76c59133
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -126,90 +368,6 @@ public class WorkingWithMarkdown extends DocsExamplesBase
 
         builder.getDocument().save(getArtifactsDir() + "WorkingWithMarkdown.Emphases.md");
         //ExEnd:Emphases
-    }
-
-    @Test
-    public void headings() throws Exception
-    {
-        //ExStart:Headings
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // By default Heading styles in Word may have bold and italic formatting.
-        // If we do not want the text to be emphasized, set these properties explicitly to false.
-        builder.getFont().setBold(false);
-        builder.getFont().setItalic(false);
-
-        builder.writeln("The following produces headings:");
-        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 1"));
-        builder.writeln("Heading1");
-        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 2"));
-        builder.writeln("Heading2");
-        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 3"));
-        builder.writeln("Heading3");
-        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 4"));
-        builder.writeln("Heading4");
-        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 5"));
-        builder.writeln("Heading5");
-        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 6"));
-        builder.writeln("Heading6");
-
-        // Note that the emphases are also allowed inside Headings.
-        builder.getFont().setBold(true);
-        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 1"));
-        builder.writeln("Bold Heading1");
-
-        doc.save(getArtifactsDir() + "WorkingWithMarkdown.Headings.md");
-        //ExEnd:Headings
-    }
-
-    @Test
-    public void blockQuotes() throws Exception
-    {
-        //ExStart:BlockQuotes
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        builder.writeln("We support blockquotes in Markdown:");
-        
-        builder.getParagraphFormat().setStyle(doc.getStyles().get("Quote"));
-        builder.writeln("Lorem");
-        builder.writeln("ipsum");
-        
-        builder.getParagraphFormat().setStyle(doc.getStyles().get("Normal"));
-        builder.writeln("The quotes can be of any level and can be nested:");
-        
-        Style quoteLevel3 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote2");
-        builder.getParagraphFormat().setStyle(quoteLevel3);
-        builder.writeln("Quote level 3");
-        
-        Style quoteLevel4 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote3");
-        builder.getParagraphFormat().setStyle(quoteLevel4);
-        builder.writeln("Nested quote level 4");
-        
-        builder.getParagraphFormat().setStyle(doc.getStyles().get("Quote"));
-        builder.writeln();
-        builder.writeln("Back to first level");
-        
-        Style quoteLevel1WithHeading = doc.getStyles().add(StyleType.PARAGRAPH, "Quote Heading 3");
-        builder.getParagraphFormat().setStyle(quoteLevel1WithHeading);
-        builder.write("Headings are allowed inside Quotes");
-
-        doc.save(getArtifactsDir() + "WorkingWithMarkdown.BlockQuotes.md");
-        //ExEnd:BlockQuotes
-    }
-
-    @Test
-    public void horizontalRule() throws Exception
-    {
-        //ExStart:HorizontalRule
-        DocumentBuilder builder = new DocumentBuilder(new Document());
-
-        builder.writeln("We support Horizontal rules (Thematic breaks) in Markdown:");
-        builder.insertHorizontalRule();
-
-        builder.getDocument().save(getArtifactsDir() + "WorkingWithMarkdown.HorizontalRuleExample.md");
-        //ExEnd:HorizontalRule
     }
 
     @Test

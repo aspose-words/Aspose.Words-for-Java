@@ -13,6 +13,7 @@ public class CompareDocuments extends DocsExamplesBase
     public void compareForEqual() throws Exception
     {
         //ExStart:CompareForEqual
+        //GistId:66cba61d079d8ef1e676820633ba4586
         Document docA = new Document(getMyDir() + "Document.docx");
         Document docB = docA.deepClone();
         
@@ -27,6 +28,7 @@ public class CompareDocuments extends DocsExamplesBase
     public void compareOptions() throws Exception
     {
         //ExStart:CompareOptions
+        //GistId:66cba61d079d8ef1e676820633ba4586
         Document docA = new Document(getMyDir() + "Document.docx");
         Document docB = docA.deepClone();
 
