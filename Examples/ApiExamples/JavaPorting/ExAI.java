@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -18,6 +18,7 @@ import com.aspose.words.AiModel;
 import com.aspose.words.AiModelType;
 import com.aspose.words.SummarizeOptions;
 import com.aspose.words.SummaryLength;
+import com.aspose.words.GoogleAiModel;
 import com.aspose.words.Language;
 import com.aspose.words.CheckGrammarOptions;
 
@@ -53,10 +54,14 @@ public class ExAI extends ApiExampleBase
         // Use OpenAI or Google generative language models.
         IAiModelText model = ((OpenAiModel)AiModel.create(AiModelType.GPT_4_O_MINI).withApiKey(apiKey)).withOrganization("Organization").withProject("Project");
 
-        Document oneDocumentSummary = model.summarize(firstDoc, new SummarizeOptions(); { oneDocumentSummary.setSummaryLength(SummaryLength.SHORT); });
+        SummarizeOptions options = new SummarizeOptions();
+
+        options.setSummaryLength(SummaryLength.SHORT);
+        Document oneDocumentSummary = model.summarize(firstDoc, options);
         oneDocumentSummary.save(getArtifactsDir() + "AI.AiSummarize.One.docx");
 
-        Document multiDocumentSummary = model.summarize(new Document[] { firstDoc, secondDoc }, new SummarizeOptions(); { multiDocumentSummary.setSummaryLength(SummaryLength.LONG); });
+        options.setSummaryLength(SummaryLength.LONG);
+        Document multiDocumentSummary = model.summarize(new Document[] { firstDoc, secondDoc }, options);
         multiDocumentSummary.save(getArtifactsDir() + "AI.AiSummarize.Multi.docx");
         //ExEnd:AiSummarize
     }
@@ -73,7 +78,7 @@ public class ExAI extends ApiExampleBase
 
         String apiKey = System.getenv("API_KEY");
         // Use Google generative language models.
-        IAiModelText model = (IAiModelText)AiModel.create(AiModelType.GEMINI_15_FLASH).withApiKey(apiKey);
+        IAiModelText model = (GoogleAiModel)AiModel.create(AiModelType.GEMINI_15_FLASH).withApiKey(apiKey);
 
         Document translatedDoc = model.translate(doc, Language.ARABIC);
         translatedDoc.save(getArtifactsDir() + "AI.AiTranslate.docx");
@@ -92,13 +97,13 @@ public class ExAI extends ApiExampleBase
 
         String apiKey = System.getenv("API_KEY");
         // Use OpenAI generative language models.
-        IAiModelText model = (IAiModelText)AiModel.create(AiModelType.GPT_4_O_MINI).withApiKey(apiKey);
+        IAiModelText model = (OpenAiModel)AiModel.create(AiModelType.GPT_4_O_MINI).withApiKey(apiKey);
 
         CheckGrammarOptions grammarOptions = new CheckGrammarOptions();
         grammarOptions.setImproveStylistics(true);
 
         Document proofedDoc = model.checkGrammar(doc, grammarOptions);
-        proofedDoc.save("AI.AiGrammar.docx");
+        proofedDoc.save(getArtifactsDir() + "AI.AiGrammar.docx");
         //ExEnd:AiGrammar
     }
 }

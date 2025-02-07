@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -434,7 +434,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         // We can accept/reject these revisions programmatically
         // by calling methods such as Document.AcceptAllRevisions, or each revision's Accept method.
         // In Microsoft Word, we can process them manually via "Review" -> "Changes".
-        doc.save(getArtifactsDir() + "Document.StartTrackRevisions.docx");
+        doc.save(getArtifactsDir() + "Revision.StartTrackRevisions.docx");
         //ExEnd
     }
 
@@ -633,10 +633,10 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         }
 
         docOriginal.compareInternal(docEdited, "John Doe", new Date(), compareOptions);
-        docOriginal.save(getArtifactsDir() + "Document.CompareOptions.docx");
+        docOriginal.save(getArtifactsDir() + "Revision.CompareOptions.docx");
         //ExEnd
 
-        docOriginal = new Document(getArtifactsDir() + "Document.CompareOptions.docx");
+        docOriginal = new Document(getArtifactsDir() + "Revision.CompareOptions.docx");
 
         TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
             "OriginalEdited endnote text.", (Footnote)docOriginal.getChild(NodeType.FOOTNOTE, 0, true));
@@ -705,7 +705,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         doc.getLayoutOptions().getRevisionOptions().setShowRevisionBars(false);
         doc.getLayoutOptions().getRevisionOptions().setRevisionBarsPosition(HorizontalAlignment.RIGHT);
 
-        doc.save(getArtifactsDir() + "Document.LayoutOptionsRevisions.pdf");
+        doc.save(getArtifactsDir() + "Revision.LayoutOptionsRevisions.pdf");
         //ExEnd
     }
 

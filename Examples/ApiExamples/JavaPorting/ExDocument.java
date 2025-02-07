@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -46,8 +46,6 @@ import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.words.Font;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.words.ImportFormatMode;
-import com.aspose.ms.System.msString;
-import com.aspose.ms.System.StringComparison;
 import java.io.FileNotFoundException;
 import com.aspose.words.ImportFormatOptions;
 import com.aspose.ms.NUnit.Framework.msAssert;
@@ -118,6 +116,7 @@ import com.aspose.words.FootnoteType;
 import com.aspose.words.JustificationMode;
 import com.aspose.words.BookmarkStart;
 import com.aspose.words.BookmarkEnd;
+import com.aspose.ms.System.msString;
 import com.aspose.words.HtmlFixedSaveOptions;
 import com.aspose.words.XamlFixedSaveOptions;
 import org.testng.annotations.DataProvider;
@@ -629,8 +628,8 @@ public class ExDocument extends ApiExampleBase
 
         String outDocText = new Document(getArtifactsDir() + "Document.AppendDocument.docx").getText();
 
-        Assert.assertTrue(msString.startsWith(outDocText, dstDoc.getText(), StringComparison.ORDINAL));
-        Assert.assertTrue(msString.endsWith(outDocText, srcDoc.getText(), StringComparison.ORDINAL));
+        Assert.assertTrue(outDocText.startsWith(dstDoc.getText()));
+        Assert.assertTrue(outDocText.endsWith(srcDoc.getText()));
     }
 
     @Test
@@ -2167,6 +2166,8 @@ public class ExDocument extends ApiExampleBase
         //ExFor:TaskPane.WebExtension
         //ExFor:TaskPane.Row
         //ExFor:WebExtension
+        //ExFor:WebExtension.Id
+        //ExFor:WebExtension.AlternateReferences
         //ExFor:WebExtension.Reference
         //ExFor:WebExtension.Properties
         //ExFor:WebExtension.Bindings
@@ -2179,11 +2180,14 @@ public class ExDocument extends ApiExampleBase
         //ExFor:WebExtensionPropertyCollection
         //ExFor:WebExtensionBindingCollection
         //ExFor:WebExtensionProperty.#ctor(String, String)
+        //ExFor:WebExtensionProperty.Name
+        //ExFor:WebExtensionProperty.Value
         //ExFor:WebExtensionBinding.#ctor(String, WebExtensionBindingType, String)
         //ExFor:WebExtensionStoreType
         //ExFor:WebExtensionBindingType
         //ExFor:TaskPaneDockState
         //ExFor:TaskPaneCollection
+        //ExFor:WebExtensionBinding.Id
         //ExFor:WebExtensionBinding.AppRef
         //ExFor:WebExtensionBinding.BindingType
         //ExSummary:Shows how to add a web extension to a document.
@@ -2224,19 +2228,22 @@ public class ExDocument extends ApiExampleBase
         Assert.assertEquals(0, doc.getWebExtensionTaskPanes().getCount());
 
         doc = new Document(getArtifactsDir() + "Document.WebExtension.docx");
+        
         myScriptTaskPane = doc.getWebExtensionTaskPanes().get(0);
-
         Assert.assertEquals(TaskPaneDockState.RIGHT, myScriptTaskPane.getDockState());
         Assert.assertTrue(myScriptTaskPane.isVisible());
         Assert.assertEquals(300.0d, myScriptTaskPane.getWidth());
         Assert.assertTrue(myScriptTaskPane.isLocked());
         Assert.assertEquals(1, myScriptTaskPane.getRow());
+
         webExtension = myScriptTaskPane.getWebExtension();
+        Assert.assertEquals("", webExtension.getId());
 
         Assert.assertEquals("WA104380646", webExtension.getReference().getId());
         Assert.assertEquals("1.0.0.0", webExtension.getReference().getVersion());
         Assert.assertEquals(WebExtensionStoreType.OMEX, webExtension.getReference().getStoreType());
         Assert.assertEquals(msCultureInfo.getCurrentCulture().getName(), webExtension.getReference().getStore());
+        Assert.assertEquals(0, webExtension.getAlternateReferences().getCount());
 
         Assert.assertEquals("MyScript", webExtension.getProperties().get(0).getName());
         Assert.assertEquals("MyScript Math Sample", webExtension.getProperties().get(0).getValue());

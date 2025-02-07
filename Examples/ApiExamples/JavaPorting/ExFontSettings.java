@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -20,8 +20,6 @@ import com.aspose.words.IWarningCallback;
 import com.aspose.words.WarningInfo;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.WarningInfoCollection;
-import com.aspose.ms.System.msString;
-import com.aspose.ms.System.StringComparison;
 import java.util.ArrayList;
 import com.aspose.words.PhysicalFontInfo;
 import java.util.Iterator;
@@ -202,8 +200,9 @@ public class ExFontSettings extends ApiExampleBase
 
         Assert.assertEquals(1, callback.FontSubstitutionWarnings.getCount()); //ExSkip
         Assert.assertTrue(callback.FontSubstitutionWarnings.get(0).getWarningType() == WarningType.FONT_SUBSTITUTION);
-        Assert.assertTrue(msString.equals(callback.FontSubstitutionWarnings.get(0).getDescription(), 
-                "Font 'Times New Roman' has not been found. Using 'Fanwood' font instead. Reason: first available font.", StringComparison.ORDINAL));
+        Assert.assertTrue(callback.FontSubstitutionWarnings.get(0).getDescription()
+            .equals(
+                "Font 'Times New Roman' has not been found. Using 'Fanwood' font instead. Reason: first available font."));
     }
 
     private static class FontSubstitutionWarningCollector implements IWarningCallback
@@ -338,8 +337,9 @@ public class ExFontSettings extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "FontSettings.SubstitutionWarningsClosestMatch.pdf");
 
-        Assert.assertTrue(msString.equals(callback.FontWarnings.get(0).getDescription(), 
-                "Font \'SymbolPS\' has not been found. Using \'Wingdings\' font instead. Reason: font info substitution.", StringComparison.ORDINAL));
+        Assert.assertTrue(callback.FontWarnings.get(0).getDescription()
+            .equals(
+                "Font \'SymbolPS\' has not been found. Using \'Wingdings\' font instead. Reason: font info substitution."));
     }
 
     @Test

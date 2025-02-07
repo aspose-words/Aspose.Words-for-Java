@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -92,7 +92,7 @@ public class ExComment extends ApiExampleBase
 
         // If a comment has no ancestor, it is a "top-level" comment as opposed to a reply-type comment.
         // Print all top-level comments along with any replies they may have.
-        for (Comment comment : comments.<Comment>OfType().Where(c => c.Ancestor == null) !!Autoporter error: Undefined expression type )
+        for (Comment comment : comments.<Comment>OfType().Where(c => c.Ancestor == null).ToList() !!Autoporter error: Undefined expression type )
         {
             System.out.println("Top-level comment:");
             System.out.println("\t\"{comment.GetText().Trim()}\", by {comment.Author}");
@@ -234,7 +234,7 @@ public class ExComment extends ApiExampleBase
         CommentInfoPrinter commentVisitor = new CommentInfoPrinter();
 
         // Iterate over all top-level comments. Unlike reply-type comments, top-level comments have no ancestor.
-        for (Comment comment : comments.Where(c => ((Comment)c).Ancestor == null) !!Autoporter error: Undefined expression type )
+        for (Comment comment : comments.Where(c => ((Comment)c).Ancestor == null).ToList() !!Autoporter error: Undefined expression type )
         {
             // First, visit the start of the comment range.
             CommentRangeStart commentRangeStart = (CommentRangeStart)comment.getPreviousSibling().getPreviousSibling().getPreviousSibling();

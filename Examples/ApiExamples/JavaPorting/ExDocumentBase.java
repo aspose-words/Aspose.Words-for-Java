@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -93,7 +93,7 @@ public class ExDocumentBase extends ApiExampleBase
         // Every node has a parent document, which is the document that contains the node.
         // Inserting a node into a document that the node does not belong to will throw an exception.
         Assert.assertNotEquals(dstDoc, srcDoc.getFirstSection().getDocument());
-        Assert.<IllegalArgumentException>Throws(() => { dstDoc.appendChild(srcDoc.getFirstSection()); });
+        Assert.<IllegalArgumentException>Throws(() => dstDoc.appendChild(srcDoc.getFirstSection()));
 
         // Use the ImportNode method to create a copy of a node, which will have the document
         // that called the ImportNode method set as its new owner document.

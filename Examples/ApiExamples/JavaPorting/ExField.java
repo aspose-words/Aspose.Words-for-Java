@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -1603,7 +1603,7 @@ public class ExField extends ApiExampleBase
         // has reset the count for this level so that this field will display "2.2.1.".
         insertNumberedClause(builder, "\tHeading 6", FILLER_TEXT, StyleIdentifier.HEADING_3);
 
-        for (FieldAutoNumLgl field : doc.getRange().getFields().Where(f => f.Type == FieldType.FieldAutoNumLegal) !!Autoporter error: Undefined expression type )
+        for (FieldAutoNumLgl field : doc.getRange().getFields().Where(f => f.Type == FieldType.FieldAutoNumLegal).ToList() !!Autoporter error: Undefined expression type )
         {
             // The separator character, which appears in the field result immediately after the number,
             // is a full stop by default. If we leave this property null,
@@ -1642,7 +1642,7 @@ public class ExField extends ApiExampleBase
     {
         doc = DocumentHelper.saveOpen(doc);
 
-        for (FieldAutoNumLgl field : doc.getRange().getFields().Where(f => f.Type == FieldType.FieldAutoNumLegal) !!Autoporter error: Undefined expression type )
+        for (FieldAutoNumLgl field : doc.getRange().getFields().Where(f => f.Type == FieldType.FieldAutoNumLegal).ToList() !!Autoporter error: Undefined expression type )
         {
             TestUtil.verifyField(FieldType.FIELD_AUTO_NUM_LEGAL, " AUTONUMLGL  \\s : \\e", "", field);
 
@@ -1673,7 +1673,7 @@ public class ExField extends ApiExampleBase
         builder.insertField(FieldType.FIELD_AUTO_NUM_OUTLINE, true);
         builder.writeln("\tParagraph 2.");
 
-        for (FieldAutoNumOut field : doc.getRange().getFields().Where(f => f.Type == FieldType.FieldAutoNumOutline) !!Autoporter error: Undefined expression type )
+        for (FieldAutoNumOut field : doc.getRange().getFields().Where(f => f.Type == FieldType.FieldAutoNumOutline).ToList() !!Autoporter error: Undefined expression type )
             Assert.assertEquals(" AUTONUMOUT ", field.getFieldCode());
 
         doc.save(getArtifactsDir() + "Field.AUTONUMOUT.docx");
@@ -4911,25 +4911,25 @@ public class ExField extends ApiExampleBase
 
         field = (FieldStyleRef)doc.getRange().getFields().get(2);
 
-        TestUtil.verifyField(FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\n", "b )", field);
+        TestUtil.verifyField(FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\n", "‎b )", field);
         Assert.assertEquals("Quote", field.getStyleName());
         Assert.assertTrue(field.getInsertParagraphNumber());
 
         field = (FieldStyleRef)doc.getRange().getFields().get(3);
 
-        TestUtil.verifyField(FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\r", "b )", field);
+        TestUtil.verifyField(FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\r", "‎b )", field);
         Assert.assertEquals("Quote", field.getStyleName());
         Assert.assertTrue(field.getInsertParagraphNumberInRelativeContext());
 
         field = (FieldStyleRef)doc.getRange().getFields().get(4);
 
-        TestUtil.verifyField(FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\w", "1.b )", field);
+        TestUtil.verifyField(FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\w", "‎1.b )", field);
         Assert.assertEquals("Quote", field.getStyleName());
         Assert.assertTrue(field.getInsertParagraphNumberInFullContext());
 
         field = (FieldStyleRef)doc.getRange().getFields().get(5);
 
-        TestUtil.verifyField(FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\w \\t", "1.b)", field);
+        TestUtil.verifyField(FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\w \\t", "‎1.b)", field);
         Assert.assertEquals("Quote", field.getStyleName());
         Assert.assertTrue(field.getInsertParagraphNumberInFullContext());
         Assert.assertTrue(field.getSuppressNonDelimiters());
@@ -6421,28 +6421,28 @@ public class ExField extends ApiExampleBase
 
         field = (FieldRef)doc.getRange().getFields().get(2);
 
-        TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\n", ">>> i", field);
+        TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\n", "‎>>> i", field);
         Assert.assertEquals("MyBookmark", field.getBookmarkName());
         Assert.assertTrue(field.getInsertParagraphNumber());
         Assert.assertEquals(" REF  MyBookmark \\n", field.getFieldCode());
-        Assert.assertEquals(">>> i", field.getResult());
+        Assert.assertEquals("‎>>> i", field.getResult());
 
         field = (FieldRef)doc.getRange().getFields().get(3);
 
-        TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\n \\t", "i", field);
+        TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\n \\t", "‎i", field);
         Assert.assertEquals("MyBookmark", field.getBookmarkName());
         Assert.assertTrue(field.getInsertParagraphNumber());
         Assert.assertTrue(field.getSuppressNonDelimiters());
 
         field = (FieldRef)doc.getRange().getFields().get(4);
 
-        TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\w", "> 4>> c>>> i", field);
+        TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\w", "‎> 4>> c>>> i", field);
         Assert.assertEquals("MyBookmark", field.getBookmarkName());
         Assert.assertTrue(field.getInsertParagraphNumberInFullContext());
 
         field = (FieldRef)doc.getRange().getFields().get(5);
 
-        TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\r", ">> c>>> i", field);
+        TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\r", "‎>> c>>> i", field);
         Assert.assertEquals("MyBookmark", field.getBookmarkName());
         Assert.assertTrue(field.getInsertParagraphNumberInRelativeContext());
     }

@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -66,6 +66,8 @@ import com.aspose.words.EmphasisMark;
 import com.aspose.words.ThemeFont;
 import com.aspose.words.FontSettings;
 import java.util.ArrayList;
+import com.aspose.words.MsWordVersion;
+import com.aspose.words.NumSpacing;
 import org.testng.annotations.DataProvider;
 
 
@@ -1770,5 +1772,35 @@ public class ExFont extends ApiExampleBase
             }
         }
         //ExEnd:PhysicalFontInfoEmbeddingLicensingRights
+    }
+
+    @Test
+    public void numberSpacing() throws Exception
+    {
+        //ExStart:NumberSpacing
+        //GistId:95fdae949cefbf2ce485acc95cccc495
+        //ExFor:Font.NumberSpacing
+        //ExFor:NumSpacing
+        //ExSummary:Shows how to set the spacing type of the numeral.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // This effect is only supported in newer versions of MS Word.
+        doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2019);
+
+        builder.write("1 ");
+        builder.write("This is an example");
+
+        Run run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
+        if (run.getFont().getNumberSpacing() == NumSpacing.DEFAULT)
+            run.getFont().setNumberSpacing(NumSpacing.PROPORTIONAL);
+
+        doc.save(getArtifactsDir() + "Fonts.NumberSpacing.docx");
+        //ExEnd:NumberSpacing
+
+        doc = new Document(getArtifactsDir() + "Fonts.NumberSpacing.docx");
+
+        run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
+        Assert.assertEquals(NumSpacing.PROPORTIONAL, run.getFont().getNumberSpacing());
     }
 }

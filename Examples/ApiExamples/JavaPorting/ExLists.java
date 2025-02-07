@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -9,7 +9,6 @@ package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
 
-import com.aspose.ms.System.ms;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
@@ -537,7 +536,7 @@ public class ExLists extends ApiExampleBase
 
         NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
 
-        for (Paragraph para : paras.<Paragraph>OfType().Where(p => p.ListFormat.IsListItem) !!Autoporter error: Undefined expression type )
+        for (Paragraph para : paras.<Paragraph>OfType().Where(p => p.ListFormat.IsListItem).ToList() !!Autoporter error: Undefined expression type )
         { 
             System.out.println("This paragraph belongs to list ID# {para.ListFormat.List.ListId}, number style \"{para.ListFormat.ListLevel.NumberStyle}\"");
             System.out.println("\t\"{para.GetText().Trim()}\"");
@@ -547,7 +546,7 @@ public class ExLists extends ApiExampleBase
         doc = DocumentHelper.saveOpen(doc);
         paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
 
-        Assert.AreEqual(6, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
+        Assert.AreEqual(6, paras.Count(n => ((Paragraph)n).ListFormat.IsListItem));
     }
 
     @Test
@@ -566,12 +565,12 @@ public class ExLists extends ApiExampleBase
         builder.getListFormat().removeNumbers();
 
         NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
-        Assert.AreEqual(3, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
+        Assert.AreEqual(3, paras.Count(n => ((Paragraph)n).ListFormat.IsListItem));
 
         for (Paragraph paragraph : (Iterable<Paragraph>) paras)
             paragraph.getListFormat().removeNumbers();
 
-        Assert.AreEqual(0, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
+        Assert.AreEqual(0, paras.Count(n => ((Paragraph)n).ListFormat.IsListItem));
         //ExEnd
     }
 
@@ -590,7 +589,7 @@ public class ExLists extends ApiExampleBase
 
         NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
 
-        Assert.AreEqual(0, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
+        Assert.AreEqual(0, paras.Count(n => ((Paragraph)n).ListFormat.IsListItem));
 
         doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
         List list = doc.getLists().get(0);
@@ -601,14 +600,14 @@ public class ExLists extends ApiExampleBase
             paragraph.getListFormat().setListLevelNumber(2);
         }
 
-        Assert.AreEqual(3, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
+        Assert.AreEqual(3, paras.Count(n => ((Paragraph)n).ListFormat.IsListItem));
         //ExEnd
 
         doc = DocumentHelper.saveOpen(doc);
         paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
 
-        Assert.AreEqual(3, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
-        Assert.AreEqual(3, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.ListLevelNumber == 2));
+        Assert.AreEqual(3, paras.Count(n => ((Paragraph)n).ListFormat.IsListItem));
+        Assert.AreEqual(3, paras.Count(n => ((Paragraph)n).ListFormat.ListLevelNumber == 2));
     }
 
     @Test
@@ -626,7 +625,7 @@ public class ExLists extends ApiExampleBase
 
         NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
 
-        Assert.AreEqual(0, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
+        Assert.AreEqual(0, paras.Count(n => ((Paragraph)n).ListFormat.IsListItem));
 
         List list = doc.getLists().add(ListTemplate.NUMBER_UPPERCASE_LETTER_DOT);
 
@@ -636,14 +635,14 @@ public class ExLists extends ApiExampleBase
             paragraph.getListFormat().setListLevelNumber(1);
         }
 
-        Assert.AreEqual(3, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
+        Assert.AreEqual(3, paras.Count(n => ((Paragraph)n).ListFormat.IsListItem));
         //ExEnd
 
         doc = DocumentHelper.saveOpen(doc);
         paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
 
-        Assert.AreEqual(3, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
-        Assert.AreEqual(3, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.ListLevelNumber == 1));
+        Assert.AreEqual(3, paras.Count(n => ((Paragraph)n).ListFormat.IsListItem));
+        Assert.AreEqual(3, paras.Count(n => ((Paragraph)n).ListFormat.ListLevelNumber == 1));
     }
 
     //ExStart
@@ -924,7 +923,7 @@ public class ExLists extends ApiExampleBase
 
         // Find if we have the paragraph list. In our document, our list uses plain Arabic numbers,
         // which start at three and ends at six.
-        for (Paragraph paragraph : paras.<Paragraph>OfType().Where(p => p.ListFormat.IsListItem) !!Autoporter error: Undefined expression type )
+        for (Paragraph paragraph : paras.<Paragraph>OfType().Where(p => p.ListFormat.IsListItem).ToList() !!Autoporter error: Undefined expression type )
         {
             System.out.println("List item paragraph #{paras.IndexOf(paragraph)}");
 
@@ -1049,5 +1048,39 @@ public class ExLists extends ApiExampleBase
         Assert.assertEquals("001.", paras.get(1).getListLabel().getLabelString());
         Assert.assertEquals("002.", paras.get(2).getListLabel().getLabelString());
         //ExEnd:SetCustomNumberStyleFormat
+    }
+
+    @Test
+    public void addSingleLevelList() throws Exception
+    {
+        //ExStart:AddSingleLevelList
+        //GistId:95fdae949cefbf2ce485acc95cccc495
+        //ExFor:ListCollection.AddSingleLevelList(ListTemplate)
+        //ExSummary:Shows how to create a new single level list based on the predefined template.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        ListCollection listCollection = doc.getLists();
+
+        // Creates the bulleted list from BulletCircle template.
+        List bulletedList = listCollection.addSingleLevelList(ListTemplate.BULLET_CIRCLE);
+
+        // Writes the bulleted list to the resulting document.
+        builder.writeln("Bulleted list starts below:");
+        builder.getListFormat().setList(bulletedList);
+        builder.writeln("Item 1");
+        builder.writeln("Item 2");
+        builder.getListFormat().removeNumbers();
+
+        // Creates the numbered list from NumberUppercaseLetterDot template.
+        List numberedList = listCollection.addSingleLevelList(ListTemplate.NUMBER_UPPERCASE_LETTER_DOT);
+
+        // Writes the numbered list to the resulting document.
+        builder.writeln("Numbered list starts below:");
+        builder.getListFormat().setList(numberedList);
+        builder.writeln("Item 1");
+        builder.writeln("Item 2");
+
+        doc.save(getArtifactsDir() + "Lists.AddSingleLevelList.docx");
+        //ExEnd:AddSingleLevelList
     }
 }

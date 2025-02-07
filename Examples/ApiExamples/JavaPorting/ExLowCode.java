@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -45,8 +45,8 @@ import com.aspose.words.MailMergeOptions;
 import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.net.System.Data.DataRow;
 import com.aspose.words.net.System.Data.DataSet;
-import com.aspose.words.Replacer;
 import com.aspose.words.FindReplaceOptions;
+import com.aspose.words.Replacer;
 import com.aspose.words.ReportBuilder;
 import com.aspose.words.ReportBuilderOptions;
 import com.aspose.words.ReportBuildOptions;
@@ -496,8 +496,11 @@ public class ExLowCode extends ApiExampleBase
 
         Comparer.compareInternal(firstDoc, secondDoc, getArtifactsDir() + "LowCode.CompareDocuments.1.docx", "Author", new DateTime());
         Comparer.compareInternal(firstDoc, secondDoc, getArtifactsDir() + "LowCode.CompareDocuments.2.docx", SaveFormat.DOCX, "Author", new DateTime());
-        Comparer.compareInternal(firstDoc, secondDoc, getArtifactsDir() + "LowCode.CompareDocuments.3.docx", "Author", new DateTime(), new CompareOptions(); { .setIgnoreCaseChanges(true); });
-        Comparer.compareInternal(firstDoc, secondDoc, getArtifactsDir() + "LowCode.CompareDocuments.4.docx", SaveFormat.DOCX, "Author", new DateTime(), new CompareOptions(); { .setIgnoreCaseChanges(true); });
+        
+        CompareOptions compareOptions = new CompareOptions();
+        compareOptions.setIgnoreCaseChanges(true);
+        Comparer.compareInternal(firstDoc, secondDoc, getArtifactsDir() + "LowCode.CompareDocuments.3.docx", "Author", new DateTime(), compareOptions);
+        Comparer.compareInternal(firstDoc, secondDoc, getArtifactsDir() + "LowCode.CompareDocuments.4.docx", SaveFormat.DOCX, "Author", new DateTime(), compareOptions);
         //ExEnd:CompareDocuments
     }
 
@@ -525,15 +528,17 @@ public class ExLowCode extends ApiExampleBase
 
                 FileStream streamOut1 = new FileStream(getArtifactsDir() + "LowCode.CompareStreamDocuments.2.docx", FileMode.CREATE, FileAccess.READ_WRITE);
                 try /*JAVA: was using*/
-            	{
-                    Comparer.compareInternal(firstStreamIn, secondStreamIn, streamOut1, SaveFormat.DOCX, "Author", new DateTime(), new CompareOptions(); { .setIgnoreCaseChanges(true); });
-            	}
+                {
+                    CompareOptions compareOptions = new CompareOptions();
+                    compareOptions.setIgnoreCaseChanges(true);
+                    Comparer.compareInternal(firstStreamIn, secondStreamIn, streamOut1, SaveFormat.DOCX, "Author", new DateTime(), compareOptions);
+                }
                 finally { if (streamOut1 != null) streamOut1.close(); }
             }
             finally { if (secondStreamIn != null) secondStreamIn.close(); }
+            //ExEnd:CompareStreamDocuments
         }
         finally { if (firstStreamIn != null) firstStreamIn.close(); }
-        //ExEnd:CompareStreamDocuments
     }
 
     @Test
@@ -555,7 +560,9 @@ public class ExLowCode extends ApiExampleBase
 
         MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMerge.1.docx", fieldNames, fieldValues);
         MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMerge.2.docx", SaveFormat.DOCX, fieldNames, fieldValues);
-        MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMerge.3.docx", SaveFormat.DOCX, new MailMergeOptions(); { .setTrimWhitespaces(true); }, fieldNames, fieldValues);
+        MailMergeOptions mailMergeOptions = new MailMergeOptions();
+        mailMergeOptions.setTrimWhitespaces(true);
+        MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMerge.3.docx", SaveFormat.DOCX, mailMergeOptions, fieldNames, fieldValues);
         //ExEnd:MailMerge
     }
 
@@ -583,9 +590,11 @@ public class ExLowCode extends ApiExampleBase
 
             FileStream streamOut1 = new FileStream(getArtifactsDir() + "LowCode.MailMergeStream.2.docx", FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
-        	{
-                MailMerger.executeInternal(streamIn, streamOut1, SaveFormat.DOCX, new MailMergeOptions(); { .setTrimWhitespaces(true); }, fieldNames, fieldValues);
-        	}
+            {
+                MailMergeOptions mailMergeOptions = new MailMergeOptions();
+                mailMergeOptions.setTrimWhitespaces(true);
+                MailMerger.executeInternal(streamIn, streamOut1, SaveFormat.DOCX, mailMergeOptions, fieldNames, fieldValues);
+            }
             finally { if (streamOut1 != null) streamOut1.close(); }
         }
         finally { if (streamIn != null) streamIn.close(); }
@@ -878,9 +887,11 @@ public class ExLowCode extends ApiExampleBase
         String pattern = "(C)2006 Aspose Pty Ltd.";
         String replacement = "Copyright (C) 2024 by Aspose Pty Ltd.";
 
+        FindReplaceOptions options = new FindReplaceOptions();
+        options.setFindWholeWordsOnly(false);
         Replacer.replace(doc, getArtifactsDir() + "LowCode.Replace.1.docx", pattern, replacement);
         Replacer.replace(doc, getArtifactsDir() + "LowCode.Replace.2.docx", SaveFormat.DOCX, pattern, replacement);
-        Replacer.replace(doc, getArtifactsDir() + "LowCode.Replace.3.docx", SaveFormat.DOCX, pattern, replacement, new FindReplaceOptions(); { .setFindWholeWordsOnly(false); });
+        Replacer.replace(doc, getArtifactsDir() + "LowCode.Replace.3.docx", SaveFormat.DOCX, pattern, replacement, options);
         //ExEnd:Replace
     }
 
@@ -908,9 +919,11 @@ public class ExLowCode extends ApiExampleBase
 
             FileStream streamOut1 = new FileStream(getArtifactsDir() + "LowCode.ReplaceStream.2.docx", FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
-        	{
-                Replacer.replaceInternal(streamIn, streamOut1, SaveFormat.DOCX, pattern, replacement, new FindReplaceOptions(); { .setFindWholeWordsOnly(false); });
-        	}
+            {
+                FindReplaceOptions options = new FindReplaceOptions();
+                options.setFindWholeWordsOnly(false);
+                Replacer.replaceInternal(streamIn, streamOut1, SaveFormat.DOCX, pattern, replacement, options);
+            }
             finally { if (streamOut1 != null) streamOut1.close(); }
         }
         finally { if (streamIn != null) streamIn.close(); }
@@ -1214,8 +1227,10 @@ public class ExLowCode extends ApiExampleBase
         //ExSummary:Shows how to split document by pages.
         String doc = getMyDir() + "Big document.docx";
 
-        Splitter.split(doc, getArtifactsDir() + "LowCode.SplitDocument.1.docx", new SplitOptions(); { .setSplitCriteria(SplitCriteria.PAGE); });
-        Splitter.split(doc, getArtifactsDir() + "LowCode.SplitDocument.2.docx", SaveFormat.DOCX, new SplitOptions(); { .setSplitCriteria(SplitCriteria.PAGE); });
+        SplitOptions options = new SplitOptions();
+        options.setSplitCriteria(SplitCriteria.PAGE);
+        Splitter.split(doc, getArtifactsDir() + "LowCode.SplitDocument.1.docx", options);
+        Splitter.split(doc, getArtifactsDir() + "LowCode.SplitDocument.2.docx", SaveFormat.DOCX, options);
         //ExEnd:SplitDocument
     }
 
@@ -1229,7 +1244,9 @@ public class ExLowCode extends ApiExampleBase
         FileStream streamIn = new FileStream(getMyDir() + "Big document.docx", FileMode.OPEN, FileAccess.READ);
         try /*JAVA: was using*/
         {
-            Stream[] stream = Splitter.splitInternal(streamIn, SaveFormat.DOCX, new SplitOptions(); { stream.setSplitCriteria(SplitCriteria.PAGE); });
+            SplitOptions options = new SplitOptions();
+            options.setSplitCriteria(SplitCriteria.PAGE);
+            Stream[] stream = Splitter.splitInternal(streamIn, SaveFormat.DOCX, options);
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:SplitDocumentStream
@@ -1250,8 +1267,10 @@ public class ExLowCode extends ApiExampleBase
 
         Watermarker.setText(doc, getArtifactsDir() + "LowCode.WatermarkText.1.docx", watermarkText);
         Watermarker.setText(doc, getArtifactsDir() + "LowCode.WatermarkText.2.docx", SaveFormat.DOCX, watermarkText);
-        Watermarker.setText(doc, getArtifactsDir() + "LowCode.WatermarkText.3.docx", watermarkText, new TextWatermarkOptions(); { .setColor(Color.RED); });
-        Watermarker.setText(doc, getArtifactsDir() + "LowCode.WatermarkText.4.docx", SaveFormat.DOCX, watermarkText, new TextWatermarkOptions(); { .setColor(Color.RED); });
+        TextWatermarkOptions watermarkOptions = new TextWatermarkOptions();
+        watermarkOptions.setColor(Color.RED);
+        Watermarker.setText(doc, getArtifactsDir() + "LowCode.WatermarkText.3.docx", watermarkText, watermarkOptions);
+        Watermarker.setText(doc, getArtifactsDir() + "LowCode.WatermarkText.4.docx", SaveFormat.DOCX, watermarkText, watermarkOptions);
         //ExEnd:WatermarkText
     }
 
@@ -1277,9 +1296,11 @@ public class ExLowCode extends ApiExampleBase
 
             FileStream streamOut1 = new FileStream(getArtifactsDir() + "LowCode.WatermarkTextStream.2.docx", FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
-        	{
-                Watermarker.setTextInternal(streamIn, streamOut1, SaveFormat.DOCX, watermarkText, new TextWatermarkOptions(); { .setColor(Color.RED); });
-        	}
+            {
+                TextWatermarkOptions options = new TextWatermarkOptions();
+                options.setColor(Color.RED);
+                Watermarker.setTextInternal(streamIn, streamOut1, SaveFormat.DOCX, watermarkText, options);
+            }
             finally { if (streamOut1 != null) streamOut1.close(); }
         }
         finally { if (streamIn != null) streamIn.close(); }
@@ -1301,8 +1322,11 @@ public class ExLowCode extends ApiExampleBase
 
         Watermarker.setImage(doc, getArtifactsDir() + "LowCode.SetWatermarkImage.1.docx", watermarkImage);
         Watermarker.setImage(doc, getArtifactsDir() + "LowCode.SetWatermarkText.2.docx", SaveFormat.DOCX, watermarkImage);
-        Watermarker.setImage(doc, getArtifactsDir() + "LowCode.SetWatermarkText.3.docx", watermarkImage, new ImageWatermarkOptions(); { .setScale(50.0); });
-        Watermarker.setImage(doc, getArtifactsDir() + "LowCode.SetWatermarkText.4.docx", SaveFormat.DOCX, watermarkImage, new ImageWatermarkOptions(); { .setScale(50.0); });
+
+        ImageWatermarkOptions options = new ImageWatermarkOptions();
+        options.setScale(50.0);
+        Watermarker.setImage(doc, getArtifactsDir() + "LowCode.SetWatermarkText.3.docx", watermarkImage, options);
+        Watermarker.setImage(doc, getArtifactsDir() + "LowCode.SetWatermarkText.4.docx", SaveFormat.DOCX, watermarkImage, options);
         //ExEnd:WatermarkImage
     }
 

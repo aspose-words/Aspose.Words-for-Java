@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -55,8 +55,6 @@ import com.aspose.words.OleControl;
 import com.aspose.words.Forms2OleControl;
 import com.aspose.words.Forms2OleControlType;
 import com.aspose.words.OleFormat;
-import com.aspose.ms.System.msString;
-import com.aspose.ms.System.StringComparison;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.ms.System.IO.FileInfo;
@@ -1357,9 +1355,6 @@ public class ExShape extends ApiExampleBase
 
         String sourceFullName = shape.getChart().getSourceFullName();
         Assert.assertTrue(sourceFullName.contains("Examples\\Data\\Spreadsheet.xlsx"));
-
-        sourceFullName = "D:\\Documents\\ChartData.xlsx";
-        Assert.assertTrue(msString.equals(sourceFullName, "D:\\Documents\\ChartData.xlsx", StringComparison.ORDINAL));
         //ExEnd
     }
 
@@ -2501,7 +2496,6 @@ public class ExShape extends ApiExampleBase
 
             // Break the forward link between textBox2 and textBox3, and then verify that they are no longer linked.
             textBox3.getPrevious().breakForwardLink();
-
             Assert.assertTrue(textBox2.getNext() == null);
             Assert.assertTrue(textBox3.getPrevious() == null);
         }
