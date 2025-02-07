@@ -20,6 +20,7 @@ class DocumentProtection extends DocsExamplesBase
     public void passwordProtection() throws Exception
     {
         //ExStart:PasswordProtection
+        //GistId:856ba85fa704fa728b0ec20aafddd16b
         Document doc = new Document();
 
         // Apply document protection.
@@ -33,6 +34,7 @@ class DocumentProtection extends DocsExamplesBase
     public void allowOnlyFormFieldsProtect() throws Exception
     {
         //ExStart:AllowOnlyFormFieldsProtect
+        //GistId:856ba85fa704fa728b0ec20aafddd16b
         // Insert two sections with some text.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -50,6 +52,7 @@ class DocumentProtection extends DocsExamplesBase
     public void removeDocumentProtection() throws Exception
     {
         //ExStart:RemoveDocumentProtection
+        //GistId:856ba85fa704fa728b0ec20aafddd16b
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -68,6 +71,7 @@ class DocumentProtection extends DocsExamplesBase
     public void unrestrictedEditableRegions() throws Exception
     {
         //ExStart:UnrestrictedEditableRegions
+        //GistId:856ba85fa704fa728b0ec20aafddd16b
         // Upload a document and make it as read-only.
         Document doc = new Document(getMyDir() + "Document.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -97,6 +101,7 @@ class DocumentProtection extends DocsExamplesBase
     public void unrestrictedSection() throws Exception
     {
         //ExStart:UnrestrictedSection
+        //GistId:856ba85fa704fa728b0ec20aafddd16b
         // Insert two sections with some text.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -131,6 +136,7 @@ class DocumentProtection extends DocsExamplesBase
     public void readOnlyProtection() throws Exception
     {
         //ExStart:ReadOnlyProtection
+        //GistId:7cf6735e83804ba8942663695b22ee42
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -152,6 +158,7 @@ class DocumentProtection extends DocsExamplesBase
     public void removeReadOnlyRestriction() throws Exception
     {
         //ExStart:RemoveReadOnlyRestriction
+        //GistId:7cf6735e83804ba8942663695b22ee42
         Document doc = new Document();
         
         // Enter a password that's up to 15 characters long.

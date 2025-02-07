@@ -23,6 +23,7 @@ class WorkingWithStylesAndThemes extends DocsExamplesBase
     public void accessStyles() throws Exception
     {
         //ExStart:AccessStyles
+        //GistId:a73b495f610523670f0847331ef4d6fc
         Document doc = new Document();
 
         String styleName = "";
@@ -49,6 +50,7 @@ class WorkingWithStylesAndThemes extends DocsExamplesBase
     public void copyStyles() throws Exception
     {
         //ExStart:CopyStyles
+        //GistId:a73b495f610523670f0847331ef4d6fc
         Document doc = new Document();
         Document target = new Document(getMyDir() + "Rendering.docx");
 
@@ -62,6 +64,7 @@ class WorkingWithStylesAndThemes extends DocsExamplesBase
     public void getThemeProperties() throws Exception
     {
         //ExStart:GetThemeProperties
+        //GistId:a73b495f610523670f0847331ef4d6fc
         Document doc = new Document();
 
         Theme theme = doc.getTheme();
@@ -69,25 +72,27 @@ class WorkingWithStylesAndThemes extends DocsExamplesBase
         System.out.println(theme.getMajorFonts().getLatin());
         System.out.println(theme.getMinorFonts().getEastAsian());
         System.out.println(theme.getColors().getAccent1());
-        //ExEnd:GetThemeProperties 
+        //ExEnd:GetThemeProperties
     }
 
     @Test
     public void setThemeProperties() throws Exception
     {
         //ExStart:SetThemeProperties
+        //GistId:a73b495f610523670f0847331ef4d6fc
         Document doc = new Document();
 
         Theme theme = doc.getTheme();
         theme.getMinorFonts().setLatin("Times New Roman");
         theme.getColors().setHyperlink(msColor.getGold());
-        //ExEnd:SetThemeProperties 
+        //ExEnd:SetThemeProperties
     }
 
     @Test
     public void insertStyleSeparator() throws Exception
     {
         //ExStart:InsertStyleSeparator
+        //GistId:4b5526c3c0d9cad73e05fb4b18d2c3d2
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 

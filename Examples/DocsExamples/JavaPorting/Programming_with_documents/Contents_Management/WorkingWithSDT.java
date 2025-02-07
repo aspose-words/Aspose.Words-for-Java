@@ -33,23 +33,25 @@ import com.aspose.ms.System.Text.Encoding;
 class WorkingWithSdt extends DocsExamplesBase
 {
     @Test
-    public void checkBoxTypeContentControl() throws Exception
+    public void sdtCheckBox() throws Exception
     {
-        //ExStart:CheckBoxTypeContentControl
+        //ExStart:SdtCheckBox
+        //GistId:089defec1b191de967e6099effeabda7
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         StructuredDocumentTag sdtCheckBox = new StructuredDocumentTag(doc, SdtType.CHECKBOX, MarkupLevel.INLINE);
         builder.insertNode(sdtCheckBox);
         
-        doc.save(getArtifactsDir() + "WorkingWithSdt.CheckBoxTypeContentControl.docx", SaveFormat.DOCX);
-        //ExEnd:CheckBoxTypeContentControl
+        doc.save(getArtifactsDir() + "WorkingWithSdt.SdtCheckBox.docx", SaveFormat.DOCX);
+        //ExEnd:SdtCheckBox
     }
 
     @Test
     public void currentStateOfCheckBox() throws Exception
     {
-        //ExStart:SetCurrentStateOfCheckBox
+        //ExStart:CurrentStateOfCheckBox
+        //GistId:089defec1b191de967e6099effeabda7
         Document doc = new Document(getMyDir() + "Structured document tags.docx");
         
         // Get the first content control from the document.
@@ -60,13 +62,14 @@ class WorkingWithSdt extends DocsExamplesBase
             sdtCheckBox.setChecked(true);
 
         doc.save(getArtifactsDir() + "WorkingWithSdt.CurrentStateOfCheckBox.docx");
-        //ExEnd:SetCurrentStateOfCheckBox
+        //ExEnd:CurrentStateOfCheckBox
     }
 
     @Test
-    public void modifyContentControls() throws Exception
+    public void modifySdt() throws Exception
     {
-        //ExStart:ModifyContentControls
+        //ExStart:ModifySdt
+        //GistId:089defec1b191de967e6099effeabda7
         Document doc = new Document(getMyDir() + "Structured document tags.docx");
 
         for (StructuredDocumentTag sdt : (Iterable<StructuredDocumentTag>) doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true))
@@ -100,14 +103,15 @@ class WorkingWithSdt extends DocsExamplesBase
             }
         }
         
-        doc.save(getArtifactsDir() + "WorkingWithSdt.ModifyContentControls.docx");
-        //ExEnd:ModifyContentControls
+        doc.save(getArtifactsDir() + "WorkingWithSdt.ModifySdt.docx");
+        //ExEnd:ModifySdt
     }
 
     @Test
-    public void comboBoxContentControl() throws Exception
+    public void sdtComboBox() throws Exception
     {
-        //ExStart:ComboBoxContentControl
+        //ExStart:SdtComboBox
+        //GistId:089defec1b191de967e6099effeabda7
         Document doc = new Document();
 
         StructuredDocumentTag sdt = new StructuredDocumentTag(doc, SdtType.COMBO_BOX, MarkupLevel.BLOCK);
@@ -116,14 +120,15 @@ class WorkingWithSdt extends DocsExamplesBase
         sdt.getListItems().add(new SdtListItem("Item 2", "2"));
         doc.getFirstSection().getBody().appendChild(sdt);
 
-        doc.save(getArtifactsDir() + "WorkingWithSdt.ComboBoxContentControl.docx");
-        //ExEnd:ComboBoxContentControl
+        doc.save(getArtifactsDir() + "WorkingWithSdt.SdtComboBox.docx");
+        //ExEnd:SdtComboBox
     }
 
     @Test
-    public void richTextBoxContentControl() throws Exception
+    public void sdtRichTextBox() throws Exception
     {
-        //ExStart:RichTextBoxContentControl
+        //ExStart:SdtRichTextBox
+        //GistId:089defec1b191de967e6099effeabda7
         Document doc = new Document();
 
         StructuredDocumentTag sdtRichText = new StructuredDocumentTag(doc, SdtType.RICH_TEXT, MarkupLevel.BLOCK);
@@ -136,40 +141,43 @@ class WorkingWithSdt extends DocsExamplesBase
         sdtRichText.getChildNodes(NodeType.ANY, false).add(para);
         doc.getFirstSection().getBody().appendChild(sdtRichText);
 
-        doc.save(getArtifactsDir() + "WorkingWithSdt.RichTextBoxContentControl.docx");
-        //ExEnd:RichTextBoxContentControl
+        doc.save(getArtifactsDir() + "WorkingWithSdt.SdtRichTextBox.docx");
+        //ExEnd:SdtRichTextBox
     }
 
     @Test
-    public void setContentControlColor() throws Exception
+    public void sdtColor() throws Exception
     {
-        //ExStart:SetContentControlColor
+        //ExStart:SdtColor
+        //GistId:089defec1b191de967e6099effeabda7
         Document doc = new Document(getMyDir() + "Structured document tags.docx");
 
         StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
         sdt.setColor(Color.RED);
 
-        doc.save(getArtifactsDir() + "WorkingWithSdt.SetContentControlColor.docx");
-        //ExEnd:SetContentControlColor
+        doc.save(getArtifactsDir() + "WorkingWithSdt.SdtColor.docx");
+        //ExEnd:SdtColor
     }
 
     @Test
-    public void clearContentsControl() throws Exception
+    public void clearSdt() throws Exception
     {
-        //ExStart:ClearContentsControl
+        //ExStart:ClearSdt
+        //GistId:089defec1b191de967e6099effeabda7
         Document doc = new Document(getMyDir() + "Structured document tags.docx");
 
         StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
         sdt.clear();
 
-        doc.save(getArtifactsDir() + "WorkingWithSdt.ClearContentsControl.doc");
-        //ExEnd:ClearContentsControl
+        doc.save(getArtifactsDir() + "WorkingWithSdt.ClearSdt.doc");
+        //ExEnd:ClearSdt
     }
 
     @Test
-    public void bindSdTtoCustomXmlPart() throws Exception
+    public void bindSdtToCustomXmlPart() throws Exception
     {
-        //ExStart:BindSDTtoCustomXmlPart
+        //ExStart:BindSdtToCustomXmlPart
+        //GistId:089defec1b191de967e6099effeabda7
         Document doc = new Document();
         CustomXmlPart xmlPart =
             doc.getCustomXmlParts().add(Guid.newGuid().toString("B"), "<root><text>Hello, World!</text></root>");
@@ -179,28 +187,30 @@ class WorkingWithSdt extends DocsExamplesBase
 
         sdt.getXmlMapping().setMapping(xmlPart, "/root[1]/text[1]", "");
 
-        doc.save(getArtifactsDir() + "WorkingWithSdt.BindSDTtoCustomXmlPart.doc");
-        //ExEnd:BindSDTtoCustomXmlPart
+        doc.save(getArtifactsDir() + "WorkingWithSdt.BindSdtToCustomXmlPart.doc");
+        //ExEnd:BindSdtToCustomXmlPart
     }
 
     @Test
-    public void setContentControlStyle() throws Exception
+    public void sdtStyle() throws Exception
     {
-        //ExStart:SetContentControlStyle
+        //ExStart:SdtStyle
+        //GistId:089defec1b191de967e6099effeabda7
         Document doc = new Document(getMyDir() + "Structured document tags.docx");
 
         StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
         Style style = doc.getStyles().getByStyleIdentifier(StyleIdentifier.QUOTE);
         sdt.setStyle(style);
 
-        doc.save(getArtifactsDir() + "WorkingWithSdt.SetContentControlStyle.docx");
-        //ExEnd:SetContentControlStyle
+        doc.save(getArtifactsDir() + "WorkingWithSdt.SdtStyle.docx");
+        //ExEnd:SdtStyle
     }
 
     @Test
-    public void creatingTableRepeatingSectionMappedToCustomXmlPart() throws Exception
+    public void repeatingSectionMappedToCustomXmlPart() throws Exception
     {
-        //ExStart:CreatingTableRepeatingSectionMappedToCustomXmlPart
+        //ExStart:RepeatingSectionMappedToCustomXmlPart
+        //GistId:089defec1b191de967e6099effeabda7
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -242,8 +252,8 @@ class WorkingWithSdt extends DocsExamplesBase
         authorSdt.getXmlMapping().setMapping(xmlPart, "/books[1]/book[1]/author[1]", "");
         row.appendChild(authorSdt);
 
-        doc.save(getArtifactsDir() + "WorkingWithSdt.CreatingTableRepeatingSectionMappedToCustomXmlPart.docx");
-        //ExEnd:CreatingTableRepeatingSectionMappedToCustomXmlPart
+        doc.save(getArtifactsDir() + "WorkingWithSdt.RepeatingSectionMappedToCustomXmlPart.docx");
+        //ExEnd:RepeatingSectionMappedToCustomXmlPart
     }
 
     @Test
@@ -260,9 +270,10 @@ class WorkingWithSdt extends DocsExamplesBase
     }
 
     @Test
-    public void structuredDocumentTagRangeStartXmlMapping() throws Exception
+    public void sdtRangeStartXmlMapping() throws Exception
     {
-        //ExStart:StructuredDocumentTagRangeStartXmlMapping
+        //ExStart:SdtRangeStartXmlMapping
+        //GistId:089defec1b191de967e6099effeabda7
         Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
 
         // Construct an XML part that contains data and add it to the document's CustomXmlPart collection.
@@ -279,7 +290,7 @@ class WorkingWithSdt extends DocsExamplesBase
         // This XPath will point to the contents second "<text>" element of the first "<root>" element of our CustomXmlPart.
         sdtRangeStart.getXmlMapping().setMapping(xmlPart, "/root[1]/text[2]", null);
 
-        doc.save(getArtifactsDir() + "WorkingWithSdt.StructuredDocumentTagRangeStartXmlMapping.docx");
-        //ExEnd:StructuredDocumentTagRangeStartXmlMapping
+        doc.save(getArtifactsDir() + "WorkingWithSdt.SdtRangeStartXmlMapping.docx");
+        //ExEnd:SdtRangeStartXmlMapping
     }
 }

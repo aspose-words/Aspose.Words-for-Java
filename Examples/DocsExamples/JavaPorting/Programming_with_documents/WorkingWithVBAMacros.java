@@ -21,6 +21,7 @@ class WorkingWithVba extends DocsExamplesBase
     public void createVbaProject() throws Exception
     {
         //ExStart:CreateVbaProject
+        //GistId:d9bac4ed890f81ea3de392ecfeedbc55
         Document doc = new Document();
 
         VbaProject project = new VbaProject();
@@ -44,6 +45,7 @@ class WorkingWithVba extends DocsExamplesBase
     public void readVbaMacros() throws Exception
     {
         //ExStart:ReadVbaMacros
+        //GistId:d9bac4ed890f81ea3de392ecfeedbc55
         Document doc = new Document(getMyDir() + "VBA project.docm");
 
         if (doc.getVbaProject() != null)
@@ -60,6 +62,7 @@ class WorkingWithVba extends DocsExamplesBase
     public void modifyVbaMacros() throws Exception
     {
         //ExStart:ModifyVbaMacros
+        //GistId:d9bac4ed890f81ea3de392ecfeedbc55
         Document doc = new Document(getMyDir() + "VBA project.docm");
 
         VbaProject project = doc.getVbaProject();
@@ -76,6 +79,7 @@ class WorkingWithVba extends DocsExamplesBase
     public void cloneVbaProject() throws Exception
     {
         //ExStart:CloneVbaProject
+        //GistId:d9bac4ed890f81ea3de392ecfeedbc55
         Document doc = new Document(getMyDir() + "VBA project.docm");
         Document destDoc = new Document(); { destDoc.setVbaProject(doc.getVbaProject().deepClone()); }
 
@@ -87,6 +91,7 @@ class WorkingWithVba extends DocsExamplesBase
     public void cloneVbaModule() throws Exception
     {
         //ExStart:CloneVbaModule
+        //GistId:d9bac4ed890f81ea3de392ecfeedbc55
         Document doc = new Document(getMyDir() + "VBA project.docm");
         Document destDoc = new Document(); { destDoc.setVbaProject(new VbaProject()); }
         
@@ -98,9 +103,10 @@ class WorkingWithVba extends DocsExamplesBase
     }
 
     @Test
-    public void removeBrokenRef() throws Exception
+    public void removeVbaReferences() throws Exception
     {
-        //ExStart:RemoveReferenceFromCollectionOfReferences
+        //ExStart:RemoveVbaReferences
+        //GistId:d9bac4ed890f81ea3de392ecfeedbc55
         Document doc = new Document(getMyDir() + "VBA project.docm");
 
         // Find and remove the reference with some LibId path.
@@ -115,10 +121,11 @@ class WorkingWithVba extends DocsExamplesBase
                 references.removeAt(i);
         }
 
-        doc.save(getArtifactsDir() + "WorkingWithVba.RemoveBrokenRef.docm");
-        //ExEnd:RemoveReferenceFromCollectionOfReferences
+        doc.save(getArtifactsDir() + "WorkingWithVba.RemoveVbaReferences.docm");
+        //ExEnd:RemoveVbaReferences
     }
     //ExStart:GetLibIdAndReferencePath
+    //GistId:d9bac4ed890f81ea3de392ecfeedbc55
     /// <summary>
     /// Returns string representing LibId path of a specified reference. 
     /// </summary>

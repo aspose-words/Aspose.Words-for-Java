@@ -24,6 +24,7 @@ public class WorkingWithLoadOptions extends DocsExamplesBase
     public void updateDirtyFields() throws Exception
     {
         //ExStart:UpdateDirtyFields
+        //GistId:08db64c4d86842c4afd1ecb925ed07c4
         LoadOptions loadOptions = new LoadOptions(); { loadOptions.setUpdateDirtyFields(true); }
 
         Document doc = new Document(getMyDir() + "Dirty field.docx", loadOptions);
@@ -62,6 +63,7 @@ public class WorkingWithLoadOptions extends DocsExamplesBase
     public void convertShapeToOfficeMath() throws Exception
     {
         //ExStart:ConvertShapeToOfficeMath
+        //GistId:ad463bf5f128fe6e6c1485df3c046a4c
         LoadOptions loadOptions = new LoadOptions(); { loadOptions.setConvertShapeToOfficeMath(true); }
 
         Document doc = new Document(getMyDir() + "Office math.docx", loadOptions);

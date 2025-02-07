@@ -21,6 +21,7 @@ class WorkingWithList extends DocsExamplesBase
     public void restartListAtEachSection() throws Exception
     {
         //ExStart:RestartListAtEachSection
+        //GistId:a1dfeba1e0480d5b277a61742c8921af
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 

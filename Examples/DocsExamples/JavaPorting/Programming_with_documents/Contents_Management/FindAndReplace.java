@@ -22,6 +22,7 @@ import com.aspose.words.NodeType;
 import java.awt.Color;
 import com.aspose.words.BreakType;
 import com.aspose.words.ParagraphAlignment;
+import com.aspose.ms.System.Drawing.msColor;
 import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.HeaderFooterCollection;
@@ -33,6 +34,9 @@ import com.aspose.words.FieldType;
 import com.aspose.words.Shape;
 import com.aspose.words.ShapeType;
 import com.aspose.words.Table;
+import com.aspose.ms.System.Diagnostics.Debug;
+import java.text.MessageFormat;
+using static DocsExamples.Programming_with_Documents.Working_with_Document.AddContentUsingDocumentBuilder;
 
 
 class FindAndReplace extends DocsExamplesBase
@@ -178,6 +182,7 @@ class FindAndReplace extends DocsExamplesBase
     public void replaceTextContainingMetaCharacters() throws Exception
     {
         //ExStart:ReplaceTextContainingMetaCharacters
+        //GistId:27c3408b2c7fbee8d6dc6a1c8b61c105
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -200,6 +205,19 @@ class FindAndReplace extends DocsExamplesBase
 
         doc.save(getArtifactsDir() + "FindAndReplace.ReplaceTextContainingMetaCharacters.docx");
         //ExEnd:ReplaceTextContainingMetaCharacters
+    }
+
+    @Test
+    public void highlightColor() throws Exception
+    {
+        //ExStart:HighlightColor
+        //GistId:27c3408b2c7fbee8d6dc6a1c8b61c105
+        Document doc = new Document(getMyDir() + "Footer.docx");
+
+        FindReplaceOptions options = new FindReplaceOptions();
+        options.getApplyFont().setHighlightColor(msColor.getDarkOrange());
+        doc.getRange().replaceInternal(new Regex("(header|footer)"), "", options);
+        //ExEnd:HighlightColor
     }
 
     @Test
@@ -230,6 +248,7 @@ class FindAndReplace extends DocsExamplesBase
     public void ignoreTextInsideDeleteRevisions() throws Exception
     {
         //ExStart:IgnoreTextInsideDeleteRevisions
+        //GistId:27c3408b2c7fbee8d6dc6a1c8b61c105
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -324,13 +343,13 @@ class FindAndReplace extends DocsExamplesBase
     public void replaceTextInFooter() throws Exception
     {
         //ExStart:ReplaceTextInFooter
+        //GistId:27c3408b2c7fbee8d6dc6a1c8b61c105
         Document doc = new Document(getMyDir() + "Footer.docx");
 
         HeaderFooterCollection headersFooters = doc.getFirstSection().getHeadersFooters();
         HeaderFooter footer = headersFooters.getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY);
 
         FindReplaceOptions options = new FindReplaceOptions(); { options.setMatchCase(false); options.setFindWholeWordsOnly(false); }
-
         footer.getRange().replace("(C) 2006 Aspose Pty Ltd.", "Copyright (C) 2020 by Aspose Pty Ltd.", options);
 
         doc.save(getArtifactsDir() + "FindAndReplace.ReplaceTextInFooter.docx");
@@ -519,6 +538,7 @@ class FindAndReplace extends DocsExamplesBase
 
     @Test
     //ExStart:ReplaceWithHtml
+    //GistId:27c3408b2c7fbee8d6dc6a1c8b61c105
     public void replaceWithHtml() throws Exception
     {
         Document doc = new Document();
@@ -565,6 +585,7 @@ class FindAndReplace extends DocsExamplesBase
     public void replaceWithRegex() throws Exception
     {
         //ExStart:ReplaceWithRegex
+        //GistId:27c3408b2c7fbee8d6dc6a1c8b61c105
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         
@@ -599,12 +620,13 @@ class FindAndReplace extends DocsExamplesBase
     public void replaceWithString() throws Exception
     {
         //ExStart:ReplaceWithString
+        //GistId:27c3408b2c7fbee8d6dc6a1c8b61c105
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         
-        builder.writeln("sad mad bad");
+        builder.writeln("Hello _CustomerName_,");
 
-        doc.getRange().replace("sad", "bad", new FindReplaceOptions(FindReplaceDirection.FORWARD));
+        doc.getRange().replace("_CustomerName_", "James Bond", new FindReplaceOptions(FindReplaceDirection.FORWARD));
 
         doc.save(getArtifactsDir() + "FindAndReplace.ReplaceWithString.docx");
         //ExEnd:ReplaceWithString
@@ -659,5 +681,38 @@ class FindAndReplace extends DocsExamplesBase
         doc.save(getArtifactsDir() + "FindAndReplace.ReplaceTextInTable.docx");
         //ExEnd:ReplaceText
     }
+
+    //ExStart:LineCounter
+    //GistId:27c3408b2c7fbee8d6dc6a1c8b61c105
+    @Test //ExSkip
+    public void lineCounter() throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("This is first line");
+        builder.writeln("Second line");
+        builder.writeln("And last line");
+
+        // Prepend each line with line number.
+        FindReplaceOptions opt = new FindReplaceOptions(); { opt.setReplacingCallback(new LineCounterCallback()); }
+        doc.getRange().replaceInternal(new Regex("[^&p]*&p"), "", opt);
+
+        doc.save(getArtifactsDir() + "FindAndReplace.LineCounter.docx");
+    }
+
+    static class LineCounterCallback implements IReplacingCallback
+    {
+        public /*ReplaceAction*/int replacing(ReplacingArgs args)
+        {
+            Debug.writeLine(args.getMatchInternal().getValue());
+
+            args.setReplacement(MessageFormat.format("{0} {1}", mCounter++, args.getMatchInternal().getValue()));
+            return ReplaceAction.REPLACE;
+        }
+
+        private int mCounter = 1;
+    }
+    //ExEnd:LineCounter
 }
 

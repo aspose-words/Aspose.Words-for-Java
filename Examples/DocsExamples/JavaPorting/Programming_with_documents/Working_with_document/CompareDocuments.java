@@ -20,6 +20,7 @@ class CompareDocument extends DocsExamplesBase
     public void compareForEqual() throws Exception
     {
         //ExStart:CompareForEqual
+        //GistId:66cba61d079d8ef1e676820633ba4586
         Document docA = new Document(getMyDir() + "Document.docx");
         Document docB = docA.deepClone();
         
@@ -27,13 +28,14 @@ class CompareDocument extends DocsExamplesBase
         docA.compareInternal(docB, "user", new Date());
 
         System.out.println(docA.getRevisions().getCount() == 0 ? "Documents are equal" : "Documents are not equal");
-        //ExEnd:CompareForEqual                     
+        //ExEnd:CompareForEqual
     }
 
     @Test
     public void compareOptions() throws Exception
     {
         //ExStart:CompareOptions
+        //GistId:66cba61d079d8ef1e676820633ba4586
         Document docA = new Document(getMyDir() + "Document.docx");
         Document docB = docA.deepClone();
 
@@ -52,7 +54,7 @@ class CompareDocument extends DocsExamplesBase
         docA.compareInternal(docB, "user", new Date(), options);
 
         System.out.println(docA.getRevisions().getCount() == 0 ? "Documents are equal" : "Documents are not equal");
-        //ExEnd:CompareOptions                     
+        //ExEnd:CompareOptions
     }
 
     @Test
@@ -82,6 +84,6 @@ class CompareDocument extends DocsExamplesBase
         CompareOptions compareOptions = new CompareOptions(); { compareOptions.setGranularity(Granularity.CHAR_LEVEL); }
 
         builderA.getDocument().compareInternal(builderB.getDocument(), "author", new Date(), compareOptions);
-        //ExEnd:ComparisonGranularity      
+        //ExEnd:ComparisonGranularity
     }
 }

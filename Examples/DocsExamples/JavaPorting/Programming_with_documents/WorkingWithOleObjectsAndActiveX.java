@@ -23,20 +23,22 @@ class WorkingWithOleObjectsAndActiveX extends DocsExamplesBase
     @Test
     public void insertOleObject() throws Exception
     {
-        //ExStart:DocumentBuilderInsertOleObject
+        //ExStart:InsertOleObject
+        //GistId:4996b573cf231d9f66ab0d1f3f981222
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.insertOleObjectInternal("http://www.aspose.com", "htmlfile", true, true, null);
 
         doc.save(getArtifactsDir() + "WorkingWithOleObjectsAndActiveX.InsertOleObject.docx");
-        //ExEnd:DocumentBuilderInsertOleObject
+        //ExEnd:InsertOleObject
     }
 
     @Test
     public void insertOleObjectWithOlePackage() throws Exception
     {
         //ExStart:InsertOleObjectwithOlePackage
+        //GistId:4996b573cf231d9f66ab0d1f3f981222
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -54,16 +56,18 @@ class WorkingWithOleObjectsAndActiveX extends DocsExamplesBase
         finally { if (stream != null) stream.close(); }
         //ExEnd:InsertOleObjectwithOlePackage
 
-        //ExStart:GetAccessToOLEObjectRawData
+        //ExStart:GetAccessToOleObjectRawData
+        //GistId:4996b573cf231d9f66ab0d1f3f981222
         Shape oleShape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         byte[] oleRawData = oleShape.getOleFormat().getRawData();
-        //ExEnd:GetAccessToOLEObjectRawData
+        //ExEnd:GetAccessToOleObjectRawData
     }
 
     @Test
     public void insertOleObjectAsIcon() throws Exception
     {
-        //ExStart:InsertOLEObjectAsIcon
+        //ExStart:InsertOleObjectAsIcon
+        //GistId:4996b573cf231d9f66ab0d1f3f981222
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -71,13 +75,14 @@ class WorkingWithOleObjectsAndActiveX extends DocsExamplesBase
             "My embedded file");
 
         doc.save(getArtifactsDir() + "WorkingWithOleObjectsAndActiveX.InsertOleObjectAsIcon.docx");
-        //ExEnd:InsertOLEObjectAsIcon
+        //ExEnd:InsertOleObjectAsIcon
     }
 
     @Test
     public void insertOleObjectAsIconUsingStream() throws Exception
     {
-        //ExStart:InsertOLEObjectAsIconUsingStream
+        //ExStart:InsertOleObjectAsIconUsingStream
+        //GistId:4996b573cf231d9f66ab0d1f3f981222
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -89,7 +94,7 @@ class WorkingWithOleObjectsAndActiveX extends DocsExamplesBase
         finally { if (stream != null) stream.close(); }
 
         doc.save(getArtifactsDir() + "WorkingWithOleObjectsAndActiveX.InsertOleObjectAsIconUsingStream.docx");
-        //ExEnd:InsertOLEObjectAsIconUsingStream
+        //ExEnd:InsertOleObjectAsIconUsingStream
     }
 
     @Test
@@ -121,5 +126,47 @@ class WorkingWithOleObjectsAndActiveX extends DocsExamplesBase
 
         properties = properties + "\nTotal ActiveX Controls found: " + doc.getChildNodes(NodeType.SHAPE, true).getCount();
         System.out.println("\n" + properties);
+    }
+
+    @Test
+    public void insertOnlineVideo() throws Exception
+    {
+        //ExStart:InsertOnlineVideo
+        //GistId:4996b573cf231d9f66ab0d1f3f981222
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        String url = "https://youtu.be/t_1LYZ102RA";
+        double width = 360.0;
+        double height = 270.0;
+
+        Shape shape = builder.insertOnlineVideo(url, width, height);
+
+        doc.save(getArtifactsDir() + "WorkingWithOleObjectsAndActiveX.InsertOnlineVideo.docx");
+        //ExEnd:InsertOnlineVideo
+    }
+
+    @Test
+    public void insertOnlineVideoWithEmbedHtml() throws Exception
+    {
+        //ExStart:InsertOnlineVideoWithEmbedHtml
+        //GistId:4996b573cf231d9f66ab0d1f3f981222
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        double width = 360.0;
+        double height = 270.0;
+
+        String videoUrl = "https://vimeo.com/52477838";
+        String videoEmbedCode =
+            "<iframe src=\"https://player.vimeo.com/video/52477838\" width=\"640\" height=\"360\" frameborder=\"0\" " +
+            "title=\"Aspose\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
+
+        byte[] thumbnailImageBytes = File.readAllBytes(getImagesDir() + "Logo.jpg");
+
+        builder.insertOnlineVideo(videoUrl, videoEmbedCode, thumbnailImageBytes, width, height);
+
+        doc.save(getArtifactsDir() + "WorkingWithOleObjectsAndActiveX.InsertOnlineVideoWithEmbedHtml.docx");
+        //ExEnd:InsertOnlineVideoWithEmbedHtml
     }
 }

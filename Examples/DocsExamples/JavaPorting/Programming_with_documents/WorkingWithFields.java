@@ -35,6 +35,14 @@ import com.aspose.words.FieldIf;
 import com.aspose.words.FieldIfComparisonResult;
 import com.aspose.ms.System.Threading.CurrentThread;
 import java.util.Date;
+import com.aspose.words.CompositeNode;
+import org.testng.Assert;
+import com.aspose.words.IFieldResultFormatter;
+import com.aspose.ms.System.msString;
+import java.text.MessageFormat;
+import com.aspose.words.CalendarType;
+import com.aspose.words.GeneralFormat;
+import java.util.ArrayList;
 
 
 class WorkingWithFields extends DocsExamplesBase
@@ -42,6 +50,8 @@ class WorkingWithFields extends DocsExamplesBase
     @Test
     public void fieldCode() throws Exception
     {
+        //ExStart:FieldCode
+        //GistId:7c2b7b650a88375b1d438746f78f0d64
         Document doc = new Document(getMyDir() + "Hyperlinks.docx");
 
         for (Field field : doc.getRange().getFields())
@@ -49,12 +59,14 @@ class WorkingWithFields extends DocsExamplesBase
             String fieldCode = field.getFieldCode();
             String fieldResult = field.getResult();
         }
+        //ExEnd:FieldCode
     }
 
     @Test
     public void changeFieldUpdateCultureSource() throws Exception
     {
         //ExStart:ChangeFieldUpdateCultureSource
+        //GistId:9e90defe4a7bcafb004f73a2ef236986
         //ExStart:DocumentBuilderInsertField
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -78,20 +90,22 @@ class WorkingWithFields extends DocsExamplesBase
     @Test
     public void specifyLocaleAtFieldLevel() throws Exception
     {
-        //ExStart:SpecifylocaleAtFieldlevel
+        //ExStart:SpecifyLocaleAtFieldLevel
+        //GistId:1cf07762df56f15067d6aef90b14b3db
         DocumentBuilder builder = new DocumentBuilder();
 
         Field field = builder.insertField(FieldType.FIELD_DATE, true);
         field.setLocaleId(1049);
         
-        builder.getDocument().save(getArtifactsDir() + "WorkingWithFields.SpecifylocaleAtFieldlevel.docx");
-        //ExEnd:SpecifylocaleAtFieldlevel
+        builder.getDocument().save(getArtifactsDir() + "WorkingWithFields.SpecifyLocaleAtFieldLevel.docx");
+        //ExEnd:SpecifyLocaleAtFieldLevel
     }
 
     @Test
     public void replaceHyperlinks() throws Exception
     {
         //ExStart:ReplaceHyperlinks
+        //GistId:0213851d47551e83af42233f4d075cf6
         Document doc = new Document(getMyDir() + "Hyperlinks.docx");
 
         for (Field field : doc.getRange().getFields())
@@ -117,6 +131,7 @@ class WorkingWithFields extends DocsExamplesBase
     public void renameMergeFields() throws Exception
     {
         //ExStart:RenameMergeFields
+        //GistId:bf0f8a6b40b69a5274ab3553315e147f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -141,6 +156,7 @@ class WorkingWithFields extends DocsExamplesBase
     public void removeField() throws Exception
     {
         //ExStart:RemoveField
+        //GistId:8c604665c1b97795df7a1e665f6b44ce
         Document doc = new Document(getMyDir() + "Various fields.docx");
         
         Field field = doc.getRange().getFields().get(0);
@@ -152,15 +168,17 @@ class WorkingWithFields extends DocsExamplesBase
     public void unlinkFields() throws Exception
     {
         //ExStart:UnlinkFields
+        //GistId:f3592014d179ecb43905e37b2a68bc92
         Document doc = new Document(getMyDir() + "Various fields.docx");
         doc.unlinkFields();
         //ExEnd:UnlinkFields
     }
 
     @Test
-    public void insertTOAFieldWithoutDocumentBuilder() throws Exception
+    public void insertToaFieldWithoutDocumentBuilder() throws Exception
     {
-        //ExStart:InsertTOAFieldWithoutDocumentBuilder
+        //ExStart:InsertToaFieldWithoutDocumentBuilder
+        //GistId:1cf07762df56f15067d6aef90b14b3db
         Document doc = new Document();
         Paragraph para = new Paragraph(doc);
 
@@ -182,14 +200,15 @@ class WorkingWithFields extends DocsExamplesBase
 
         fieldToa.update();
 
-        doc.save(getArtifactsDir() + "WorkingWithFields.InsertTOAFieldWithoutDocumentBuilder.docx");
-        //ExEnd:InsertTOAFieldWithoutDocumentBuilder
+        doc.save(getArtifactsDir() + "WorkingWithFields.InsertToaFieldWithoutDocumentBuilder.docx");
+        //ExEnd:InsertToaFieldWithoutDocumentBuilder
     }
 
     @Test
     public void insertNestedFields() throws Exception
     {
         //ExStart:InsertNestedFields
+        //GistId:1cf07762df56f15067d6aef90b14b3db
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -214,9 +233,10 @@ class WorkingWithFields extends DocsExamplesBase
     }
 
     @Test
-    public void insertMergeFieldUsingDOM() throws Exception
+    public void insertMergeFieldUsingDom() throws Exception
     {
-        //ExStart:InsertMergeFieldUsingDOM
+        //ExStart:InsertMergeFieldUsingDom
+        //GistId:1cf07762df56f15067d6aef90b14b3db
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -239,14 +259,15 @@ class WorkingWithFields extends DocsExamplesBase
 
         field.update();
 
-        doc.save(getArtifactsDir() + "WorkingWithFields.InsertMergeFieldUsingDOM.docx");
-        //ExEnd:InsertMergeFieldUsingDOM
+        doc.save(getArtifactsDir() + "WorkingWithFields.InsertMergeFieldUsingDom.docx");
+        //ExEnd:InsertMergeFieldUsingDom
     }
 
     @Test
-    public void insertMailMergeAddressBlockFieldUsingDOM() throws Exception
+    public void insertAddressBlockFieldUsingDom() throws Exception
     {
-        //ExStart:InsertMailMergeAddressBlockFieldUsingDOM
+        //ExStart:InsertAddressBlockFieldUsingDom
+        //GistId:1cf07762df56f15067d6aef90b14b3db
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -269,14 +290,15 @@ class WorkingWithFields extends DocsExamplesBase
 
         field.update();
 
-        doc.save(getArtifactsDir() + "WorkingWithFields.InsertMailMergeAddressBlockFieldUsingDOM.docx");
-        //ExEnd:InsertMailMergeAddressBlockFieldUsingDOM
+        doc.save(getArtifactsDir() + "WorkingWithFields.InsertAddressBlockFieldUsingDom.docx");
+        //ExEnd:InsertAddressBlockFieldUsingDom
     }
 
     @Test
     public void insertFieldIncludeTextWithoutDocumentBuilder() throws Exception
     {
         //ExStart:InsertFieldIncludeTextWithoutDocumentBuilder
+        //GistId:1cf07762df56f15067d6aef90b14b3db
         Document doc = new Document();
 
         Paragraph para = new Paragraph(doc);
@@ -299,6 +321,7 @@ class WorkingWithFields extends DocsExamplesBase
     public void insertFieldNone() throws Exception
     {
         //ExStart:InsertFieldNone
+        //GistId:1cf07762df56f15067d6aef90b14b3db
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -312,6 +335,7 @@ class WorkingWithFields extends DocsExamplesBase
     public void insertField() throws Exception
     {
         //ExStart:InsertField
+        //GistId:1cf07762df56f15067d6aef90b14b3db
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         
@@ -324,6 +348,8 @@ class WorkingWithFields extends DocsExamplesBase
     @Test
     public void insertFieldUsingFieldBuilder() throws Exception
     {
+        //ExStart:InsertFieldUsingFieldBuilder
+        //GistId:1cf07762df56f15067d6aef90b14b3db
         Document doc = new Document();
 
         // Prepare IF field with two nested MERGEFIELD fields: { IF "left expression" = "right expression" "Firstname: { MERGEFIELD firstname }" "Lastname: { MERGEFIELD lastname }"}
@@ -340,17 +366,19 @@ class WorkingWithFields extends DocsExamplesBase
                     .addText("Lastname: ")
                     .addField(new FieldBuilder(FieldType.FIELD_MERGE_FIELD).addArgument("lastname")));
 
-        // Insert IF field in exact location            
+        // Insert IF field in exact location
         Field field = fieldBuilder.buildAndInsert(doc.getFirstSection().getBody().getFirstParagraph());
         field.update();
 
         doc.save(getArtifactsDir() + "Field.InsertFieldUsingFieldBuilder.docx");
+        //ExEnd:InsertFieldUsingFieldBuilder
     }
 
     @Test
     public void insertAuthorField() throws Exception
     {
         //ExStart:InsertAuthorField
+        //GistId:1cf07762df56f15067d6aef90b14b3db
         Document doc = new Document();
 
         Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
@@ -367,9 +395,10 @@ class WorkingWithFields extends DocsExamplesBase
     }
 
     @Test
-    public void insertASKFieldWithOutDocumentBuilder() throws Exception
+    public void insertAskFieldWithoutDocumentBuilder() throws Exception
     {
-        //ExStart:InsertASKFieldWithOutDocumentBuilder
+        //ExStart:InsertAskFieldWithoutDocumentBuilder
+        //GistId:1cf07762df56f15067d6aef90b14b3db
         Document doc = new Document();
 
         Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
@@ -387,14 +416,15 @@ class WorkingWithFields extends DocsExamplesBase
 
         field.update();
 
-        doc.save(getArtifactsDir() + "WorkingWithFields.InsertASKFieldWithOutDocumentBuilder.docx");
-        //ExEnd:InsertASKFieldWithOutDocumentBuilder
+        doc.save(getArtifactsDir() + "WorkingWithFields.InsertAskFieldWithoutDocumentBuilder.docx");
+        //ExEnd:InsertAskFieldWithoutDocumentBuilder
     }
 
     @Test
-    public void insertAdvanceFieldWithOutDocumentBuilder() throws Exception
+    public void insertAdvanceFieldWithoutDocumentBuilder() throws Exception
     {
-        //ExStart:InsertAdvanceFieldWithOutDocumentBuilder
+        //ExStart:InsertAdvanceFieldWithoutDocumentBuilder
+        //GistId:1cf07762df56f15067d6aef90b14b3db
         Document doc = new Document();
 
         Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
@@ -416,8 +446,8 @@ class WorkingWithFields extends DocsExamplesBase
 
         field.update();
 
-        doc.save(getArtifactsDir() + "WorkingWithFields.InsertAdvanceFieldWithOutDocumentBuilder.docx");
-        //ExEnd:InsertAdvanceFieldWithOutDocumentBuilder
+        doc.save(getArtifactsDir() + "WorkingWithFields.InsertAdvanceFieldWithoutDocumentBuilder.docx");
+        //ExEnd:InsertAdvanceFieldWithoutDocumentBuilder
     }
 
     @Test
@@ -457,7 +487,8 @@ class WorkingWithFields extends DocsExamplesBase
     @Test
     public void fieldUpdateCulture() throws Exception
     {
-        //ExStart:FieldUpdateCultureProvider
+        //ExStart:FieldUpdateCulture
+        //GistId:79b46682fbfd7f02f64783b163ed95fc
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -467,10 +498,11 @@ class WorkingWithFields extends DocsExamplesBase
         doc.getFieldOptions().setFieldUpdateCultureProvider(new FieldUpdateCultureProvider());
 
         doc.save(getArtifactsDir() + "WorkingWithFields.FieldUpdateCulture.pdf");
-        //ExEnd:FieldUpdateCultureProvider
+        //ExEnd:FieldUpdateCulture
     }
 
-    //ExStart:FieldUpdateCultureProviderGetCulture
+    //ExStart:FieldUpdateCultureProvider
+    //GistId:79b46682fbfd7f02f64783b163ed95fc
     private static class FieldUpdateCultureProvider implements IFieldUpdateCultureProvider
     {
         public msCultureInfo getCulture(String name, Field field)
@@ -520,13 +552,15 @@ class WorkingWithFields extends DocsExamplesBase
             }
         }
     }
-    //ExEnd:FieldUpdateCultureProviderGetCulture
+    //ExEnd:FieldUpdateCultureProvider
 
     @Test
     public void fieldDisplayResults() throws Exception
     {
         //ExStart:FieldDisplayResults
+        //GistId:bf0f8a6b40b69a5274ab3553315e147f
         //ExStart:UpdateDocFields
+        //GistId:08db64c4d86842c4afd1ecb925ed07c4
         Document document = new Document(getMyDir() + "Various fields.docx");
 
         document.updateFields();
@@ -538,22 +572,24 @@ class WorkingWithFields extends DocsExamplesBase
     }
 
     @Test
-    public void evaluateIFCondition() throws Exception
+    public void evaluateIfCondition() throws Exception
     {
-        //ExStart:EvaluateIFCondition
+        //ExStart:EvaluateIfCondition
+        //GistId:79b46682fbfd7f02f64783b163ed95fc
         DocumentBuilder builder = new DocumentBuilder();
 
         FieldIf field = (FieldIf) builder.insertField("IF 1 = 1", null);
         /*FieldIfComparisonResult*/int actualResult = field.evaluateCondition();
 
         System.out.println(actualResult);
-        //ExEnd:EvaluateIFCondition
+        //ExEnd:EvaluateIfCondition
     }
 
     @Test
-    public void convertFieldsInParagraph() throws Exception
+    public void unlinkFieldsInParagraph() throws Exception
     {
-        //ExStart:ConvertFieldsInParagraph
+        //ExStart:UnlinkFieldsInParagraph
+        //GistId:f3592014d179ecb43905e37b2a68bc92
         Document doc = new Document(getMyDir() + "Linked fields.docx");
 
         // Pass the appropriate parameters to convert all IF fields to text that are encountered only in the last 
@@ -561,41 +597,44 @@ class WorkingWithFields extends DocsExamplesBase
         doc.getFirstSection().getBody().getLastParagraph().getRange().getFields().Where(f => f.Type == FieldType.FieldIf).ToList()
             .ForEach(f => f.Unlink());
 
-        doc.save(getArtifactsDir() + "WorkingWithFields.TestFile.docx");
-        //ExEnd:ConvertFieldsInParagraph
+        doc.save(getArtifactsDir() + "WorkingWithFields.UnlinkFieldsInParagraph.docx");
+        //ExEnd:UnlinkFieldsInParagraph
     }
 
     @Test
-    public void convertFieldsInDocument() throws Exception
+    public void unlinkFieldsInDocument() throws Exception
     {
-        //ExStart:ConvertFieldsInDocument
+        //ExStart:UnlinkFieldsInDocument
+        //GistId:f3592014d179ecb43905e37b2a68bc92
         Document doc = new Document(getMyDir() + "Linked fields.docx");
 
         // Pass the appropriate parameters to convert all IF fields encountered in the document (including headers and footers) to text.
         doc.getRange().getFields().Where(f => f.Type == FieldType.FieldIf).ToList().ForEach(f => f.Unlink());
 
         // Save the document with fields transformed to disk
-        doc.save(getArtifactsDir() + "WorkingWithFields.ConvertFieldsInDocument.docx");
-        //ExEnd:ConvertFieldsInDocument
+        doc.save(getArtifactsDir() + "WorkingWithFields.UnlinkFieldsInDocument.docx");
+        //ExEnd:UnlinkFieldsInDocument
     }
 
     @Test
-    public void convertFieldsInBody() throws Exception
+    public void unlinkFieldsInBody() throws Exception
     {
-        //ExStart:ConvertFieldsInBody
+        //ExStart:UnlinkFieldsInBody
+        //GistId:f3592014d179ecb43905e37b2a68bc92
         Document doc = new Document(getMyDir() + "Linked fields.docx");
 
         // Pass the appropriate parameters to convert PAGE fields encountered to text only in the body of the first section.
         doc.getFirstSection().getBody().getRange().getFields().Where(f => f.Type == FieldType.FieldPage).ToList().ForEach(f => f.Unlink());
 
-        doc.save(getArtifactsDir() + "WorkingWithFields.ConvertFieldsInBody.docx");
-        //ExEnd:ConvertFieldsInBody
+        doc.save(getArtifactsDir() + "WorkingWithFields.UnlinkFieldsInBody.docx");
+        //ExEnd:UnlinkFieldsInBody
     }
 
     @Test
     public void changeLocale() throws Exception
     {
         //ExStart:ChangeLocale
+        //GistId:9e90defe4a7bcafb004f73a2ef236986
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -614,6 +653,169 @@ class WorkingWithFields extends DocsExamplesBase
         //ExEnd:ChangeLocale
     }
 
+    //ExStart:ConvertFieldsToStaticText
+    //GistId:f3592014d179ecb43905e37b2a68bc92
+    /// <summary>
+    /// Converts any fields of the specified type found in the descendants of the node into static text.
+    /// </summary>
+    /// <param name="compositeNode">The node in which all descendants of the specified FieldType will be converted to static text.</param>
+    /// <param name="targetFieldType">The FieldType of the field to convert to static text.</param>
+    private void convertFieldsToStaticText(CompositeNode compositeNode, /*FieldType*/int targetFieldType)
+    {
+        compositeNode.getRange().getFields().<Field>Cast().Where(f => f.Type == targetFieldType).ToList().ForEach(f => f.Unlink());
+    }
+    //ExEnd:ConvertFieldsToStaticText
+
+    @Test
+    public void fieldResultFormatting() throws Exception
+    {
+        //ExStart:FieldResultFormatting
+        //GistId:79b46682fbfd7f02f64783b163ed95fc
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        FieldResultFormatter formatter = new FieldResultFormatter("${0}", "Date: {0}", "Item # {0}:");
+        doc.getFieldOptions().setResultFormatter(formatter);
+
+        // Our field result formatter applies a custom format to newly created fields of three types of formats.
+        // Field result formatters apply new formatting to fields as they are updated,
+        // which happens as soon as we create them using this InsertField method overload.
+        // 1 -  Numeric:
+        builder.insertField(" = 2 + 3 \\# $###");
+
+        Assert.assertEquals("$5", doc.getRange().getFields().get(0).getResult());
+        Assert.assertEquals(1, formatter.countFormatInvocations(FieldResultFormatter.FormatInvocationType.NUMERIC));
+
+        // 2 -  Date/time:
+        builder.insertField("DATE \\@ \"d MMMM yyyy\"");
+
+        Assert.assertTrue(doc.getRange().getFields().get(1).getResult().startsWith("Date: "));
+        Assert.assertEquals(1, formatter.countFormatInvocations(FieldResultFormatter.FormatInvocationType.DATE_TIME));
+
+        // 3 -  General:
+        builder.insertField("QUOTE \"2\" \\* Ordinal");
+
+        Assert.assertEquals("Item # 2:", doc.getRange().getFields().get(2).getResult());
+        Assert.assertEquals(1, formatter.countFormatInvocations(FieldResultFormatter.FormatInvocationType.GENERAL));
+
+        formatter.printFormatInvocations();
+        //ExEnd:FieldResultFormatting
+    }
+
+    //ExStart:FieldResultFormatter
+    //GistId:79b46682fbfd7f02f64783b163ed95fc
+    /// <summary>
+    /// When fields with formatting are updated, this formatter will override their formatting
+    /// with a custom format, while tracking every invocation.
+    /// </summary>
+    private static class FieldResultFormatter implements IFieldResultFormatter
+    {
+        public FieldResultFormatter(String numberFormat, String dateFormat, String generalFormat)
+        {
+            mNumberFormat = numberFormat;
+            mDateFormat = dateFormat;
+            mGeneralFormat = generalFormat;
+        }
+
+        public String formatNumeric(double value, String format)
+        {
+            if (msString.isNullOrEmpty(mNumberFormat))
+                return null;
+
+            String newValue = MessageFormat.format(mNumberFormat, value);
+            getFormatInvocations().add(new FormatInvocation(FormatInvocationType.NUMERIC, value, format, newValue));
+            return newValue;
+        }
+
+        public String formatDateTime(DateTime value, String format, /*CalendarType*/int calendarType)
+        {
+            if (msString.isNullOrEmpty(mDateFormat))
+                return null;
+
+            String newValue = MessageFormat.format(mDateFormat, value);
+            getFormatInvocations().add(new FormatInvocation(FormatInvocationType.DATE_TIME, $"{value} ({calendarType})", format, newValue));
+            return newValue;
+        }
+
+        public String format(String value, /*GeneralFormat*/int format)
+        {
+            return format((Object)value, format);
+        }
+
+        public String format(double value, /*GeneralFormat*/int format)
+        {
+            return format((Object)value, format);
+        }
+
+        private String format(Object value, /*GeneralFormat*/int format)
+        {
+            if (msString.isNullOrEmpty(mGeneralFormat))
+                return null;
+
+            String newValue = MessageFormat.format(mGeneralFormat, value);
+            getFormatInvocations().add(new FormatInvocation(FormatInvocationType.GENERAL, value, GeneralFormat.toString(format), newValue));
+            return newValue;
+        }
+
+        public int countFormatInvocations(/*FormatInvocationType*/int formatInvocationType)
+        {
+            if (formatInvocationType == FormatInvocationType.ALL)
+                return getFormatInvocations().size();
+            return getFormatInvocations().Count(f => f.FormatInvocationType == formatInvocationType);
+        }
+
+        public void printFormatInvocations()
+        {
+            for (FormatInvocation f : (Iterable<FormatInvocation>) getFormatInvocations())
+                System.out.println("Invocation type:\t{f.FormatInvocationType}\n" +
+                                      $"\tOriginal value:\t\t{f.Value}\n" +
+                                      $"\tOriginal format:\t{f.OriginalFormat}\n" +
+                                      $"\tNew value:\t\t\t{f.NewValue}\n");
+        }
+
+        private /*final*/ String mNumberFormat;
+        private /*final*/ String mDateFormat;
+        private /*final*/ String mGeneralFormat;
+        private ArrayList<FieldResultFormatter.FormatInvocation> getFormatInvocations() { return mFormatInvocations; };
+
+        private ArrayList<FieldResultFormatter.FormatInvocation> mFormatInvocations !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ ArrayList<FieldResultFormatter.FormatInvocation>list();
+
+        private static class FormatInvocation
+        {
+            public /*FormatInvocationType*/int getFormatInvocationType() { return mFormatInvocationType; };
+
+            private /*FormatInvocationType*/int mFormatInvocationType;
+            public Object getValue() { return mValue; };
+
+            private  Object mValue;
+            public String getOriginalFormat() { return mOriginalFormat; };
+
+            private  String mOriginalFormat;
+            public String getNewValue() { return mNewValue; };
+
+            private  String mNewValue;
+
+            public FormatInvocation(/*FormatInvocationType*/int formatInvocationType, Object value, String originalFormat, String newValue)
+            {
+                mValue = value;
+                mFormatInvocationType = formatInvocationType;
+                mOriginalFormat = originalFormat;
+                mNewValue = newValue;
+            }
+        }
+
+        public /*enum*/ final class FormatInvocationType
+        {
+            private FormatInvocationType(){}
+            
+            public static final int NUMERIC = 0;
+            public static final int DATE_TIME = 1;
+            public static final int GENERAL = 2;
+            public static final int ALL = 3;
+
+            public static final int length = 4;
+        }
+    }
+
 	//JAVA-added for string switch emulation
 	private static final StringSwitchMap gStringSwitchMap = new StringSwitchMap
 	(
@@ -621,4 +823,5 @@ class WorkingWithFields extends DocsExamplesBase
 		"en-US"
 	);
 
+    //ExEnd:FieldResultFormatter
 }
