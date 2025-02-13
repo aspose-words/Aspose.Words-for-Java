@@ -4491,25 +4491,25 @@ public class ExField extends ApiExampleBase {
 
         field = (FieldStyleRef) doc.getRange().getFields().get(2);
 
-        TestUtil.verifyField(FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\n", "b )", field);
+        TestUtil.verifyField(FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\n", "‎b )", field);
         Assert.assertEquals("Quote", field.getStyleName());
         Assert.assertTrue(field.getInsertParagraphNumber());
 
         field = (FieldStyleRef) doc.getRange().getFields().get(3);
 
-        TestUtil.verifyField(FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\r", "b )", field);
+        TestUtil.verifyField(FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\r", "‎b )", field);
         Assert.assertEquals("Quote", field.getStyleName());
         Assert.assertTrue(field.getInsertParagraphNumberInRelativeContext());
 
         field = (FieldStyleRef) doc.getRange().getFields().get(4);
 
-        TestUtil.verifyField(FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\w", "1.b )", field);
+        TestUtil.verifyField(FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\w", "‎1.b )", field);
         Assert.assertEquals("Quote", field.getStyleName());
         Assert.assertTrue(field.getInsertParagraphNumberInFullContext());
 
         field = (FieldStyleRef) doc.getRange().getFields().get(5);
 
-        TestUtil.verifyField(FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\w \\t", "1.b)", field);
+        TestUtil.verifyField(FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\w \\t", "‎1.b)", field);
         Assert.assertEquals("Quote", field.getStyleName());
         Assert.assertTrue(field.getInsertParagraphNumberInFullContext());
         Assert.assertTrue(field.getSuppressNonDelimiters());
@@ -5905,28 +5905,28 @@ public class ExField extends ApiExampleBase {
 
         field = (FieldRef) doc.getRange().getFields().get(2);
 
-        TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\n", ">>> i", field);
+        TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\n", "‎>>> i", field);
         Assert.assertEquals("MyBookmark", field.getBookmarkName());
         Assert.assertTrue(field.getInsertParagraphNumber());
         Assert.assertEquals(" REF  MyBookmark \\n", field.getFieldCode());
-        Assert.assertEquals(">>> i", field.getResult());
+        Assert.assertEquals("‎>>> i", field.getResult());
 
         field = (FieldRef) doc.getRange().getFields().get(3);
 
-        TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\n \\t", "i", field);
+        TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\n \\t", "‎i", field);
         Assert.assertEquals("MyBookmark", field.getBookmarkName());
         Assert.assertTrue(field.getInsertParagraphNumber());
         Assert.assertTrue(field.getSuppressNonDelimiters());
 
         field = (FieldRef) doc.getRange().getFields().get(4);
 
-        TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\w", "> 4>> c>>> i", field);
+        TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\w", "‎> 4>> c>>> i", field);
         Assert.assertEquals("MyBookmark", field.getBookmarkName());
         Assert.assertTrue(field.getInsertParagraphNumberInFullContext());
 
         field = (FieldRef) doc.getRange().getFields().get(5);
 
-        TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\r", ">> c>>> i", field);
+        TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\r", "‎>> c>>> i", field);
         Assert.assertEquals("MyBookmark", field.getBookmarkName());
         Assert.assertTrue(field.getInsertParagraphNumberInRelativeContext());
     }

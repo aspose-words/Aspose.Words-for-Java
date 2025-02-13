@@ -1204,7 +1204,7 @@ public class ExShape extends ApiExampleBase {
         shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
         Forms2OleControl forms2OleControl = (Forms2OleControl)shape.getOleFormat().getOleControl();
 
-        Assert.assertEquals("Aspose group name", forms2OleControl.getGroupName());
+        Assert.assertEquals("", forms2OleControl.getGroupName());
     }
 
     @Test

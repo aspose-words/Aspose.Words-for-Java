@@ -1387,9 +1387,9 @@ public class ExFont extends ApiExampleBase {
         }
         //ExEnd
 
-        Assert.assertEquals(new int[] { 2, 15, 5, 2, 2, 2, 4, 3, 2, 4 }, doc.getFontInfos().get("Calibri").getPanose());
-        Assert.assertEquals(new int[] { 2, 15, 3, 2, 2, 2, 4, 3, 2, 4 }, doc.getFontInfos().get("Calibri Light").getPanose());
-        Assert.assertEquals(new int[] { 2, 2, 6, 3, 5, 4, 5, 2, 3, 4 }, doc.getFontInfos().get("Times New Roman").getPanose());
+        Assert.assertEquals(new byte[] { 2, 15, 5, 2, 2, 2, 4, 3, 2, 4 }, doc.getFontInfos().get("Calibri").getPanose());
+        Assert.assertEquals(new byte[] { 2, 15, 3, 2, 2, 2, 4, 3, 2, 4 }, doc.getFontInfos().get("Calibri Light").getPanose());
+        Assert.assertEquals(new byte[] { 2, 2, 6, 3, 5, 4, 5, 2, 3, 4 }, doc.getFontInfos().get("Times New Roman").getPanose());
     }
 
     @Test
