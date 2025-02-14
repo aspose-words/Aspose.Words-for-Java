@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -1669,7 +1669,7 @@ public class ExFont extends ApiExampleBase {
     public void numberSpacing() throws Exception
     {
         //ExStart:NumberSpacing
-        //GistId:95fdae949cefbf2ce485acc95cccc495
+        //GistId:8c0f38c5965151e1cdf79c1c8f9e4640
         //ExFor:Font.NumberSpacing
         //ExFor:NumSpacing
         //ExSummary:Shows how to set the spacing type of the numeral.

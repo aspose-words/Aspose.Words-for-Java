@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
@@ -76,7 +76,7 @@ public class ExAI extends ApiExampleBase
     public void aiGrammar() throws Exception
     {
         //ExStart:AiGrammar
-        //GistId:f86d49dc0e6781b93e576539a01e6ca2
+        //GistId:c012c14781944ce4cc5e31f35b08060a
         //ExFor:IAiModelText.CheckGrammar(Document, CheckGrammarOptions)
         //ExFor:CheckGrammarOptions
         //ExSummary:Shows how to check the grammar of a document.
