@@ -326,7 +326,7 @@ public class XpsPrintHelper
     {
     }
 
-    //ExStart:XpsPrint_PrintDocument       
+    //ExStart:XpsPrint_PrintDocument
     /// <summary>
     /// Sends an Aspose.Words document to a printer using the XpsPrint API.
     /// </summary>
@@ -352,7 +352,7 @@ public class XpsPrintHelper
     }
     //ExEnd:XpsPrint_PrintDocument
 
-    //ExStart:XpsPrint_PrintStream        
+    //ExStart:XpsPrint_PrintStream
     /// <summary>
     /// Sends a stream that contains a document in the XPS format to a printer using the XpsPrint API.
     /// Has no dependency on Aspose.Words, can be used in any project.

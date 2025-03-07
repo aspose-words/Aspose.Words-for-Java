@@ -213,9 +213,8 @@ class WorkingWithComments extends DocsExamplesBase
         Document doc = new Document(getMyDir() + "Comments.docx");
 
         CommentRangeStart commentStart = (CommentRangeStart)doc.getChild(NodeType.COMMENT_RANGE_START, 0, true);
-        CommentRangeEnd commentEnd = (CommentRangeEnd)doc.getChild(NodeType.COMMENT_RANGE_END, 0, true);
-
         Node currentNode = commentStart;
+
         boolean isRemoving = true;
         while (currentNode != null && isRemoving)
         {
