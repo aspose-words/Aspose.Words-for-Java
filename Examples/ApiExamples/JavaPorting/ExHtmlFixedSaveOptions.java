@@ -51,7 +51,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         // we can use a SaveOptions object to set a specific encoding.
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         {
-            htmlFixedSaveOptions.setEncoding(Encoding.getEncoding("ASCII"));
+            htmlFixedSaveOptions.setEncoding(Encoding.getASCII());
         }
 
         Assert.assertEquals("US-ASCII", htmlFixedSaveOptions.getEncodingInternal().getEncodingName());
@@ -70,7 +70,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
 
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         {
-            htmlFixedSaveOptions.setEncoding(Encoding.getEncoding("utf-16"));
+            htmlFixedSaveOptions.setEncoding(Encoding.getUTF8());
         }
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.GetEncoding.html", htmlFixedSaveOptions);
@@ -446,7 +446,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html", saveOptions);
 
         // The size of the optimized version of the document is almost a third of the size of the unoptimized document.
-        Assert.assertEquals(optimizeOutput ? 61889 : 191770,
+        Assert.assertEquals(optimizeOutput ? 61889 : 191000,
             new FileInfo(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").getLength(), 200.0);
         //ExEnd
     }

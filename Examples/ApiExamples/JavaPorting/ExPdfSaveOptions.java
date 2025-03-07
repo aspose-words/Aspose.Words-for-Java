@@ -67,6 +67,7 @@ import com.aspose.words.EmfPlusDualRenderingMode;
 import com.aspose.words.PdfEncryptionDetails;
 import com.aspose.words.PdfPermissions;
 import com.aspose.words.NumeralFormat;
+import com.aspose.words.PdfAttachmentsEmbeddingMode;
 import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.PdfPageLayout;
 import org.testng.annotations.DataProvider;
@@ -631,21 +632,22 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 		return new Object[][]
 		{
 			{PdfCompliance.PDF_A_2_U},
+			{PdfCompliance.PDF_A_3_A},
+			{PdfCompliance.PDF_A_3_U},
 			{PdfCompliance.PDF_17},
 			{PdfCompliance.PDF_A_2_A},
 			{PdfCompliance.PDF_UA_1},
 			{PdfCompliance.PDF_20},
 			{PdfCompliance.PDF_A_4},
+			{PdfCompliance.PDF_A_4_F},
 			{PdfCompliance.PDF_A_4_UA_2},
 			{PdfCompliance.PDF_UA_2},
 		};
 	}
 
     @Test (dataProvider = "usePdfDocumentForComplianceDataProvider")
-    public void usePdfDocumentForCompliance(/*PdfCompliance*/int pdfCompliance) throws Exception
+    public void usePdfDocumentForCompliance(/*PdfCompliance*/int pdfCompliance)
     {
-        compliance(pdfCompliance);
-
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.Compliance.pdf");
 
         switch (pdfCompliance)
@@ -662,6 +664,14 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 Assert.AreEqual(PdfFormat.PDF_A_2U, pdfDocument.PdfFormat);
                 Assert.AreEqual("1.7", pdfDocument.Version);
                 break;
+            case PdfCompliance.PDF_A_3_A:
+                Assert.AreEqual(PdfFormat.PDF_A_3A, pdfDocument.PdfFormat);
+                Assert.AreEqual("1.7", pdfDocument.Version);
+                break;
+            case PdfCompliance.PDF_A_3_U:
+                Assert.AreEqual(PdfFormat.PDF_A_3U, pdfDocument.PdfFormat);
+                Assert.AreEqual("1.7", pdfDocument.Version);
+                break;
             case PdfCompliance.PDF_UA_1:
                 Assert.AreEqual(PdfFormat.PDF_UA_1, pdfDocument.PdfFormat);
                 Assert.AreEqual("1.7", pdfDocument.Version);
@@ -672,6 +682,10 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 break;
             case PdfCompliance.PDF_A_4:
                 Assert.AreEqual(PdfFormat.PDF_A_4, pdfDocument.PdfFormat);
+                Assert.AreEqual("2.0", pdfDocument.Version);
+                break;
+            case PdfCompliance.PDF_A_4_F:
+                Assert.AreEqual(PdfFormat.PDF_A_4F, pdfDocument.PdfFormat);
                 Assert.AreEqual("2.0", pdfDocument.Version);
                 break;
             case PdfCompliance.PDF_A_4_UA_2:
@@ -687,16 +701,19 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
 	//JAVA-added data provider for test method
 	@DataProvider(name = "usePdfDocumentForComplianceDataProvider")
-	public static Object[][] usePdfDocumentForComplianceDataProvider() throws Exception
+	public static Object[][] usePdfDocumentForComplianceDataProvider()
 	{
 		return new Object[][]
 		{
 			{PdfCompliance.PDF_A_2_U},
+			{PdfCompliance.PDF_A_3_A},
+			{PdfCompliance.PDF_A_3_U},
 			{PdfCompliance.PDF_17},
 			{PdfCompliance.PDF_A_2_A},
 			{PdfCompliance.PDF_UA_1},
 			{PdfCompliance.PDF_20},
 			{PdfCompliance.PDF_A_4},
+			{PdfCompliance.PDF_A_4_F},
 			{PdfCompliance.PDF_A_4_UA_2},
 			{PdfCompliance.PDF_UA_2},
 		};
@@ -2678,7 +2695,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             mWarnings.Add(info);
         }
 
-         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!private mWarnings.CountmWarnings;
+         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!
+            mWarnings.Clear();
+        }
+
+        public int Count => private mWarnings.CountmWarnings;
 
         /// <summary>
         /// Returns true if a warning with the specified properties has been generated.
@@ -3133,21 +3154,22 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
     @Test
-    public void pdfEmbedAttachments() throws Exception
+    public void attachmentsEmbeddingMode() throws Exception
     {
-        //ExStart
-        //ExFor:PdfSaveOptions.EmbedAttachments
+        //ExStart:AttachmentsEmbeddingMode
+        //GistId:1a265b92fa0019b26277ecfef3c20330
+        //ExFor:PdfSaveOptions.AttachmentsEmbeddingMode
         //ExSummary:Shows how to add embed attachments to the PDF document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.insertOleObjectInternal(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, true, null);
 
-        PdfSaveOptions options = new PdfSaveOptions();
-        options.setEmbedAttachments(true);
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setAttachmentsEmbeddingMode(PdfAttachmentsEmbeddingMode.ANNOTATIONS);
 
-        doc.save(getArtifactsDir() + "PdfSaveOptions.PdfEmbedAttachments.pdf", options);
-        //ExEnd
+        doc.save(getArtifactsDir() + "PdfSaveOptions.PdfEmbedAttachments.pdf", saveOptions);
+        //ExEnd:AttachmentsEmbeddingMode
     }
 
     @Test

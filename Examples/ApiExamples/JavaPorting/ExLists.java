@@ -592,11 +592,11 @@ public class ExLists extends ApiExampleBase
         Assert.AreEqual(0, paras.Count(n => ((Paragraph)n).ListFormat.IsListItem));
 
         doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
-        List list = doc.getLists().get(0);
+        List docList = doc.getLists().get(0);
 
         for (Paragraph paragraph : paras.<Paragraph>OfType() !!Autoporter error: Undefined expression type )
         {
-            paragraph.getListFormat().setList(list);
+            paragraph.getListFormat().setList(docList);
             paragraph.getListFormat().setListLevelNumber(2);
         }
 
@@ -627,11 +627,11 @@ public class ExLists extends ApiExampleBase
 
         Assert.AreEqual(0, paras.Count(n => ((Paragraph)n).ListFormat.IsListItem));
 
-        List list = doc.getLists().add(ListTemplate.NUMBER_UPPERCASE_LETTER_DOT);
+        List docList = doc.getLists().add(ListTemplate.NUMBER_UPPERCASE_LETTER_DOT);
 
         for (Paragraph paragraph : paras.<Paragraph>OfType() !!Autoporter error: Undefined expression type )
         {
-            paragraph.getListFormat().setList(list);
+            paragraph.getListFormat().setList(docList);
             paragraph.getListFormat().setListLevelNumber(1);
         }
 

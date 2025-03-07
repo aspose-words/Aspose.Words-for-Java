@@ -45,6 +45,7 @@ import com.aspose.words.Zip64Mode;
 import com.aspose.words.CertificateHolder;
 import com.aspose.words.DigitalSignatureDetails;
 import com.aspose.words.SignOptions;
+import com.aspose.words.Run;
 import org.testng.annotations.DataProvider;
 
 
@@ -513,5 +514,28 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
 
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.DigitalSignature.docx", saveOptions);
         //ExEnd:DigitalSignature
+    }
+
+    @Test
+    public void updateAmbiguousTextFont() throws Exception
+    {
+        //ExStart:UpdateAmbiguousTextFont
+        //GistId:1a265b92fa0019b26277ecfef3c20330
+        //ExFor:SaveOptions.UpdateAmbiguousTextFont
+        //ExSummary:Shows how to update the font to match the character code being used.
+        Document doc = new Document(getMyDir() + "Special symbol.docx");
+        Run run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
+        System.out.println(run.getText()); // ฿
+        System.out.println(run.getFont().getName()); // Arial
+
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
+        saveOptions.setUpdateAmbiguousTextFont(true);
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.UpdateAmbiguousTextFont.docx", saveOptions);
+        
+        doc = new Document(getArtifactsDir() + "OoxmlSaveOptions.UpdateAmbiguousTextFont.docx");
+        run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
+        System.out.println(run.getText()); // ฿
+        System.out.println(run.getFont().getName()); // Angsana New
+        //ExEnd:UpdateAmbiguousTextFont
     }
 }

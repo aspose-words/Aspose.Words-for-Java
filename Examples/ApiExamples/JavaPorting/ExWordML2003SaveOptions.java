@@ -16,6 +16,7 @@ import com.aspose.words.WordML2003SaveOptions;
 import org.testng.Assert;
 import com.aspose.words.SaveFormat;
 import com.aspose.ms.System.IO.File;
+import com.aspose.ms.System.Environment;
 import org.testng.annotations.DataProvider;
 
 
@@ -47,19 +48,20 @@ public class ExWordML2003SaveOptions extends ApiExampleBase
         doc.save(getArtifactsDir() + "WordML2003SaveOptions.PrettyFormat.xml", options);
 
         String fileContents = File.readAllText(getArtifactsDir() + "WordML2003SaveOptions.PrettyFormat.xml");
+        String newLine = Environment.getNewLine();
 
         if (prettyFormat)
             Assert.assertTrue(fileContents.contains(
-                "<o:DocumentProperties>\r\n\t\t" +
-                    "<o:Revision>1</o:Revision>\r\n\t\t" +
-                    "<o:TotalTime>0</o:TotalTime>\r\n\t\t" +
-                    "<o:Pages>1</o:Pages>\r\n\t\t" +
-                    "<o:Words>0</o:Words>\r\n\t\t" +
-                    "<o:Characters>0</o:Characters>\r\n\t\t" +
-                    "<o:Lines>1</o:Lines>\r\n\t\t" +
-                    "<o:Paragraphs>1</o:Paragraphs>\r\n\t\t" +
-                    "<o:CharactersWithSpaces>0</o:CharactersWithSpaces>\r\n\t\t" +
-                    "<o:Version>11.5606</o:Version>\r\n\t" +
+                $"<o:DocumentProperties>{newLine}\t\t" +
+                    $"<o:Revision>1</o:Revision>{newLine}\t\t" +
+                    $"<o:TotalTime>0</o:TotalTime>{newLine}\t\t" +
+                    $"<o:Pages>1</o:Pages>{newLine}\t\t" +
+                    $"<o:Words>0</o:Words>{newLine}\t\t" +
+                    $"<o:Characters>0</o:Characters>{newLine}\t\t" +
+                    $"<o:Lines>1</o:Lines>{newLine}\t\t" +
+                    $"<o:Paragraphs>1</o:Paragraphs>{newLine}\t\t" +
+                    $"<o:CharactersWithSpaces>0</o:CharactersWithSpaces>{newLine}\t\t" +
+                    $"<o:Version>11.5606</o:Version>{newLine}\t" +
                 "</o:DocumentProperties>"));
         else
             Assert.assertTrue(fileContents.contains(

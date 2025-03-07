@@ -452,8 +452,8 @@ public class ExFieldOptions extends ApiExampleBase
         }
 
         BufferedImage img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
-        img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.QR.jpg");
-        builder.insertImage(img);
+                img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.QR.jpg");
+                            builder.insertImage(img);
 
         // 2 -  EAN13 barcode:
         barcodeParameters = new BarcodeParameters();
@@ -466,8 +466,8 @@ public class ExFieldOptions extends ApiExampleBase
         }
 
         img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
-        img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.EAN13.jpg");
-        builder.insertImage(img);
+                img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.EAN13.jpg");
+                            builder.insertImage(img);
 
         // 3 -  CODE39 barcode:
         barcodeParameters = new BarcodeParameters();
@@ -478,8 +478,8 @@ public class ExFieldOptions extends ApiExampleBase
         }
 
         img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
-        img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.CODE39.jpg");
-        builder.insertImage(img);
+                img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.CODE39.jpg");
+                            builder.insertImage(img);
 
         // 4 -  ITF14 barcode:
         barcodeParameters = new BarcodeParameters();
@@ -490,8 +490,8 @@ public class ExFieldOptions extends ApiExampleBase
         }
 
         img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
-        img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.ITF14.jpg");
-        builder.insertImage(img);
+                img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.ITF14.jpg");
+                            builder.insertImage(img);
 
         doc.save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.docx");
         //ExEnd

@@ -258,7 +258,7 @@ public class ExField extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Field sample - Field with data.docx");
 
         Field field = doc.getRange().getFields().get(2);
-        System.out.println(Encoding.getDefault().getString(field.getStart().getFieldData()));
+        System.out.println(Encoding.getUTF8().getString(field.getStart().getFieldData()));
         //ExEnd
     }
 

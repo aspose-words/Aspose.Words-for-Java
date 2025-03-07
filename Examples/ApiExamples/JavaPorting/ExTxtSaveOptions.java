@@ -174,28 +174,29 @@ public class ExTxtSaveOptions extends ApiExampleBase
 
         String docText = File.readAllText(getArtifactsDir() + "TxtSaveOptions.ExportHeadersFooters.txt");
 
+        String newLine = Environment.getNewLine();
         switch (txtExportHeadersFootersMode)
         {
             case TxtExportHeadersFootersMode.ALL_AT_END:
-                Assert.assertEquals("Page 1\r\n" +
-                                "Page 2\r\n" +
-                                "Page 3\r\n" +
-                                "Even header\r\n\r\n" +
-                                "Primary header\r\n\r\n" +
-                                "Even footer\r\n\r\n" +
-                                "Primary footer\r\n\r\n", docText);
+                Assert.assertEquals($"Page 1{newLine}" +
+                                $"Page 2{newLine}" +
+                                $"Page 3{newLine}" +
+                                $"Even header{newLine}{newLine}" +
+                                $"Primary header{newLine}{newLine}" +
+                                $"Even footer{newLine}{newLine}" +
+                                $"Primary footer{newLine}{newLine}", docText);
                 break;
             case TxtExportHeadersFootersMode.PRIMARY_ONLY:
-                Assert.assertEquals("Primary header\r\n" +
-                                "Page 1\r\n" +
-                                "Page 2\r\n" +
-                                "Page 3\r\n" +
-                                "Primary footer\r\n", docText);
+                Assert.assertEquals($"Primary header{newLine}" +
+                                $"Page 1{newLine}" +
+                                $"Page 2{newLine}" +
+                                $"Page 3{newLine}" +
+                                $"Primary footer{newLine}", docText);
                 break;
             case TxtExportHeadersFootersMode.NONE:
-                Assert.assertEquals("Page 1\r\n" +
-                                "Page 2\r\n" +
-                                "Page 3\r\n", docText);
+                Assert.assertEquals($"Page 1{newLine}" +
+                                $"Page 2{newLine}" +
+                                $"Page 3{newLine}", docText);
                 break;
         }
         //ExEnd
@@ -290,18 +291,20 @@ public class ExTxtSaveOptions extends ApiExampleBase
 
         String docText = File.readAllText(getArtifactsDir() + "TxtSaveOptions.SimplifyListLabels.txt");
 
+        String newLine = Environment.getNewLine();
+
         if (simplifyListLabels)
-            Assert.assertEquals("* Item 1\r\n" +
-                            "  > Item 2\r\n" +
-                            "    + Item 3\r\n" +
-                            "      - Item 4\r\n" +
-                            "        o Item 5\r\n", docText);
+            Assert.assertEquals($"* Item 1{newLine}" +
+                            $"  > Item 2{newLine}" +
+                            $"    + Item 3{newLine}" +
+                            $"      - Item 4{newLine}" +
+                            $"        o Item 5{newLine}", docText);
         else
-            Assert.assertEquals("· Item 1\r\n" +
-                            "o Item 2\r\n" +
-                            "§ Item 3\r\n" +
-                            "· Item 4\r\n" +
-                            "o Item 5\r\n", docText);
+            Assert.assertEquals($"· Item 1{newLine}" +
+                            $"o Item 2{newLine}" +
+                            $"§ Item 3{newLine}" +
+                            $"· Item 4{newLine}" +
+                            $"o Item 5{newLine}", docText);
         //ExEnd
     }
 
