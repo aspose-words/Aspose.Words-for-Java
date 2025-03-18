@@ -2447,6 +2447,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExStart:AttachmentsEmbeddingMode
         //GistId:1a265b92fa0019b26277ecfef3c20330
         //ExFor:PdfSaveOptions.AttachmentsEmbeddingMode
+        //ExSummary:Shows how to set a value determining how attachments are embedded to the PDF document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 

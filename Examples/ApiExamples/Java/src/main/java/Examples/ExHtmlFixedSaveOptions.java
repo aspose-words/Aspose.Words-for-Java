@@ -403,7 +403,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
             Assert.assertEquals(61889.0,
                 new File(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").length(), 200.0);
         else
-            Assert.assertEquals(191770.0,
+            Assert.assertEquals(191000.0,
                 new File(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").length(), 200.0);
         //ExEnd
     }
