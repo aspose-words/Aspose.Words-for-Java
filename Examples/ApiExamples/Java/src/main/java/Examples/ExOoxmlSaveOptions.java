@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -437,7 +437,7 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
     public void updateAmbiguousTextFont() throws Exception
     {
         //ExStart:UpdateAmbiguousTextFont
-        //GistId:1a265b92fa0019b26277ecfef3c20330
+        //GistId:3c52d1e8d47af34d5026f3a951027f59
         //ExFor:SaveOptions.UpdateAmbiguousTextFont
         //ExSummary:Shows how to update the font to match the character code being used.
         Document doc = new Document(getMyDir() + "Special symbol.docx");

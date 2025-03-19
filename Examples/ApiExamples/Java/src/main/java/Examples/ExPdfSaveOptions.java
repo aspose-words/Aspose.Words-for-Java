@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -2445,7 +2445,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     public void attachmentsEmbeddingMode() throws Exception
     {
         //ExStart:AttachmentsEmbeddingMode
-        //GistId:1a265b92fa0019b26277ecfef3c20330
+        //GistId:3c52d1e8d47af34d5026f3a951027f59
         //ExFor:PdfSaveOptions.AttachmentsEmbeddingMode
         //ExSummary:Shows how to set a value determining how attachments are embedded to the PDF document.
         Document doc = new Document();
