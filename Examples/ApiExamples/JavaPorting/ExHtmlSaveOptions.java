@@ -43,6 +43,7 @@ import com.aspose.ms.System.msString;
 import com.aspose.ms.System.IO.Path;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
+import com.aspose.ms.System.Environment;
 import com.aspose.ms.System.Text.Encoding;
 import com.aspose.ms.System.Globalization.msCultureInfo;
 import com.aspose.words.RelativeHorizontalPosition;
@@ -940,11 +941,12 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         // Our document will only contain a DOCTYPE declaration heading if we have set the "ExportXhtmlTransitional" flag to "true".
         String outDocContents = File.readAllText(getArtifactsDir() + "HtmlSaveOptions.ExportXhtmlTransitional.html");
+        String newLine = Environment.getNewLine();
 
         if (showDoctypeDeclaration)
             Assert.assertTrue(outDocContents.contains(
-                "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\r\n" +
-                "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\r\n" +
+                $"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>{newLine}" +
+                $"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">{newLine}" +
                 "<html xmlns=\"http://www.w3.org/1999/xhtml\">"));
         else
             Assert.assertTrue(outDocContents.contains("<html>"));
@@ -2123,27 +2125,28 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         // Enabling pretty format makes the raw html code more readable by adding tab stop and new line characters.
         String html = File.readAllText(getArtifactsDir() + "HtmlSaveOptions.PrettyFormat.html");
+        String newLine = Environment.getNewLine();
 
         if (usePrettyFormat)
             Assert.assertEquals(
-                "<html>\r\n" +
-                            "\t<head>\r\n" +
-                                "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n" +
-                                "\t\t<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\r\n" +
-                                $"\t\t<meta name=\"generator\" content=\"{BuildVersionInfo.Product} {BuildVersionInfo.Version}\" />\r\n" +
-                                "\t\t<title>\r\n" +
-                                "\t\t</title>\r\n" +
-                            "\t</head>\r\n" +
-                            "\t<body style=\"font-family:'Times New Roman'; font-size:12pt\">\r\n" +
-                                "\t\t<div>\r\n" +
-                                    "\t\t\t<p style=\"margin-top:0pt; margin-bottom:0pt\">\r\n" +
-                                        "\t\t\t\t<span>Hello world!</span>\r\n" +
-                                    "\t\t\t</p>\r\n" +
-                                    "\t\t\t<p style=\"margin-top:0pt; margin-bottom:0pt\">\r\n" +
-                                        "\t\t\t\t<span style=\"-aw-import:ignore\">&#xa0;</span>\r\n" +
-                                    "\t\t\t</p>\r\n" +
-                                "\t\t</div>\r\n" +
-                            "\t</body>\r\n</html>", 
+                $"<html>{newLine}" +
+                            $"\t<head>{newLine}" +
+                                $"\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />{newLine}" +
+                                $"\t\t<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />{newLine}" +
+                                $"\t\t<meta name=\"generator\" content=\"{BuildVersionInfo.Product} {BuildVersionInfo.Version}\" />{newLine}" +
+                                $"\t\t<title>{newLine}" +
+                                $"\t\t</title>{newLine}" +
+                            $"\t</head>{newLine}" +
+                            $"\t<body style=\"font-family:'Times New Roman'; font-size:12pt\">{newLine}" +
+                                $"\t\t<div>{newLine}" +
+                                    $"\t\t\t<p style=\"margin-top:0pt; margin-bottom:0pt\">{newLine}" +
+                                        $"\t\t\t\t<span>Hello world!</span>{newLine}" +
+                                    $"\t\t\t</p>{newLine}" +
+                                    $"\t\t\t<p style=\"margin-top:0pt; margin-bottom:0pt\">{newLine}" +
+                                        $"\t\t\t\t<span style=\"-aw-import:ignore\">&#xa0;</span>{newLine}" +
+                                    $"\t\t\t</p>{newLine}" +
+                                $"\t\t</div>{newLine}" +
+                            $"\t</body>{newLine}</html>", 
                 html);
         else
             Assert.assertEquals(
@@ -2285,6 +2288,22 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ReplaceBackslashWithYenSign.html", saveOptions);
         //ExEnd:HtmlReplaceBackslashWithYenSign
+    }
+
+    @Test
+    public void removeJavaScriptFromLinks() throws Exception
+    {
+        //ExStart:HtmlRemoveJavaScriptFromLinks
+        //GistId:12a3a3cfe30f3145220db88428a9f814
+        //ExFor:HtmlFixedSaveOptions.RemoveJavaScriptFromLinks
+        //ExSummary:Shows how to remove JavaScript from the links.
+        Document doc = new Document(getMyDir() + "JavaScript in HREF.docx");
+
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+        saveOptions.setRemoveJavaScriptFromLinks(true);
+
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.RemoveJavaScriptFromLinks.html", saveOptions);
+        //ExEnd:HtmlRemoveJavaScriptFromLinks
     }
 }
 

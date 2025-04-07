@@ -669,7 +669,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         //ExStart:RemoveJavaScriptFromLinks
         //GistId:f86d49dc0e6781b93e576539a01e6ca2
         //ExFor:HtmlFixedSaveOptions.RemoveJavaScriptFromLinks
-        //ExSummary:Shows how to remove JavaScript from the links.
+        //ExSummary:Shows how to remove JavaScript from the links for html fixed documents.
         Document doc = new Document(getMyDir() + "JavaScript in HREF.docx");
 
         HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();

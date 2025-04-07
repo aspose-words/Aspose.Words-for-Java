@@ -108,6 +108,7 @@ import com.aspose.words.TextWatermarkOptions;
 import com.aspose.words.WatermarkLayout;
 import com.aspose.words.WatermarkType;
 import com.aspose.words.ImageWatermarkOptions;
+import com.aspose.ms.System.IO.FileAccess;
 import com.aspose.words.MemoryFontSource;
 import com.aspose.words.FontSettings;
 import com.aspose.words.FontSourceBase;
@@ -2386,6 +2387,34 @@ public class ExDocument extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Document.ImageWatermark.docx");
 
+        Assert.assertEquals(WatermarkType.IMAGE, doc.getWatermark().getType());
+    }
+
+    @Test
+    public void imageWatermarkStream() throws Exception
+    {
+        //ExStart:ImageWatermarkStream
+        //GistId:12a3a3cfe30f3145220db88428a9f814
+        //ExFor:Watermark.SetImage(Stream, ImageWatermarkOptions)
+        //ExSummary:Shows how to create a watermark from an image stream.
+        Document doc = new Document();
+
+        // Modify the image watermark's appearance with an ImageWatermarkOptions object,
+        // then pass it while creating a watermark from an image file.
+        ImageWatermarkOptions imageWatermarkOptions = new ImageWatermarkOptions();
+        imageWatermarkOptions.setScale(5.0);
+
+        FileStream imageStream = new FileStream(getImageDir() + "Logo.jpg", FileMode.OPEN, FileAccess.READ);
+        try /*JAVA: was using*/
+    	{
+            doc.getWatermark().setImageInternal(imageStream, imageWatermarkOptions);
+    	}
+        finally { if (imageStream != null) imageStream.close(); }
+
+        doc.save(getArtifactsDir() + "Document.ImageWatermarkStream.docx");
+        //ExEnd:ImageWatermarkStream
+
+        doc = new Document(getArtifactsDir() + "Document.ImageWatermarkStream.docx");
         Assert.assertEquals(WatermarkType.IMAGE, doc.getWatermark().getType());
     }
 

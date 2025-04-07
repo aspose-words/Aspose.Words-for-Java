@@ -646,8 +646,10 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 	}
 
     @Test (dataProvider = "usePdfDocumentForComplianceDataProvider")
-    public void usePdfDocumentForCompliance(/*PdfCompliance*/int pdfCompliance)
+    public void usePdfDocumentForCompliance(/*PdfCompliance*/int pdfCompliance) throws Exception
     {
+        compliance(pdfCompliance);
+
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.Compliance.pdf");
 
         switch (pdfCompliance)
@@ -701,7 +703,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
 	//JAVA-added data provider for test method
 	@DataProvider(name = "usePdfDocumentForComplianceDataProvider")
-	public static Object[][] usePdfDocumentForComplianceDataProvider()
+	public static Object[][] usePdfDocumentForComplianceDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -2695,11 +2697,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             mWarnings.Add(info);
         }
 
-         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!
-            mWarnings.Clear();
-        }
-
-        public int Count => private mWarnings.CountmWarnings;
+         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!private mWarnings.CountmWarnings;
 
         /// <summary>
         /// Returns true if a warning with the specified properties has been generated.
