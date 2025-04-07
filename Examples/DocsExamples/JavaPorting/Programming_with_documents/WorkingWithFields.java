@@ -660,7 +660,7 @@ class WorkingWithFields extends DocsExamplesBase
     /// </summary>
     /// <param name="compositeNode">The node in which all descendants of the specified FieldType will be converted to static text.</param>
     /// <param name="targetFieldType">The FieldType of the field to convert to static text.</param>
-    private void convertFieldsToStaticText(CompositeNode compositeNode, /*FieldType*/int targetFieldType)
+    private void convertFieldsToStaticText(CompositeNode compositeNode, /*FieldType*/int targetFieldType) throws Exception
     {
         compositeNode.getRange().getFields().<Field>Cast().Where(f => f.Type == targetFieldType).ToList().ForEach(f => f.Unlink());
     }
