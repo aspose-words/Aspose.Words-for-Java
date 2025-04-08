@@ -19,7 +19,7 @@ public class ExtractContent extends DocsExamplesBase {
         Paragraph startPara = (Paragraph) doc.getLastSection().getChild(NodeType.PARAGRAPH, 2, true);
         Table endTable = (Table) doc.getLastSection().getChild(NodeType.TABLE, 0, true);
         // Extract the content between these nodes in the document. Include these markers in the extraction.
-        ArrayList<Node> extractedNodes = ExtractContentHelper.extractContent(startPara, endTable, true);
+        ArrayList<Node> extractedNodes = ExtractContentHelper.extractContent(startPara, endTable, true, false);
 
         // Let's reverse the array to make inserting the content back into the document easier.
         Collections.reverse(extractedNodes);
@@ -42,13 +42,13 @@ public class ExtractContent extends DocsExamplesBase {
         BookmarkEnd bookmarkEnd = bookmark.getBookmarkEnd();
 
         // Firstly, extract the content between these nodes, including the bookmark.
-        ArrayList<Node> extractedNodesInclusive = ExtractContentHelper.extractContent(bookmarkStart, bookmarkEnd, true);
+        ArrayList<Node> extractedNodesInclusive = ExtractContentHelper.extractContent(bookmarkStart, bookmarkEnd, true, true);
 
         Document dstDoc = ExtractContentHelper.generateDocument(doc, extractedNodesInclusive);
         dstDoc.save(getArtifactsDir() + "ExtractContent.ExtractContentBetweenBookmark.IncludingBookmark.docx");
 
         // Secondly, extract the content between these nodes this time without including the bookmark.
-        ArrayList<Node> extractedNodesExclusive = ExtractContentHelper.extractContent(bookmarkStart, bookmarkEnd, false);
+        ArrayList<Node> extractedNodesExclusive = ExtractContentHelper.extractContent(bookmarkStart, bookmarkEnd, false, true);
 
         dstDoc = ExtractContentHelper.generateDocument(doc, extractedNodesExclusive);
         dstDoc.save(getArtifactsDir() + "ExtractContent.ExtractContentBetweenBookmark.WithoutBookmark.docx");
@@ -65,13 +65,13 @@ public class ExtractContent extends DocsExamplesBase {
         CommentRangeEnd commentEnd = (CommentRangeEnd) doc.getChild(NodeType.COMMENT_RANGE_END, 0, true);
 
         // Firstly, extract the content between these nodes including the comment as well.
-        ArrayList<Node> extractedNodesInclusive = ExtractContentHelper.extractContent(commentStart, commentEnd, true);
+        ArrayList<Node> extractedNodesInclusive = ExtractContentHelper.extractContent(commentStart, commentEnd, true, true);
 
         Document dstDoc = ExtractContentHelper.generateDocument(doc, extractedNodesInclusive);
         dstDoc.save(getArtifactsDir() + "ExtractContent.ExtractContentBetweenCommentRange.IncludingComment.docx");
 
         // Secondly, extract the content between these nodes without the comment.
-        ArrayList<Node> extractedNodesExclusive = ExtractContentHelper.extractContent(commentStart, commentEnd, false);
+        ArrayList<Node> extractedNodesExclusive = ExtractContentHelper.extractContent(commentStart, commentEnd, false, true);
 
         dstDoc = ExtractContentHelper.generateDocument(doc, extractedNodesExclusive);
         dstDoc.save(getArtifactsDir() + "ExtractContent.ExtractContentBetweenCommentRange.WithoutComment.docx");
@@ -87,7 +87,7 @@ public class ExtractContent extends DocsExamplesBase {
         Paragraph startPara = (Paragraph) doc.getFirstSection().getBody().getChild(NodeType.PARAGRAPH, 6, true);
         Paragraph endPara = (Paragraph) doc.getFirstSection().getBody().getChild(NodeType.PARAGRAPH, 10, true);
         // Extract the content between these nodes in the document. Include these markers in the extraction.
-        ArrayList<Node> extractedNodes = ExtractContentHelper.extractContent(startPara, endPara, true);
+        ArrayList<Node> extractedNodes = ExtractContentHelper.extractContent(startPara, endPara, true, true);
 
         Document dstDoc = ExtractContentHelper.generateDocument(doc, extractedNodes);
         dstDoc.save(getArtifactsDir() + "ExtractContent.ExtractContentBetweenParagraphs.docx");
@@ -109,7 +109,7 @@ public class ExtractContent extends DocsExamplesBase {
         Node endPara1 = parasStyleHeading3.get(0);
 
         // Extract the content between these nodes in the document. Don't include these markers in the extraction.
-        ArrayList<Node> extractedNodes = ExtractContentHelper.extractContent(startPara1, endPara1, false);
+        ArrayList<Node> extractedNodes = ExtractContentHelper.extractContent(startPara1, endPara1, false, true);
 
         Document dstDoc = ExtractContentHelper.generateDocument(doc, extractedNodes);
         dstDoc.save(getArtifactsDir() + "ExtractContent.ExtractContentBetweenParagraphStyles.docx");
@@ -147,7 +147,7 @@ public class ExtractContent extends DocsExamplesBase {
         Run endRun = para.getRuns().get(4);
 
         // Extract the content between these nodes in the document. Include these markers in the extraction.
-        ArrayList<Node> extractedNodes = ExtractContentHelper.extractContent(startRun, endRun, true);
+        ArrayList<Node> extractedNodes = ExtractContentHelper.extractContent(startRun, endRun, true, false);
         for (Node extractedNode : extractedNodes)
             System.out.println(extractedNode.toString(SaveFormat.TEXT));
         //ExEnd:ExtractContentBetweenRuns
@@ -289,7 +289,7 @@ public class ExtractContent extends DocsExamplesBase {
         FieldStart startField = (FieldStart) builder.getCurrentNode();
         Paragraph endPara = (Paragraph) doc.getFirstSection().getChild(NodeType.PARAGRAPH, 5, true);
         // Extract the content between these nodes in the document. Don't include these markers in the extraction.
-        ArrayList<Node> extractedNodes = ExtractContentHelper.extractContent(startField, endPara, false);
+        ArrayList<Node> extractedNodes = ExtractContentHelper.extractContent(startField, endPara, false, true);
 
         Document dstDoc = ExtractContentHelper.generateDocument(doc, extractedNodes);
         dstDoc.save(getArtifactsDir() + "ExtractContent.ExtractContentUsingField.docx");
@@ -383,7 +383,7 @@ public class ExtractContent extends DocsExamplesBase {
     //GistId:a73b495f610523670f0847331ef4d6fc
     public ArrayList<Run> runsByStyleName(Document doc, String styleName)
     {
-        ArrayList<Run> runsWithStyle = new ArrayList<Run>();
+        ArrayList<Run> runsWithStyle = new ArrayList<>();
         NodeCollection runs = doc.getChildNodes(NodeType.RUN, true);
 
         for (Run run : (Iterable<Run>) runs) {

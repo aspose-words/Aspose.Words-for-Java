@@ -23,6 +23,7 @@ import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -2169,8 +2170,34 @@ public class ExDocument extends ApiExampleBase
         Assert.assertEquals(WatermarkType.IMAGE, doc.getWatermark().getType());
     }
 
+    @Test
+    public void imageWatermarkStream() throws Exception
+    {
+        //ExStart:ImageWatermarkStream
+        //GistId:12a3a3cfe30f3145220db88428a9f814
+        //ExFor:Watermark.SetImage(Stream, ImageWatermarkOptions)
+        //ExSummary:Shows how to create a watermark from an image stream.
+        Document doc = new Document();
+
+        // Modify the image watermark's appearance with an ImageWatermarkOptions object,
+        // then pass it while creating a watermark from an image file.
+        ImageWatermarkOptions imageWatermarkOptions = new ImageWatermarkOptions();
+        imageWatermarkOptions.setScale(5.0);
+
+        try (FileInputStream imageStream = new FileInputStream(getImageDir() + "Logo.jpg")) {
+            doc.getWatermark().setImage(imageStream, imageWatermarkOptions);
+    	}
+
+        doc.save(getArtifactsDir() + "Document.ImageWatermarkStream.docx");
+        //ExEnd:ImageWatermarkStream
+
+        doc = new Document(getArtifactsDir() + "Document.ImageWatermarkStream.docx");
+        Assert.assertEquals(WatermarkType.IMAGE, doc.getWatermark().getType());
+    }
+
     @Test(dataProvider = "spellingAndGrammarErrorsDataProvider")
-    public void spellingAndGrammarErrors(boolean showErrors) throws Exception {
+    public void spellingAndGrammarErrors(boolean showErrors) throws Exception
+    {
         //ExStart
         //ExFor:Document.ShowGrammaticalErrors
         //ExFor:Document.ShowSpellingErrors
