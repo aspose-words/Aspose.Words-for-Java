@@ -18,11 +18,10 @@ import org.testng.annotations.Test;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Pattern;
@@ -386,12 +385,6 @@ public class ExLowCode extends ApiExampleBase {
                         .to(streamOut1, saveOptions)
                         .execute();
             }
-
-            ArrayList<Stream> pages = new ArrayList<Stream>();
-            Converter.create(converterContext)
-                    .from(doc)
-                    .to(pages, new ImageSaveOptions(SaveFormat.PNG))
-                    .execute();
         }
         //ExEnd:ConvertContextStream
     }
@@ -434,7 +427,7 @@ public class ExLowCode extends ApiExampleBase {
         //ExSummary:Shows how to convert document to images stream.
         String doc = getMyDir() + "Big document.docx";
 
-        InputStream[] streams = Converter.convertToImages(doc, SaveFormat.PNG);
+        OutputStream[] streams = Converter.convertToImages(doc, SaveFormat.PNG);
 
         ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
         imageSaveOptions.setPageSet(new PageSet(1));
@@ -455,7 +448,7 @@ public class ExLowCode extends ApiExampleBase {
         //ExFor:Converter.ConvertToImages(Stream, LoadOptions, ImageSaveOptions)
         //ExSummary:Shows how to convert document to images from stream.
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Big document.docx")) {
-            InputStream[] streams = Converter.convertToImages(streamIn, SaveFormat.JPEG);
+            OutputStream[] streams = Converter.convertToImages(streamIn, SaveFormat.JPEG);
 
             ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
             imageSaveOptions.setPageSet(new PageSet(1));
@@ -474,8 +467,6 @@ public class ExLowCode extends ApiExampleBase {
     public void compareDocuments() throws Exception {
         //ExStart:CompareDocuments
         //GistId:93fefe5344a8337b931d0fed5c028225
-        //ExFor:Comparer.Compare(String, String, String, String, DateTime)
-        //ExFor:Comparer.Compare(String, String, String, SaveFormat, String, DateTime)
         //ExFor:Comparer.Compare(String, String, String, String, DateTime, CompareOptions)
         //ExFor:Comparer.Compare(String, String, String, SaveFormat, String, DateTime, CompareOptions)
         //ExSummary:Shows how to simple compare documents.
@@ -521,7 +512,6 @@ public class ExLowCode extends ApiExampleBase {
     public void compareStreamDocuments() throws Exception {
         //ExStart:CompareStreamDocuments
         //GistId:93fefe5344a8337b931d0fed5c028225
-        //ExFor:Comparer.Compare(Stream, Stream, Stream, SaveFormat, String, DateTime)
         //ExFor:Comparer.Compare(Stream, Stream, Stream, SaveFormat, String, DateTime, CompareOptions)
         //ExSummary:Shows how to compare documents from the stream.
         // There is a several ways to compare documents from the stream:
@@ -579,7 +569,7 @@ public class ExLowCode extends ApiExampleBase {
         String firstDoc = getMyDir() + "Table column bookmarks.docx";
         String secondDoc = getMyDir() + "Table column bookmarks.doc";
 
-        Stream[] pages = Comparer.compareToImages(firstDoc, secondDoc, new ImageSaveOptions(SaveFormat.PNG), "Author", new Date());
+        OutputStream[] pages = Comparer.compareToImages(firstDoc, secondDoc, new ImageSaveOptions(SaveFormat.PNG), "Author", new Date());
 
         try (FileInputStream firstStreamIn = new FileInputStream(firstDoc)) {
             try (FileInputStream secondStreamIn = new FileInputStream(secondDoc)) {
@@ -598,8 +588,7 @@ public class ExLowCode extends ApiExampleBase {
         //ExFor:MailMergeOptions
         //ExFor:MailMergeOptions.TrimWhitespaces
         //ExFor:MailMerger.Execute(String, String, String[], Object[])
-        //ExFor:MailMerger.Execute(String, String, SaveFormat, String[], Object[])
-        //ExFor:MailMerger.Execute(String, String, SaveFormat, MailMergeOptions, String[], Object[])
+        //ExFor:MailMerger.Execute(String, String, SaveFormat, String[], Object[], MailMergeOptions)
         //ExSummary:Shows how to do mail merge operation for a single record.
         // There is a several ways to do mail merge operation:
         String doc = getMyDir() + "Mail merge.doc";
@@ -611,7 +600,7 @@ public class ExLowCode extends ApiExampleBase {
         MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMerge.2.docx", SaveFormat.DOCX, fieldNames, fieldValues);
         MailMergeOptions options = new MailMergeOptions();
         options.setTrimWhitespaces(true);
-        MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMerge.3.docx", SaveFormat.DOCX, options, fieldNames, fieldValues);
+        MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMerge.3.docx", SaveFormat.DOCX, fieldNames, fieldValues, options);
         //ExEnd:MailMerge
     }
 
@@ -653,7 +642,7 @@ public class ExLowCode extends ApiExampleBase {
         String[] fieldNames = new String[]{"FirstName", "Location", "SpecialCharsInName()"};
         String[] fieldValues = new String[]{"James Bond", "London", "Classified"};
 
-        Stream[] images = MailMerger.executeToImages(doc, new ImageSaveOptions(SaveFormat.PNG), fieldNames, fieldValues);
+        OutputStream[] images = MailMerger.executeToImages(doc, new ImageSaveOptions(SaveFormat.PNG), fieldNames, fieldValues);
         MailMergeOptions mailMergeOptions = new MailMergeOptions();
         mailMergeOptions.setTrimWhitespaces(true);
         images = MailMerger.executeToImages(doc, new ImageSaveOptions(SaveFormat.PNG), fieldNames, fieldValues, mailMergeOptions);
@@ -664,8 +653,7 @@ public class ExLowCode extends ApiExampleBase {
     public void mailMergeStream() throws Exception {
         //ExStart:MailMergeStream
         //GistId:93fefe5344a8337b931d0fed5c028225
-        //ExFor:MailMerger.Execute(Stream, Stream, SaveFormat, String[], Object[])
-        //ExFor:MailMerger.Execute(Stream, Stream, SaveFormat, MailMergeOptions, String[], Object[])
+        //ExFor:MailMerger.Execute(Stream, Stream, SaveFormat, String[], Object[], MailMergeOptions)
         //ExSummary:Shows how to do mail merge operation for a single record from the stream.
         // There is a several ways to do mail merge operation using documents from the stream:
         String[] fieldNames = new String[]{"FirstName", "Location", "SpecialCharsInName()"};
@@ -679,7 +667,7 @@ public class ExLowCode extends ApiExampleBase {
             try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.MailMergeStream.2.docx")) {
                 MailMergeOptions options = new MailMergeOptions();
                 options.setTrimWhitespaces(true);
-                MailMerger.execute(streamIn, streamOut1, SaveFormat.DOCX, options, fieldNames, fieldValues);
+                MailMerger.execute(streamIn, streamOut1, SaveFormat.DOCX, fieldNames, fieldValues, options);
             }
         }
         //ExEnd:MailMergeStream
@@ -724,7 +712,7 @@ public class ExLowCode extends ApiExampleBase {
         String[] fieldValues = new String[]{"James Bond", "London", "Classified"};
 
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Mail merge.doc")) {
-            Stream[] images = MailMerger.executeToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), fieldNames, fieldValues);
+            OutputStream[] images = MailMerger.executeToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), fieldNames, fieldValues);
 
             MailMergeOptions mailMergeOptions = new MailMergeOptions();
             mailMergeOptions.setTrimWhitespaces(true);
@@ -738,8 +726,7 @@ public class ExLowCode extends ApiExampleBase {
         //ExStart:MailMergeDataRow
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMerger.Execute(String, String, DataRow)
-        //ExFor:MailMerger.Execute(String, String, SaveFormat, DataRow)
-        //ExFor:MailMerger.Execute(String, String, SaveFormat, MailMergeOptions, DataRow)
+        //ExFor:MailMerger.Execute(String, String, SaveFormat, DataRow, MailMergeOptions)
         //ExSummary:Shows how to do mail merge operation from a DataRow.
         // There is a several ways to do mail merge operation from a DataRow:
         String doc = getMyDir() + "Mail merge.doc";
@@ -756,7 +743,7 @@ public class ExLowCode extends ApiExampleBase {
         MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataRow.2.docx", SaveFormat.DOCX, dataRow);
         MailMergeOptions options = new MailMergeOptions();
         options.setTrimWhitespaces(true);
-        MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataRow.3.docx", SaveFormat.DOCX, options, dataRow);
+        MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataRow.3.docx", SaveFormat.DOCX, dataRow, options);
         //ExEnd:MailMergeDataRow
     }
 
@@ -807,11 +794,10 @@ public class ExLowCode extends ApiExampleBase {
         dataTable.getRows().add(new String[]{"James Bond", "London", "Classified"});
         DataRow dataRow = dataTable.getRows().get(0);
 
-        Stream[] images = MailMerger.executeToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataRow);
-        images = MailMerger.executeToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataRow, new MailMergeOptions();
-        {
-            images.setTrimWhitespaces(true);
-        });
+        OutputStream[] images = MailMerger.executeToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataRow);
+        MailMergeOptions options = new MailMergeOptions();
+        options.setTrimWhitespaces(true);
+        images = MailMerger.executeToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataRow, options);
         //ExEnd:MailMergeToImagesDataRow
     }
 
@@ -819,8 +805,7 @@ public class ExLowCode extends ApiExampleBase {
     public void mailMergeStreamDataRow() throws Exception {
         //ExStart:MailMergeStreamDataRow
         //GistId:93fefe5344a8337b931d0fed5c028225
-        //ExFor:MailMerger.Execute(Stream, Stream, SaveFormat, DataRow)
-        //ExFor:MailMerger.Execute(Stream, Stream, SaveFormat, MailMergeOptions, DataRow)
+        //ExFor:MailMerger.Execute(Stream, Stream, SaveFormat, DataRow, MailMergeOptions)
         //ExSummary:Shows how to do mail merge operation from a DataRow using documents from the stream.
         // There is a several ways to do mail merge operation from a DataRow using documents from the stream:
         DataTable dataTable = new DataTable();
@@ -832,14 +817,16 @@ public class ExLowCode extends ApiExampleBase {
         DataRow dataRow = dataTable.getRows().get(0);
 
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Mail merge.doc")) {
-            try (FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "LowCode.MailMergeStreamDataRow.1.docx")) {
+            try (FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "LowCode.MailMergeStreamDataRow.1.docx"))
+            {
                 MailMerger.execute(streamIn, streamOut, SaveFormat.DOCX, dataRow);
             }
 
-            try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.MailMergeStreamDataRow.2.docx")) {
+            try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.MailMergeStreamDataRow.2.docx"))
+            {
                 MailMergeOptions options = new MailMergeOptions();
                 options.setTrimWhitespaces(true);
-                MailMerger.execute(streamIn, streamOut1, SaveFormat.DOCX, options, dataRow);
+                MailMerger.execute(streamIn, streamOut1, SaveFormat.DOCX, dataRow, options);
             }
         }
         //ExEnd:MailMergeStreamDataRow
@@ -869,8 +856,8 @@ public class ExLowCode extends ApiExampleBase {
 
             try (FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "LowCode.MailMergeContextStreamDataRow.docx")) {
                 MailMerger.create(mailMergerContext)
-                        .fromInternal(streamIn)
-                        .toInternal(streamOut, SaveFormat.DOCX)
+                        .from(streamIn)
+                        .to(streamOut, SaveFormat.DOCX)
                         .execute();
             }
         }
@@ -893,11 +880,10 @@ public class ExLowCode extends ApiExampleBase {
         DataRow dataRow = dataTable.getRows().get(0);
 
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Mail merge.doc")) {
-            Stream[] images = MailMerger.executeToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataRow);
-            images = MailMerger.executeToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataRow, new MailMergeOptions();
-            {
-                images.setTrimWhitespaces(true);
-            });
+            OutputStream[] images = MailMerger.executeToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataRow);
+            MailMergeOptions options = new MailMergeOptions();
+            options.setTrimWhitespaces(true);
+            images = MailMerger.executeToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataRow, options);
         }
         //ExEnd:MailMergeStreamToImagesDataRow
     }
@@ -907,8 +893,7 @@ public class ExLowCode extends ApiExampleBase {
         //ExStart:MailMergeDataTable
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMerger.Execute(String, String, DataTable)
-        //ExFor:MailMerger.Execute(String, String, SaveFormat, DataTable)
-        //ExFor:MailMerger.Execute(String, String, SaveFormat, MailMergeOptions, DataTable)
+        //ExFor:MailMerger.Execute(String, String, SaveFormat, DataTable, MailMergeOptions)
         //ExSummary:Shows how to do mail merge operation from a DataTable.
         // There is a several ways to do mail merge operation from a DataTable:
         String doc = getMyDir() + "Mail merge.doc";
@@ -924,7 +909,7 @@ public class ExLowCode extends ApiExampleBase {
         MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataTable.2.docx", SaveFormat.DOCX, dataTable);
         MailMergeOptions options = new MailMergeOptions();
         options.setTrimWhitespaces(true);
-        MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataTable.3.docx", SaveFormat.DOCX, options, dataTable);
+        MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataTable.3.docx", SaveFormat.DOCX, dataTable, options);
         //ExEnd:MailMergeDataTable
     }
 
@@ -973,11 +958,10 @@ public class ExLowCode extends ApiExampleBase {
 
         dataTable.getRows().add(new String[]{"James Bond", "London", "Classified"});
 
-        Stream[] images = MailMerger.executeToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable);
-        images = MailMerger.executeToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable, new MailMergeOptions();
-        {
-            images.setTrimWhitespaces(true);
-        });
+        OutputStream[] images = MailMerger.executeToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable);
+        MailMergeOptions options = new MailMergeOptions();
+        options.setTrimWhitespaces(true);
+        images = MailMerger.executeToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable, options);
         //ExEnd:MailMergeToImagesDataTable
     }
 
@@ -985,8 +969,7 @@ public class ExLowCode extends ApiExampleBase {
     public void mailMergeStreamDataTable() throws Exception {
         //ExStart:MailMergeStreamDataTable
         //GistId:93fefe5344a8337b931d0fed5c028225
-        //ExFor:MailMerger.Execute(Stream, Stream, SaveFormat, DataTable)
-        //ExFor:MailMerger.Execute(Stream, Stream, SaveFormat, MailMergeOptions, DataTable)
+        //ExFor:MailMerger.Execute(Stream, Stream, SaveFormat, DataTable, MailMergeOptions)
         //ExSummary:Shows how to do mail merge operation from a DataTable using documents from the stream.
         // There is a several ways to do mail merge operation from a DataTable using documents from the stream:
         DataTable dataTable = new DataTable();
@@ -1004,7 +987,7 @@ public class ExLowCode extends ApiExampleBase {
             try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.MailMergeDataTable.2.docx")) {
                 MailMergeOptions options = new MailMergeOptions();
                 options.setTrimWhitespaces(true);
-                MailMerger.execute(streamIn, streamOut1, SaveFormat.DOCX, options, dataTable);
+                MailMerger.execute(streamIn, streamOut1, SaveFormat.DOCX, dataTable, options);
             }
         }
         //ExEnd:MailMergeStreamDataTable
@@ -1034,8 +1017,8 @@ public class ExLowCode extends ApiExampleBase {
 
             try (FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "LowCode.MailMergeContextStreamDataTable.docx")) {
                 MailMerger.create(mailMergerContext)
-                        .fromInternal(streamIn)
-                        .toInternal(streamOut, SaveFormat.DOCX)
+                        .from(streamIn)
+                        .to(streamOut, SaveFormat.DOCX)
                         .execute();
             }
         }
@@ -1057,11 +1040,10 @@ public class ExLowCode extends ApiExampleBase {
         dataTable.getRows().add(new String[]{"James Bond", "London", "Classified"});
 
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Mail merge.doc")) {
-            Stream[] images = MailMerger.executeToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable);
-            images = MailMerger.executeToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable, new MailMergeOptions();
-            {
-                images.setTrimWhitespaces(true);
-            });
+            OutputStream[] images = MailMerger.executeToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable);
+            MailMergeOptions options = new MailMergeOptions();
+            options.setTrimWhitespaces(true);
+            images = MailMerger.executeToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable, options);
         }
         //ExEnd:MailMergeStreamToImagesDataTable
     }
@@ -1071,8 +1053,7 @@ public class ExLowCode extends ApiExampleBase {
         //ExStart:MailMergeWithRegionsDataTable
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMerger.ExecuteWithRegions(String, String, DataTable)
-        //ExFor:MailMerger.ExecuteWithRegions(String, String, SaveFormat, DataTable)
-        //ExFor:MailMerger.ExecuteWithRegions(String, String, SaveFormat, MailMergeOptions, DataTable)
+        //ExFor:MailMerger.ExecuteWithRegions(String, String, SaveFormat, DataTable, MailMergeOptions)
         //ExSummary:Shows how to do mail merge with regions operation from a DataTable.
         // There is a several ways to do mail merge with regions operation from a DataTable:
         String doc = getMyDir() + "Mail merge with regions.docx";
@@ -1088,7 +1069,7 @@ public class ExLowCode extends ApiExampleBase {
         MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataTable.2.docx", SaveFormat.DOCX, dataTable);
         MailMergeOptions options = new MailMergeOptions();
         options.setTrimWhitespaces(true);
-        MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataTable.3.docx", SaveFormat.DOCX, options, dataTable);
+        MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataTable.3.docx", SaveFormat.DOCX, dataTable, options);
         //ExEnd:MailMergeWithRegionsDataTable
     }
 
@@ -1137,11 +1118,10 @@ public class ExLowCode extends ApiExampleBase {
         dataTable.getRows().add(new Object[]{"", ""});
         dataTable.getRows().add(new Object[]{"Jane", "Doe"});
 
-        Stream[] images = MailMerger.executeWithRegionsToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable);
-        images = MailMerger.executeWithRegionsToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable, new MailMergeOptions();
-        {
-            images.setTrimWhitespaces(true);
-        });
+        OutputStream[] images = MailMerger.executeWithRegionsToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable);
+        MailMergeOptions options = new MailMergeOptions();
+        options.setTrimWhitespaces(true);
+        images = MailMerger.executeWithRegionsToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable, options);
         //ExEnd:MailMergeWithRegionsToImagesDataTable
     }
 
@@ -1149,8 +1129,7 @@ public class ExLowCode extends ApiExampleBase {
     public void mailMergeStreamWithRegionsDataTable() throws Exception {
         //ExStart:MailMergeStreamWithRegionsDataTable
         //GistId:93fefe5344a8337b931d0fed5c028225
-        //ExFor:MailMerger.ExecuteWithRegions(Stream, Stream, SaveFormat, DataTable)
-        //ExFor:MailMerger.ExecuteWithRegions(Stream, Stream, SaveFormat, MailMergeOptions, DataTable)
+        //ExFor:MailMerger.ExecuteWithRegions(Stream, Stream, SaveFormat, DataTable, MailMergeOptions)
         //ExSummary:Shows how to do mail merge with regions operation from a DataTable using documents from the stream.
         // There is a several ways to do mail merge with regions operation from a DataTable using documents from the stream:
         DataTable dataTable = new DataTable("MyTable");
@@ -1168,7 +1147,7 @@ public class ExLowCode extends ApiExampleBase {
             try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.MailMergeStreamWithRegionsDataTable.2.docx")) {
                 MailMergeOptions options = new MailMergeOptions();
                 options.setTrimWhitespaces(true);
-                MailMerger.executeWithRegions(streamIn, streamOut1, SaveFormat.DOCX, options, dataTable);
+                MailMerger.executeWithRegions(streamIn, streamOut1, SaveFormat.DOCX, dataTable, options);
             }
         }
         //ExEnd:MailMergeStreamWithRegionsDataTable
@@ -1197,8 +1176,8 @@ public class ExLowCode extends ApiExampleBase {
 
             try (FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "LowCode.MailMergeContextStreamWithRegionsDataTable.docx")) {
                 MailMerger.create(mailMergerContext)
-                        .fromInternal(streamIn)
-                        .toInternal(streamOut, SaveFormat.DOCX)
+                        .from(streamIn)
+                        .to(streamOut, SaveFormat.DOCX)
                         .execute();
             }
         }
@@ -1220,11 +1199,10 @@ public class ExLowCode extends ApiExampleBase {
         dataTable.getRows().add(new Object[]{"Jane", "Doe"});
 
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Mail merge.doc")) {
-            Stream[] images = MailMerger.executeWithRegionsToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable);
-            images = MailMerger.executeWithRegionsToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable, new MailMergeOptions();
-            {
-                images.setTrimWhitespaces(true);
-            });
+            OutputStream[] images = MailMerger.executeWithRegionsToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable);
+            MailMergeOptions options = new MailMergeOptions();
+            options.setTrimWhitespaces(true);
+            images = MailMerger.executeWithRegionsToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable, options);
         }
         //ExEnd:MailMergeStreamWithRegionsToImagesDataTable
     }
@@ -1234,8 +1212,7 @@ public class ExLowCode extends ApiExampleBase {
         //ExStart:MailMergeWithRegionsDataSet
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:MailMerger.ExecuteWithRegions(String, String, DataSet)
-        //ExFor:MailMerger.ExecuteWithRegions(String, String, SaveFormat, DataSet)
-        //ExFor:MailMerger.ExecuteWithRegions(String, String, SaveFormat, MailMergeOptions, DataSet)
+        //ExFor:MailMerger.ExecuteWithRegions(String, String, SaveFormat, DataSet, MailMergeOptions)
         //ExSummary:Shows how to do mail merge with regions operation from a DataSet.
         // There is a several ways to do mail merge with regions operation from a DataSet:
         String doc = getMyDir() + "Mail merge with regions data set.docx";
@@ -1263,7 +1240,7 @@ public class ExLowCode extends ApiExampleBase {
         MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataSet.2.docx", SaveFormat.DOCX, dataSet);
         MailMergeOptions options = new MailMergeOptions();
         options.setTrimWhitespaces(true);
-        MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataSet.3.docx", SaveFormat.DOCX, options, dataSet);
+        MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataSet.3.docx", SaveFormat.DOCX, dataSet, options);
         //ExEnd:MailMergeWithRegionsDataSet
     }
 
@@ -1336,11 +1313,10 @@ public class ExLowCode extends ApiExampleBase {
         dataSet.getTables().add(tableOrders);
         dataSet.getRelations().add(tableCustomers.getColumns().get("CustomerID"), tableOrders.getColumns().get("CustomerID"));
 
-        Stream[] images = MailMerger.executeWithRegionsToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataSet);
-        images = MailMerger.executeWithRegionsToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataSet, new MailMergeOptions();
-        {
-            images.setTrimWhitespaces(true);
-        });
+        OutputStream[] images = MailMerger.executeWithRegionsToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataSet);
+        MailMergeOptions options = new MailMergeOptions();
+        options.setTrimWhitespaces(true);
+        images = MailMerger.executeWithRegionsToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataSet, options);
         //ExEnd:MailMergeWithRegionsToImagesDataSet
     }
 
@@ -1348,8 +1324,7 @@ public class ExLowCode extends ApiExampleBase {
     public void mailMergeStreamWithRegionsDataSet() throws Exception {
         //ExStart:MailMergeStreamWithRegionsDataSet
         //GistId:93fefe5344a8337b931d0fed5c028225
-        //ExFor:MailMerger.ExecuteWithRegions(Stream, Stream, SaveFormat, DataSet)
-        //ExFor:MailMerger.ExecuteWithRegions(Stream, Stream, SaveFormat, MailMergeOptions, DataSet)
+        //ExFor:MailMerger.ExecuteWithRegions(Stream, Stream, SaveFormat, DataSet, MailMergeOptions)
         //ExSummary:Shows how to do mail merge with regions operation from a DataSet using documents from the stream.
         // There is a several ways to do mail merge with regions operation from a DataSet using documents from the stream:
         DataTable tableCustomers = new DataTable("Customers");
@@ -1379,7 +1354,7 @@ public class ExLowCode extends ApiExampleBase {
             try (FileOutputStream streamOut1 = new FileOutputStream(getArtifactsDir() + "LowCode.MailMergeStreamWithRegionsDataTable.2.docx")) {
                 MailMergeOptions options = new MailMergeOptions();
                 options.setTrimWhitespaces(true);
-                MailMerger.executeWithRegions(streamIn, streamOut1, SaveFormat.DOCX, options, dataSet);
+                MailMerger.executeWithRegions(streamIn, streamOut1, SaveFormat.DOCX, dataSet, options);
             }
         }
         //ExEnd:MailMergeStreamWithRegionsDataSet
@@ -1420,8 +1395,8 @@ public class ExLowCode extends ApiExampleBase {
 
             try (FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "LowCode.MailMergeContextStreamWithRegionsDataSet.docx")) {
                 MailMerger.create(mailMergerContext)
-                        .fromInternal(streamIn)
-                        .toInternal(streamOut, SaveFormat.DOCX)
+                        .from(streamIn)
+                        .to(streamOut, SaveFormat.DOCX)
                         .execute();
             }
         }
@@ -1455,11 +1430,10 @@ public class ExLowCode extends ApiExampleBase {
         dataSet.getRelations().add(tableCustomers.getColumns().get("CustomerID"), tableOrders.getColumns().get("CustomerID"));
 
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Mail merge.doc")) {
-            Stream[] images = MailMerger.executeWithRegionsToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataSet);
-            images = MailMerger.executeWithRegionsToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataSet, new MailMergeOptions();
-            {
-                images.setTrimWhitespaces(true);
-            });
+            OutputStream[] images = MailMerger.executeWithRegionsToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataSet);
+            MailMergeOptions options = new MailMergeOptions();
+            options.setTrimWhitespaces(true);
+            images = MailMerger.executeWithRegionsToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataSet, options);
         }
         //ExEnd:MailMergeStreamWithRegionsToImagesDataSet
     }
@@ -1469,7 +1443,6 @@ public class ExLowCode extends ApiExampleBase {
         //ExStart:Replace
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Replacer.Replace(String, String, String, String)
-        //ExFor:Replacer.Replace(String, String, SaveFormat, String, String)
         //ExFor:Replacer.Replace(String, String, SaveFormat, String, String, FindReplaceOptions)
         //ExSummary:Shows how to replace string in the document.
         // There is a several ways to replace string in the document:
@@ -1521,7 +1494,7 @@ public class ExLowCode extends ApiExampleBase {
         String pattern = "(C)2006 Aspose Pty Ltd.";
         String replacement = "Copyright (C) 2024 by Aspose Pty Ltd.";
 
-        Stream[] images = Replacer.replaceToImages(doc, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement);
+        OutputStream[] images = Replacer.replaceToImages(doc, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement);
 
         FindReplaceOptions options = new FindReplaceOptions();
         options.setFindWholeWordsOnly(false);
@@ -1533,7 +1506,6 @@ public class ExLowCode extends ApiExampleBase {
     public void replaceStream() throws Exception {
         //ExStart:ReplaceStream
         //GistId:93fefe5344a8337b931d0fed5c028225
-        //ExFor:Replacer.Replace(Stream, Stream, SaveFormat, String, String)
         //ExFor:Replacer.Replace(Stream, Stream, SaveFormat, String, String, FindReplaceOptions)
         //ExSummary:Shows how to replace string in the document using documents from the stream.
         // There is a several ways to replace string in the document using documents from the stream:
@@ -1574,8 +1546,8 @@ public class ExLowCode extends ApiExampleBase {
 
             try (FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "LowCode.ReplaceContextStream.docx")) {
                 Replacer.create(replacerContext)
-                        .fromInternal(streamIn)
-                        .toInternal(streamOut, SaveFormat.DOCX)
+                        .from(streamIn)
+                        .to(streamOut, SaveFormat.DOCX)
                         .execute();
             }
         }
@@ -1593,7 +1565,7 @@ public class ExLowCode extends ApiExampleBase {
         String replacement = "Copyright (C) 2024 by Aspose Pty Ltd.";
 
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Footer.docx")) {
-            Stream[] images = Replacer.replaceToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement);
+            OutputStream[] images = Replacer.replaceToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement);
 
             FindReplaceOptions options = new FindReplaceOptions();
             options.setFindWholeWordsOnly(false);
@@ -1607,7 +1579,6 @@ public class ExLowCode extends ApiExampleBase {
         //ExStart:ReplaceRegex
         //GistId:93fefe5344a8337b931d0fed5c028225
         //ExFor:Replacer.Replace(String, String, Regex, String)
-        //ExFor:Replacer.Replace(String, String, SaveFormat, Regex, String)
         //ExFor:Replacer.Replace(String, String, SaveFormat, Regex, String, FindReplaceOptions)
         //ExSummary:Shows how to replace string with regex in the document.
         // There is a several ways to replace string with regex in the document:
@@ -1638,7 +1609,7 @@ public class ExLowCode extends ApiExampleBase {
         String replacement = "lavender";
 
         ReplacerContext replacerContext = new ReplacerContext();
-        replacerContext.setReplacementInternal(pattern, replacement);
+        replacerContext.setReplacement(pattern, replacement);
         replacerContext.getFindReplaceOptions().setFindWholeWordsOnly(false);
 
         Replacer.create(replacerContext)
@@ -1659,11 +1630,10 @@ public class ExLowCode extends ApiExampleBase {
         Pattern pattern = Pattern.compile("gr(a|e)y");
         String replacement = "lavender";
 
-        Stream[] images = Replacer.replaceToImages(doc, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement);
-        images = Replacer.replaceToImages(doc, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement, new FindReplaceOptions();
-        {
-            images.setFindWholeWordsOnly(false);
-        });
+        OutputStream[] images = Replacer.replaceToImages(doc, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement);
+        FindReplaceOptions options = new FindReplaceOptions();
+        options.setFindWholeWordsOnly(false);
+        images = Replacer.replaceToImages(doc, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement, options);
         //ExEnd:ReplaceToImagesRegex
     }
 
@@ -1671,7 +1641,6 @@ public class ExLowCode extends ApiExampleBase {
     public void replaceStreamRegex() throws Exception {
         //ExStart:ReplaceStreamRegex
         //GistId:93fefe5344a8337b931d0fed5c028225
-        //ExFor:Replacer.Replace(Stream, Stream, SaveFormat, Regex, String)
         //ExFor:Replacer.Replace(Stream, Stream, SaveFormat, Regex, String, FindReplaceOptions)
         //ExSummary:Shows how to replace string with regex in the document using documents from the stream.
         // There is a several ways to replace string with regex in the document using documents from the stream:
@@ -1707,13 +1676,13 @@ public class ExLowCode extends ApiExampleBase {
 
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Replace regex.docx")) {
             ReplacerContext replacerContext = new ReplacerContext();
-            replacerContext.setReplacementInternal(pattern, replacement);
+            replacerContext.setReplacement(pattern, replacement);
             replacerContext.getFindReplaceOptions().setFindWholeWordsOnly(false);
 
             try (FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "LowCode.ReplaceContextStreamRegex.docx")) {
                 Replacer.create(replacerContext)
-                        .fromInternal(streamIn)
-                        .toInternal(streamOut, SaveFormat.DOCX)
+                        .from(streamIn)
+                        .to(streamOut, SaveFormat.DOCX)
                         .execute();
             }
         }
@@ -1731,11 +1700,10 @@ public class ExLowCode extends ApiExampleBase {
         String replacement = "lavender";
 
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Replace regex.docx")) {
-            Stream[] images = Replacer.replaceToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement);
-            images = Replacer.replaceToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement, new FindReplaceOptions();
-            {
-                images.setFindWholeWordsOnly(false);
-            });
+            OutputStream[] images = Replacer.replaceToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement);
+            FindReplaceOptions options = new FindReplaceOptions();
+            options.setFindWholeWordsOnly(false);
+            images = Replacer.replaceToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement, options);
         }
         //ExEnd:ReplaceToImagesStreamRegex
     }
@@ -1789,7 +1757,6 @@ public class ExLowCode extends ApiExampleBase {
     public void buildReportDataStream() throws Exception {
         //ExStart:BuildReportDataStream
         //GistId:93fefe5344a8337b931d0fed5c028225
-        //ExFor:ReportBuilder.BuildReport(Stream, Stream, SaveFormat, Object)
         //ExFor:ReportBuilder.BuildReport(Stream, Stream, SaveFormat, Object, ReportBuilderOptions)
         //ExFor:ReportBuilder.BuildReport(Stream, Stream, SaveFormat, Object[], String[], ReportBuilderOptions)
         //ExSummary:Shows how to populate document with data using documents from the stream.
@@ -1852,14 +1819,13 @@ public class ExLowCode extends ApiExampleBase {
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.7.docx", SaveFormat.DOCX, new Object[]{sender}, new String[]{"s"}, options);
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.8.docx", new Object[]{sender}, new String[]{"s"}, options);
 
-        Stream[] images = ReportBuilder.buildReportToImages(doc, new ImageSaveOptions(SaveFormat.PNG), new Object[]{sender}, new String[]{"s"}, new ReportBuilderOptions();
-        {
-            images.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS);
-        });
+        options = new ReportBuilderOptions();
+        options.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS);
+        OutputStream[] images = ReportBuilder.buildReportToImages(doc, new ImageSaveOptions(SaveFormat.PNG), new Object[]{sender}, new String[]{"s"}, options);
 
         ReportBuilderContext reportBuilderContext = new ReportBuilderContext();
         reportBuilderContext.getReportBuilderOptions().setMissingMemberMessage("Missed members");
-        reportBuilderContext.getDataSources().add(sender, "s");
+        reportBuilderContext.getDataSources().put(sender, "s");
 
         ReportBuilder.create(reportBuilderContext)
                 .from(doc)
@@ -1924,19 +1890,18 @@ public class ExLowCode extends ApiExampleBase {
                 ReportBuilder.buildReport(streamIn, streamOut2, SaveFormat.DOCX, sender, "s", options);
             }
 
-            Stream[] images = ReportBuilder.buildReportToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), new Object[]{sender}, new String[]{"s"}, new ReportBuilderOptions();
-            {
-                images.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS);
-            });
+            ReportBuilderOptions options = new ReportBuilderOptions();
+            options.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS);
+            OutputStream[] images = ReportBuilder.buildReportToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), new Object[]{sender}, new String[]{"s"}, options);
 
             ReportBuilderContext reportBuilderContext = new ReportBuilderContext();
             reportBuilderContext.getReportBuilderOptions().setMissingMemberMessage("Missed members");
-            reportBuilderContext.getDataSources().add(sender, "s");
+            reportBuilderContext.getDataSources().put(sender, "s");
 
             try (FileOutputStream streamOut3 = new FileOutputStream(getArtifactsDir() + "LowCode.BuildReportDataSourceStream.4.docx")) {
                 ReportBuilder.create(reportBuilderContext)
-                        .fromInternal(streamIn)
-                        .toInternal(streamOut3, SaveFormat.DOCX)
+                        .from(streamIn)
+                        .to(streamOut3, SaveFormat.DOCX)
                         .execute();
             }
         }
@@ -2048,7 +2013,7 @@ public class ExLowCode extends ApiExampleBase {
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Big document.docx")) {
             SplitOptions options = new SplitOptions();
             options.setSplitCriteria(SplitCriteria.PAGE);
-            InputStream[] stream = Splitter.split(streamIn, SaveFormat.DOCX, options);
+            OutputStream[] stream = Splitter.split(streamIn, SaveFormat.DOCX, options);
         }
         //ExEnd:SplitDocumentStream
     }
@@ -2065,10 +2030,10 @@ public class ExLowCode extends ApiExampleBase {
             SplitterContext splitterContext = new SplitterContext();
             splitterContext.getSplitOptions().setSplitCriteria(SplitCriteria.PAGE);
 
-            ArrayList<Stream> pages = new ArrayList<>();
+            ArrayList<OutputStream> pages = new ArrayList<>();
             Splitter.create(splitterContext)
-                    .fromInternal(streamIn)
-                    .to(pages, SaveFormat.DOCX)
+                    .from(streamIn)
+                    .toOutput(pages, SaveFormat.DOCX)
                     .execute();
         }
         //ExEnd:SplitContextDocumentStream
@@ -2078,8 +2043,6 @@ public class ExLowCode extends ApiExampleBase {
     public void watermarkText() throws Exception {
         //ExStart:WatermarkText
         //GistId:93fefe5344a8337b931d0fed5c028225
-        //ExFor:Watermarker.SetText(String, String, String)
-        //ExFor:Watermarker.SetText(String, String, SaveFormat, String)
         //ExFor:Watermarker.SetText(String, String, String, TextWatermarkOptions)
         //ExFor:Watermarker.SetText(String, String, SaveFormat, String, TextWatermarkOptions)
         //ExSummary:Shows how to insert watermark text to the document.
@@ -2125,7 +2088,6 @@ public class ExLowCode extends ApiExampleBase {
     public void watermarkTextStream() throws Exception {
         //ExStart:WatermarkTextStream
         //GistId:93fefe5344a8337b931d0fed5c028225
-        //ExFor:Watermarker.SetText(Stream, Stream, SaveFormat, String)
         //ExFor:Watermarker.SetText(Stream, Stream, SaveFormat, String, TextWatermarkOptions)
         //ExSummary:Shows how to insert watermark text to the document from the stream.
         String watermarkText = "This is a watermark";
@@ -2165,8 +2127,8 @@ public class ExLowCode extends ApiExampleBase {
 
             try (FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "LowCode.WatermarkContextTextStream.docx")) {
                 Watermarker.create(watermarkerContext)
-                        .fromInternal(streamIn)
-                        .toInternal(streamOut, SaveFormat.DOCX)
+                        .from(streamIn)
+                        .to(streamOut, SaveFormat.DOCX)
                         .execute();
             }
         }
@@ -2177,8 +2139,6 @@ public class ExLowCode extends ApiExampleBase {
     public void watermarkImage() throws Exception {
         //ExStart:WatermarkImage
         //GistId:93fefe5344a8337b931d0fed5c028225
-        //ExFor:Watermarker.SetImage(String, String, String)
-        //ExFor:Watermarker.SetImage(String, String, SaveFormat, String)
         //ExFor:Watermarker.SetImage(String, String, String, ImageWatermarkOptions)
         //ExFor:Watermarker.SetImage(String, String, SaveFormat, String, ImageWatermarkOptions)
         //ExSummary:Shows how to insert watermark image to the document.
@@ -2207,7 +2167,7 @@ public class ExLowCode extends ApiExampleBase {
         String watermarkImage = getImageDir() + "Logo.jpg";
 
         WatermarkerContext watermarkerContext = new WatermarkerContext();
-        watermarkerContext.setImageWatermark(File.readAllBytes(watermarkImage));
+        watermarkerContext.setImageWatermark(Files.readAllBytes(Paths.get(watermarkImage)));
 
         ImageWatermarkOptions imageWatermarkOptions = new ImageWatermarkOptions();
         imageWatermarkOptions.setScale(50.0);
@@ -2224,7 +2184,6 @@ public class ExLowCode extends ApiExampleBase {
     public void watermarkImageStream() throws Exception {
         //ExStart:WatermarkImageStream
         //GistId:93fefe5344a8337b931d0fed5c028225
-        //ExFor:Watermarker.SetImage(Stream, Stream, SaveFormat, Image)
         //ExFor:Watermarker.SetImage(Stream, Stream, SaveFormat, Image, ImageWatermarkOptions)
         //ExSummary:Shows how to insert watermark image to the document from a stream.
         BufferedImage image = ImageIO.read(new File(getImageDir() + "Logo.jpg"));
@@ -2256,7 +2215,7 @@ public class ExLowCode extends ApiExampleBase {
 
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Document.docx")) {
             WatermarkerContext watermarkerContext = new WatermarkerContext();
-            watermarkerContext.setImageWatermark(File.readAllBytes(watermarkImage));
+            watermarkerContext.setImageWatermark(Files.readAllBytes(Paths.get(watermarkImage)));
 
             ImageWatermarkOptions imageWatermarkOptions = new ImageWatermarkOptions();
             imageWatermarkOptions.setScale(50.0);
@@ -2264,8 +2223,8 @@ public class ExLowCode extends ApiExampleBase {
 
             try (FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "LowCode.WatermarkContextImageStream.docx")) {
                 Watermarker.create(watermarkerContext)
-                        .fromInternal(streamIn)
-                        .toInternal(streamOut, SaveFormat.DOCX)
+                        .from(streamIn)
+                        .to(streamOut, SaveFormat.DOCX)
                         .execute();
             }
         }
@@ -2281,7 +2240,7 @@ public class ExLowCode extends ApiExampleBase {
         String doc = getMyDir() + "Big document.docx";
         String watermarkText = "This is a watermark";
 
-        Stream[] images = Watermarker.setWatermarkToImages(doc, new ImageSaveOptions(SaveFormat.PNG), watermarkText);
+        OutputStream[] images = Watermarker.setWatermarkToImages(doc, new ImageSaveOptions(SaveFormat.PNG), watermarkText);
 
         TextWatermarkOptions watermarkOptions = new TextWatermarkOptions();
         watermarkOptions.setColor(Color.RED);
@@ -2298,7 +2257,7 @@ public class ExLowCode extends ApiExampleBase {
         String watermarkText = "This is a watermark";
 
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Document.docx")) {
-            Stream[] images = Watermarker.setWatermarkToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), watermarkText);
+            OutputStream[] images = Watermarker.setWatermarkToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), watermarkText);
 
             TextWatermarkOptions watermarkOptions = new TextWatermarkOptions();
             watermarkOptions.setColor(Color.RED);
@@ -2315,12 +2274,13 @@ public class ExLowCode extends ApiExampleBase {
         //ExSummary:Shows how to insert watermark image to the document and save result to images.
         String doc = getMyDir() + "Document.docx";
         String watermarkImage = getImageDir() + "Logo.jpg";
+        Path watermarkImagePath = Paths.get(watermarkImage);
 
-        Watermarker.setWatermarkToImages(doc, new ImageSaveOptions(SaveFormat.PNG), Files.readAllBytes(watermarkImage));
+        Watermarker.setWatermarkToImages(doc, new ImageSaveOptions(SaveFormat.PNG), Files.readAllBytes(watermarkImagePath));
 
         ImageWatermarkOptions options = new ImageWatermarkOptions();
         options.setScale(50.0);
-        Watermarker.setWatermarkToImages(doc, new ImageSaveOptions(SaveFormat.PNG), Files.readAllBytes(watermarkImage), options);
+        Watermarker.setWatermarkToImages(doc, new ImageSaveOptions(SaveFormat.PNG), Files.readAllBytes(watermarkImagePath), options);
         //ExEnd:WatermarkImageToImages
     }
 
@@ -2333,11 +2293,11 @@ public class ExLowCode extends ApiExampleBase {
         String watermarkImage = getImageDir() + "Logo.jpg";
 
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Document.docx")) {
-            try (FileOutputStream imageStream = new FileOutputStream(watermarkImage)) {
+            try (FileInputStream imageStream = new FileInputStream(watermarkImage)) {
                 Watermarker.setWatermarkToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), imageStream);
-                Watermarker.setWatermarkToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), imageStream, new ImageWatermarkOptions();
-                { .setScale(50.0);
-                });
+                ImageWatermarkOptions options = new ImageWatermarkOptions();
+                options.setScale(50.0);
+                Watermarker.setWatermarkToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), imageStream, options);
             }
         }
         //ExEnd:WatermarkImageToImagesStream

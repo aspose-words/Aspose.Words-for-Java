@@ -5627,7 +5627,8 @@ public class ExField extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testNoteRef(Document doc) {
+    private void testNoteRef(Document doc) throws Exception
+    {
         FieldNoteRef field = (FieldNoteRef) doc.getRange().getFields().get(0);
 
         TestUtil.verifyField(FieldType.FIELD_NOTE_REF, " NOTEREF  MyBookmark2 \\h", "2", field);
@@ -5758,7 +5759,8 @@ public class ExField extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testPageRef(Document doc) {
+    private void testPageRef(Document doc) throws Exception
+    {
         FieldPageRef field = (FieldPageRef) doc.getRange().getFields().get(0);
 
         TestUtil.verifyField(FieldType.FIELD_PAGE_REF, " PAGEREF  MyBookmark3 \\h", "2", field);
@@ -6392,7 +6394,8 @@ public class ExField extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testFieldTOA(Document doc) {
+    private void testFieldTOA(Document doc) throws Exception
+    {
         FieldToa fieldTOA = (FieldToa) doc.getRange().getFields().get(0);
 
         Assert.assertEquals("1", fieldTOA.getEntryCategory());
@@ -6584,7 +6587,7 @@ public class ExField extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testFieldEQ(Document doc) throws IOException {
+    private void testFieldEQ(Document doc) throws Exception {
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\f(1,4)", "", doc.getRange().getFields().get(0));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\a \\al \\co2 \\vs3 \\hs3(4x,- 4y,-4x,+ y)", "", doc.getRange().getFields().get(1));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\b \\bc\\[ (\\a \\al \\co3 \\vs3 \\hs3(1,0,0,0,1,0,0,0,1))", "", doc.getRange().getFields().get(2));
