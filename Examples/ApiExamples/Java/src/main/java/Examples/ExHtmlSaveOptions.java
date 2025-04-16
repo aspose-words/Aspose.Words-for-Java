@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -2039,7 +2039,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     public void removeJavaScriptFromLinks() throws Exception
     {
         //ExStart:HtmlRemoveJavaScriptFromLinks
-        //GistId:12a3a3cfe30f3145220db88428a9f814
+        //GistId:cc5f9f2033531562b29954d9f73776a5
         //ExFor:HtmlFixedSaveOptions.RemoveJavaScriptFromLinks
         //ExSummary:Shows how to remove JavaScript from the links.
         Document doc = new Document(getMyDir() + "JavaScript in HREF.docx");

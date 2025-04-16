@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -2174,7 +2174,7 @@ public class ExDocument extends ApiExampleBase
     public void imageWatermarkStream() throws Exception
     {
         //ExStart:ImageWatermarkStream
-        //GistId:12a3a3cfe30f3145220db88428a9f814
+        //GistId:cc5f9f2033531562b29954d9f73776a5
         //ExFor:Watermark.SetImage(Stream, ImageWatermarkOptions)
         //ExSummary:Shows how to create a watermark from an image stream.
         Document doc = new Document();

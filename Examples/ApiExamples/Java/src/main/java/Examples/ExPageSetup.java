@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -1073,7 +1073,7 @@ public class ExPageSetup extends ApiExampleBase {
     public void jisbPaperSize() throws Exception
     {
         //ExStart:JisbPaperSize
-        //GistId:12a3a3cfe30f3145220db88428a9f814
+        //GistId:cc5f9f2033531562b29954d9f73776a5
         //ExFor:PageSetup.PaperSize
         //ExSummary:Shows how to set the paper size of JisB4 or JisB5.
         Document doc = new Document(getMyDir() + "Big document.docx");
