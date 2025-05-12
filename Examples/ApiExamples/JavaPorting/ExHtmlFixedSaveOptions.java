@@ -446,7 +446,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html", saveOptions);
 
         // The size of the optimized version of the document is almost a third of the size of the unoptimized document.
-        Assert.assertEquals(optimizeOutput ? 61889 : 191000,
+        Assert.assertEquals(optimizeOutput ? 60385 : 191000,
             new FileInfo(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").getLength(), 200.0);
         //ExEnd
     }

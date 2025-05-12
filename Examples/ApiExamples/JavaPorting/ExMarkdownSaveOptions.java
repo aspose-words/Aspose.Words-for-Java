@@ -32,6 +32,7 @@ import com.aspose.words.MarkdownLinkExportMode;
 import com.aspose.words.MarkdownExportAsHtml;
 import com.aspose.ms.System.Environment;
 import com.aspose.words.MarkdownOfficeMathExportMode;
+import com.aspose.words.MarkdownEmptyParagraphExportMode;
 import org.testng.annotations.DataProvider;
 
 
@@ -367,6 +368,53 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
         doc.save(getArtifactsDir() + "MarkdownSaveOptions.OfficeMathExportMode.md", saveOptions);
         //ExEnd:OfficeMathExportMode
     }
+
+    @Test (dataProvider = "emptyParagraphExportModeDataProvider")
+    public void emptyParagraphExportMode(/*MarkdownEmptyParagraphExportMode*/int exportMode) throws Exception
+    {
+        //ExStart
+        //ExFor:MarkdownEmptyParagraphExportMode
+        //ExFor:MarkdownSaveOptions.EmptyParagraphExportMode
+        //ExSummary:Shows how to export empty paragraphs.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("First");
+        builder.writeln("\r\n\r\n\r\n");
+        builder.writeln("Last");
+
+        MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
+        saveOptions.setEmptyParagraphExportMode(exportMode);
+
+        doc.save(getArtifactsDir() + "MarkdownSaveOptions.EmptyParagraphExportMode.md", saveOptions);
+
+        String result = File.readAllText(getArtifactsDir() + "MarkdownSaveOptions.EmptyParagraphExportMode.md");
+
+        switch (exportMode)
+        {
+            case MarkdownEmptyParagraphExportMode.NONE:
+                Assert.assertEquals("First\r\n\r\nLast\r\n", result);
+                break;
+            case MarkdownEmptyParagraphExportMode.EMPTY_LINE:
+                Assert.assertEquals("First\r\n\r\n\r\n\r\n\r\nLast\r\n\r\n", result);
+                break;
+            case MarkdownEmptyParagraphExportMode.MARKDOWN_HARD_LINE_BREAK:
+                Assert.assertEquals("First\r\n\\\r\n\\\r\n\\\r\n\\\r\n\\\r\nLast\r\n<br>\r\n", result);
+                break;
+        }
+        //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "emptyParagraphExportModeDataProvider")
+	public static Object[][] emptyParagraphExportModeDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{MarkdownEmptyParagraphExportMode.NONE},
+			{MarkdownEmptyParagraphExportMode.EMPTY_LINE},
+			{MarkdownEmptyParagraphExportMode.MARKDOWN_HARD_LINE_BREAK},
+		};
+	}
 }
 
 

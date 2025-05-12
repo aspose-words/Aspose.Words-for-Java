@@ -323,11 +323,15 @@ public class ExDocumentBuilder extends ApiExampleBase
         FieldHyperlink hyperlink = (FieldHyperlink)doc.getRange().getFields().get(0);
         Assert.assertEquals("https://www.google.com", hyperlink.getAddress());
 
-        Run fieldContents = (Run)hyperlink.getStart().getNextSibling();
+        // This field is written as w:hyperlink element therefore field code cannot have formatting.
+        Run fieldCode = (Run)hyperlink.getStart().getNextSibling();
+        Assert.assertEquals("HYPERLINK \"https://www.google.com\"", fieldCode.getText().trim());
 
-        Assert.assertEquals(Color.BLUE.getRGB(), fieldContents.getFont().getColor().getRGB());
-        Assert.assertEquals(Underline.SINGLE, fieldContents.getFont().getUnderline());
-        Assert.assertEquals("HYPERLINK \"https://www.google.com\"", fieldContents.getText().trim());
+        Run fieldResult = (Run)hyperlink.getSeparator().getNextSibling();
+
+        Assert.assertEquals(Color.BLUE.getRGB(), fieldResult.getFont().getColor().getRGB());
+        Assert.assertEquals(Underline.SINGLE, fieldResult.getFont().getUnderline());
+        Assert.assertEquals("Google website", fieldResult.getText().trim());
     }
 
     @Test

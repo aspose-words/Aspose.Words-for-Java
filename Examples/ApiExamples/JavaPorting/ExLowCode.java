@@ -819,7 +819,7 @@ public class ExLowCode extends ApiExampleBase
         String firstDoc = getMyDir() + "Table column bookmarks.docx";
         String secondDoc = getMyDir() + "Table column bookmarks.doc";
 
-        Stream[] pages = Comparer.compareToImages(firstDoc, secondDoc, new ImageSaveOptions(SaveFormat.PNG), "Author", new DateTime());
+        Stream[] pages = Comparer.compareToImagesInternal(firstDoc, secondDoc, new ImageSaveOptions(SaveFormat.PNG), "Author", new DateTime());
 
         FileStream firstStreamIn = new FileStream(firstDoc, FileMode.OPEN, FileAccess.READ);
         try /*JAVA: was using*/
@@ -829,7 +829,7 @@ public class ExLowCode extends ApiExampleBase
             {
                 CompareOptions compareOptions = new CompareOptions();
                 compareOptions.setIgnoreCaseChanges(true);
-                pages = Comparer.compareToImages(firstStreamIn, secondStreamIn, new ImageSaveOptions(SaveFormat.PNG), "Author", new DateTime(), compareOptions);
+                pages = Comparer.compareToImagesInternal(firstStreamIn, secondStreamIn, new ImageSaveOptions(SaveFormat.PNG), "Author", new DateTime(), compareOptions);
             }
             finally { if (secondStreamIn != null) secondStreamIn.close(); }
         }
@@ -901,10 +901,10 @@ public class ExLowCode extends ApiExampleBase
         String[] fieldNames = new String[] { "FirstName", "Location", "SpecialCharsInName()" };
         String[] fieldValues = new String[] { "James Bond", "London", "Classified" };
 
-        Stream[] images = MailMerger.executeToImages(doc, new ImageSaveOptions(SaveFormat.PNG), fieldNames, fieldValues);
+        Stream[] images = MailMerger.executeToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), fieldNames, fieldValues);
         MailMergeOptions mailMergeOptions = new MailMergeOptions();
         mailMergeOptions.setTrimWhitespaces(true);
-        images = MailMerger.executeToImages(doc, new ImageSaveOptions(SaveFormat.PNG), fieldNames, fieldValues, mailMergeOptions);
+        images = MailMerger.executeToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), fieldNames, fieldValues, mailMergeOptions);
         //ExEnd:MailMergeToImages
     }
 
@@ -991,11 +991,11 @@ public class ExLowCode extends ApiExampleBase
         FileStream streamIn = new FileStream(getMyDir() + "Mail merge.doc", FileMode.OPEN, FileAccess.READ);
         try /*JAVA: was using*/
         {
-            Stream[] images = MailMerger.executeToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), fieldNames, fieldValues);
+            Stream[] images = MailMerger.executeToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), fieldNames, fieldValues);
 
             MailMergeOptions mailMergeOptions = new MailMergeOptions();
             mailMergeOptions.setTrimWhitespaces(true);
-            images = MailMerger.executeToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), fieldNames, fieldValues, mailMergeOptions);
+            images = MailMerger.executeToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), fieldNames, fieldValues, mailMergeOptions);
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:MailMergeStreamToImages
@@ -1072,8 +1072,8 @@ public class ExLowCode extends ApiExampleBase
 
         DataRow dataRow = dataTable.getRows().add(new String[] { "James Bond", "London", "Classified" });
 
-        Stream[] images = MailMerger.executeToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataRow);
-        images = MailMerger.executeToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataRow, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
+        Stream[] images = MailMerger.executeToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataRow);
+        images = MailMerger.executeToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataRow, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
         //ExEnd:MailMergeToImagesDataRow
     }
 
@@ -1169,8 +1169,8 @@ public class ExLowCode extends ApiExampleBase
         FileStream streamIn = new FileStream(getMyDir() + "Mail merge.doc", FileMode.OPEN, FileAccess.READ);
         try /*JAVA: was using*/
         {
-            Stream[] images = MailMerger.executeToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataRow);
-            images = MailMerger.executeToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataRow, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
+            Stream[] images = MailMerger.executeToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataRow);
+            images = MailMerger.executeToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataRow, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:MailMergeStreamToImagesDataRow
@@ -1247,8 +1247,8 @@ public class ExLowCode extends ApiExampleBase
 
         DataRow dataRow = dataTable.getRows().add(new String[] { "James Bond", "London", "Classified" });
 
-        Stream[] images = MailMerger.executeToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable);
-        images = MailMerger.executeToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
+        Stream[] images = MailMerger.executeToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable);
+        images = MailMerger.executeToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
         //ExEnd:MailMergeToImagesDataTable
     }
 
@@ -1345,8 +1345,8 @@ public class ExLowCode extends ApiExampleBase
         FileStream streamIn = new FileStream(getMyDir() + "Mail merge.doc", FileMode.OPEN, FileAccess.READ);
         try /*JAVA: was using*/
         {
-            Stream[] images = MailMerger.executeToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable);
-            images = MailMerger.executeToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
+            Stream[] images = MailMerger.executeToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable);
+            images = MailMerger.executeToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:MailMergeStreamToImagesDataTable
@@ -1423,8 +1423,8 @@ public class ExLowCode extends ApiExampleBase
         dataTable.getRows().add(new Object[] { "", "" });
         dataTable.getRows().add(new Object[] { "Jane", "Doe" });
 
-        Stream[] images = MailMerger.executeWithRegionsToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable);
-        images = MailMerger.executeWithRegionsToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
+        Stream[] images = MailMerger.executeWithRegionsToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable);
+        images = MailMerger.executeWithRegionsToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
         //ExEnd:MailMergeWithRegionsToImagesDataTable
     }
 
@@ -1520,8 +1520,8 @@ public class ExLowCode extends ApiExampleBase
         FileStream streamIn = new FileStream(getMyDir() + "Mail merge.doc", FileMode.OPEN, FileAccess.READ);
         try /*JAVA: was using*/
         {
-            Stream[] images = MailMerger.executeWithRegionsToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable);
-            images = MailMerger.executeWithRegionsToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
+            Stream[] images = MailMerger.executeWithRegionsToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable);
+            images = MailMerger.executeWithRegionsToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:MailMergeStreamWithRegionsToImagesDataTable
@@ -1634,8 +1634,8 @@ public class ExLowCode extends ApiExampleBase
         dataSet.getTables().add(tableOrders);
         dataSet.getRelations().add(tableCustomers.getColumns().get("CustomerID"), tableOrders.getColumns().get("CustomerID"));
 
-        Stream[] images = MailMerger.executeWithRegionsToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataSet);
-        images = MailMerger.executeWithRegionsToImages(doc, new ImageSaveOptions(SaveFormat.PNG), dataSet, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
+        Stream[] images = MailMerger.executeWithRegionsToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataSet);
+        images = MailMerger.executeWithRegionsToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataSet, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
         //ExEnd:MailMergeWithRegionsToImagesDataSet
     }
 
@@ -1767,8 +1767,8 @@ public class ExLowCode extends ApiExampleBase
         FileStream streamIn = new FileStream(getMyDir() + "Mail merge.doc", FileMode.OPEN, FileAccess.READ);
         try /*JAVA: was using*/
         {
-            Stream[] images = MailMerger.executeWithRegionsToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataSet);
-            images = MailMerger.executeWithRegionsToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataSet, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
+            Stream[] images = MailMerger.executeWithRegionsToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataSet);
+            images = MailMerger.executeWithRegionsToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataSet, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:MailMergeStreamWithRegionsToImagesDataSet
@@ -1833,11 +1833,11 @@ public class ExLowCode extends ApiExampleBase
         String pattern = "(C)2006 Aspose Pty Ltd.";
         String replacement = "Copyright (C) 2024 by Aspose Pty Ltd.";
 
-        Stream[] images = Replacer.replaceToImages(doc, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement);
+        Stream[] images = Replacer.replaceToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement);
 
         FindReplaceOptions options = new FindReplaceOptions();
         options.setFindWholeWordsOnly(false);
-        images = Replacer.replaceToImages(doc, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement, options);
+        images = Replacer.replaceToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement, options);
         //ExEnd:ReplaceToImages
     }
 
@@ -1924,11 +1924,11 @@ public class ExLowCode extends ApiExampleBase
         FileStream streamIn = new FileStream(getMyDir() + "Footer.docx", FileMode.OPEN, FileAccess.READ);
         try /*JAVA: was using*/
         {
-            Stream[] images = Replacer.replaceToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement);
+            Stream[] images = Replacer.replaceToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement);
 
             FindReplaceOptions options = new FindReplaceOptions();
             options.setFindWholeWordsOnly(false);
-            images = Replacer.replaceToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement, options);
+            images = Replacer.replaceToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement, options);
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:ReplaceToImagesStream
@@ -1991,8 +1991,8 @@ public class ExLowCode extends ApiExampleBase
         Regex pattern = new Regex("gr(a|e)y");
         String replacement = "lavender";
 
-        Stream[] images = Replacer.replaceToImages(doc, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement);
-        images = Replacer.replaceToImages(doc, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement, new FindReplaceOptions(); { images.setFindWholeWordsOnly(false); });
+        Stream[] images = Replacer.replaceToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement);
+        images = Replacer.replaceToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement, new FindReplaceOptions(); { images.setFindWholeWordsOnly(false); });
         //ExEnd:ReplaceToImagesRegex
     }
 
@@ -2077,8 +2077,8 @@ public class ExLowCode extends ApiExampleBase
         FileStream streamIn = new FileStream(getMyDir() + "Replace regex.docx", FileMode.OPEN, FileAccess.READ);
         try /*JAVA: was using*/
         {
-            Stream[] images = Replacer.replaceToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement);
-            images = Replacer.replaceToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement, new FindReplaceOptions(); { images.setFindWholeWordsOnly(false); });
+            Stream[] images = Replacer.replaceToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement);
+            images = Replacer.replaceToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement, new FindReplaceOptions(); { images.setFindWholeWordsOnly(false); });
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:ReplaceToImagesStreamRegex
@@ -2182,7 +2182,7 @@ public class ExLowCode extends ApiExampleBase
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.7.docx", SaveFormat.DOCX, new Object[] { sender }, new String[] { "s" }, new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.8.docx", new Object[] { sender }, new String[] { "s" }, new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
 
-        Stream[] images = ReportBuilder.buildReportToImages(doc, new ImageSaveOptions(SaveFormat.PNG), new Object[] { sender }, new String[] { "s" }, new ReportBuilderOptions(); { images.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+        Stream[] images = ReportBuilder.buildReportToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), new Object[] { sender }, new String[] { "s" }, new ReportBuilderOptions(); { images.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
 
         ReportBuilderContext reportBuilderContext = new ReportBuilderContext();
         reportBuilderContext.getReportBuilderOptions().setMissingMemberMessage("Missed members");
@@ -2250,7 +2250,7 @@ public class ExLowCode extends ApiExampleBase
         	}
             finally { if (streamOut2 != null) streamOut2.close(); }
 
-            Stream[] images = ReportBuilder.buildReportToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), new Object[] { sender }, new String[] { "s" }, new ReportBuilderOptions(); { images.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+            Stream[] images = ReportBuilder.buildReportToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), new Object[] { sender }, new String[] { "s" }, new ReportBuilderOptions(); { images.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
 
             ReportBuilderContext reportBuilderContext = new ReportBuilderContext();
             reportBuilderContext.getReportBuilderOptions().setMissingMemberMessage("Missed members");
@@ -2464,9 +2464,7 @@ public class ExLowCode extends ApiExampleBase
         WatermarkerContext watermarkerContext = new WatermarkerContext();
         watermarkerContext.setTextWatermark(watermarkText);
 
-        TextWatermarkOptions textWatermarkOptions = new TextWatermarkOptions();
-        textWatermarkOptions.setColor(Color.RED);
-        watermarkerContext.setTextWatermarkOptions(textWatermarkOptions);
+        watermarkerContext.getTextWatermarkOptions().setColor(Color.RED);
 
         Watermarker.create(watermarkerContext)
             .from(doc)
@@ -2525,9 +2523,7 @@ public class ExLowCode extends ApiExampleBase
             WatermarkerContext watermarkerContext = new WatermarkerContext();
             watermarkerContext.setTextWatermark(watermarkText);
 
-            TextWatermarkOptions textWatermarkOptions = new TextWatermarkOptions();
-            textWatermarkOptions.setColor(Color.RED);
-            watermarkerContext.setTextWatermarkOptions(textWatermarkOptions);
+            watermarkerContext.getTextWatermarkOptions().setColor(Color.RED);
 
             FileStream streamOut = new FileStream(getArtifactsDir() + "LowCode.WatermarkContextTextStream.docx", FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
@@ -2581,10 +2577,8 @@ public class ExLowCode extends ApiExampleBase
 
         WatermarkerContext watermarkerContext = new WatermarkerContext();
         watermarkerContext.setImageWatermark(File.readAllBytes(watermarkImage));
-        
-        ImageWatermarkOptions imageWatermarkOptions  = new ImageWatermarkOptions();
-        imageWatermarkOptions.setScale(50.0);
-        watermarkerContext.setImageWatermarkOptions(imageWatermarkOptions);
+
+        watermarkerContext.getImageWatermarkOptions().setScale(50.0);
 
         Watermarker.create(watermarkerContext)
             .from(doc)
@@ -2638,10 +2632,8 @@ public class ExLowCode extends ApiExampleBase
         {
             WatermarkerContext watermarkerContext = new WatermarkerContext();
             watermarkerContext.setImageWatermark(File.readAllBytes(watermarkImage));
-            
-            ImageWatermarkOptions imageWatermarkOptions = new ImageWatermarkOptions();
-            imageWatermarkOptions.setScale(50.0);
-            watermarkerContext.setImageWatermarkOptions(imageWatermarkOptions);
+
+            watermarkerContext.getImageWatermarkOptions().setScale(50.0);
 
             FileStream streamOut = new FileStream(getArtifactsDir() + "LowCode.WatermarkContextImageStream.docx", FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
@@ -2667,11 +2659,11 @@ public class ExLowCode extends ApiExampleBase
         String doc = getMyDir() + "Big document.docx";
         String watermarkText = "This is a watermark";
 
-        Stream[] images = Watermarker.setWatermarkToImages(doc, new ImageSaveOptions(SaveFormat.PNG), watermarkText);
+        Stream[] images = Watermarker.setWatermarkToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), watermarkText);
 
         TextWatermarkOptions watermarkOptions = new TextWatermarkOptions();
         watermarkOptions.setColor(Color.RED);
-        images = Watermarker.setWatermarkToImages(doc, new ImageSaveOptions(SaveFormat.PNG), watermarkText, watermarkOptions);
+        images = Watermarker.setWatermarkToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), watermarkText, watermarkOptions);
         //ExEnd:WatermarkTextToImages
     }
 
@@ -2687,11 +2679,11 @@ public class ExLowCode extends ApiExampleBase
         FileStream streamIn = new FileStream(getMyDir() + "Document.docx", FileMode.OPEN, FileAccess.READ);
         try /*JAVA: was using*/
         {
-            Stream[] images = Watermarker.setWatermarkToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), watermarkText);
+            Stream[] images = Watermarker.setWatermarkToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), watermarkText);
 
             TextWatermarkOptions watermarkOptions = new TextWatermarkOptions();
             watermarkOptions.setColor(Color.RED);
-            images = Watermarker.setWatermarkToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), watermarkText, watermarkOptions);
+            images = Watermarker.setWatermarkToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), watermarkText, watermarkOptions);
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:WatermarkTextToImagesStream
@@ -2707,11 +2699,11 @@ public class ExLowCode extends ApiExampleBase
         String doc = getMyDir() + "Document.docx";
         String watermarkImage = getImageDir() + "Logo.jpg";
 
-        Watermarker.setWatermarkToImages(doc, new ImageSaveOptions(SaveFormat.PNG), File.readAllBytes(watermarkImage));
+        Watermarker.setWatermarkToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), File.readAllBytes(watermarkImage));
 
         ImageWatermarkOptions options = new ImageWatermarkOptions();
         options.setScale(50.0);
-        Watermarker.setWatermarkToImages(doc, new ImageSaveOptions(SaveFormat.PNG), File.readAllBytes(watermarkImage), options);
+        Watermarker.setWatermarkToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), File.readAllBytes(watermarkImage), options);
         //ExEnd:WatermarkImageToImages
     }
 
@@ -2730,8 +2722,8 @@ public class ExLowCode extends ApiExampleBase
             FileStream imageStream = new FileStream(watermarkImage, FileMode.OPEN, FileAccess.READ);
             try /*JAVA: was using*/
             {
-                Watermarker.setWatermarkToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), imageStream);
-                Watermarker.setWatermarkToImages(streamIn, new ImageSaveOptions(SaveFormat.PNG), imageStream, new ImageWatermarkOptions(); { .setScale(50.0); });
+                Watermarker.setWatermarkToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), imageStream);
+                Watermarker.setWatermarkToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), imageStream, new ImageWatermarkOptions(); { .setScale(50.0); });
             }
             finally { if (imageStream != null) imageStream.close(); }
         }
