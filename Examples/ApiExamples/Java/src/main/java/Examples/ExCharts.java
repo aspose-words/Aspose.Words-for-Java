@@ -2575,4 +2575,29 @@ public class ExCharts extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Charts.PopulateChartWithData.docx");
         //ExEnd
     }
+
+    @Test
+    public void setChartStyle() throws Exception
+    {
+        //ExStart
+        //ExFor:ChartStyle
+        //ExSummary:Shows how to set and get chart style.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a chart in the Black style.
+        builder.insertChart(ChartType.COLUMN, 400.0, 250.0, ChartStyle.BLACK);
+
+        doc.save(getArtifactsDir() + "Charts.SetChartStyle.docx");
+
+        doc = new Document(getArtifactsDir() + "Charts.SetChartStyle.docx");
+
+        // Get a chart to update.
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Chart chart = shape.getChart();
+
+        // Get the chart style.
+        Assert.assertEquals(ChartStyle.BLACK, chart.getStyle());
+        //ExEnd
+    }
 }

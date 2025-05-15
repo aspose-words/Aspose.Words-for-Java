@@ -1,4 +1,4 @@
-﻿package Examples;
+package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -2073,9 +2073,7 @@ public class ExLowCode extends ApiExampleBase {
         WatermarkerContext watermarkerContext = new WatermarkerContext();
         watermarkerContext.setTextWatermark(watermarkText);
 
-        TextWatermarkOptions textWatermarkOptions = new TextWatermarkOptions();
-        textWatermarkOptions.setColor(Color.RED);
-        watermarkerContext.setTextWatermarkOptions(textWatermarkOptions);
+        watermarkerContext.getTextWatermarkOptions().setColor(Color.RED);
 
         Watermarker.create(watermarkerContext)
                 .from(doc)
@@ -2121,9 +2119,7 @@ public class ExLowCode extends ApiExampleBase {
             WatermarkerContext watermarkerContext = new WatermarkerContext();
             watermarkerContext.setTextWatermark(watermarkText);
 
-            TextWatermarkOptions textWatermarkOptions = new TextWatermarkOptions();
-            textWatermarkOptions.setColor(Color.RED);
-            watermarkerContext.setTextWatermarkOptions(textWatermarkOptions);
+            watermarkerContext.getTextWatermarkOptions().setColor(Color.RED);
 
             try (FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "LowCode.WatermarkContextTextStream.docx")) {
                 Watermarker.create(watermarkerContext)
@@ -2169,9 +2165,7 @@ public class ExLowCode extends ApiExampleBase {
         WatermarkerContext watermarkerContext = new WatermarkerContext();
         watermarkerContext.setImageWatermark(Files.readAllBytes(Paths.get(watermarkImage)));
 
-        ImageWatermarkOptions imageWatermarkOptions = new ImageWatermarkOptions();
-        imageWatermarkOptions.setScale(50.0);
-        watermarkerContext.setImageWatermarkOptions(imageWatermarkOptions);
+        watermarkerContext.getImageWatermarkOptions().setScale(50.0);
 
         Watermarker.create(watermarkerContext)
                 .from(doc)
@@ -2217,9 +2211,7 @@ public class ExLowCode extends ApiExampleBase {
             WatermarkerContext watermarkerContext = new WatermarkerContext();
             watermarkerContext.setImageWatermark(Files.readAllBytes(Paths.get(watermarkImage)));
 
-            ImageWatermarkOptions imageWatermarkOptions = new ImageWatermarkOptions();
-            imageWatermarkOptions.setScale(50.0);
-            watermarkerContext.setImageWatermarkOptions(imageWatermarkOptions);
+            watermarkerContext.getImageWatermarkOptions().setScale(50.0);
 
             try (FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "LowCode.WatermarkContextImageStream.docx")) {
                 Watermarker.create(watermarkerContext)
