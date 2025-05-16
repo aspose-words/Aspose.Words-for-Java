@@ -370,18 +370,18 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "MarkdownSaveOptions.EmptyParagraphExportMode.md", saveOptions);
 
-        String result = File.readAllText(getArtifactsDir() + "MarkdownSaveOptions.EmptyParagraphExportMode.md");
+        String result = FileUtils.readFileToString( new File(getArtifactsDir() + "MarkdownSaveOptions.EmptyParagraphExportMode.md"), StandardCharsets.UTF_8);
 
         switch (exportMode)
         {
             case MarkdownEmptyParagraphExportMode.NONE:
-                Assert.assertEquals("First\r\n\r\nLast\r\n", result);
+                Assert.assertEquals("\uFEFFFirst\r\n\r\nLast\r\n", result);
                 break;
             case MarkdownEmptyParagraphExportMode.EMPTY_LINE:
-                Assert.assertEquals("First\r\n\r\n\r\n\r\n\r\nLast\r\n\r\n", result);
+                Assert.assertEquals("\uFEFFFirst\r\n\r\n\r\n\r\n\r\nLast\r\n\r\n", result);
                 break;
             case MarkdownEmptyParagraphExportMode.MARKDOWN_HARD_LINE_BREAK:
-                Assert.assertEquals("First\r\n\\\r\n\\\r\n\\\r\n\\\r\n\\\r\nLast\r\n<br>\r\n", result);
+                Assert.assertEquals("\uFEFFFirst\r\n\\\r\n\\\r\n\\\r\n\\\r\n\\\r\nLast\r\n<br>\r\n", result);
                 break;
         }
         //ExEnd
