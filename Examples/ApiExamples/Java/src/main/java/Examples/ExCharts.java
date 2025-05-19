@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -2580,7 +2580,7 @@ public class ExCharts extends ApiExampleBase {
     public void setChartStyle() throws Exception
     {
         //ExStart:SetChartStyle
-        //GistId:ad73e0dd58a8c2ae742bb64f8561df35
+        //GistId:b62c3f2b553726aa85992f50f6d39aaa
         //ExFor:ChartStyle
         //ExSummary:Shows how to set and get chart style.
         Document doc = new Document();
