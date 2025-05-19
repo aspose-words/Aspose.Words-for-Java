@@ -355,7 +355,8 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
     @Test (dataProvider = "emptyParagraphExportModeDataProvider")
     public void emptyParagraphExportMode(int exportMode) throws Exception
     {
-        //ExStart
+        //ExStart:EmptyParagraphExportMode
+        //GistId:ad73e0dd58a8c2ae742bb64f8561df35
         //ExFor:MarkdownEmptyParagraphExportMode
         //ExFor:MarkdownSaveOptions.EmptyParagraphExportMode
         //ExSummary:Shows how to export empty paragraphs.
@@ -384,7 +385,7 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
                 Assert.assertEquals("\uFEFFFirst\r\n\\\r\n\\\r\n\\\r\n\\\r\n\\\r\nLast\r\n<br>\r\n", result);
                 break;
         }
-        //ExEnd
+        //ExEnd:EmptyParagraphExportMode
     }
 
 	@DataProvider(name = "emptyParagraphExportModeDataProvider")
