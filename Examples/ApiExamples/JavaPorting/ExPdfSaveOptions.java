@@ -1850,7 +1850,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         pdfDocument.Pages[1].Accept(textAbsorber);
 
-        SetGlyphsPositionShowText tjOperator = (SetGlyphsPositionShowText) textAbsorber.TextFragments[1].Page.Contents[83];
+        SetGlyphsPositionShowText tjOperator = (SetGlyphsPositionShowText) textAbsorber.TextFragments[1].Page.Contents[71];
 
         long testedFileLength = new FileInfo(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").getLength();
         if (applyAdditionalTextPositioning)

@@ -262,13 +262,13 @@ public class ExDocumentBase extends ApiExampleBase
                 switch (gStringSwitchMap.of(args.getOriginalUri()))
                 {
                     case /*"Google logo"*/0:
-                        WebClient webClient = new WebClient();
+                        HttpClient client = new HttpClient();
                         try /*JAVA: was using*/
                         {
-                            args.setData(webClient.DownloadData("http://www.google.com/images/logos/ps_logo2.png"));
+                            byte[] imageData = client.GetByteArrayAsync("http://www.google.com/images/logos/ps_logo2.png").GetAwaiter().GetResult();
+                            args.setData(imageData);
                         }
-                        finally { if (webClient != null) webClient.close(); }
-
+                        finally { if (client != null) client.close(); }
                         return ResourceLoadingAction.USER_PROVIDED;
 
                     case /*"Aspose logo"*/1:

@@ -2665,7 +2665,8 @@ public class ExCharts extends ApiExampleBase
     @Test
     public void setChartStyle() throws Exception
     {
-        //ExStart
+        //ExStart:SetChartStyle
+        //GistId:ad73e0dd58a8c2ae742bb64f8561df35
         //ExFor:ChartStyle
         //ExSummary:Shows how to set and get chart style.
         Document doc = new Document();
@@ -2684,7 +2685,7 @@ public class ExCharts extends ApiExampleBase
 
         // Get the chart style.
         Assert.assertEquals(ChartStyle.BLACK, chart.getStyle());
-        //ExEnd
+        //ExEnd:SetChartStyle
     }
 }
 

@@ -9,8 +9,8 @@ package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
 
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
+import com.aspose.ms.System.IO.Path;
+import com.aspose.ms.System.Drawing.Rectangle;
 import org.testng.Assert;
 import com.aspose.words.Table;
 import com.aspose.words.net.System.Data.DataTable;
@@ -65,18 +65,89 @@ class TestUtil extends ApiExampleBase
     /// <param name="expectedWidth">Expected width of the image, in pixels.</param>
     /// <param name="expectedHeight">Expected height of the image, in pixels.</param>
     /// <param name="filename">Local file system filename of the image file.</param>
-    static void verifyImage(int expectedWidth, int expectedHeight, String filename)
+    static void verifyImage(int expectedWidth, int expectedHeight, String filename) throws Exception
     {
-        BufferedImage image = ImageIO.read(filename);
-        try /*JAVA: was using*/
+        String ext = Path.getExtension(filename).toLowerCase();
+        boolean isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+        if (isWindows && (".emf".equals(ext) || ".wmf".equals(ext)))
         {
-            Assert.Multiple(() =>
+            Metafile metafile = new Metafile(filename);
+            try /*JAVA: was using*/
             {
-                Assert.assertEquals(expectedWidth, image.getWidth(), 1.0);
-                Assert.assertEquals(expectedHeight, image.getHeight(), 1.0);
-            });
+                Rectangle bounds = metafile.GetMetafileHeader().Bounds;
+                Assert.assertEquals(expectedWidth, bounds.getWidth(), 1.0);
+                Assert.assertEquals(expectedHeight, bounds.getHeight(), 1.0);
+            }
+            finally { if (metafile != null) metafile.close(); }
         }
-        finally { if (image != null) image.flush(); }
+        else if (".emf".equals(ext))
+        {
+            var (w, h) = GetEmfDimensions(filename);
+            Assert.AreEqual(expectedWidth, w, 1);
+            Assert.AreEqual(expectedHeight, h, 1);
+        }
+        else if (".wmf".equals(ext))
+        {
+            var (w, h) = GetWmfDimensions(filename);
+            Assert.AreEqual(expectedWidth, w, 1);
+            Assert.AreEqual(expectedHeight, h, 1);
+        }
+        else
+        {
+            var image = SKBitmap.Decode(filename);
+            try /*JAVA: was using*/
+            {
+                Assert.Multiple(() =>
+                {
+                    Assert.AreEqual(expectedWidth, image.Width, 1);
+                    Assert.AreEqual(expectedHeight, image.Height, 1);
+                });
+            }
+            finally { if (image != null) image.close(); }
+        }
+    }
+
+     static (private int Width, int Height) GetEmfDimensions(String filePath)
+    {
+        using (var stream = File.OpenRead(filePath))
+        using (var reader = new BinaryReader(stream))
+        {
+            // Skip EMF header (first 8 bytes).
+            stream.Position = 8;
+
+            // Read bounding rectangle (4 x Int32: left, top, right, bottom).
+            int left = reader.ReadInt32();
+            int top = reader.ReadInt32();
+            int right = reader.ReadInt32();
+            int bottom = reader.ReadInt32();
+
+            return (right - left, bottom - top);
+        }
+    }
+
+     static (private int Width, int Height) GetWmfDimensions(String filePath)
+    {
+        using (var stream = File.OpenRead(filePath))
+        using (var reader = new BinaryReader(stream))
+        {
+            // WMF header (16 bytes).
+            // Skip first 10 bytes (header + version).
+            stream.Position = 10;
+
+            // Read dimensions in 16-bit integers (0.01mm units).
+            short left = reader.ReadInt16();
+            short top = reader.ReadInt16();
+            short right = reader.ReadInt16();
+            short bottom = reader.ReadInt16();
+
+            // Convert to pixels (96 DPI approximation).
+            static final double unitsPerInch = 2540.0; // WMF uses 0.01mm units.
+            int width = (int)((right - left) / unitsPerInch * 96);
+            int height = (int)((bottom - top) / unitsPerInch * 96);
+
+            return (width, height);
+        }
     }
 
     /// <summary>
@@ -85,17 +156,32 @@ class TestUtil extends ApiExampleBase
     /// <param name="filename">Local file system filename of the image file.</param>
     static void imageContainsTransparency(String filename)
     {
-        BufferedImage bitmap = (BufferedImage)ImageIO.read(filename);
+        var bitmap = SKBitmap.Decode(filename);
         try /*JAVA: was using*/
-    	{
-            for (int x = 0; x < bitmap.getWidth(); x++)
-                for (int y = 0; y < bitmap.getHeight(); y++)
-                    if ((bitmap.GetPixel(x, y).getAlpha() & 0xFF) != 255) return;
-    	}
+        {
+            for (int x = 0; x < bitmap.Width; x++)
+            {
+                for (int y = 0; y < bitmap.Height; y++)
+                {
+                    if (bitmap.GetPixel(x, y).Alpha != 255)
+                        return;
+                }
+            }
+        }
         finally { if (bitmap != null) bitmap.close(); }
 
         Assert.fail($"The image from \"{filename}\" does not contain any transparency.");
-    }private VerifyWebResponseStatusCodeAsyncverifyWebResponseStatusCodeAsync(int expectedHttpStatusCode, String webAddress)
+    }
+
+    /// <summary>
+    /// Checks whether an HTTP request sent to the specified address produces an expected web response. 
+    /// </summary>
+    /// <remarks>
+    /// Serves as a notification of any URLs used in code examples becoming unusable in the future.
+    /// </remarks>
+    /// <param name="expectedHttpStatusCode">Expected result status code of a request HTTP "HEAD" method performed on the web address.</param>
+    /// <param name="webAddress">URL where the request will be sent.</param>
+     static async System.Threading.Tasks.Task private VerifyWebResponseStatusCodeAsyncverifyWebResponseStatusCodeAsync(int expectedHttpStatusCode, String webAddress)
     {
         var myClient = new System.Net.Http.HttpClient();
         var response = await myClient.GetAsync(webAddress);

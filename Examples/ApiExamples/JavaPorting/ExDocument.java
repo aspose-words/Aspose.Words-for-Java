@@ -201,10 +201,11 @@ public class ExDocument extends ApiExampleBase
         final String URL = "https://filesamples.com/samples/document/docx/sample3.docx";
 
         // Download the document into a byte array, then load that array into a document using a memory stream.
-        WebClient webClient = new WebClient();
+        HttpClient httpClient = new HttpClient();
         try /*JAVA: was using*/
         {
-            byte[] dataBytes = webClient.DownloadData(URL);
+            HttpResponseMessage response = httpClient.GetAsync(URL).Result;
+            byte[] dataBytes = response.Content.ReadAsByteArrayAsync().Result;
 
             MemoryStream byteStream = new MemoryStream(dataBytes);
             try /*JAVA: was using*/
@@ -213,15 +214,15 @@ public class ExDocument extends ApiExampleBase
 
                 // At this stage, we can read and edit the document's contents and then save it to the local file system.
                 Assert.assertEquals("There are eight section headings in this document. At the beginning, \"Sample Document\" is a level 1 heading. " +
-                                "The main section headings, such as \"Headings\" and \"Lists\" are level 2 headings. " +
-                                "The Tables section contains two sub-headings, \"Simple Table\" and \"Complex Table,\" which are both level 3 headings.",
+                              "The main section headings, such as \"Headings\" and \"Lists\" are level 2 headings. " +
+                              "The Tables section contains two sub-headings, \"Simple Table\" and \"Complex Table,\" which are both level 3 headings.",
                     doc.getFirstSection().getBody().getParagraphs().get(3).getText().trim());
 
                 doc.save(getArtifactsDir() + "Document.LoadFromWeb.docx");
             }
             finally { if (byteStream != null) byteStream.close(); }
         }
-        finally { if (webClient != null) webClient.close(); }
+        finally { if (httpClient != null) httpClient.close(); }
         //ExEnd
     }
 
@@ -376,21 +377,20 @@ public class ExDocument extends ApiExampleBase
         //ExSummary:Shows how save a web page as a .docx file.
         final String URL = "https://products.aspose.com/words/";
 
-        WebClient client = new WebClient();
+        HttpClient client = new HttpClient();
         try /*JAVA: was using*/
         {
-            byte bytes = client.DownloadData(URL);
+            byte[] bytes = client.GetByteArrayAsync(URL).GetAwaiter().GetResult();
+
             MemoryStream stream = new MemoryStream(bytes);
             try /*JAVA: was using*/
             {
                 // The URL is used again as a baseUri to ensure that any relative image paths are retrieved correctly.
                 LoadOptions options = new LoadOptions(LoadFormat.HTML, "", URL);
-
                 // Load the HTML document from stream and pass the LoadOptions object.
                 Document doc = new Document(stream, options);
-
-                // At this stage, we can read and edit the document's contents and then save it to the local file system.
-                Assert.assertTrue(doc.getText().contains("HYPERLINK \"https://products.aspose.com/words/net/\" \\o \"Aspose.Words\"")); //ExSkip
+                // Verify document content.
+                Assert.assertTrue(doc.getText().contains("HYPERLINK \"https://products.aspose.com/words/net/\" \\o \"Aspose.Words\""));
 
                 doc.save(getArtifactsDir() + "Document.InsertHtmlFromWebPage.docx");
             }

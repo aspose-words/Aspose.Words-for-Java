@@ -372,7 +372,8 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
     @Test (dataProvider = "emptyParagraphExportModeDataProvider")
     public void emptyParagraphExportMode(/*MarkdownEmptyParagraphExportMode*/int exportMode) throws Exception
     {
-        //ExStart
+        //ExStart:EmptyParagraphExportMode
+        //GistId:ad73e0dd58a8c2ae742bb64f8561df35
         //ExFor:MarkdownEmptyParagraphExportMode
         //ExFor:MarkdownSaveOptions.EmptyParagraphExportMode
         //ExSummary:Shows how to export empty paragraphs.
@@ -401,7 +402,7 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
                 Assert.assertEquals("First\r\n\\\r\n\\\r\n\\\r\n\\\r\n\\\r\nLast\r\n<br>\r\n", result);
                 break;
         }
-        //ExEnd
+        //ExEnd:EmptyParagraphExportMode
     }
 
 	//JAVA-added data provider for test method
