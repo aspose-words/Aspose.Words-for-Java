@@ -633,4 +633,33 @@ public class ExImageSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "ImageSaveOptions.RenderInkObject.jpeg", saveOptions);
         //ExEnd
     }
+
+    @Test
+    public void gridLayout() throws Exception
+    {
+        //ExStart:GridLayout
+        //GistId:70330eacdfc2e253f00a9adea8972975
+        //ExFor:ImageSaveOptions.PageLayout
+        //ExFor:MultiPageLayout
+        //ExSummary:Shows how to save the document into JPG image with multi-page layout settings.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        ImageSaveOptions options = new ImageSaveOptions(SaveFormat.JPEG);
+        // Set up a grid layout with:
+        // - 3 columns per row.
+        // - 10pts spacing between pages (horizontal and vertical).
+        options.setPageLayout(MultiPageLayout.grid(3, 10f, 10f));
+
+        // Alternative layouts:
+        // options.MultiPageLayout = MultiPageLayout.Horizontal(10);
+        // options.MultiPageLayout = MultiPageLayout.Vertical(10);
+
+        // Customize the background and border.
+        options.getPageLayout().setBackColor(Color.lightGray);
+        options.getPageLayout().setBorderColor(Color.BLUE);
+        options.getPageLayout().setBorderWidth(2f);
+
+        doc.save(getArtifactsDir() + "ImageSaveOptions.GridLayout.jpg", options);
+        //ExEnd:GridLayout
+    }
 }

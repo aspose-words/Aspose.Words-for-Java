@@ -388,4 +388,36 @@ public class WorkingWithMarkdown extends DocsExamplesBase
         }
         //ExEnd:UseWarningSourceMarkdown
     }
+
+    @Test
+    public void supportedFeatures() throws Exception
+    {
+        //ExStart:SupportedFeatures
+        //GistId:51b4cb9c451832f23527892e19c7bca6
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Specify the "Heading 1" style for the paragraph.
+        builder.insertParagraph();
+        builder.getParagraphFormat().setStyleName("Heading 1");
+        builder.write("Heading 1");
+
+        // Specify the Italic emphasis for the paragraph.
+        builder.insertParagraph();
+        // Reset styles from the previous paragraph to not combine styles between paragraphs.
+        builder.getParagraphFormat().setStyleName("Normal");
+        builder.getFont().setItalic(true);
+        builder.write("Italic Text");
+        // Reset styles from the previous paragraph to not combine styles between paragraphs.
+        builder.setItalic(false);
+
+        // Specify a Hyperlink for the desired text.
+        builder.insertParagraph();
+        builder.insertHyperlink("Aspose", "https://www.aspose.com", false);
+        builder.write("Aspose");
+
+        // Save your document as a Markdown file.
+        doc.save(getArtifactsDir() + "WorkingWithMarkdown.SupportedFeatures.md");
+        //ExEnd:SupportedFeatures
+    }
 }
