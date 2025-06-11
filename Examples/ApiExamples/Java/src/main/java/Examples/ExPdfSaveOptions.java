@@ -1388,7 +1388,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         pdfDocument.getPages().get_Item(1).accept(textAbsorber);
 
         SetGlyphsPositionShowText tjOperator =
-                (SetGlyphsPositionShowText) textAbsorber.getTextFragments().get_Item(1).getPage().getContents().get_Item(83);
+                (SetGlyphsPositionShowText) textAbsorber.getTextFragments().get_Item(1).getPage().getContents().get_Item(71);
 
         if (applyAdditionalTextPositioning) {
             Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").length() < 102000);
