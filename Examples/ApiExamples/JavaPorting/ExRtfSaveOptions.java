@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.RtfSaveOptions;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Shape;
@@ -61,13 +62,14 @@ public class ExRtfSaveOptions extends ApiExampleBase
         }
         else
         {
-            if (!isRunningOnMono())
+            if (isRunningOnMono())
             {
+                return;
+            }
                 Assert.<AssertionError>Throws(() =>
                     TestUtil.fileContainsString("nonshppict", getArtifactsDir() + "RtfSaveOptions.ExportImages.rtf"));
                 Assert.<AssertionError>Throws(() =>
                     TestUtil.fileContainsString("shprslt", getArtifactsDir() + "RtfSaveOptions.ExportImages.rtf"));
-            }
         }
     }
 

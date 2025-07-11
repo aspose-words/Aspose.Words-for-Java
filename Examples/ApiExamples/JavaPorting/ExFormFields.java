@@ -14,6 +14,7 @@ import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.FormField;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.FieldType;
 import com.aspose.words.TextFormFieldType;
 import com.aspose.words.BookmarkCollection;

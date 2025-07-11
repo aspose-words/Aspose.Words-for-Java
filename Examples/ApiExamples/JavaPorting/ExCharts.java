@@ -19,6 +19,7 @@ import com.aspose.words.ChartTitle;
 import java.awt.Color;
 import com.aspose.words.NodeType;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.ShapeType;
 import com.aspose.words.ChartSeries;
 import com.aspose.words.ChartDataLabelCollection;
@@ -1006,7 +1007,7 @@ public class ExCharts extends ApiExampleBase
         // This will remove one of the three demo series that came with the chart.
         chartData.removeAt(2);
 
-        Assert.False(chartData.Any(s => s.Name == "Series 3"));
+        Assert.That(chartData.Any(s => s.Name == "Series 3"), assertFalse();
         Assert.assertEquals(3, chartData.getCount()); //ExSkip
         Assert.assertEquals("Series 4", chartData.get(2).getName()); //ExSkip
 
@@ -1728,7 +1729,7 @@ public class ExCharts extends ApiExampleBase
         seriesColl.clear();
 
         String[] categories = { "Word", null, "Excel", "GoogleDocs", "Note", null };
-        if (exception instanceof null)
+        if (exception == null)
             seriesColl.add("AW Series", categories, seriesValue);
         else
             Assert.Throws(exception, () => seriesColl.add("AW Series", categories, seriesValue));
@@ -2665,8 +2666,7 @@ public class ExCharts extends ApiExampleBase
     @Test
     public void setChartStyle() throws Exception
     {
-        //ExStart:SetChartStyle
-        //GistId:ad73e0dd58a8c2ae742bb64f8561df35
+        //ExStart
         //ExFor:ChartStyle
         //ExSummary:Shows how to set and get chart style.
         Document doc = new Document();
@@ -2685,7 +2685,7 @@ public class ExCharts extends ApiExampleBase
 
         // Get the chart style.
         Assert.assertEquals(ChartStyle.BLACK, chart.getStyle());
-        //ExEnd:SetChartStyle
+        //ExEnd
     }
 }
 

@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.Revision;
@@ -80,7 +81,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         Assert.assertFalse(doc.hasRevisions());
 
         // To register our edits as revisions, we need to declare an author, and then start tracking them.
-        doc.startTrackRevisionsInternal("John Doe", new Date());
+        doc.startTrackRevisionsInternal("John Doe", new Date);
 
         builder.write("This is revision #1. ");
 
@@ -98,7 +99,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         Assert.assertEquals("John Doe", revision.getAuthor());
         Assert.assertEquals("This is revision #1. ", revision.getParentNode().getText());
         Assert.assertEquals(RevisionType.INSERTION, revision.getRevisionType());
-        Assert.assertEquals(revision.getDateTimeInternal().getDate(), new Date().getDate());
+        Assert.assertEquals(revision.getDateTimeInternal().getDate(), new Date.getDate());
         Assert.assertEquals(doc.getRevisions().getGroups().get(0), revision.getGroup());
 
         // Remove a run to create a deletion-type revision.
@@ -247,8 +248,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         //ExEnd
 
         Assert.assertEquals(RevisionType.DELETION, revisionGroup.getRevisionType());
-        Assert.assertEquals("Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ",
-            revisionGroup.getText());
+        Assert.assertEquals("Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ", revisionGroup.getText());
     }
 
     @Test
@@ -347,11 +347,11 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         builder.write("This does not count as a revision. ");
 
         // To register our edits as revisions, we need to declare an author, and then start tracking them.
-        doc.startTrackRevisionsInternal("John Doe", new Date());
+        doc.startTrackRevisionsInternal("John Doe", new Date);
         builder.write("This is insertion revision #1. ");
         doc.stopTrackRevisions();
 
-        doc.startTrackRevisionsInternal("Jane Doe", new Date());
+        doc.startTrackRevisionsInternal("Jane Doe", new Date);
         builder.write("This is insertion revision #2. ");
         // Remove a run "This does not count as a revision.".
         doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).remove();
@@ -413,7 +413,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         Assert.assertEquals(1, doc.getRevisions().getCount());
         Assert.assertTrue(doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(1).isInsertRevision());
         Assert.assertEquals("John Doe", doc.getRevisions().get(0).getAuthor());
-        Assert.assertTrue((DateTime.subtract(new Date(), doc.getRevisions().get(0).getDateTimeInternal())).getMilliseconds() <= 10);
+        Assert.assertTrue((DateTime.subtract(new Date, doc.getRevisions().get(0).getDateTimeInternal())).getMilliseconds() <= 10);
 
         // Stop tracking revisions to not count any future edits as revisions.
         doc.stopTrackRevisions();
@@ -513,7 +513,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
 
         // Comparing documents with revisions will throw an exception.
         if (docOriginal.getRevisions().getCount() == 0 && docEdited.getRevisions().getCount() == 0)
-            docOriginal.compareInternal(docEdited, "authorName", new Date());
+            docOriginal.compareInternal(docEdited, "authorName", new Date);
 
         // After the comparison, the original document will gain a new revision
         // for every element that is different in the edited document.
@@ -547,7 +547,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         docWithRevision.startTrackRevisions("John Doe");
         builder.writeln("This is a revision.");
 
-        Assert.<IllegalStateException>Throws(() => docWithRevision.compareInternal(doc1, "John Doe", new Date()));
+        Assert.<IllegalStateException>Throws(() => docWithRevision.compareInternal(doc1, "John Doe", new Date));
     }
 
     @Test
@@ -594,7 +594,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         builder.insertField(" DATE ");
 
         // Comment:
-        Comment newComment = new Comment(docOriginal, "John Doe", "J.D.", new Date());
+        Comment newComment = new Comment(docOriginal, "John Doe", "J.D.", new Date);
         newComment.setText("Original comment.");
         builder.getCurrentParagraph().appendChild(newComment);
 
@@ -632,7 +632,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
             compareOptions.setTarget(ComparisonTargetType.NEW);
         }
 
-        docOriginal.compareInternal(docEdited, "John Doe", new Date(), compareOptions);
+        docOriginal.compareInternal(docEdited, "John Doe", new Date, compareOptions);
         docOriginal.save(getArtifactsDir() + "Revision.CompareOptions.docx");
         //ExEnd
 
@@ -658,7 +658,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         CompareOptions compareOptions = new CompareOptions();
         compareOptions.getAdvancedOptions().setIgnoreDmlUniqueId(isIgnoreDmlUniqueId);
 
-        docA.compareInternal(docB, "Aspose.Words", new Date(), compareOptions);
+        docA.compareInternal(docB, "Aspose.Words", new Date, compareOptions);
 
         Assert.assertEquals(isIgnoreDmlUniqueId ? 0 : 2, docA.getRevisions().getCount());
         //ExEnd
@@ -693,7 +693,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
 
         // Insert a revision, then change the color of all revisions to green.
         builder.writeln("This is not a revision.");
-        doc.startTrackRevisionsInternal("John Doe", new Date());
+        doc.startTrackRevisionsInternal("John Doe", new Date);
         Assert.assertEquals(RevisionColor.BY_AUTHOR, doc.getLayoutOptions().getRevisionOptions().getInsertedTextColor()); //ExSkip
         Assert.assertTrue(doc.getLayoutOptions().getRevisionOptions().getShowRevisionBars()); //ExSkip
         builder.writeln("This is a revision.");
@@ -729,7 +729,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         CompareOptions compareOptions = new CompareOptions();
         compareOptions.setGranularity(granularity);
 
-        docA.compareInternal(docB, "author", new Date(), compareOptions);
+        docA.compareInternal(docB, "author", new Date, compareOptions);
 
         // The first document's collection of revision groups contains all the differences between documents.
         RevisionGroupCollection groups = docA.getRevisions().getGroups();
@@ -798,13 +798,13 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         CompareOptions compareOptions = new CompareOptions();
         compareOptions.getAdvancedOptions().setIgnoreStoreItemId(false);
 
-        docA.compareInternal(docB, "user", new Date(), compareOptions);
+        docA.compareInternal(docB, "user", new Date, compareOptions);
         Assert.assertEquals(8, docA.getRevisions().getCount());
 
         compareOptions.getAdvancedOptions().setIgnoreStoreItemId(true);
 
         docA.getRevisions().rejectAll();
-        docA.compareInternal(docB, "user", new Date(), compareOptions);
+        docA.compareInternal(docB, "user", new Date, compareOptions);
         Assert.assertEquals(0, docA.getRevisions().getCount());
         //ExEnd:IgnoreStoreItemId
     }

@@ -23,6 +23,7 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.words.BreakType;
 import com.aspose.ms.System.IO.Directory;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.IPageSavingCallback;
 import com.aspose.words.PageSavingArgs;
 import com.aspose.ms.System.IO.FileStream;
@@ -242,7 +243,7 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
             // 2 -  Create a custom stream for the output image file:
             args.ImageStream = new FileStream(getArtifactsDir() + imageFileName, FileMode.CREATE);
 
-            Assert.True(args.ImageStream.CanWrite);
+            Assert.That(args.ImageStream.CanWrite, assertTrue();
             Assert.assertTrue(args.isImageAvailable());
             Assert.assertFalse(args.getKeepImageStreamOpen());
         }
@@ -309,7 +310,7 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
             args.isExportNeeded(mIsExportNeeded);
             args.setKeepCssStreamOpen(mKeepCssStreamOpen);
 
-            Assert.True(args.CssStream.CanWrite);
+            Assert.That(args.CssStream.CanWrite, assertTrue();
         }
 
         private /*final*/ String mCssTextFileName;

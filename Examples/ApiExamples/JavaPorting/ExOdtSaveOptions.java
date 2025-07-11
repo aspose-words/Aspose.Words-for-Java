@@ -14,6 +14,7 @@ import com.aspose.words.Document;
 import com.aspose.words.OdtSaveOptions;
 import com.aspose.words.OdtSaveMeasureUnit;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.FieldType;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.DocumentBuilder;

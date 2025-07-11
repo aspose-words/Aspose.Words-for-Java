@@ -24,6 +24,7 @@ import com.aspose.ms.System.IO.FileAccess;
 import com.aspose.words.DocumentBuilder;
 import java.awt.Color;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.Converter;
 import com.aspose.words.ConverterContext;
 import com.aspose.words.ImageSaveOptions;
@@ -644,11 +645,11 @@ public class ExLowCode extends ApiExampleBase
                                  .ToList();
 
             if ("png".equals(fileExt))
-                Assert.AreEqual(2, images.Count);
+                Assert.That(images.Count, assertEquals(2, );
             else if ("tiff".equals(fileExt))
-                Assert.AreEqual(1, images.Count);
+                Assert.That(images.Count, assertEquals(1, );
             else
-                Assert.AreEqual(5, images.Count);
+                Assert.That(images.Count, assertEquals(5, );
         }
         else
         {
@@ -683,7 +684,7 @@ public class ExLowCode extends ApiExampleBase
         for (int i = 0; i < element.Count; i++)
             AssertXpsText(element[i]);
         if (element instanceof XpsGlyphs)
-            Assert.True(new String[] { "Heading 1", "Head", "ing 1" }.Any(c => ((XpsGlyphs)element).UnicodeString.Contains(c)));
+            Assert.That(new String[] { "Heading 1", "Head", "ing 1" }.Any(c => ((XpsGlyphs)element).UnicodeString.Contains(c)), assertTrue();
     }
 
     @Test

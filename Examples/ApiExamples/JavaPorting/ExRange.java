@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.FindReplaceOptions;
 import java.util.Date;
 import com.aspose.ms.System.DateTime;
@@ -91,8 +92,7 @@ public class ExRange extends ApiExampleBase
 
         doc.getRange().replace("Ruby", "Jade", options);
 
-        Assert.assertEquals(matchCase ? "Jade bought a ruby necklace." : "Jade bought a Jade necklace.",
-            doc.getText().trim());
+        Assert.assertEquals(matchCase ? "Jade bought a ruby necklace." : "Jade bought a Jade necklace.", doc.getText().trim());
         //ExEnd
     }
 
@@ -129,9 +129,7 @@ public class ExRange extends ApiExampleBase
 
         doc.getRange().replace("Jackson", "Louis", options);
 
-        Assert.assertEquals(
-            findWholeWordsOnly ? "Louis will meet you in Jacksonville." : "Louis will meet you in Louisville.",
-            doc.getText().trim());
+        Assert.assertEquals(findWholeWordsOnly ? "Louis will meet you in Jacksonville." : "Louis will meet you in Louisville.", doc.getText().trim());
         //ExEnd
     }
 
@@ -160,7 +158,7 @@ public class ExRange extends ApiExampleBase
  
         // Start tracking revisions and remove the second paragraph, which will create a delete revision.
         // That paragraph will persist in the document until we accept the delete revision.
-        doc.startTrackRevisionsInternal("John Doe", new Date());
+        doc.startTrackRevisionsInternal("John Doe", new Date);
         doc.getFirstSection().getBody().getParagraphs().get(1).remove();
         doc.stopTrackRevisions();
 
@@ -177,10 +175,9 @@ public class ExRange extends ApiExampleBase
 
         doc.getRange().replace("Hello", "Greetings", options);
 
-        Assert.assertEquals(
-            ignoreTextInsideDeleteRevisions
-                ? "Greetings world!\rHello again!"
-                : "Greetings world!\rGreetings again!", doc.getText().trim());
+        Assert.assertEquals(ignoreTextInsideDeleteRevisions
+                    ? "Greetings world!\rHello again!"
+                    : "Greetings world!\rGreetings again!", doc.getText().trim());
         //ExEnd
     }
 
@@ -207,7 +204,7 @@ public class ExRange extends ApiExampleBase
         builder.writeln("Hello world!");
 
         // Start tracking revisions and insert a paragraph. That paragraph will be an insert revision.
-        doc.startTrackRevisionsInternal("John Doe", new Date());
+        doc.startTrackRevisionsInternal("John Doe", new Date);
         builder.writeln("Hello again!");
         doc.stopTrackRevisions();
 
@@ -224,10 +221,9 @@ public class ExRange extends ApiExampleBase
 
         doc.getRange().replace("Hello", "Greetings", options);
 
-        Assert.assertEquals(
-            ignoreTextInsideInsertRevisions
-                ? "Greetings world!\rHello again!"
-                : "Greetings world!\rGreetings again!", doc.getText().trim());
+        Assert.assertEquals(ignoreTextInsideInsertRevisions
+                    ? "Greetings world!\rHello again!"
+                    : "Greetings world!\rGreetings again!", doc.getText().trim());
         //ExEnd
     }
 
@@ -265,10 +261,9 @@ public class ExRange extends ApiExampleBase
 
         doc.getRange().replace("Hello", "Greetings", options);
 
-        Assert.assertEquals(
-            ignoreTextInsideFields
-                ? "Greetings world!\r\u0013QUOTE\u0014Hello again!\u0015"
-                : "Greetings world!\r\u0013QUOTE\u0014Greetings again!\u0015", doc.getText().trim());
+        Assert.assertEquals(ignoreTextInsideFields
+                    ? "Greetings world!\r\u0013QUOTE\u0014Hello again!\u0015"
+                    : "Greetings world!\r\u0013QUOTE\u0014Greetings again!\u0015", doc.getText().trim());
         //ExEnd
     }
 
@@ -300,10 +295,9 @@ public class ExRange extends ApiExampleBase
         doc.getRange().replaceInternal(new Regex("T"), "*", options);
         System.out.println(doc.getText());
 
-        Assert.assertEquals(
-            ignoreFieldCodes
-                ? "\u0013INCLUDETEXT\u0014*est I*!\u0015"
-                : "\u0013INCLUDE*EX*\u0014*est I*!\u0015", doc.getText().trim());
+        Assert.assertEquals(ignoreFieldCodes
+                    ? "\u0013INCLUDETEXT\u0014*est I*!\u0015"
+                    : "\u0013INCLUDE*EX*\u0014*est I*!\u0015", doc.getText().trim());
         //ExEnd
     }
 
@@ -351,16 +345,12 @@ public class ExRange extends ApiExampleBase
         }
 
         ArrayList<Footnote> footnotes = doc.getChildNodes(NodeType.FOOTNOTE, true).<Footnote>Cast().ToList();
-        Assert.assertEquals(
-            isIgnoreFootnotes
-                ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                : "Replaced Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            footnotes.get(0).toString(SaveFormat.TEXT).trim());
-        Assert.assertEquals(
-            isIgnoreFootnotes
-                ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                : "Replaced Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            footnotes.get(1).toString(SaveFormat.TEXT).trim());
+        Assert.assertEquals(isIgnoreFootnotes
+                    ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                    : "Replaced Lorem ipsum dolor sit amet, consectetur adipiscing elit.", footnotes.get(0).toString(SaveFormat.TEXT).trim());
+        Assert.assertEquals(isIgnoreFootnotes
+                    ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                    : "Replaced Lorem ipsum dolor sit amet, consectetur adipiscing elit.", footnotes.get(1).toString(SaveFormat.TEXT).trim());
     }
 
 	//JAVA-added data provider for test method
@@ -484,10 +474,10 @@ public class ExRange extends ApiExampleBase
         doc.getRange().replaceInternal(new Regex("New York City|NYC"), "Washington", options);
         
         Assert.assertEquals("Our new location in (Old value:\"New York City\") Washington is opening tomorrow. " +
-                        "Hope to see all our (Old value:\"NYC\") Washington-based customers at the opening!", doc.getText().trim());
+                            "Hope to see all our (Old value:\"NYC\") Washington-based customers at the opening!", doc.getText().trim());
 
         Assert.assertEquals("\"New York City\" converted to \"Washington\" 20 characters into a Run node.\r\n" +
-                        "\"NYC\" converted to \"Washington\" 42 characters into a Run node.", logger.getLog().trim());
+                            "\"NYC\" converted to \"Washington\" 42 characters into a Run node.", logger.getLog().trim());
     }
 
     /// <summary>
@@ -547,9 +537,9 @@ public class ExRange extends ApiExampleBase
 
         Assert.assertEquals(4, replacementCount);
         Assert.assertEquals("Numbers that the find-and-replace operation will convert to hexadecimal and highlight:\r" +
-                        "0x7B, 0x1C8, 0x315 and 0x43E3.", doc.getText().trim());
-        Assert.AreEqual(4, doc.getChildNodes(NodeType.RUN, true).<Run>OfType()
-                .Count(r => r.Font.HighlightColor.ToArgb() == Color.LightGray.ToArgb()));
+                            "0x7B, 0x1C8, 0x315 and 0x43E3.", doc.getText().trim());
+        Assert.That(doc.getChildNodes(NodeType.RUN, true).<Run>OfType()
+                .Count(r => r.Font.HighlightColor.ToArgb() == Color.LightGray.ToArgb()), assertEquals(4, );
     }
 
     /// <summary>
@@ -623,8 +613,8 @@ public class ExRange extends ApiExampleBase
         Assert.assertEquals(ParagraphAlignment.LEFT, paragraphs.get(1).getParagraphFormat().getAlignment());
         Assert.assertEquals(ParagraphAlignment.RIGHT, paragraphs.get(2).getParagraphFormat().getAlignment());
         Assert.assertEquals("Every paragraph that ends with a full stop like this one will be right aligned!\r" +
-                        "This one will not!\r" +
-                        "This one also will!", doc.getText().trim());
+                            "This one will not!\r" +
+                            "This one also will!", doc.getText().trim());
         //ExEnd
     }
 
@@ -703,9 +693,13 @@ public class ExRange extends ApiExampleBase
 
         doc.getRange().replaceInternal(new Regex("\\[tag \\d*\\]"), "", options);
 
-        Assert.assertEquals(useLegacyOrder ?
-            new ArrayList<String>(); { .add("[tag 1]"); .add("[tag 3]"); .add("[tag 2]"); } :
-            new ArrayList<String>(); { .add("[tag 1]"); .add("[tag 2]"); .add("[tag 3]"); }, callback.getMatches());
+        ArrayList<String> expected;
+        if (useLegacyOrder)
+            expected = new ArrayList<String>(); { expected.add("[tag 1]"); expected.add("[tag 3]"); expected.add("[tag 2]"); }
+        else
+            expected = new ArrayList<String>(); { expected.add("[tag 1]"); expected.add("[tag 2]"); expected.add("[tag 3]"); }
+        Assert.assertEquals(expected, callback.getMatches());
+
     }
 
 	//JAVA-added data provider for test method
@@ -759,10 +753,9 @@ public class ExRange extends ApiExampleBase
         Regex regex = new Regex("([A-z]+) sold a ([A-z]+) to ([A-z]+)");
         doc.getRange().replaceInternal(regex, "$3 bought a $2 from $1", options);
 
-        Assert.assertEquals(
-            useSubstitutions
-                ? "Paul bought a car from John.\rJoe bought a house from Jane."
-                : "$3 bought a $2 from $1.\r$3 bought a $2 from $1.", doc.getText().trim());
+        Assert.assertEquals(useSubstitutions
+                    ? "Paul bought a car from John.\rJoe bought a house from Jane."
+                    : "$3 bought a $2 from $1.\r$3 bought a $2 from $1.", doc.getText().trim());
         //ExEnd
     }
 
@@ -856,8 +849,8 @@ public class ExRange extends ApiExampleBase
     private static void testInsertDocumentAtReplace(Document doc)
     {
         Assert.assertEquals("1) At text that can be identified by regex:\rHello World!\r" +
-                        "2) At a MERGEFIELD:\r\u0013 MERGEFIELD  Document_1  \\* MERGEFORMAT \u0014«Document_1»\u0015\r" +
-                        "3) At a bookmark:", doc.getFirstSection().getBody().getText().trim());
+                            "2) At a MERGEFIELD:\r\u0013 MERGEFIELD  Document_1  \\* MERGEFORMAT \u0014«Document_1»\u0015\r" +
+                            "3) At a bookmark:", doc.getFirstSection().getBody().getText().trim());
     }
 
     //ExStart
@@ -893,9 +886,9 @@ public class ExRange extends ApiExampleBase
         doc.getRange().replaceInternal(new Regex("Match \\d*"), "Replacement", options);
 
         Assert.assertEquals("Replacement.\r" +
-                        "Replacement.\r" +
-                        "Replacement.\r" +
-                        "Replacement.", doc.getText().trim());
+                            "Replacement.\r" +
+                            "Replacement.\r" +
+                            "Replacement.", doc.getText().trim());
 
         switch (findReplaceDirection)
         {
@@ -932,7 +925,52 @@ public class ExRange extends ApiExampleBase
 
         public ArrayList<String> getMatches() { return mMatches; };
 
-        private ArrayList<String> mMatches !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ArrayList<String>list();
+        private ArrayList<String> mMatches !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ ArrayList<String>list();
     }
     //ExEnd
+
+    //ExStart:MatchEndNode
+    //GistId:67c1d01ce69d189983b497fd497a7768
+    //ExFor:ReplacingArgs.MatchEndNode
+    //ExSummary:Shows how to get match end node.
+    @Test
+    public void matchEndNode() throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("1");
+        builder.writeln("2");
+        builder.writeln("3");
+
+        ReplacingCallback replacingCallback = new ReplacingCallback();
+        FindReplaceOptions opts = new FindReplaceOptions();
+        opts.setReplacingCallback(replacingCallback);
+
+        doc.getRange().replaceInternal(new Regex("1[\\s\\S]*3"), "X", opts);
+        Assert.assertEquals("1", replacingCallback.getStartNodeText());
+        Assert.assertEquals("3", replacingCallback.getEndNodeText());
+    }
+
+    /// <summary>
+    /// The replacing callback.
+    /// </summary>
+    private static class ReplacingCallback implements IReplacingCallback
+    {
+        public /*ReplaceAction*/int /*IReplacingCallback.*/replacing(ReplacingArgs e)
+        {
+            setStartNodeText(e.getMatchNode().getText().trim());
+            setEndNodeText(e.getMatchEndNode().getText().trim());
+
+            return ReplaceAction.REPLACE;
+        }
+
+        String getStartNodeText() { return mStartNodeText; }; private void setStartNodeText(String value) { mStartNodeText = value; };
+
+        private String mStartNodeText;
+        String getEndNodeText() { return mEndNodeText; }; private void setEndNodeText(String value) { mEndNodeText = value; };
+
+        private String mEndNodeText;
+    }
+    //ExEnd:MatchEndNode
 }

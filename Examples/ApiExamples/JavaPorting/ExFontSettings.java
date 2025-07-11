@@ -12,6 +12,7 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.FontSettings;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.FontSourceBase;
@@ -22,7 +23,6 @@ import com.aspose.ms.System.msConsole;
 import com.aspose.words.WarningInfoCollection;
 import java.util.ArrayList;
 import com.aspose.words.PhysicalFontInfo;
-import java.util.Iterator;
 import com.aspose.words.WarningSource;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.ms.System.Text.RegularExpressions.Match;
@@ -98,14 +98,14 @@ public class ExFontSettings extends ApiExampleBase
 
         // The font sources that the document uses contain the font "Arial", but not "Arvo".
         Assert.assertEquals(1, fontSources.length);
-        Assert.True(fontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"));
-        Assert.False(fontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arvo"));
+        Assert.That(fontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"), assertTrue();
+        Assert.That(fontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arvo"), assertFalse();
 
         // Set the "DefaultFontName" property to "Courier New" to,
-        // while rendering the document, apply that font in all cases when another font is not available. 
+        // while rendering the document, apply that font in all cases when another font is not available.
         FontSettings.getDefaultInstance().getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Courier New");
 
-        Assert.True(fontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Courier New"));
+        Assert.That(fontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Courier New"), assertTrue();
 
         // Aspose.Words will now use the default font in place of any missing fonts during any rendering calls.
         doc.save(getArtifactsDir() + "FontSettings.DefaultFontName.pdf");
@@ -129,7 +129,7 @@ public class ExFontSettings extends ApiExampleBase
         FontSettings.getDefaultInstance().getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial");
 
         // For testing we will set Aspose.Words to look for fonts only in a folder which does not exist. Since Aspose.Words won't
-        // find any fonts in the specified directory, then during rendering the fonts in the document will be substituted with the default 
+        // find any fonts in the specified directory, then during rendering the fonts in the document will be substituted with the default
         // font specified under FontSettings.DefaultFontName. We can pick up on this substitution using our callback
         FontSettings.getDefaultInstance().setFontsFolder("", false);
 
@@ -201,8 +201,8 @@ public class ExFontSettings extends ApiExampleBase
         Assert.assertEquals(1, callback.FontSubstitutionWarnings.getCount()); //ExSkip
         Assert.assertTrue(callback.FontSubstitutionWarnings.get(0).getWarningType() == WarningType.FONT_SUBSTITUTION);
         Assert.assertTrue(callback.FontSubstitutionWarnings.get(0).getDescription()
-            .equals(
-                "Font 'Times New Roman' has not been found. Using 'Fanwood' font instead. Reason: first available font."));
+                .equals(
+                    "Font 'Times New Roman' has not been found. Using 'Fanwood' font instead. Reason: first available font."));
     }
 
     private static class FontSubstitutionWarningCollector implements IWarningCallback
@@ -237,7 +237,7 @@ public class ExFontSettings extends ApiExampleBase
         ArrayList<PhysicalFontInfo> fontInfos = source.getAvailableFonts();
 
         Assert.assertTrue(callback.FontSubstitutionWarnings.get(0).getDescription()
-            .contains("Error loading font from the folder \"bad folder?\""));
+                .contains("Error loading font from the folder \"bad folder?\""));
     }
 
     private static class FontSourceWarningCollector implements IWarningCallback
@@ -254,36 +254,35 @@ public class ExFontSettings extends ApiExampleBase
     }
     //ExEnd
 
-    //ExStart
-    //ExFor:FontInfoSubstitutionRule
-    //ExFor:FontSubstitutionSettings.FontInfoSubstitution
-    //ExFor:LayoutOptions.KeepOriginalFontMetrics
-    //ExFor:IWarningCallback
-    //ExFor:IWarningCallback.Warning(WarningInfo)
-    //ExFor:WarningInfo
-    //ExFor:WarningInfo.Description
-    //ExFor:WarningInfo.WarningType
-    //ExFor:WarningInfoCollection
-    //ExFor:WarningInfoCollection.Warning(WarningInfo)
-    //ExFor:WarningInfoCollection.GetEnumerator
-    //ExFor:WarningInfoCollection.Clear
-    //ExFor:WarningType
-    //ExFor:DocumentBase.WarningCallback
-    //ExSummary:Shows how to set the property for finding the closest match for a missing font from the available font sources.
-    @Test//ExSkip
+    
+    @Test
     public void enableFontSubstitution() throws Exception
     {
+        //ExStart
+        //ExFor:FontInfoSubstitutionRule
+        //ExFor:FontSubstitutionSettings.FontInfoSubstitution
+        //ExFor:LayoutOptions.KeepOriginalFontMetrics
+        //ExFor:IWarningCallback
+        //ExFor:IWarningCallback.Warning(WarningInfo)
+        //ExFor:WarningInfo
+        //ExFor:WarningInfo.Description
+        //ExFor:WarningInfo.WarningType
+        //ExFor:WarningInfoCollection
+        //ExFor:WarningInfoCollection.Warning(WarningInfo)
+        //ExFor:WarningInfoCollection.Clear
+        //ExFor:WarningType
+        //ExFor:DocumentBase.WarningCallback
+        //ExSummary:Shows how to set the property for finding the closest match for a missing font from the available font sources.
         // Open a document that contains text formatted with a font that does not exist in any of our font sources.
         Document doc = new Document(getMyDir() + "Missing font.docx");
 
         // Assign a callback for handling font substitution warnings.
-        HandleDocumentSubstitutionWarnings substitutionWarningHandler = new HandleDocumentSubstitutionWarnings();
-        doc.setWarningCallback(substitutionWarningHandler);
+        WarningInfoCollection warningCollector = new WarningInfoCollection();
+        doc.setWarningCallback(warningCollector);
 
         // Set a default font name and enable font substitution.
         FontSettings fontSettings = new FontSettings();
         fontSettings.getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial");
-        ;
         fontSettings.getSubstitutionSettings().getFontInfoSubstitution().setEnabled(true);
 
         // Original font metrics should be used after font substitution.
@@ -293,53 +292,36 @@ public class ExFontSettings extends ApiExampleBase
         doc.setFontSettings(fontSettings);
         doc.save(getArtifactsDir() + "FontSettings.EnableFontSubstitution.pdf");
 
-        Iterator<WarningInfo> warnings = substitutionWarningHandler.FontWarnings.iterator();
-        try /*JAVA: was using*/
-    	{
-            while (warnings.hasNext())
-                System.out.println(warnings.next().getDescription());
-    	}
-        finally { if (warnings != null) warnings.close(); }
-
-        // We can also verify warnings in the collection and clear them.
-        Assert.assertEquals(WarningSource.LAYOUT, substitutionWarningHandler.FontWarnings.get(0).getSource());
-        Assert.assertEquals(
-            "Font '28 Days Later' has not been found. Using 'Calibri' font instead. Reason: alternative name from document.",
-            substitutionWarningHandler.FontWarnings.get(0).getDescription());
-
-        substitutionWarningHandler.FontWarnings.clear();
-
-        Assert.assertEquals(0, substitutionWarningHandler.FontWarnings.getCount());
-    }
-
-    public static class HandleDocumentSubstitutionWarnings implements IWarningCallback
-    {
-        /// <summary>
-        /// Called every time a warning occurs during loading/saving.
-        /// </summary>
-        public void warning(WarningInfo info)
+        for (WarningInfo info : warningCollector)
         {
             if (info.getWarningType() == WarningType.FONT_SUBSTITUTION)
-                FontWarnings.warning(info);
+                System.out.println(info.getDescription());
         }
+        //ExEnd
 
-        public WarningInfoCollection FontWarnings = new WarningInfoCollection();
+        // We can also verify warnings in the collection and clear them.
+        Assert.assertEquals(WarningSource.LAYOUT, warningCollector.get(0).getSource());
+        Assert.assertEquals("Font '28 Days Later' has not been found. Using 'Calibri' font instead. Reason: alternative name from document.", warningCollector.get(0).getDescription());
+
+        warningCollector.clear();
+
+        Assert.assertEquals(0, warningCollector.getCount());
     }
-    //ExEnd
+    
 
     @Test
     public void substitutionWarningsClosestMatch() throws Exception
     {
         Document doc = new Document(getMyDir() + "Bullet points with alternative font.docx");
 
-        HandleDocumentSubstitutionWarnings callback = new HandleDocumentSubstitutionWarnings();
+        WarningInfoCollection callback = new WarningInfoCollection();
         doc.setWarningCallback(callback);
 
         doc.save(getArtifactsDir() + "FontSettings.SubstitutionWarningsClosestMatch.pdf");
 
-        Assert.assertTrue(callback.FontWarnings.get(0).getDescription()
-            .equals(
-                "Font \'SymbolPS\' has not been found. Using \'Wingdings\' font instead. Reason: font info substitution."));
+        Assert.assertTrue(callback.get(0).getDescription()
+                .equals(
+                    "Font \'SymbolPS\' has not been found. Using \'Wingdings\' font instead. Reason: font info substitution."));
     }
 
     @Test
@@ -347,7 +329,7 @@ public class ExFontSettings extends ApiExampleBase
     {
         Document doc = new Document(getMyDir() + "Missing font.docx");
 
-        HandleDocumentSubstitutionWarnings callback = new HandleDocumentSubstitutionWarnings();
+        WarningInfoCollection callback = new WarningInfoCollection();
         doc.setWarningCallback(callback);
 
         FontSettings fontSettings = new FontSettings();
@@ -360,7 +342,7 @@ public class ExFontSettings extends ApiExampleBase
         Regex reg = new Regex(
             "Font '28 Days Later' has not been found. Using (.*) font instead. Reason: default font setting.");
 
-        for (WarningInfo fontWarning : callback.FontWarnings)
+        for (WarningInfo fontWarning : callback)
         {
             Match match = reg.match(fontWarning.getDescription());
             if (match.getSuccess())
@@ -375,7 +357,7 @@ public class ExFontSettings extends ApiExampleBase
     {
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
-        HandleDocumentSubstitutionWarnings callback = new HandleDocumentSubstitutionWarnings();
+        WarningInfoCollection callback = new WarningInfoCollection();
         doc.setWarningCallback(callback);
 
         FontSettings fontSettings = new FontSettings();
@@ -386,12 +368,8 @@ public class ExFontSettings extends ApiExampleBase
         doc.setFontSettings(fontSettings);
         doc.save(getArtifactsDir() + "FontSettings.SubstitutionWarnings.pdf");
 
-        Assert.assertEquals(
-            "Font \'Arial\' has not been found. Using \'Arvo\' font instead. Reason: table substitution.",
-            callback.FontWarnings.get(0).getDescription());
-        Assert.assertEquals(
-            "Font \'Times New Roman\' has not been found. Using \'M+ 2m\' font instead. Reason: font info substitution.",
-            callback.FontWarnings.get(1).getDescription());
+        Assert.assertEquals("Font \'Arial\' has not been found. Using \'Arvo\' font instead. Reason: table substitution.", callback.get(0).getDescription());
+        Assert.assertEquals("Font \'Times New Roman\' has not been found. Using \'M+ 2m\' font instead. Reason: font info substitution.", callback.get(1).getDescription());
     }
 
     @Test
@@ -401,7 +379,7 @@ public class ExFontSettings extends ApiExampleBase
 
         FontSourceBase[] originalFontSources = FontSettings.getDefaultInstance().getFontsSources();
 
-        HandleDocumentSubstitutionWarnings substitutionWarningHandler = new HandleDocumentSubstitutionWarnings();
+        WarningInfoCollection substitutionWarningHandler = new WarningInfoCollection();
         doc.setWarningCallback(substitutionWarningHandler);
 
         ArrayList<FontSourceBase> fontSources = msArrayList.ctor(FontSettings.getDefaultInstance().getFontsSources());
@@ -413,9 +391,7 @@ public class ExFontSettings extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Font.GetSubstitutionWithoutSuffixes.pdf");
 
-        Assert.assertEquals(
-            "Font 'DINOT-Regular' has not been found. Using 'DINOT' font instead. Reason: font name substitution.",
-            substitutionWarningHandler.FontWarnings.get(0).getDescription());
+        Assert.assertEquals("Font 'DINOT-Regular' has not been found. Using 'DINOT' font instead. Reason: font name substitution.", substitutionWarningHandler.get(0).getDescription());
 
         FontSettings.getDefaultInstance().setFontsSources(originalFontSources);
     }
@@ -493,11 +469,11 @@ public class ExFontSettings extends ApiExampleBase
         FontSourceBase[] originalFontSources = FontSettings.getDefaultInstance().getFontsSources();
 
         Assert.assertEquals(1, originalFontSources.length);
-        Assert.True(originalFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"));
+        Assert.That(originalFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"), assertTrue();
 
         // The default font sources are missing the two fonts that we are using in this document.
-        Assert.False(originalFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arvo"));
-        Assert.False(originalFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Amethysta"));
+        Assert.That(originalFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arvo"), assertFalse();
+        Assert.That(originalFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Amethysta"), assertFalse();
 
         // Use the "SetFontsFolder" method to set a directory which will act as a new font source.
         // Pass "false" as the "recursive" argument to include fonts from all the font files that are in the directory
@@ -509,19 +485,19 @@ public class ExFontSettings extends ApiExampleBase
         FontSourceBase[] newFontSources = FontSettings.getDefaultInstance().getFontsSources();
 
         Assert.assertEquals(1, newFontSources.length);
-        Assert.False(newFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"));
-        Assert.True(newFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arvo"));
+        Assert.That(newFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"), assertFalse();
+        Assert.That(newFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arvo"), assertTrue();
 
         // The "Amethysta" font is in a subfolder of the font directory.
         if (recursive)
         {
-            Assert.assertEquals(25, newFontSources[0].getAvailableFonts().size());
-            Assert.True(newFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Amethysta"));
+            Assert.assertEquals(30, newFontSources[0].getAvailableFonts().size());
+            Assert.That(newFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Amethysta"), assertTrue();
         }
         else
         {
             Assert.assertEquals(18, newFontSources[0].getAvailableFonts().size());
-            Assert.False(newFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Amethysta"));
+            Assert.That(newFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Amethysta"), assertFalse();
         }
 
         doc.save(getArtifactsDir() + "FontSettings.SetFontsFolder.pdf");
@@ -563,11 +539,11 @@ public class ExFontSettings extends ApiExampleBase
         FontSourceBase[] originalFontSources = FontSettings.getDefaultInstance().getFontsSources();
 
         Assert.assertEquals(1, originalFontSources.length);
-        Assert.True(originalFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"));
+        Assert.That(originalFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"), assertTrue();
 
         // The default font sources are missing the two fonts that we are using in this document.
-        Assert.False(originalFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Amethysta"));
-        Assert.False(originalFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Junction Light"));
+        Assert.That(originalFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Amethysta"), assertFalse();
+        Assert.That(originalFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Junction Light"), assertFalse();
 
         // Use the "SetFontsFolders" method to create a font source from each font directory that we pass as the first argument.
         // Pass "false" as the "recursive" argument to include fonts from all the font files that are in the directories
@@ -580,15 +556,15 @@ public class ExFontSettings extends ApiExampleBase
         FontSourceBase[] newFontSources = FontSettings.getDefaultInstance().getFontsSources();
 
         Assert.assertEquals(2, newFontSources.length);
-        Assert.False(newFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"));
+        Assert.That(newFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"), assertFalse();
         Assert.assertEquals(1, newFontSources[0].getAvailableFonts().size());
-        Assert.True(newFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Amethysta"));
+        Assert.That(newFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Amethysta"), assertTrue();
 
         // The "Junction" folder itself contains no font files, but has subfolders that do.
         if (recursive)
         {
-            Assert.assertEquals(6, newFontSources[1].getAvailableFonts().size());
-            Assert.True(newFontSources[1].getAvailableFonts().Any(f => f.FullFontName == "Junction Light"));
+            Assert.assertEquals(11, newFontSources[1].getAvailableFonts().size());
+            Assert.That(newFontSources[1].getAvailableFonts().Any(f => f.FullFontName == "Junction Light"), assertTrue();
         }
         else
         {
@@ -635,12 +611,12 @@ public class ExFontSettings extends ApiExampleBase
 
         Assert.assertEquals(1, originalFontSources.length);
 
-        Assert.True(originalFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"));
+        Assert.That(originalFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"), assertTrue();
 
         // The default font source is missing two of the fonts that we are using in our document.
         // When we save this document, Aspose.Words will apply fallback fonts to all text formatted with inaccessible fonts.
-        Assert.False(originalFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Amethysta"));
-        Assert.False(originalFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Junction Light"));
+        Assert.That(originalFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Amethysta"), assertFalse();
+        Assert.That(originalFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Junction Light"), assertFalse();
 
         // Create a font source from a folder that contains fonts.
         FolderFontSource folderFontSource = new FolderFontSource(getFontsDir(), true);
@@ -652,9 +628,9 @@ public class ExFontSettings extends ApiExampleBase
         // Verify that Aspose.Words has access to all required fonts before we render the document to PDF.
         updatedFontSources = FontSettings.getDefaultInstance().getFontsSources();
 
-        Assert.True(updatedFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"));
-        Assert.True(updatedFontSources[1].getAvailableFonts().Any(f => f.FullFontName == "Amethysta"));
-        Assert.True(updatedFontSources[1].getAvailableFonts().Any(f => f.FullFontName == "Junction Light"));
+        Assert.That(updatedFontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"), assertTrue();
+        Assert.That(updatedFontSources[1].getAvailableFonts().Any(f => f.FullFontName == "Amethysta"), assertTrue();
+        Assert.That(updatedFontSources[1].getAvailableFonts().Any(f => f.FullFontName == "Junction Light"), assertTrue();
 
         doc.save(getArtifactsDir() + "FontSettings.AddFontSource.pdf");
 
@@ -700,10 +676,10 @@ public class ExFontSettings extends ApiExampleBase
 
         // The default font sources contain the first font that the document uses.
         Assert.assertEquals(1, fontSources.length);
-        Assert.True(fontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"));
+        Assert.That(fontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"), assertTrue();
 
         // The second font, "Amethysta", is unavailable.
-        Assert.False(fontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Amethysta"));
+        Assert.That(fontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Amethysta"), assertFalse();
 
         // We can configure a font substitution table which determines
         // which fonts Aspose.Words will use as substitutes for unavailable fonts.
@@ -713,11 +689,11 @@ public class ExFontSettings extends ApiExampleBase
         doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().setSubstitutes(
             "Amethysta", new String[] {"Arvo", "Courier New"});
 
-        // "Amethysta" is unavailable, and the substitution rule states that the first font to use as a substitute is "Arvo". 
-        Assert.False(fontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arvo"));
+        // "Amethysta" is unavailable, and the substitution rule states that the first font to use as a substitute is "Arvo".
+        Assert.That(fontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arvo"), assertFalse();
 
-        // "Arvo" is also unavailable, but "Courier New" is. 
-        Assert.True(fontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Courier New"));
+        // "Arvo" is also unavailable, but "Courier New" is.
+        Assert.That(fontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Courier New"), assertTrue();
 
         // The output document will display the text that uses the "Amethysta" font formatted with "Courier New".
         doc.save(getArtifactsDir() + "FontSettings.TableSubstitution.pdf");
@@ -820,8 +796,7 @@ public class ExFontSettings extends ApiExampleBase
         if (isWindows)
         {
             final String FONTS_PATH = "C:\\WINDOWS\\Fonts";
-            Assert.AreEqual(FONTS_PATH.toLowerCase(),
-                SystemFontSource.getSystemFontFolders().FirstOrDefault()?.ToLower());
+            Assert.That(SystemFontSource.getSystemFontFolders().FirstOrDefault()?.ToLower(), assertEquals(FONTS_PATH.toLowerCase(), );
         }
 
         for (String systemFontFolder : SystemFontSource.getSystemFontFolders())
@@ -833,10 +808,8 @@ public class ExFontSettings extends ApiExampleBase
         doc.getFontSettings().getSubstitutionSettings().getFontInfoSubstitution().setEnabled(true);
         doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().addSubstitutes("Kreon-Regular", new String[] {"Calibri"});
 
-        Assert.AreEqual(1,
-            doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular").Count());
-        Assert.Contains("Calibri",
-            doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular").ToArray());
+        Assert.That(doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular").Count(), assertEquals(1, );
+        Assert.That(doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular").ToArray(), Does.Contain("Calibri"));
 
         // Alternatively, we could add a folder font source in which the corresponding folder contains the font.
         FolderFontSource folderFontSource = new FolderFontSource(getFontsDir(), false);
@@ -848,8 +821,7 @@ public class ExFontSettings extends ApiExampleBase
 
         Assert.assertEquals(1, doc.getFontSettings().getFontsSources().length);
         Assert.assertEquals(FontSourceType.SYSTEM_FONTS, doc.getFontSettings().getFontsSources()[0].getType());
-        Assert.AreEqual(1,
-            doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular").Count());
+        Assert.That(doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular").Count(), assertEquals(1, );
         Assert.assertTrue(doc.getFontSettings().getSubstitutionSettings().getFontNameSubstitution().getEnabled());
         //ExEnd
     }
@@ -947,7 +919,7 @@ public class ExFontSettings extends ApiExampleBase
         // https://www.google.com/get/noto/#sans-lgc
         fontSettings.setFontsFolder(getFontsDir() + "Noto", false);
 
-        // Note that the predefined settings only use Sans-style Noto fonts with regular weight. 
+        // Note that the predefined settings only use Sans-style Noto fonts with regular weight.
         // Some of the Noto fonts use advanced typography features.
         // Fonts featuring advanced typography may not be rendered correctly as Aspose.Words currently do not support them.
         fontSettings.getFallbackSettings().loadNotoFallbackSettings();
@@ -1177,8 +1149,7 @@ public class ExFontSettings extends ApiExampleBase
         tableSubstitutionRule.loadWindowsSettings();
 
         // In Windows, the default substitute for the "Times New Roman CE" font is "Times New Roman".
-        Assert.AreEqual(new String[] {"Times New Roman"},
-            tableSubstitutionRule.getSubstitutes("Times New Roman CE").ToArray());
+        Assert.That(tableSubstitutionRule.getSubstitutes("Times New Roman CE").ToArray(), assertEquals(new String[] {"Times New Roman"}, );
 
         // We can save the table in the form of an XML document.
         tableSubstitutionRule.save(getArtifactsDir() + "FontSettings.TableSubstitutionRule.Windows.xml");
@@ -1188,8 +1159,7 @@ public class ExFontSettings extends ApiExampleBase
         // If the first substitute, "FreeSerif" is also unavailable,
         // this rule will cycle through the others in the array until it finds an available one.
         tableSubstitutionRule.loadLinuxSettings();
-        Assert.AreEqual(new String[] {"FreeSerif", "Liberation Serif", "DejaVu Serif"},
-            tableSubstitutionRule.getSubstitutes("Times New Roman CE").ToArray());
+        Assert.That(tableSubstitutionRule.getSubstitutes("Times New Roman CE").ToArray(), assertEquals(new String[] {"FreeSerif", "Liberation Serif", "DejaVu Serif"}, );
 
         // Save the Linux substitution table in the form of an XML document using a stream.
         FileStream fileStream = new FileStream(getArtifactsDir() + "FontSettings.TableSubstitutionRule.Linux.xml",
@@ -1260,22 +1230,21 @@ public class ExFontSettings extends ApiExampleBase
 
         // Since we no longer have access to "Arial", our font table will first try substitute it with "Nonexistent Font".
         // We do not have this font so that it will move onto the next substitute, "Kreon", found in the "MyFonts" folder.
-        Assert.AreEqual(new String[] {"Missing Font", "Kreon"}, tableSubstitutionRule.getSubstitutes("Arial").ToArray());
+        Assert.That(tableSubstitutionRule.getSubstitutes("Arial").ToArray(), assertEquals(new String[] {"Missing Font", "Kreon"}, );
 
         // We can expand this table programmatically. We will add an entry that substitutes "Times New Roman" with "Arvo"
         Assert.assertNull(tableSubstitutionRule.getSubstitutes("Times New Roman"));
         tableSubstitutionRule.addSubstitutes("Times New Roman", "Arvo");
-        Assert.AreEqual(new String[] {"Arvo"}, tableSubstitutionRule.getSubstitutes("Times New Roman").ToArray());
+        Assert.That(tableSubstitutionRule.getSubstitutes("Times New Roman").ToArray(), assertEquals(new String[] {"Arvo"}, );
 
         // We can add a secondary fallback substitute for an existing font entry with AddSubstitutes().
         // In case "Arvo" is unavailable, our table will look for "M+ 2m" as a second substitute option.
         tableSubstitutionRule.addSubstitutes("Times New Roman", "M+ 2m");
-        Assert.AreEqual(new String[] {"Arvo", "M+ 2m"}, tableSubstitutionRule.getSubstitutes("Times New Roman").ToArray());
+        Assert.That(tableSubstitutionRule.getSubstitutes("Times New Roman").ToArray(), assertEquals(new String[] {"Arvo", "M+ 2m"}, );
 
         // SetSubstitutes() can set a new list of substitute fonts for a font.
         tableSubstitutionRule.setSubstitutes("Times New Roman", "Squarish Sans CT", "M+ 2m");
-        Assert.AreEqual(new String[] {"Squarish Sans CT", "M+ 2m"},
-            tableSubstitutionRule.getSubstitutes("Times New Roman").ToArray());
+        Assert.That(tableSubstitutionRule.getSubstitutes("Times New Roman").ToArray(), assertEquals(new String[] {"Squarish Sans CT", "M+ 2m"}, );
 
         // Writing text in fonts that we do not have access to will invoke our substitution rules.
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1368,7 +1337,7 @@ public class ExFontSettings extends ApiExampleBase
             new FileFontSource(getFontsDir() + "Arvo-Regular.ttf", 0, CACHE_KEY_1),
             new FileFontSource(getFontsDir() + "Arvo-Bold.ttf", 0, CACHE_KEY_2)
         });
-        
+
         MemoryStream cacheStream = new MemoryStream();
         try /*JAVA: was using*/
         {

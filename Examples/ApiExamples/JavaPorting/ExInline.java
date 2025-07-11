@@ -12,6 +12,7 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.Run;
 import com.aspose.words.Paragraph;
 import com.aspose.words.RunCollection;

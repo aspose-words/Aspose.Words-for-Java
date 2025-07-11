@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.VariableCollection;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.FieldDocVariable;
 import com.aspose.words.FieldType;
@@ -71,7 +72,7 @@ public class ExVariableCollection extends ApiExampleBase
 
         // Verify that the document variables with a certain name or value exist.
         Assert.assertTrue(variables.contains("City"));
-        Assert.True(variables.Any(v => v.Value == "London"));
+        Assert.That(variables.Any(v => v.Value == "London"), assertTrue();
 
         // The collection of variables automatically sorts variables alphabetically by name.
         Assert.assertEquals(0, variables.indexOfKey("Bedrooms"));

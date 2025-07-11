@@ -17,6 +17,7 @@ import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import org.testng.Assert;
 import com.aspose.words.NodeType;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.NodeCollection;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.Paragraph;
@@ -42,7 +43,7 @@ public class ExComment extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Comment comment = new Comment(doc, "John Doe", "J.D.", new Date());
+        Comment comment = new Comment(doc, "John Doe", "J.D.", new Date);
         comment.setText("My comment.");
         
         // Place the comment at a node in the document's body.
@@ -51,7 +52,7 @@ public class ExComment extends ApiExampleBase
         builder.getCurrentParagraph().appendChild(comment);
 
         // Add a reply, which will show up under its parent comment.
-        comment.addReplyInternal("Joe Bloggs", "J.B.", new Date(), "New reply");
+        comment.addReplyInternal("Joe Bloggs", "J.B.", new Date, "New reply");
 
         // Comments and replies are both Comment nodes.
         Assert.assertEquals(2, doc.getChildNodes(NodeType.COMMENT, true).getCount());
@@ -116,13 +117,13 @@ public class ExComment extends ApiExampleBase
         //ExSummary:Shows how to remove comment replies.
         Document doc = new Document();
 
-        Comment comment = new Comment(doc, "John Doe", "J.D.", new Date());
+        Comment comment = new Comment(doc, "John Doe", "J.D.", new Date);
         comment.setText("My comment.");
 
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(comment);
         
-        comment.addReplyInternal("Joe Bloggs", "J.B.", new Date(), "New reply");
-        comment.addReplyInternal("Joe Bloggs", "J.B.", new Date(), "Another reply");
+        comment.addReplyInternal("Joe Bloggs", "J.B.", new Date, "New reply");
+        comment.addReplyInternal("Joe Bloggs", "J.B.", new Date, "Another reply");
 
         Assert.assertEquals(2, comment.getReplies().getCount()); 
 
@@ -151,7 +152,7 @@ public class ExComment extends ApiExampleBase
         builder.writeln("Helo world!");
 
         // Insert a comment to point out an error. 
-        Comment comment = new Comment(doc, "John Doe", "J.D.", new Date());
+        Comment comment = new Comment(doc, "John Doe", "J.D.", new Date);
         comment.setText("Fix the spelling error!");
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(comment);
 
@@ -165,7 +166,7 @@ public class ExComment extends ApiExampleBase
 
         // Comments that are "done" will differentiate themselves
         // from ones that are not "done" with a faded text color.
-        comment = new Comment(doc, "John Doe", "J.D.", new Date());
+        comment = new Comment(doc, "John Doe", "J.D.", new Date);
         comment.setText("Add text to this paragraph.");
         builder.getCurrentParagraph().appendChild(comment);
 
@@ -207,7 +208,7 @@ public class ExComment extends ApiExampleBase
         {
             newComment.setAuthor("VDeryushev");
             newComment.setInitial("VD");
-            newComment.setDateTime(new Date());
+            newComment.setDateTime(new Date);
         }
 
         newComment.setText("Comment regarding text.");
@@ -220,8 +221,8 @@ public class ExComment extends ApiExampleBase
         para.appendChild(newComment); 
         
         // Add two replies to the comment.
-        newComment.addReplyInternal("John Doe", "JD", new Date(), "New reply.");
-        newComment.addReplyInternal("John Doe", "JD", new Date(), "Another reply.");
+        newComment.addReplyInternal("John Doe", "JD", new Date, "New reply.");
+        newComment.addReplyInternal("John Doe", "JD", new Date, "Another reply.");
 
         printAllCommentInfo(doc.getChildNodes(NodeType.COMMENT, true));
     }
@@ -367,7 +368,7 @@ public class ExComment extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        DateTime dateTime = new Date();
+        DateTime dateTime = new Date;
         Comment comment = new Comment(doc, "John Doe", "J.D.", dateTime);
         comment.setText("My comment.");
 

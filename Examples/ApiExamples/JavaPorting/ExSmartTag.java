@@ -16,6 +16,7 @@ import com.aspose.words.Run;
 import com.aspose.words.CustomXmlProperty;
 import org.testng.Assert;
 import com.aspose.words.NodeType;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.DocumentVisitor;
 import com.aspose.words.VisitorAction;
 import com.aspose.ms.System.msConsole;

@@ -46,7 +46,7 @@ public /*static*/ class ExMossDoc2Pdf
 
         try
         {
-            gLog.writeLine(new Date().toString(msCultureInfo.getInvariantCulture()) + " Started");
+            gLog.writeLine(new Date.toString(msCultureInfo.getInvariantCulture()) + " Started");
             gLog.writeLine(Environment.getCommandLine());
 
             parseCommandLine(args);

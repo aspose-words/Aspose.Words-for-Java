@@ -17,6 +17,7 @@ import com.aspose.words.MarkdownSaveOptions;
 import com.aspose.words.Document;
 import com.aspose.words.Table;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.SaveFormat;
 import com.aspose.ms.System.IO.Directory;
 import com.aspose.words.IImageSavingCallback;
@@ -65,28 +66,20 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
         switch (tableContentAlignment)
         {
             case TableContentAlignment.AUTO:
-                Assert.assertEquals(ParagraphAlignment.RIGHT,
-                    table.getFirstRow().getCells().get(0).getFirstParagraph().getParagraphFormat().getAlignment());
-                Assert.assertEquals(ParagraphAlignment.CENTER,
-                    table.getFirstRow().getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
+                Assert.assertEquals(ParagraphAlignment.RIGHT, table.getFirstRow().getCells().get(0).getFirstParagraph().getParagraphFormat().getAlignment());
+                Assert.assertEquals(ParagraphAlignment.CENTER, table.getFirstRow().getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
                 break;
             case TableContentAlignment.LEFT:
-                Assert.assertEquals(ParagraphAlignment.LEFT,
-                    table.getFirstRow().getCells().get(0).getFirstParagraph().getParagraphFormat().getAlignment());
-                Assert.assertEquals(ParagraphAlignment.LEFT,
-                    table.getFirstRow().getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
+                Assert.assertEquals(ParagraphAlignment.LEFT, table.getFirstRow().getCells().get(0).getFirstParagraph().getParagraphFormat().getAlignment());
+                Assert.assertEquals(ParagraphAlignment.LEFT, table.getFirstRow().getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
                 break;
             case TableContentAlignment.CENTER:
-                Assert.assertEquals(ParagraphAlignment.CENTER,
-                    table.getFirstRow().getCells().get(0).getFirstParagraph().getParagraphFormat().getAlignment());
-                Assert.assertEquals(ParagraphAlignment.CENTER,
-                    table.getFirstRow().getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
+                Assert.assertEquals(ParagraphAlignment.CENTER, table.getFirstRow().getCells().get(0).getFirstParagraph().getParagraphFormat().getAlignment());
+                Assert.assertEquals(ParagraphAlignment.CENTER, table.getFirstRow().getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
                 break;
             case TableContentAlignment.RIGHT:
-                Assert.assertEquals(ParagraphAlignment.RIGHT,
-                    table.getFirstRow().getCells().get(0).getFirstParagraph().getParagraphFormat().getAlignment());
-                Assert.assertEquals(ParagraphAlignment.RIGHT,
-                    table.getFirstRow().getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
+                Assert.assertEquals(ParagraphAlignment.RIGHT, table.getFirstRow().getCells().get(0).getFirstParagraph().getParagraphFormat().getAlignment());
+                Assert.assertEquals(ParagraphAlignment.RIGHT, table.getFirstRow().getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
                 break;
         }
         //ExEnd
@@ -127,14 +120,12 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
         // The ImageSaving() method of our callback will be run at this time.
         doc.save(getArtifactsDir() + "MarkdownSaveOptions.HandleDocument.md", saveOptions);
 
-        Assert.AreEqual(1,
-            Directory.getFiles(getArtifactsDir())
+        Assert.That(Directory.getFiles(getArtifactsDir())
                 .Where(s => s.StartsWith(ArtifactsDir + "MarkdownSaveOptions.HandleDocument.md shape"))
-                .Count(f => f.EndsWith(".jpeg")));
-        Assert.AreEqual(8,
-            Directory.getFiles(getArtifactsDir())
+                .Count(f => f.EndsWith(".jpeg")), assertEquals(1, );
+        Assert.That(Directory.getFiles(getArtifactsDir())
                 .Where(s => s.StartsWith(ArtifactsDir + "MarkdownSaveOptions.HandleDocument.md shape"))
-                .Count(f => f.EndsWith(".png")));
+                .Count(f => f.EndsWith(".png")), assertEquals(8, );
     }
 
     /// <summary>
@@ -154,7 +145,7 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
             args.setImageFileName(imageFileName);
             args.ImageStream = new FileStream(getArtifactsDir() + imageFileName, FileMode.CREATE);
 
-            Assert.True(args.ImageStream.CanWrite);
+            Assert.That(args.ImageStream.CanWrite, assertTrue();
             Assert.assertTrue(args.isImageAvailable());
             Assert.assertFalse(args.getKeepImageStreamOpen());
         }
@@ -179,8 +170,8 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
         String outDocContents = File.readAllText(getArtifactsDir() + "MarkdownSaveOptions.ExportImagesAsBase64.md");
 
         Assert.assertTrue(exportImagesAsBase64
-            ? outDocContents.contains("data:image/jpeg;base64")
-            : outDocContents.contains("MarkdownSaveOptions.ExportImagesAsBase64.001.jpeg"));
+                ? outDocContents.contains("data:image/jpeg;base64")
+                : outDocContents.contains("MarkdownSaveOptions.ExportImagesAsBase64.001.jpeg"));
         //ExEnd
     }
 
@@ -328,12 +319,12 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
 
         String newLine = Environment.getNewLine();
         String outDocContents = File.readAllText(getArtifactsDir() + "MarkdownSaveOptions.ExportTableAsHtml.md");
-        Assert.assertEquals($"Sample table:{newLine}<table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%; border:0.75pt solid #000000; border-collapse:collapse\">" +
-            "<tr><td style=\"border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top\">" +
-            "<p style=\"margin-top:0pt; margin-bottom:0pt; text-align:right; font-size:12pt\"><span style=\"font-family:'Times New Roman'\">Cell1</span></p>" +
-            "</td><td style=\"border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top\">" +
-            "<p style=\"margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:12pt\"><span style=\"font-family:'Times New Roman'\">Cell2</span></p>" +
-            "</td></tr></table>", outDocContents.trim());
+        Assert.assertEquals("Sample table:{newLine}<table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%; border:0.75pt solid #000000; border-collapse:collapse\">" +
+                "<tr><td style=\"border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top\">" +
+                "<p style=\"margin-top:0pt; margin-bottom:0pt; text-align:right; font-size:12pt\"><span style=\"font-family:'Times New Roman'\">Cell1</span></p>" +
+                "</td><td style=\"border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top\">" +
+                "<p style=\"margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:12pt\"><span style=\"font-family:'Times New Roman'\">Cell2</span></p>" +
+                "</td></tr></table>", outDocContents.trim());
     }
 
     @Test

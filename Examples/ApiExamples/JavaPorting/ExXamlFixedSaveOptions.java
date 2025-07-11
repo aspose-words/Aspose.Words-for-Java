@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.XamlFixedSaveOptions;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.SaveFormat;
 import com.aspose.ms.System.IO.Directory;
 import com.aspose.ms.System.msConsole;

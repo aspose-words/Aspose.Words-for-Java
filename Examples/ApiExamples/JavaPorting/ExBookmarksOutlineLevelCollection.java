@@ -15,6 +15,7 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.words.PdfSaveOptions;
 import com.aspose.words.BookmarksOutlineLevelCollection;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 
 
 @Test
@@ -97,10 +98,10 @@ public class ExBookmarksOutlineLevelCollection extends ApiExampleBase
 
         Bookmarks bookmarks = bookmarkEditor.ExtractBookmarks();
 
-        Assert.AreEqual(3, bookmarks.Count);
-        Assert.AreEqual("Bookmark 1", bookmarks[0].Title);
-        Assert.AreEqual("Bookmark 2", bookmarks[1].Title);
-        Assert.AreEqual("Bookmark 3", bookmarks[2].Title);
+        Assert.That(bookmarks.Count, assertEquals(3, );
+        Assert.That(bookmarks[0].Title, assertEquals("Bookmark 1", );
+        Assert.That(bookmarks[1].Title, assertEquals("Bookmark 2", );
+        Assert.That(bookmarks[2].Title, assertEquals("Bookmark 3", );
     }
 }
 

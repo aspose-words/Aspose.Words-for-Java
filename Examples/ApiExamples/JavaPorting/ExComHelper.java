@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.ComHelper;
 import com.aspose.words.Document;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 

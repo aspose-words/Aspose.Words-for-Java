@@ -15,6 +15,7 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.words.BreakType;
 import com.aspose.words.TxtSaveOptions;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.Text.Encoding;
 import com.aspose.ms.System.IO.File;
 import com.aspose.words.TxtExportHeadersFootersMode;
@@ -178,25 +179,25 @@ public class ExTxtSaveOptions extends ApiExampleBase
         switch (txtExportHeadersFootersMode)
         {
             case TxtExportHeadersFootersMode.ALL_AT_END:
-                Assert.assertEquals($"Page 1{newLine}" +
-                                $"Page 2{newLine}" +
-                                $"Page 3{newLine}" +
-                                $"Even header{newLine}{newLine}" +
-                                $"Primary header{newLine}{newLine}" +
-                                $"Even footer{newLine}{newLine}" +
-                                $"Primary footer{newLine}{newLine}", docText);
+                Assert.assertEquals("Page 1{newLine}" +
+                                    $"Page 2{newLine}" +
+                                    $"Page 3{newLine}" +
+                                    $"Even header{newLine}{newLine}" +
+                                    $"Primary header{newLine}{newLine}" +
+                                    $"Even footer{newLine}{newLine}" +
+                                    $"Primary footer{newLine}{newLine}", docText);
                 break;
             case TxtExportHeadersFootersMode.PRIMARY_ONLY:
-                Assert.assertEquals($"Primary header{newLine}" +
-                                $"Page 1{newLine}" +
-                                $"Page 2{newLine}" +
-                                $"Page 3{newLine}" +
-                                $"Primary footer{newLine}", docText);
+                Assert.assertEquals("Primary header{newLine}" +
+                                    $"Page 1{newLine}" +
+                                    $"Page 2{newLine}" +
+                                    $"Page 3{newLine}" +
+                                    $"Primary footer{newLine}", docText);
                 break;
             case TxtExportHeadersFootersMode.NONE:
-                Assert.assertEquals($"Page 1{newLine}" +
-                                $"Page 2{newLine}" +
-                                $"Page 3{newLine}", docText);
+                Assert.assertEquals("Page 1{newLine}" +
+                                    $"Page 2{newLine}" +
+                                    $"Page 3{newLine}", docText);
                 break;
         }
         //ExEnd
@@ -251,9 +252,9 @@ public class ExTxtSaveOptions extends ApiExampleBase
         String docText = File.readAllText(getArtifactsDir() + "TxtSaveOptions.TxtListIndentation.txt");
         String newLine= Environment.getNewLine();
 
-        Assert.assertEquals($"1. Item 1{newLine}" +
-                        $"   a. Item 2{newLine}" +
-                        $"      i. Item 3{newLine}", docText);
+        Assert.assertEquals("1. Item 1{newLine}" +
+                            $"   a. Item 2{newLine}" +
+                            $"      i. Item 3{newLine}", docText);
         //ExEnd
     }
 
@@ -292,19 +293,18 @@ public class ExTxtSaveOptions extends ApiExampleBase
         String docText = File.readAllText(getArtifactsDir() + "TxtSaveOptions.SimplifyListLabels.txt");
 
         String newLine = Environment.getNewLine();
-
         if (simplifyListLabels)
-            Assert.assertEquals($"* Item 1{newLine}" +
-                            $"  > Item 2{newLine}" +
-                            $"    + Item 3{newLine}" +
-                            $"      - Item 4{newLine}" +
-                            $"        o Item 5{newLine}", docText);
+            Assert.assertEquals("* Item 1{newLine}" +
+                                $"  > Item 2{newLine}" +
+                                $"    + Item 3{newLine}" +
+                                $"      - Item 4{newLine}" +
+                                $"        o Item 5{newLine}", docText);
         else
-            Assert.assertEquals($"· Item 1{newLine}" +
-                            $"o Item 2{newLine}" +
-                            $"§ Item 3{newLine}" +
-                            $"· Item 4{newLine}" +
-                            $"o Item 5{newLine}", docText);
+            Assert.assertEquals("· Item 1{newLine}" +
+                                $"o Item 2{newLine}" +
+                                $"§ Item 3{newLine}" +
+                                $"· Item 4{newLine}" +
+                                $"o Item 5{newLine}", docText);
         //ExEnd
     }
 
@@ -349,8 +349,8 @@ public class ExTxtSaveOptions extends ApiExampleBase
         String docText = File.readAllText(getArtifactsDir() + "TxtSaveOptions.ParagraphBreak.txt");
 
         Assert.assertEquals("Paragraph 1. End of paragraph.\n\n\t" +
-                        "Paragraph 2. End of paragraph.\n\n\t" +
-                        "Paragraph 3. End of paragraph.\n\n\t", docText);
+                            "Paragraph 2. End of paragraph.\n\n\t" +
+                            "Paragraph 3. End of paragraph.\n\n\t", docText);
         //ExEnd
     }
 
@@ -425,12 +425,12 @@ public class ExTxtSaveOptions extends ApiExampleBase
 
         if (preserveTableLayout)
             Assert.assertEquals("Row 1, cell 1                                            Row 1, cell 2\r\n" +
-                            "Row 2, cell 1                                            Row 2, cell 2\r\n\r\n", docText);
+                                "Row 2, cell 1                                            Row 2, cell 2\r\n\r\n", docText);
         else
             Assert.assertEquals("Row 1, cell 1\r" +
-                            "Row 1, cell 2\r" +
-                            "Row 2, cell 1\r" +
-                            "Row 2, cell 2\r\r\n", docText);
+                                "Row 1, cell 2\r" +
+                                "Row 2, cell 1\r" +
+                                "Row 2, cell 2\r\r\n", docText);
         //ExEnd
     }
 

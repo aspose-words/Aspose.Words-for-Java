@@ -16,6 +16,7 @@ import com.aspose.ms.System.msConsole;
 import com.aspose.words.MsWordVersion;
 import java.util.ArrayList;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 
 
 @Test

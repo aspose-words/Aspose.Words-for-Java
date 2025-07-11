@@ -17,10 +17,11 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.Assert;
 import com.aspose.ms.System.msConsole;
 import org.testng.annotations.AfterTest;
+import com.aspose.ms.System.IO.SearchOption;
+import com.aspose.ms.System.IO.File;
 import com.aspose.ms.System.Environment;
 import java.lang.Class;
 import com.aspose.ms.System.IO.Path;
-import com.aspose.ms.System.IO.File;
 import com.aspose.words.License;
 import com.aspose.barcode.License;
 import com.aspose.ms.System.msUri;
@@ -35,9 +36,7 @@ public class ApiExampleBase
     public void oneTimeSetUp() throws Exception
     {
         CurrentThread.setCurrentCulture(msCultureInfo.getInvariantCulture());
-
         ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-
         setUnlimitedLicense();
 
         if (!Directory.exists(getArtifactsDir()))
@@ -57,16 +56,22 @@ public class ApiExampleBase
             return /* "Test skipped on GitHub" */;
         }
 
-        System.out.println("Clr: {RuntimeInformation.FrameworkDescription}\n");            
+        System.out.println("Clr: {RuntimeInformation.FrameworkDescription}\n");
     }
 
     @AfterTest
     public void oneTimeTearDown() throws Exception
     {
         ServicePointManager.ServerCertificateValidationCallback = delegate { return false; };
-
+        // Do not delete the artifacts folder so that you can use a symbolic link to another drive.
         if (Directory.exists(getArtifactsDir()))
-            Directory.delete(getArtifactsDir(), true);
+        {
+            for (String file : Directory.getFiles(getArtifactsDir(), "*.*", SearchOption.ALL_DIRECTORIES))
+                File.delete(file);
+
+            for (String subDir : Directory.getDirectories(getArtifactsDir(), "*", SearchOption.ALL_DIRECTORIES))
+                Directory.delete(subDir, true);
+        }
     }
 
     /// <summary>
@@ -113,25 +118,25 @@ public class ApiExampleBase
     static void setUnlimitedLicense() throws Exception
     {
         // This is where the test license is on my development machine.
-        String testLicenseFileName = Path.combine(getLicenseDir(), "Aspose.Total.NET.lic");
+        String testLicenseFileName = "Aspose.Total.NET.lic";
+        String testLicenseFilePath = Path.combine(getLicenseDir(), testLicenseFileName);
 
-        if (File.exists(testLicenseFileName))
+        if (File.exists(testLicenseFilePath))
         {
             // This shows how to use an Aspose.Words license when you have purchased one.
             // You don't have to specify full path as shown here. You can specify just the 
             // file name if you copy the license file into the same folder as your application
             // binaries or you add the license to your project as an embedded resource.
             License wordsLicense = new License();
-            wordsLicense.setLicense(testLicenseFileName);
-
+            wordsLicense.setLicense(testLicenseFilePath);
             Aspose.Pdf.License pdfLicense = new Aspose.Pdf.License();
-            pdfLicense.SetLicense(testLicenseFileName);
+            pdfLicense.SetLicense(testLicenseFilePath);
 
             License barcodeLicense = new License();
-            barcodeLicense.setLicense(testLicenseFileName);
+            barcodeLicense.setLicense(testLicenseFilePath);
 
             Aspose.Page.License pageLicense = new Aspose.Page.License();
-            pageLicense.SetLicense(testLicenseFileName);
+            pageLicense.SetLicense(testLicenseFilePath);
         }
     }
 

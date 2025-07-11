@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.ParagraphFormat;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.DropCapPosition;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.LineSpacingRule;
@@ -497,13 +498,13 @@ class ExParagraphFormat !Test class should be public in Java to run, please fix 
         textAbsorber.Visit(pdfDoc);
 
         if (suppressAutoHyphens)
-            Assert.True(textAbsorber.Text.Replace("  ", " ").Contains($"La ob storen an deinen am sachen. {Environment.NewLine}" +
+            Assert.That(textAbsorber.Text.Replace("  ", " ").Contains($"La ob storen an deinen am sachen. {Environment.NewLine}" +
                                                    $"Doppelte um da am spateren verlogen {Environment.NewLine}" +
-                                                   $"gekommen achtzehn blaulich."));
+                                                   $"gekommen achtzehn blaulich."), assertTrue();
         else
-            Assert.True(textAbsorber.Text.Replace("  ", " ").Contains($"La ob storen an deinen am sachen. Dop{unicodeOptionalHyphen}{Environment.NewLine}" +
+            Assert.That(textAbsorber.Text.Replace("  ", " ").Contains($"La ob storen an deinen am sachen. Dop{unicodeOptionalHyphen}{Environment.NewLine}" +
                                                    $"pelte um da am spateren verlogen ge{unicodeOptionalHyphen}{Environment.NewLine}" +
-                                                   $"kommen achtzehn blaulich."));
+                                                   $"kommen achtzehn blaulich."), assertTrue();
     }
 
 	//JAVA-added data provider for test method
@@ -551,21 +552,21 @@ class ExParagraphFormat !Test class should be public in Java to run, please fix 
 
         format.setCharacterUnitFirstLineIndent(20.3);
 
-        Assert.assertEquals(format.getFirstLineIndent(), 243.59d, 0.1d);
+        Assert.assertEquals(format.getFirstLineIndent(), 0.1d, 243.59d);
 
         // 4 -  Line spacing before paragraphs:
         Assert.assertEquals(format.getSpaceBefore(), 0.0d);
 
         format.setLineUnitBefore(5.1);
 
-        Assert.assertEquals(format.getSpaceBefore(), 61.1d, 0.1d);
+        Assert.assertEquals(format.getSpaceBefore(), 0.1d, 61.1d);
 
         // 5 -  Line spacing after paragraphs:
         Assert.assertEquals(format.getSpaceAfter(), 0.0d);
 
         format.setLineUnitAfter(10.9);
 
-        Assert.assertEquals(format.getSpaceAfter(), 130.8d, 0.1d);
+        Assert.assertEquals(format.getSpaceAfter(), 0.1d, 130.8d);
 
         builder.writeln("Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
                         "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
@@ -583,13 +584,13 @@ class ExParagraphFormat !Test class should be public in Java to run, please fix 
         Assert.assertEquals(format.getRightIndent(), -66.0d);
 
         Assert.assertEquals(format.getCharacterUnitFirstLineIndent(), 20.3d);
-        Assert.assertEquals(format.getFirstLineIndent(), 243.59d, 0.1d);
+        Assert.assertEquals(format.getFirstLineIndent(), 0.1d, 243.59d);
         
-        Assert.assertEquals(format.getLineUnitBefore(), 5.1d, 0.1d);
-        Assert.assertEquals(format.getSpaceBefore(), 61.1d, 0.1d);
+        Assert.assertEquals(format.getLineUnitBefore(), 0.1d, 5.1d);
+        Assert.assertEquals(format.getSpaceBefore(), 0.1d, 61.1d);
 
         Assert.assertEquals(format.getLineUnitAfter(), 10.9d);
-        Assert.assertEquals(format.getSpaceAfter(), 130.8d, 0.1d);
+        Assert.assertEquals(format.getSpaceAfter(), 0.1d, 130.8d);
     }
 
     @Test

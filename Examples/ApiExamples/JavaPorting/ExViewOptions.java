@@ -14,6 +14,7 @@ import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.ViewType;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.ZoomType;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.ms.System.Text.Encoding;
@@ -202,8 +203,7 @@ public class ExViewOptions extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "ViewOptions.FormsDesign.xml");
 
-        Assert.assertEquals(useFormsDesign,
-            File.readAllText(getArtifactsDir() + "ViewOptions.FormsDesign.xml").contains("<w:formsDesign />"));
+        Assert.assertEquals(useFormsDesign, File.readAllText(getArtifactsDir() + "ViewOptions.FormsDesign.xml").contains("<w:formsDesign />"));
         //ExEnd
     }
 

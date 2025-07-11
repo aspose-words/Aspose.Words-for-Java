@@ -17,6 +17,7 @@ import com.aspose.words.ImageSaveOptions;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.PageSet;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.IO.File;
 import com.aspose.words.GraphicsQualityOptions;
 import com.aspose.ms.System.Drawing.Drawing2D.SmoothingMode;
@@ -401,7 +402,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         imageSaveOptions.setPixelFormat(imagePixelFormat);
 
         // We can clone ImageSaveOptions instances.
-        Assert.assertNotEquals(imageSaveOptions, imageSaveOptions.deepClone());
+        Assert.Is.Not.EqualTo(imageSaveOptions)imageSaveOptions.deepClone());
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png", imageSaveOptions);
         //ExEnd
@@ -718,8 +719,8 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         options.setPageLayout(MultiPageLayout.grid(3, 10f, 10f));
 
         // Alternative layouts:
-        // options.MultiPageLayout = MultiPageLayout.Horizontal(10);
-        // options.MultiPageLayout = MultiPageLayout.Vertical(10);
+        // options.PageLayout = MultiPageLayout.Horizontal(10);
+        // options.PageLayout = MultiPageLayout.Vertical(10);
 
         // Customize the background and border.
         options.getPageLayout().setBackColor(msColor.getLightGray());

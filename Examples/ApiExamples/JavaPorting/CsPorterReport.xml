@@ -117,6 +117,8 @@
 		<File project="Examples" dir="TestData\TestClasses" name="ManagerTestClass" status="AUTO" isTest="false" />
 		<File project="Examples" dir="TestData\TestClasses" name="MessageTestClass" status="AUTO" isTest="false" />
 		<File project="Examples" dir="TestData\TestClasses" name="NumericTestClass" status="AUTO" isTest="false" />
+		<File project="Examples" dir="TestData\TestClasses" name="ShareQuoteTestClass" status="AUTO" isTest="false" />
+		<File project="Examples" dir="TestData\TestClasses" name="ShareTestClass" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="TestUtil" status="AUTO" isTest="false" />
 	</Files>
 	<Resources />

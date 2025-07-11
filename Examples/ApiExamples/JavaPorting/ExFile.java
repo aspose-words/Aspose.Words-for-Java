@@ -16,6 +16,7 @@ import com.aspose.ms.System.msConsole;
 import com.aspose.words.FileFormatInfo;
 import com.aspose.words.FileFormatUtil;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.LoadFormat;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.OdtSaveOptions;
@@ -110,12 +111,10 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         Assert.assertEquals(LoadFormat.DOC, FileFormatUtil.contentTypeToLoadFormat("application/msword"));
         Assert.assertEquals(SaveFormat.DOC, FileFormatUtil.contentTypeToSaveFormat("application/msword"));
 
-        Assert.assertEquals(LoadFormat.DOCX,
-            FileFormatUtil.contentTypeToLoadFormat(
-                "application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
-        Assert.assertEquals(SaveFormat.DOCX,
-            FileFormatUtil.contentTypeToSaveFormat(
-                "application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
+        Assert.assertEquals(LoadFormat.DOCX, FileFormatUtil.contentTypeToLoadFormat(
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
+        Assert.assertEquals(SaveFormat.DOCX, FileFormatUtil.contentTypeToSaveFormat(
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
 
         Assert.assertEquals(LoadFormat.TEXT, FileFormatUtil.contentTypeToLoadFormat("text/plain"));
         Assert.assertEquals(SaveFormat.TEXT, FileFormatUtil.contentTypeToSaveFormat("text/plain"));
@@ -173,7 +172,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         Assert.assertFalse(info.hasDigitalSignature());
 
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw", null);
-        SignOptions signOptions = new SignOptions(); { signOptions.setSignTime(new Date()); }
+        SignOptions signOptions = new SignOptions(); { signOptions.setSignTime(new Date); }
         DigitalSignatureUtil.sign(getMyDir() + "Document.docx", getArtifactsDir() + "File.DetectDigitalSignatures.docx",
             certificateHolder, signOptions);
 
@@ -262,7 +261,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         // and save the image data of every shape with an image as a file to the local file system.
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
 
-        Assert.AreEqual(9, shapes.Count(s => ((Shape)s).HasImage));
+        Assert.That(shapes.Count(s => ((Shape)s).HasImage), assertEquals(9, );
 
         int imageIndex = 0;
         for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
@@ -279,7 +278,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         }
         //ExEnd
 
-        Assert.AreEqual(9,Directory.getFiles(getArtifactsDir()).
-            Count(s => Regex.IsMatch(s, "^.+\\.(jpeg|png|emf|wmf)$") && s.StartsWith(ArtifactsDir + "File.ExtractImages")));
+        Assert.That(Directory.getFiles(getArtifactsDir()).
+            Count(s => Regex.IsMatch(s, "^.+\\.(jpeg|png|emf|wmf)$") && s.StartsWith(ArtifactsDir + "File.ExtractImages")), assertEquals(9, );
     }
 }

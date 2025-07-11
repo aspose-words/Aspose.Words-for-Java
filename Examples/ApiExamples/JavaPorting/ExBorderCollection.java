@@ -19,6 +19,7 @@ import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
 import com.aspose.words.LineStyle;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.Paragraph;
 
 

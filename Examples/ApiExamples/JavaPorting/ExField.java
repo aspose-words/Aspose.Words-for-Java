@@ -17,6 +17,7 @@ import com.aspose.words.FieldDate;
 import com.aspose.words.FieldType;
 import com.aspose.words.FieldChar;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.Field;
@@ -135,6 +136,7 @@ import com.aspose.words.List;
 import com.aspose.words.HeaderFooterType;
 import com.aspose.words.FieldStyleRef;
 import com.aspose.words.FieldCreateDate;
+import java.util.TimeZone;
 import com.aspose.ms.System.Globalization.Calendar;
 import com.aspose.ms.System.Globalization.UmAlQuraCalendar;
 import com.aspose.words.FieldSaveDate;
@@ -246,7 +248,7 @@ public class ExField extends ApiExampleBase
 
         doc = DocumentHelper.saveOpen(doc);
 
-        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\@ \"dddd, MMMM dd, yyyy\"", new Date().toString("dddd, MMMM dd, yyyy"), doc.getRange().getFields().get(0));
+        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\@ \"dddd, MMMM dd, yyyy\"", new Date.toString("dddd, MMMM dd, yyyy"), doc.getRange().getFields().get(0));
     }
 
     @Test
@@ -258,7 +260,7 @@ public class ExField extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Field sample - Field with data.docx");
 
         Field field = doc.getRange().getFields().get(2);
-        System.out.println(Encoding.getUTF8().getString(field.getStart().getFieldData()));
+        System.out.println(Encoding.getDefault().getString(field.getStart().getFieldData()));
         //ExEnd
     }
 
@@ -278,8 +280,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(" IF  > 0 \" (surplus of ) \" \"\" ", fieldIf.getFieldCode(false));
 
         // 2 -  Include its inner fields:
-        Assert.assertEquals($" IF \u0013 MERGEFIELD NetIncome \u0014\u0015 > 0 \" (surplus of \u0013 MERGEFIELD  NetIncome \\f $ \u0014\u0015) \" \"\" ",
-            fieldIf.getFieldCode(true));
+        Assert.assertEquals(" IF \u0013 MERGEFIELD NetIncome \u0014\u0015 > 0 \" (surplus of \u0013 MERGEFIELD  NetIncome \\f $ \u0014\u0015) \" \"\" ", fieldIf.getFieldCode(true));
 
         // By default, the GetFieldCode method displays inner fields.
         Assert.assertEquals(fieldIf.getFieldCode(), fieldIf.getFieldCode(true));
@@ -350,8 +351,7 @@ public class ExField extends ApiExampleBase
         TestUtil.verifyField(FieldType.FIELD_BARCODE, " BARCODE 90210 \\f A \\u ", "", doc.getRange().getFields().get(0));
 
         Assert.assertEquals(doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(11).getPreviousSibling(), doc.getRange().getFields().get(0).getEnd());
-        Assert.assertEquals($"{ControlChar.FieldStartChar} BARCODE 90210 \\f A \\u {ControlChar.FieldEndChar} Hello world! This text is one Run, which is an inline node.", 
-            doc.getText().trim());
+        Assert.assertEquals("{ControlChar.FieldStartChar} BARCODE 90210 \\f A \\u {ControlChar.FieldEndChar} Hello world! This text is one Run, which is an inline node.", doc.getText().trim());
     }
 
     @Test
@@ -499,7 +499,7 @@ public class ExField extends ApiExampleBase
         doc = DocumentHelper.saveOpen(doc);
         field = doc.getRange().getFields().get(0); 
 
-        TestUtil.verifyField(FieldType.FIELD_DATE, "DATE", new Date().toString(de.getDateTimeFormat().getShortDatePattern()), field);
+        TestUtil.verifyField(FieldType.FIELD_DATE, "DATE", new Date.toString(de.getDateTimeFormat().getShortDatePattern()), field);
         Assert.assertEquals(new msCultureInfo("de-DE").getLCID(), field.getLocaleId());
     }
 
@@ -604,7 +604,7 @@ public class ExField extends ApiExampleBase
         BarCodeReader barCodeReader = barCodeReaderPdf(getArtifactsDir() + "Field.BarCodeWord2Pdf.pdf");
         try /*JAVA: was using*/
         {
-            Assert.AreEqual("QR", barCodeReader.FoundBarCodes[0].CodeTypeName);
+            Assert.That(barCodeReader.FoundBarCodes[0].CodeTypeName, assertEquals("QR", );
         }
         finally { if (barCodeReader != null) barCodeReader.close(); }
     }
@@ -665,7 +665,7 @@ public class ExField extends ApiExampleBase
         field.setConnection("Provider=Microsoft.ACE.OLEDB.12.0");
         field.setQuery("SELECT * FROM [Products]");
 
-        Assert.AreEqual($" DATABASE  \\d {DatabaseDir.Replace("\\", "\\\\") + "Northwind.accdb"} \\c Provider=Microsoft.ACE.OLEDB.12.0 \\s \"SELECT * FROM [Products]\"", field.getFieldCode());
+        Assert.assertEquals(" DATABASE  \\d {DatabaseDir.Replace(", field.getFieldCode());
 
         // Insert another DATABASE field with a more complex query that sorts all products in descending order by gross sales.
         field = (FieldDatabase)builder.insertField(FieldType.FIELD_DATABASE, true);
@@ -711,8 +711,7 @@ public class ExField extends ApiExampleBase
 
         field = (FieldDatabase)doc.getRange().getFields().get(0);
 
-        Assert.AreEqual($" DATABASE  \\d {DatabaseDir.Replace("\\", "\\\\") + "Northwind.accdb"} \\c Provider=Microsoft.ACE.OLEDB.12.0 \\s \"SELECT * FROM [Products]\"",
-            field.getFieldCode());
+        Assert.assertEquals(" DATABASE  \\d {DatabaseDir.Replace(", field.getFieldCode());
 
         TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.accdb", field.getQuery());
 
@@ -724,13 +723,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("ProductName\u0007", table.getRows().get(0).getCells().get(0).getText());
         Assert.assertEquals("GrossSales\u0007", table.getRows().get(0).getCells().get(1).getText());
 
-        Assert.AreEqual($" DATABASE  \\d {DatabaseDir.Replace("\\", "\\\\") + "Northwind.accdb"} \\c Provider=Microsoft.ACE.OLEDB.12.0 " +
-                        $"\\s \"SELECT [Products].ProductName, FORMAT(SUM([Order Details].UnitPrice * (1 - [Order Details].Discount) * [Order Details].Quantity), 'Currency') AS GrossSales " +
-                        "FROM([Products] " +
-                        "LEFT JOIN[Order Details] ON[Products].[ProductID] = [Order Details].[ProductID]) " +
-                        "GROUP BY[Products].ProductName " +
-                        "ORDER BY SUM([Order Details].UnitPrice* (1 - [Order Details].Discount) * [Order Details].Quantity) DESC\" \\f 1 \\t 10 \\l 10 \\b 63 \\h \\o",
-            field.getFieldCode());
+        Assert.assertEquals(" DATABASE  \\d {DatabaseDir.Replace(", field.getFieldCode());
 
         table.getRows().get(0).remove();
 
@@ -787,14 +780,14 @@ public class ExField extends ApiExampleBase
 
             if (preserveIncludePictureField)
             {
-                Assert.True(doc.getRange().getFields().Any(f => f.Type == FieldType.FieldIncludePicture));
+                Assert.That(doc.getRange().getFields().Any(f => f.Type == FieldType.FieldIncludePicture), assertTrue();
 
                 doc.updateFields();
                 doc.save(getArtifactsDir() + "Field.PreserveIncludePicture.docx");
             }
             else
             {
-                Assert.False(doc.getRange().getFields().Any(f => f.Type == FieldType.FieldIncludePicture));
+                Assert.That(doc.getRange().getFields().Any(f => f.Type == FieldType.FieldIncludePicture), assertFalse();
             }
         }
         finally { if (docStream != null) docStream.close(); }
@@ -927,7 +920,7 @@ public class ExField extends ApiExampleBase
         String secWithFields = DocumentHelper.getSectionText(doc, 1);
 
         Assert.assertTrue(secWithFields.trim().endsWith(
-            "Fields.Docx   Элементы указателя не найдены.     3.\rОшибка! Не указана последовательность.    Fields.Docx   Элементы указателя не найдены.     4."));
+                "Fields.Docx   Элементы указателя не найдены.     3.\rОшибка! Не указана последовательность.    Fields.Docx   Элементы указателя не найдены.     4."));
     }
 
     @Test
@@ -944,7 +937,7 @@ public class ExField extends ApiExampleBase
         String paraWithFields = DocumentHelper.getParagraphText(doc, 0);
 
         Assert.assertTrue(paraWithFields.trim().endsWith(
-            "FILENAME  \\* Caps  \\* MERGEFORMAT \u0014Fields.Docx\u0015   Элементы указателя не найдены.     \u0013 LISTNUM  LegalDefault \u0015"));
+                "FILENAME  \\* Caps  \\* MERGEFORMAT \u0014Fields.Docx\u0015   Элементы указателя не найдены.     \u0013 LISTNUM  LegalDefault \u0015"));
     }
 
     @Test
@@ -1050,9 +1043,7 @@ public class ExField extends ApiExampleBase
         fieldAsk.setPromptOnceOnMailMerge(true);
         builder.writeln();
 
-        Assert.assertEquals(
-            " ASK  MyAskField \"Please provide a response for this ASK field\" \\d \"Response from within the field.\" \\o",
-            fieldAsk.getFieldCode());
+        Assert.assertEquals(" ASK  MyAskField \"Please provide a response for this ASK field\" \\d \"Response from within the field.\" \\o", fieldAsk.getFieldCode());
 
         // ASK fields apply the default response to their respective REF fields during a mail merge.
         DataTable table = new DataTable("My Table");
@@ -1206,9 +1197,7 @@ public class ExField extends ApiExampleBase
         // We can set a different culture for the field to format the result with like this.
         field.setLanguageId(Integer.toString(new msCultureInfo("en-US").getLCID()));
 
-        Assert.assertEquals(
-            " ADDRESSBLOCK  \\c 2 \\d \\e \"United States\" \\f \"<Title> <Forename> <Surname> <Address Line 1> <Region> <Postcode> <Country>\" \\l 1033",
-            field.getFieldCode());
+        Assert.assertEquals(" ADDRESSBLOCK  \\c 2 \\d \\e \"United States\" \\f \"<Title> <Forename> <Surname> <Address Line 1> <Region> <Postcode> <Country>\" \\l 1033", field.getFieldCode());
         //ExEnd
 
         doc = DocumentHelper.saveOpen(doc);
@@ -1220,8 +1209,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("2", field.getIncludeCountryOrRegionName());
         Assert.assertEquals(true, field.getFormatAddressOnCountryOrRegion());
         Assert.assertEquals("United States", field.getExcludedCountryOrRegionName());
-        Assert.assertEquals("<Title> <Forename> <Surname> <Address Line 1> <Region> <Postcode> <Country>",
-            field.getNameAndAddressFormat());
+        Assert.assertEquals("<Title> <Forename> <Surname> <Address Line 1> <Region> <Postcode> <Country>", field.getNameAndAddressFormat());
         Assert.assertEquals("1033", field.getLanguageId());
     }
 
@@ -1780,8 +1768,8 @@ public class ExField extends ApiExampleBase
         field.setScreenTip("Hover tip text for AutoTextList goes here");
 
         Assert.assertEquals(" AUTOTEXTLIST  \"Right click here to select an AutoText block\" " +
-                        "\\s \"Heading 1\" " +
-                        "\\t \"Hover tip text for AutoTextList goes here\"", field.getFieldCode());
+                            "\\s \"Heading 1\" " +
+                            "\\t \"Hover tip text for AutoTextList goes here\"", field.getFieldCode());
 
         doc.save(getArtifactsDir() + "Field.AUTOTEXTLIST.dotx");
         testFieldAutoTextList(doc); //ExSkip
@@ -1867,8 +1855,7 @@ public class ExField extends ApiExampleBase
         // Set a locale to format the result.
         field.setLanguageId(Integer.toString(new msCultureInfo("en-US").getLCID()));
 
-        Assert.assertEquals(" GREETINGLINE  \\f \"<< _BEFORE_ Dear >><< _TITLE0_ >><< _LAST0_ >><< _AFTER_ ,>> \" \\e \"Sir or Madam\" \\l 1033", 
-            field.getFieldCode());
+        Assert.assertEquals(" GREETINGLINE  \\f \"<< _BEFORE_ Dear >><< _TITLE0_ >><< _LAST0_ >><< _AFTER_ ,>> \" \\e \"Sir or Madam\" \\l 1033", field.getFieldCode());
 
         // Create a data table with columns whose names match elements
         // from the field's field names collection, and then carry out the mail merge.
@@ -1886,9 +1873,8 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(0, doc.getRange().getFields().getCount());
         Assert.assertEquals("Dear Mr. Doe,\r\r\tThis is your custom greeting, created programmatically using Aspose Words!\r" +
-                        "\fDear Mrs. Cardholder,\r\r\tThis is your custom greeting, created programmatically using Aspose Words!\r" +
-                        "\fDear Sir or Madam,\r\r\tThis is your custom greeting, created programmatically using Aspose Words!",
-            doc.getText().trim());
+                            "\fDear Mrs. Cardholder,\r\r\tThis is your custom greeting, created programmatically using Aspose Words!\r" +
+                            "\fDear Sir or Madam,\r\r\tThis is your custom greeting, created programmatically using Aspose Words!", doc.getText().trim());
         //ExEnd
     }
 
@@ -2168,11 +2154,11 @@ public class ExField extends ApiExampleBase
         Assert.assertFalse(field.getUseParagraphOutlineLevel());
         Assert.assertEquals(" TOC  \\b MyBookmark \\t \"Quote; 6; Intense Quote; 7\" \\o 1-3 \\n 2-5 \\p - \\h \\x \\w", field.getFieldCode());
         Assert.assertEquals("\u0013 HYPERLINK \\l \"_Toc256000001\" \u0014First entry-\u0013 PAGEREF _Toc256000001 \\h \u00142\u0015\u0015\r" +
-                        "\u0013 HYPERLINK \\l \"_Toc256000002\" \u0014Second entry-\u0013 PAGEREF _Toc256000002 \\h \u00143\u0015\u0015\r" +
-                        "\u0013 HYPERLINK \\l \"_Toc256000003\" \u0014Third entry-\u0013 PAGEREF _Toc256000003 \\h \u00144\u0015\u0015\r" +
-                        "\u0013 HYPERLINK \\l \"_Toc256000004\" \u0014Fourth entry-\u0013 PAGEREF _Toc256000004 \\h \u00145\u0015\u0015\r" +
-                        "\u0013 HYPERLINK \\l \"_Toc256000005\" \u0014Fifth entry\u0015\r" +
-                        "\u0013 HYPERLINK \\l \"_Toc256000006\" \u0014Sixth entry\u0015\r", field.getResult());
+                            "\u0013 HYPERLINK \\l \"_Toc256000002\" \u0014Second entry-\u0013 PAGEREF _Toc256000002 \\h \u00143\u0015\u0015\r" +
+                            "\u0013 HYPERLINK \\l \"_Toc256000003\" \u0014Third entry-\u0013 PAGEREF _Toc256000003 \\h \u00144\u0015\u0015\r" +
+                            "\u0013 HYPERLINK \\l \"_Toc256000004\" \u0014Fourth entry-\u0013 PAGEREF _Toc256000004 \\h \u00145\u0015\u0015\r" +
+                            "\u0013 HYPERLINK \\l \"_Toc256000005\" \u0014Fifth entry\u0015\r" +
+                            "\u0013 HYPERLINK \\l \"_Toc256000006\" \u0014Sixth entry\u0015\r", field.getResult());
     }
 
     //ExStart
@@ -2975,8 +2961,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("XML", fieldIncludeText.getTextConverter());
         Assert.assertEquals("ISO-8859-1", fieldIncludeText.getEncoding());
         Assert.assertEquals(" INCLUDETEXT  \"" + getMyDir().replace("\\", "\\\\") + "CD collection data.xml\" \\m text/xml \\c XML \\e ISO-8859-1 \\t \"" + 
-                        getMyDir().replace("\\", "\\\\") + "CD collection XSL transformation.xsl\"", 
-            fieldIncludeText.getFieldCode());
+                            getMyDir().replace("\\", "\\\\") + "CD collection XSL transformation.xsl\"", fieldIncludeText.getFieldCode());
         Assert.assertTrue(fieldIncludeText.getResult().startsWith("My CD Collection"));
 
         org.w3c.dom.Document cdCollectionData = XmlUtilPal.newXmlDocument();
@@ -2998,24 +2983,19 @@ public class ExField extends ApiExampleBase
                 {
                     // When on the first row from the input document's table, ensure that all table's cells match all XML element Names.
                     for (int k = 0; k < table.getRows().getCount() - 1; k++)
-                        Assert.assertEquals(catalogData.getChildNodes().item(k).getChildNodes().item(j).getNodeName(),
-                            table.getRows().get(i).getCells().get(j).getText().replace(ControlChar.CELL, "").toLowerCase());
+                        Assert.assertEquals(catalogData.getChildNodes().item(k).getChildNodes().item(j).getNodeName(), table.getRows().get(i).getCells().get(j).getText().replace(ControlChar.CELL, "").toLowerCase());
 
                     // Also, make sure that the whole first row has the same color as the XSL transform.
-                    Assert.assertEquals(cdCollectionXslTransformation.SelectNodes("//xsl:stylesheet/xsl:template/html/body/table/tr", manager).item(0).getAttributes().getNamedItem("bgcolor").getNodeValue(),
-                        ColorTranslator.ToHtml(table.getRows().get(i).getCells().get(j).getCellFormat().getShading().getBackgroundPatternColor()).toLowerCase());
+                    Assert.assertEquals(cdCollectionXslTransformation.SelectNodes("//xsl:stylesheet/xsl:template/html/body/table/tr", manager).item(0).getAttributes().getNamedItem("bgcolor").getNodeValue(), ColorTranslator.ToHtml(table.getRows().get(i).getCells().get(j).getCellFormat().getShading().getBackgroundPatternColor()).toLowerCase());
                 }
                 else
                 {
                     // When on all other rows of the input document's table, ensure that cell contents match XML element Values.
-                    Assert.assertEquals(catalogData.getChildNodes().item(i - 1).getChildNodes().item(j).getFirstChild().getNodeValue(),
-                        table.getRows().get(i).getCells().get(j).getText().replace(ControlChar.CELL, ""));
+                    Assert.assertEquals(catalogData.getChildNodes().item(i - 1).getChildNodes().item(j).getFirstChild().getNodeValue(), table.getRows().get(i).getCells().get(j).getText().replace(ControlChar.CELL, ""));
                     Assert.assertEquals(msColor.Empty, table.getRows().get(i).getCells().get(j).getCellFormat().getShading().getBackgroundPatternColor());
                 }
 
-                Assert.assertEquals(
-                    double.Parse(cdCollectionXslTransformation.SelectNodes("//xsl:stylesheet/xsl:template/html/body/table", manager).item(0).getAttributes().getNamedItem("border").getNodeValue()) * 0.75, 
-                    table.getFirstRow().getRowFormat().getBorders().getBottom().getLineWidth());
+                Assert.assertEquals(double.Parse(cdCollectionXslTransformation.SelectNodes("//xsl:stylesheet/xsl:template/html/body/table", manager).item(0).getAttributes().getNamedItem("border").getNodeValue()) * 0.75, table.getFirstRow().getRowFormat().getBorders().getBottom().getLineWidth());
             }
 
         fieldIncludeText = (FieldIncludeText)doc.getRange().getFields().get(1);
@@ -3025,8 +3005,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("text/xml", fieldIncludeText.getMimeType());
         Assert.assertEquals("XML", fieldIncludeText.getTextConverter());
         Assert.assertEquals("ISO-8859-1", fieldIncludeText.getEncoding());
-        Assert.assertEquals(" INCLUDETEXT  \"" + getMyDir().replace("\\", "\\\\") + "CD collection data.xml\" \\m text/xml \\c XML \\e ISO-8859-1 \\n xmlns:n='myNamespace' \\x /catalog/cd/title", 
-            fieldIncludeText.getFieldCode());
+        Assert.assertEquals(" INCLUDETEXT  \"" + getMyDir().replace("\\", "\\\\") + "CD collection data.xml\" \\m text/xml \\c XML \\e ISO-8859-1 \\n xmlns:n='myNamespace' \\x /catalog/cd/title", fieldIncludeText.getFieldCode());
 
         String expectedFieldResult = "";
         for (int i = 0; i < catalogData.getChildNodes().getLength(); i++)
@@ -3259,7 +3238,7 @@ public class ExField extends ApiExampleBase
                                 args.setImage(ImageIO.read(mImageFilenames.get(args.getFieldValue().toString())));
                                                 }
             
-            Assert.assertNotNull(args.getImage());
+            Assert.Is.Not.Nullargs.getImage());
         }
 
         private /*final*/ HashMap<String, String> mImageFilenames;
@@ -3282,8 +3261,8 @@ public class ExField extends ApiExampleBase
         shape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
 
         TestUtil.verifyImageInShape(400, 400, ImageType.PNG, shape);
-        Assert.assertEquals(300.0d, shape.getWidth(), 1.0);
-        Assert.assertEquals(300.0d, shape.getHeight(), 1.0);
+        Assert.assertEquals(300.0d, 1, shape.getWidth());
+        Assert.assertEquals(300.0d, 1, shape.getHeight());
     }
 
     @Test
@@ -3461,13 +3440,13 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("a-c", index.getLetterRange());
         Assert.assertEquals(" INDEX  \\z 1033 \\h A \\c 2 \\p a-c", index.getFieldCode());
         Assert.assertEquals("\fA\r" +
-                        "Apple, 2\r" +
-                        "Apricot, 3\r" +
-                        "Avocado, 6\r" +
-                        "B\r" +
-                        "Banana, 4\r" +
-                        "C\r" +
-                        "Cherry, 5\r\f", index.getResult());
+                            "Apple, 2\r" +
+                            "Apricot, 3\r" +
+                            "Avocado, 6\r" +
+                            "B\r" +
+                            "Banana, 4\r" +
+                            "C\r" +
+                            "Cherry, 5\r\f", index.getResult());
 
         indexEntry = (FieldXE)doc.getRange().getFields().get(1);
 
@@ -3597,9 +3576,9 @@ public class ExField extends ApiExampleBase
         Assert.assertTrue(index.hasSequenceName());
         Assert.assertEquals(" INDEX  \\s MySequence \\e \"\tMySequence at \" \\d \" on page \"", index.getFieldCode());
         Assert.assertEquals("Cat\tMySequence at 1 on page 2, 3 on page 3\r" +
-                        "Dog\tMySequence at 3 on page 4\r", index.getResult());
+                            "Dog\tMySequence at 3 on page 4\r", index.getResult());
 
-        Assert.AreEqual(3, doc.getRange().getFields().Where(f => f.Type == FieldType.FieldSequence).Count());
+        Assert.That(doc.getRange().getFields().Where(f => f.Type == FieldType.FieldSequence).Count(), assertEquals(3, );
     }
 
     @Test
@@ -3958,18 +3937,18 @@ public class ExField extends ApiExampleBase
             Assert.assertTrue(index.getUseYomi());
             Assert.assertEquals(" INDEX  \\y", index.getFieldCode());
             Assert.assertEquals("愛子, 2\r" +
-                            "明美, 3\r" +
-                            "恵美, 4\r" +
-                            "愛美, 5\r", index.getResult());
+                                "明美, 3\r" +
+                                "恵美, 4\r" +
+                                "愛美, 5\r", index.getResult());
         }
         else
         {
             Assert.assertFalse(index.getUseYomi());
             Assert.assertEquals(" INDEX ", index.getFieldCode());
             Assert.assertEquals("恵美, 4\r" +
-                            "愛子, 2\r" +
-                            "愛美, 5\r" +
-                            "明美, 3\r", index.getResult());
+                                "愛子, 2\r" +
+                                "愛美, 5\r" +
+                                "明美, 3\r", index.getResult());
         }
 
         indexEntry = (FieldXE)doc.getRange().getFields().get(1);
@@ -4213,8 +4192,7 @@ public class ExField extends ApiExampleBase
         field.setSymbolRotation("0");
 
         Assert.assertEquals(FieldType.FIELD_MERGE_BARCODE, field.getType());
-        Assert.assertEquals(" MERGEBARCODE  MyQRCode QR \\b 0xF8BD69 \\f 0xB5413B \\q 3 \\s 250 \\h 1000 \\r 0",
-            field.getFieldCode());
+        Assert.assertEquals(" MERGEBARCODE  MyQRCode QR \\b 0xF8BD69 \\f 0xB5413B \\q 3 \\s 250 \\h 1000 \\r 0", field.getFieldCode());
         builder.writeln();
 
         // Create a DataTable with a column with the same name as our MERGEBARCODE field's BarcodeValue.
@@ -4228,18 +4206,16 @@ public class ExField extends ApiExampleBase
         doc.getMailMerge().execute(table);
 
         Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(0).getType());
-        Assert.assertEquals("DISPLAYBARCODE \"ABC123\" QR \\q 3 \\s 250 \\h 1000 \\r 0 \\b 0xF8BD69 \\f 0xB5413B", 
-            doc.getRange().getFields().get(0).getFieldCode());
+        Assert.assertEquals("DISPLAYBARCODE \"ABC123\" QR \\q 3 \\s 250 \\h 1000 \\r 0 \\b 0xF8BD69 \\f 0xB5413B", doc.getRange().getFields().get(0).getFieldCode());
         Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(1).getType());
-        Assert.assertEquals("DISPLAYBARCODE \"DEF456\" QR \\q 3 \\s 250 \\h 1000 \\r 0 \\b 0xF8BD69 \\f 0xB5413B",
-            doc.getRange().getFields().get(1).getFieldCode());
+        Assert.assertEquals("DISPLAYBARCODE \"DEF456\" QR \\q 3 \\s 250 \\h 1000 \\r 0 \\b 0xF8BD69 \\f 0xB5413B", doc.getRange().getFields().get(1).getFieldCode());
 
         doc.save(getArtifactsDir() + "Field.MERGEBARCODE.QR.docx");
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Field.MERGEBARCODE.QR.docx");
 
-        Assert.AreEqual(0, doc.getRange().getFields().Count(f => f.Type == FieldType.FieldMergeBarcode));
+        Assert.That(doc.getRange().getFields().Count(f => f.Type == FieldType.FieldMergeBarcode), assertEquals(0, );
 
         FieldDisplayBarcode barcode = (FieldDisplayBarcode)doc.getRange().getFields().get(0);
 
@@ -4296,18 +4272,16 @@ public class ExField extends ApiExampleBase
         doc.getMailMerge().execute(table);
 
         Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(0).getType());
-        Assert.assertEquals("DISPLAYBARCODE \"501234567890\" EAN13 \\t \\p CASE \\x",
-            doc.getRange().getFields().get(0).getFieldCode());
+        Assert.assertEquals("DISPLAYBARCODE \"501234567890\" EAN13 \\t \\p CASE \\x", doc.getRange().getFields().get(0).getFieldCode());
         Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(1).getType());
-        Assert.assertEquals("DISPLAYBARCODE \"123456789012\" EAN13 \\t \\p CASE \\x",
-            doc.getRange().getFields().get(1).getFieldCode());
+        Assert.assertEquals("DISPLAYBARCODE \"123456789012\" EAN13 \\t \\p CASE \\x", doc.getRange().getFields().get(1).getFieldCode());
 
         doc.save(getArtifactsDir() + "Field.MERGEBARCODE.EAN13.docx");
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Field.MERGEBARCODE.EAN13.docx");
 
-        Assert.AreEqual(0, doc.getRange().getFields().Count(f => f.Type == FieldType.FieldMergeBarcode));
+        Assert.That(doc.getRange().getFields().Count(f => f.Type == FieldType.FieldMergeBarcode), assertEquals(0, );
 
         FieldDisplayBarcode barcode = (FieldDisplayBarcode)doc.getRange().getFields().get(0);
 
@@ -4357,18 +4331,16 @@ public class ExField extends ApiExampleBase
         doc.getMailMerge().execute(table);
 
         Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(0).getType());
-        Assert.assertEquals("DISPLAYBARCODE \"12345ABCDE\" CODE39 \\d",
-            doc.getRange().getFields().get(0).getFieldCode());
+        Assert.assertEquals("DISPLAYBARCODE \"12345ABCDE\" CODE39 \\d", doc.getRange().getFields().get(0).getFieldCode());
         Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(1).getType());
-        Assert.assertEquals("DISPLAYBARCODE \"67890FGHIJ\" CODE39 \\d",
-            doc.getRange().getFields().get(1).getFieldCode());
+        Assert.assertEquals("DISPLAYBARCODE \"67890FGHIJ\" CODE39 \\d", doc.getRange().getFields().get(1).getFieldCode());
 
         doc.save(getArtifactsDir() + "Field.MERGEBARCODE.CODE39.docx");
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Field.MERGEBARCODE.CODE39.docx");
 
-        Assert.AreEqual(0, doc.getRange().getFields().Count(f => f.Type == FieldType.FieldMergeBarcode));
+        Assert.That(doc.getRange().getFields().Count(f => f.Type == FieldType.FieldMergeBarcode), assertEquals(0, );
 
         FieldDisplayBarcode barcode = (FieldDisplayBarcode)doc.getRange().getFields().get(0);
 
@@ -4415,18 +4387,16 @@ public class ExField extends ApiExampleBase
         doc.getMailMerge().execute(table);
 
         Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(0).getType());
-        Assert.assertEquals("DISPLAYBARCODE \"09312345678907\" ITF14 \\c STD",
-            doc.getRange().getFields().get(0).getFieldCode());
+        Assert.assertEquals("DISPLAYBARCODE \"09312345678907\" ITF14 \\c STD", doc.getRange().getFields().get(0).getFieldCode());
         Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(1).getType());
-        Assert.assertEquals("DISPLAYBARCODE \"1234567891234\" ITF14 \\c STD",
-            doc.getRange().getFields().get(1).getFieldCode());
+        Assert.assertEquals("DISPLAYBARCODE \"1234567891234\" ITF14 \\c STD", doc.getRange().getFields().get(1).getFieldCode());
 
         doc.save(getArtifactsDir() + "Field.MERGEBARCODE.ITF14.docx");
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Field.MERGEBARCODE.ITF14.docx");
 
-        Assert.AreEqual(0, doc.getRange().getFields().Count(f => f.Type == FieldType.FieldMergeBarcode));
+        Assert.That(doc.getRange().getFields().Count(f => f.Type == FieldType.FieldMergeBarcode), assertEquals(0, );
 
         FieldDisplayBarcode barcode = (FieldDisplayBarcode)doc.getRange().getFields().get(0);
 
@@ -4837,15 +4807,15 @@ public class ExField extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Create a list based using a Microsoft Word list template.
-        List list = doc.getLists().add(com.aspose.words.ListTemplate.NUMBER_DEFAULT);
+        List docList = doc.getLists().add(com.aspose.words.ListTemplate.NUMBER_DEFAULT);
 
         // This generated list will display "1.a )".
         // Space before the bracket is a non-delimiter character, which we can suppress. 
-        list.getListLevels().get(0).setNumberFormat("\u0000.");
-        list.getListLevels().get(1).setNumberFormat("\u0001 )");
+        docList.getListLevels().get(0).setNumberFormat("\u0000.");
+        docList.getListLevels().get(1).setNumberFormat("\u0001 )");
 
         // Add text and apply paragraph styles that STYLEREF fields will reference.
-        builder.getListFormat().setList(list);
+        builder.getListFormat().setList(docList);
         builder.getListFormat().listIndent();
         builder.getParagraphFormat().setStyle(doc.getStyles().get("List Paragraph"));
         builder.writeln("Item 1");
@@ -4990,17 +4960,17 @@ public class ExField extends ApiExampleBase
 
         field = (FieldDate)doc.getRange().getFields().get(1);
 
-        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\u", new Date().toShortDateString(), field);
+        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\u", new Date.toShortDateString(), field);
         Assert.assertTrue(field.getUseUmAlQuraCalendar());
 
         field = (FieldDate)doc.getRange().getFields().get(2);
 
-        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\s", new Date().toShortDateString(), field);
+        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\s", new Date.toShortDateString(), field);
         Assert.assertTrue(field.getUseSakaEraCalendar());
 
         field = (FieldDate)doc.getRange().getFields().get(3);
 
-        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\l", new Date().toShortDateString(), field);
+        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\l", new Date.toShortDateString(), field);
         Assert.assertTrue(field.getUseLastFormat());
     }
 
@@ -5049,7 +5019,7 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(new DateTime(2017, 12, 5, 9, 56, 0), doc.getBuiltInDocumentProperties().getCreatedTimeInternal());
 
-        DateTime expectedDate = doc.getBuiltInDocumentProperties().getCreatedTimeInternal().addHours(TimeZoneInfo.Local.GetUtcOffset(DateTime.getUtcNow()).getHours());
+        DateTime expectedDate = doc.getBuiltInDocumentProperties().getCreatedTimeInternal().addHours(CurrentThread.getTimeZone().getUtcOffset(DateTime.getUtcNow()).getHours());
         field = (FieldCreateDate)doc.getRange().getFields().get(0);
         Calendar umAlQuraCalendar = new UmAlQuraCalendar();
 
@@ -5110,7 +5080,7 @@ public class ExField extends ApiExampleBase
 
         // The SAVEDATE fields draw their date/time values from the LastSavedTime built-in property.
         // The document's Save method will not update this value, but we can still update it manually.
-        doc.getBuiltInDocumentProperties().setLastSavedTimeInternal(new Date());
+        doc.getBuiltInDocumentProperties().setLastSavedTimeInternal(new Date);
 
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.SAVEDATE.docx");
@@ -5225,8 +5195,8 @@ public class ExField extends ApiExampleBase
         field = builder.buildAndInsert(doc.getFirstSection().getBody().appendParagraph(""));
 
         Assert.assertEquals(" IF \u0013 = 2 + 3 \u0014\u0015 = \u0013 = 2.5 * 5.2 \u0014\u0015 " +
-                        "\"True, both expressions amount to \u0013 = 2 + 3 \u0014\u0015\" " +
-                        "\"False, \u0013 = 2 + 3 \u0014\u0015 does not equal \u0013 = 2.5 * 5.2 \u0014\u0015\" ", field.getFieldCode());
+                            "\"True, both expressions amount to \u0013 = 2 + 3 \u0014\u0015\" " +
+                            "\"False, \u0013 = 2 + 3 \u0014\u0015 does not equal \u0013 = 2.5 * 5.2 \u0014\u0015\" ", field.getFieldCode());
 
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.SYMBOL.docx");
@@ -5251,9 +5221,7 @@ public class ExField extends ApiExampleBase
             "\"True, both expressions amount to \u0013 = 2 + 3 \u0014\u0015\" " +
             "\"False, \u0013 = 2 + 3 \u00145\u0015 does not equal \u0013 = 2.5 * 5.2 \u001413\u0015\" ",
             "False, 5 does not equal 13", doc.getRange().getFields().get(3));
-
         Assert.<AssertionError>Throws(() => TestUtil.fieldsAreNested(doc.getRange().getFields().get(2), doc.getRange().getFields().get(3)));
-
         TestUtil.verifyField(FieldType.FIELD_FORMULA, " = 2 + 3 ", "5", doc.getRange().getFields().get(4));
         TestUtil.fieldsAreNested(doc.getRange().getFields().get(4), doc.getRange().getFields().get(3));
 
@@ -5952,7 +5920,7 @@ public class ExField extends ApiExampleBase
         builder.moveTo(field.getSeparator());
         builder.insertField(FieldType.FIELD_DATE, true);
 
-        Assert.assertEquals(" QUOTE \u0013 DATE \u0014" + new Date().getDate().toShortDateString() + "\u0015", field.getFieldCode());
+        Assert.assertEquals(" QUOTE \u0013 DATE \u0014" + new Date.getDate().toShortDateString() + "\u0015", field.getFieldCode());
 
         // Update all the fields to display their correct results.
         doc.updateFields();
@@ -5966,8 +5934,8 @@ public class ExField extends ApiExampleBase
 
         TestUtil.verifyField(FieldType.FIELD_QUOTE, " QUOTE  \"\\\"Quoted text\\\"\"", "\"Quoted text\"", doc.getRange().getFields().get(0));
 
-        TestUtil.verifyField(FieldType.FIELD_QUOTE, " QUOTE \u0013 DATE \u0014" + new Date().getDate().toShortDateString() + "\u0015", 
-            new Date().getDate().toShortDateString(), doc.getRange().getFields().get(1));
+        TestUtil.verifyField(FieldType.FIELD_QUOTE, " QUOTE \u0013 DATE \u0014" + new Date.getDate().toShortDateString() + "\u0015", 
+            new Date.getDate().toShortDateString(), doc.getRange().getFields().get(1));
 
     }
 
@@ -6062,8 +6030,8 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(0, doc.getRange().getFields().getCount());
         Assert.assertEquals("First row: Mr. John Doe\r" +
-                        "Second row: Mrs. Jane Cardholder\r" +
-                        "Third row: Mr. Joe Bloggs\r\f", doc.getText());
+                            "Second row: Mrs. Jane Cardholder\r" +
+                            "Third row: Mr. Joe Bloggs\r\f", doc.getText());
     }
 
     //ExStart
@@ -6084,18 +6052,15 @@ public class ExField extends ApiExampleBase
 
         // This NOTEREF field will display the number of the footnote inside the referenced bookmark.
         // Setting the InsertHyperlink property lets us jump to the bookmark by Ctrl + clicking the field in Microsoft Word.
-        Assert.assertEquals(" NOTEREF  MyBookmark2 \\h",
-            insertFieldNoteRef(builder, "MyBookmark2", true, false, false, "Hyperlink to Bookmark2, with footnote number ").getFieldCode());
+        Assert.assertEquals(" NOTEREF  MyBookmark2 \\h", insertFieldNoteRef(builder, "MyBookmark2", true, false, false, "Hyperlink to Bookmark2, with footnote number ").getFieldCode());
 
         // When using the \p flag, after the footnote number, the field also displays the bookmark's position relative to the field.
         // Bookmark1 is above this field and contains footnote number 1, so the result will be "1 above" on update.
-        Assert.assertEquals(" NOTEREF  MyBookmark1 \\h \\p",
-            insertFieldNoteRef(builder, "MyBookmark1", true, true, false, "Bookmark1, with footnote number ").getFieldCode());
+        Assert.assertEquals(" NOTEREF  MyBookmark1 \\h \\p", insertFieldNoteRef(builder, "MyBookmark1", true, true, false, "Bookmark1, with footnote number ").getFieldCode());
 
         // Bookmark2 is below this field and contains footnote number 2, so the field will display "2 below".
         // The \f flag makes the number 2 appear in the same format as the footnote number label in the actual text.
-        Assert.assertEquals(" NOTEREF  MyBookmark2 \\h \\p \\f",
-            insertFieldNoteRef(builder, "MyBookmark2", true, true, true, "Bookmark2, with footnote number ").getFieldCode());
+        Assert.assertEquals(" NOTEREF  MyBookmark2 \\h \\p \\f", insertFieldNoteRef(builder, "MyBookmark2", true, true, true, "Bookmark2, with footnote number ").getFieldCode());
 
         builder.insertBreak(BreakType.PAGE_BREAK);
         insertBookmarkWithFootnote(builder, "MyBookmark2", "Contents of MyBookmark2", "Footnote from MyBookmark2");
@@ -6217,22 +6182,18 @@ public class ExField extends ApiExampleBase
 
         // Insert a PAGEREF field that displays what page a bookmark is on.
         // Set the InsertHyperlink flag to make the field also function as a clickable link to the bookmark.
-        Assert.assertEquals(" PAGEREF  MyBookmark3 \\h", 
-            insertFieldPageRef(builder, "MyBookmark3", true, false, "Hyperlink to Bookmark3, on page: ").getFieldCode());
+        Assert.assertEquals(" PAGEREF  MyBookmark3 \\h", insertFieldPageRef(builder, "MyBookmark3", true, false, "Hyperlink to Bookmark3, on page: ").getFieldCode());
 
         // We can use the \p flag to get the PAGEREF field to display
         // the bookmark's position relative to the position of the field.
         // Bookmark1 is on the same page and above this field, so this field's displayed result will be "above".
-        Assert.assertEquals(" PAGEREF  MyBookmark1 \\h \\p", 
-            insertFieldPageRef(builder, "MyBookmark1", true, true, "Bookmark1 is ").getFieldCode());
+        Assert.assertEquals(" PAGEREF  MyBookmark1 \\h \\p", insertFieldPageRef(builder, "MyBookmark1", true, true, "Bookmark1 is ").getFieldCode());
 
         // Bookmark2 will be on the same page and below this field, so this field's displayed result will be "below".
-        Assert.assertEquals(" PAGEREF  MyBookmark2 \\h \\p", 
-            insertFieldPageRef(builder, "MyBookmark2", true, true, "Bookmark2 is ").getFieldCode());
+        Assert.assertEquals(" PAGEREF  MyBookmark2 \\h \\p", insertFieldPageRef(builder, "MyBookmark2", true, true, "Bookmark2 is ").getFieldCode());
 
         // Bookmark3 will be on a different page, so the field will display "on page 2".
-        Assert.assertEquals(" PAGEREF  MyBookmark3 \\h \\p", 
-            insertFieldPageRef(builder, "MyBookmark3", true, true, "Bookmark3 is ").getFieldCode());
+        Assert.assertEquals(" PAGEREF  MyBookmark3 \\h \\p", insertFieldPageRef(builder, "MyBookmark3", true, true, "Bookmark3 is ").getFieldCode());
 
         insertAndNameBookmark(builder, "MyBookmark2");
         builder.insertBreak(BreakType.PAGE_BREAK);
@@ -6470,7 +6431,7 @@ public class ExField extends ApiExampleBase
         FieldRD field = (FieldRD)builder.insertField(FieldType.FIELD_REF_DOC, true);
         field.setFileName(getArtifactsDir() + "ReferencedDocument.docx");
 
-        Assert.AreEqual($" RD  {ArtifactsDir.Replace(@"\",@"\\")}ReferencedDocument.docx", field.getFieldCode());
+        Assert.assertEquals(" RD  {ArtifactsDir.Replace(@", field.getFieldCode());
 
         // Create the document that the RD field is referencing and insert a heading. 
         // This heading will show up as an entry in the TOC field in our first document.
@@ -6489,7 +6450,7 @@ public class ExField extends ApiExampleBase
         FieldToc fieldToc = (FieldToc)doc.getRange().getFields().get(0);
 
         Assert.assertEquals("TOC entry from within this document\t\u0013 PAGEREF _Toc256000000 \\h \u00142\u0015\r" +
-                        "TOC entry from referenced document\t1\r", fieldToc.getResult());
+                            "TOC entry from referenced document\t1\r", fieldToc.getResult());
 
         FieldPageRef fieldPageRef = (FieldPageRef)doc.getRange().getFields().get(1);
 
@@ -6553,7 +6514,7 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(0, doc.getRange().getFields().getCount());
         Assert.assertEquals("Dear John Doe, \r" +
-                        "\fDear Jane Doe, \r\f", doc.getText());
+                            "\fDear Jane Doe, \r\f", doc.getText());
     }
 
     @Test
@@ -6930,9 +6891,9 @@ public class ExField extends ApiExampleBase
         Assert.assertTrue(fieldTOA.getRemoveEntryFormatting());
         Assert.assertEquals(" TOA  \\c 1 \\h \\b MyBookmark \\e \" \t p.\" \\l \" & p. \" \\p \\g \" to \" \\f", fieldTOA.getFieldCode());
         Assert.assertEquals("Cases\r" +
-                        "Source 2 \t p.5\r" +
-                        "Source 3 \t p.4 & p. 7 to 10\r" +
-                        "Source 4 \t p.passim\r", fieldTOA.getResult());
+                            "Source 2 \t p.5\r" +
+                            "Source 3 \t p.4 & p. 7 to 10\r" +
+                            "Source 4 \t p.passim\r", fieldTOA.getResult());
 
         FieldTA fieldTA = (FieldTA)doc.getRange().getFields().get(1);
 
@@ -7291,12 +7252,12 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(0, doc.getRange().getFields().getCount());
 
         Assert.assertEquals("Dear Jane Doe,\r" +
-                        "\r" +
-                        "Row number of record in data source: 1\r" +
-                        "Successful merge number: 1\fDear Joe Bloggs,\r" +
-                        "\r" +
-                        "Row number of record in data source: 3\r" +
-                        "Successful merge number: 2", doc.getText().trim());
+                            "\r" +
+                            "Row number of record in data source: 1\r" +
+                            "Successful merge number: 1\fDear Joe Bloggs,\r" +
+                            "\r" +
+                            "Row number of record in data source: 3\r" +
+                            "Successful merge number: 2", doc.getText().trim());
     }
 
     @Test
@@ -7487,7 +7448,7 @@ public class ExField extends ApiExampleBase
 
     private void testFieldTime(Document doc) throws Exception
     {
-        DateTime docLoadingTime = new Date();
+        DateTime docLoadingTime = new Date;
         doc = DocumentHelper.saveOpen(doc);
 
         FieldTime field = (FieldTime)doc.getRange().getFields().get(0);
@@ -7990,7 +7951,7 @@ public class ExField extends ApiExampleBase
         Source source = bibliography.getSources().FirstOrDefault();
         Assert.assertEquals("Book 0 (No LCID)", source.getTitle());
         Assert.assertEquals(SourceType.BOOK, source.getSourceType());
-        Assert.AreEqual(3, source.getContributors().Count());
+        Assert.That(source.getContributors().Count(), assertEquals(3, );
         Assert.assertNull(source.getAbbreviatedCaseNumber());
         Assert.assertNull(source.getAlbumTitle());
         Assert.assertNull(source.getBookTitle());
@@ -8052,20 +8013,20 @@ public class ExField extends ApiExampleBase
         Assert.assertNull(contributors.getConductor());
         Assert.assertNull(contributors.getCounsel());
         Assert.assertNull(contributors.getDirector());
-        Assert.assertNotNull(contributors.getEditor());
+        Assert.Is.Not.Nullcontributors.getEditor());
         Assert.assertNull(contributors.getInterviewee());
         Assert.assertNull(contributors.getInterviewer());
         Assert.assertNull(contributors.getInventor());
         Assert.assertNull(contributors.getPerformer());
         Assert.assertNull(contributors.getProducer());
-        Assert.assertNotNull(contributors.getTranslator());
+        Assert.Is.Not.Nullcontributors.getTranslator());
         Assert.assertNull(contributors.getWriter());
 
         Contributor editor  = contributors.getEditor();
-        Assert.AreEqual(2, ((PersonCollection)editor).Count());
+        Assert.That(((PersonCollection)editor).Count(), assertEquals(2, );
 
         PersonCollection authors = (PersonCollection)contributors.getAuthor();
-        Assert.AreEqual(2, authors.Count());
+        Assert.That(authors.Count(), assertEquals(2, );
 
         Person person = authors.get(0);
         Assert.assertEquals("Roxanne", person.getFirst());

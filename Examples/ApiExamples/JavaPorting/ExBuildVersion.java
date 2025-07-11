@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.ms.System.msConsole;
 import org.testng.Assert;
 import com.aspose.words.BuildVersionInfo;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
 
 

@@ -16,6 +16,7 @@ import com.aspose.words.BreakType;
 import com.aspose.words.TextFormFieldType;
 import com.aspose.words.ProtectionType;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.Section;
 import com.aspose.words.SectionStart;
 import com.aspose.words.PaperSize;
@@ -393,8 +394,8 @@ public class ExSection extends ApiExampleBase
         // The "PrependContent" and "AppendContent" methods did not create any new sections.
         Assert.assertEquals(3, doc.getSections().getCount());
         Assert.assertEquals("Section 1" + ControlChar.PARAGRAPH_BREAK +
-                        "Section 3" + ControlChar.PARAGRAPH_BREAK +
-                        "Section 2" + ControlChar.SECTION_BREAK, section.getText());
+                            "Section 3" + ControlChar.PARAGRAPH_BREAK +
+                            "Section 2" + ControlChar.SECTION_BREAK, section.getText());
         //ExEnd
     }
 

@@ -20,6 +20,7 @@ import com.aspose.words.Row;
 import com.aspose.words.Document;
 import com.aspose.words.NodeType;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.Run;
 import com.aspose.ms.System.msConsole;
 

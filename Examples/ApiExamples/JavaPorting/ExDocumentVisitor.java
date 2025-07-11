@@ -25,6 +25,7 @@ import com.aspose.words.StructuredDocumentTagRangeStart;
 import com.aspose.words.StructuredDocumentTagRangeEnd;
 import com.aspose.ms.System.Text.msStringBuilder;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.Table;
 import com.aspose.words.Row;
 import com.aspose.ms.System.msString;

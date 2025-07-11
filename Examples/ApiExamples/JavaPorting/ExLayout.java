@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.LayoutCollector;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.BreakType;
 import com.aspose.words.NodeCollection;

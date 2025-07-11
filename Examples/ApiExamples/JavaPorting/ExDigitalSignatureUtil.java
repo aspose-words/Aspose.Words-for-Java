@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.DigitalSignatureCollection;
 import com.aspose.words.DigitalSignatureUtil;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.IO.Stream;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
@@ -119,7 +120,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         SignOptions signOptions = new SignOptions();
         {
             signOptions.setComments("My comment"); 
-            signOptions.setSignTime(new Date());
+            signOptions.setSignTime(new Date);
         }
 
         // Take an unsigned document from the local file system via a file stream,
@@ -168,7 +169,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         SignOptions signOptions = new SignOptions();
         {
             signOptions.setComments("Comment");
-            signOptions.setSignTime(new Date());
+            signOptions.setSignTime(new Date);
             signOptions.setDecryptionPassword("docPassword");
         }
 
@@ -199,7 +200,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Structured document tags.docx");
         String outputFileName = getArtifactsDir() + "DigitalSignatureUtil.SignDocumentObfuscationBug.doc";
 
-        SignOptions signOptions = new SignOptions(); { signOptions.setComments("Comment"); signOptions.setSignTime(new Date()); }
+        SignOptions signOptions = new SignOptions(); { signOptions.setComments("Comment"); signOptions.setSignTime(new Date); }
 
         DigitalSignatureUtil.sign(doc.getOriginalFileName(), outputFileName, ch, signOptions);
     }
@@ -215,7 +216,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         SignOptions signOptions = new SignOptions();
         {
             signOptions.setComments("Comment");
-            signOptions.setSignTime(new Date());
+            signOptions.setSignTime(new Date);
             signOptions.setDecryptionPassword("docPassword1");
         }
 
@@ -230,7 +231,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         SignOptions signOptions = new SignOptions();
         {
             signOptions.setComments("");
-            signOptions.setSignTime(new Date());
+            signOptions.setSignTime(new Date);
             signOptions.setDecryptionPassword("");
         }
 
@@ -247,7 +248,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         SignOptions signOptions = new SignOptions();
         {
             signOptions.setComments("Comment");
-            signOptions.setSignTime(new Date());
+            signOptions.setSignTime(new Date);
             signOptions.setDecryptionPassword("docPassword");
         }
 

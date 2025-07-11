@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import com.aspose.words.StructuredDocumentTag;
 import com.aspose.words.NodeType;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.SdtType;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Style;
@@ -90,8 +91,8 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
             .<StructuredDocumentTag>OfType().ToList();
 
         Assert.assertTrue(tags.get(0).getWordOpenXML()
-            .contains(
-                "<pkg:part pkg:name=\"/docProps/app.xml\" pkg:contentType=\"application/vnd.openxmlformats-officedocument.extended-properties+xml\">"));
+                .contains(
+                    "<pkg:part pkg:name=\"/docProps/app.xml\" pkg:contentType=\"application/vnd.openxmlformats-officedocument.extended-properties+xml\">"));
         //ExEnd
     }
 
@@ -331,8 +332,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         doc = new Document(getArtifactsDir() + "StructuredDocumentTag.IsTemporary.docx");
 
-        Assert.AreEqual(2,
-            doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).Count(sdt => ((StructuredDocumentTag)sdt).IsTemporary == isTemporary));
+        Assert.That(doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).Count(sdt => ((StructuredDocumentTag)sdt).IsTemporary == isTemporary), assertEquals(2, );
     }
 
 	//JAVA-added data provider for test method
@@ -659,7 +659,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         msConsole.writeLine(updatedChecksum);
 
         // We changed the XmlPart of the tag, and the checksum was updated at runtime.
-        Assert.assertNotEquals(checksum, updatedChecksum);
+        Assert.Is.Not.EqualTo(checksum)updatedChecksum);
         //ExEnd
     }
 
@@ -681,8 +681,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         String xmlPartContent = "<root><text>Text element #1</text><text>Text element #2</text></root>";
         CustomXmlPart xmlPart = doc.getCustomXmlParts().add(xmlPartId, xmlPartContent);
 
-        Assert.assertEquals("<root><text>Text element #1</text><text>Text element #2</text></root>",
-            Encoding.getUTF8().getString(xmlPart.getData()));
+        Assert.assertEquals("<root><text>Text element #1</text><text>Text element #2</text></root>", Encoding.getUTF8().getString(xmlPart.getData()));
 
         // Create a structured document tag that will display the contents of our CustomXmlPart.
         StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.BLOCK);
@@ -727,8 +726,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         String xmlPartContent = "<root><text>Text element #1</text><text>Text element #2</text></root>";
         CustomXmlPart xmlPart = doc.getCustomXmlParts().add(xmlPartId, xmlPartContent);
 
-        Assert.assertEquals("<root><text>Text element #1</text><text>Text element #2</text></root>",
-            Encoding.getUTF8().getString(xmlPart.getData()));
+        Assert.assertEquals("<root><text>Text element #1</text><text>Text element #2</text></root>", Encoding.getUTF8().getString(xmlPart.getData()));
 
         // Create a structured document tag that will display the contents of our CustomXmlPart in the document.
         StructuredDocumentTagRangeStart sdtRangeStart = (StructuredDocumentTagRangeStart)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, true);
@@ -970,7 +968,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         TextAbsorber textAbsorber = new TextAbsorber();
         textAbsorber.Visit(pdfDoc);
 
-        Assert.AreEqual("Value 2", textAbsorber.Text);
+        Assert.That(textAbsorber.Text, assertEquals("Value 2", );
     }
 
     @Test
@@ -1053,9 +1051,9 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Assert.assertEquals("", tags.get(3).getXmlMapping().getPrefixMappings());
 
         Assert.assertEquals("Title\u0007Author\u0007\u0007" +
-                        "Everyday Italian\u0007Giada De Laurentiis\u0007\u0007" +
-                        "The C Programming Language\u0007Brian W. Kernighan, Dennis M. Ritchie\u0007\u0007" +
-                        "Learning XML\u0007Erik T. Ray\u0007\u0007", doc.getFirstSection().getBody().getTables().get(0).getText().trim());
+                            "Everyday Italian\u0007Giada De Laurentiis\u0007\u0007" +
+                            "The C Programming Language\u0007Brian W. Kernighan, Dennis M. Ritchie\u0007\u0007" +
+                            "Learning XML\u0007Erik T. Ray\u0007\u0007", doc.getFirstSection().getBody().getTables().get(0).getText().trim());
     }
 
     @Test
@@ -1196,13 +1194,13 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         rangeStart = insertStructuredDocumentTagRanges(doc);
 
         Node paragraphNode = rangeStart.LastOrDefault();
-        Assert.AreEqual("StructuredDocumentTag element", paragraphNode?.GetText().Trim());
+        Assert.That(paragraphNode?.GetText().Trim(), assertEquals("StructuredDocumentTag element", );
 
         // Removes ranged structured document tag and content inside.
         rangeStart.removeAllChildren();
 
         paragraphNode = rangeStart.LastOrDefault();
-        Assert.AreEqual(null, paragraphNode?.GetText());
+        Assert.That(paragraphNode?.GetText(), assertEquals(null, );
     }
 
     @Test (enabled = false)
@@ -1369,8 +1367,8 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
             ms.as(doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, true), StructuredDocumentTagRangeStart.class);
 
         Assert.assertTrue(tag.getWordOpenXMLMinimal()
-            .contains(
-                "<pkg:part pkg:name=\"/docProps/app.xml\" pkg:contentType=\"application/vnd.openxmlformats-officedocument.extended-properties+xml\">"));
+                .contains(
+                    "<pkg:part pkg:name=\"/docProps/app.xml\" pkg:contentType=\"application/vnd.openxmlformats-officedocument.extended-properties+xml\">"));
         Assert.assertFalse(tag.getWordOpenXMLMinimal().contains("xmlns:w16cid=\"http://schemas.microsoft.com/office/word/2016/wordml/cid\""));
         //ExEnd:RangeStartWordOpenXmlMinimal
     }
@@ -1388,7 +1386,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         
         // This collection provides a unified interface for accessing ranged and non-ranged structured tags. 
         Iterable<IStructuredDocumentTag> sdts = doc.getRange().getStructuredDocumentTags().ToList();
-        Assert.AreEqual(5, sdts.Count());
+        Assert.That(sdts.Count(), assertEquals(5, );
 
         // Here we can get child nodes from the common interface of ranged and non-ranged structured tags.
         for (IStructuredDocumentTag sdt : sdts)
@@ -1396,7 +1394,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
                 sdt.removeSelfOnly();
         
         sdts = doc.getRange().getStructuredDocumentTags().ToList();
-        Assert.AreEqual(0, sdts.Count());
+        Assert.That(sdts.Count(), assertEquals(0, );
         //ExEnd:RemoveSelfOnly
     }
 

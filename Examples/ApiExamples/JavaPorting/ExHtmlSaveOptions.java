@@ -21,12 +21,12 @@ import com.aspose.words.ShapeType;
 import com.aspose.ms.System.IO.Directory;
 import com.aspose.ms.System.IO.SearchOption;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.ExportListLabels;
 import com.aspose.words.List;
 import com.aspose.words.ListTemplate;
 import com.aspose.words.CssStyleSheetType;
 import com.aspose.words.HtmlVersion;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.HtmlMetafileFormat;
 import com.aspose.ms.System.IO.File;
 import com.aspose.words.FontSettings;
@@ -401,8 +401,8 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
                 doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportFonts.False.html", saveOptions);
 
-                msAssert.isNotEmpty(Directory.getFiles(fontsFolder, "HtmlSaveOptions.ExportFonts.False.times.ttf",
-                    SearchOption.ALL_DIRECTORIES));
+                Assert.Is.Not.EmptyDirectory.getFiles(fontsFolder, "HtmlSaveOptions.ExportFonts.False.times.ttf",
+                        SearchOption.ALL_DIRECTORIES));
 
                 Directory.delete(fontsFolder, true);
                 break;
@@ -441,10 +441,10 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolderPriority.html", saveOptions);
 
-        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.001.png", SearchOption.ALL_DIRECTORIES));
-        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.002.png", SearchOption.ALL_DIRECTORIES));
-        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.arial.ttf", SearchOption.ALL_DIRECTORIES));
-        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.css", SearchOption.ALL_DIRECTORIES));
+        Assert.Is.Not.EmptyDirectory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.001.png", SearchOption.ALL_DIRECTORIES));
+        Assert.Is.Not.EmptyDirectory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.002.png", SearchOption.ALL_DIRECTORIES));
+        Assert.Is.Not.EmptyDirectory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.arial.ttf", SearchOption.ALL_DIRECTORIES));
+        Assert.Is.Not.EmptyDirectory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.css", SearchOption.ALL_DIRECTORIES));
     }
 
     @Test
@@ -464,14 +464,14 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolderLowPriority.html", saveOptions);
 
-        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Images",
-            "HtmlSaveOptions.ResourceFolderLowPriority.001.png", SearchOption.ALL_DIRECTORIES));
-        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolderLowPriority.002.png",
-            SearchOption.ALL_DIRECTORIES));
-        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Fonts",
-            "HtmlSaveOptions.ResourceFolderLowPriority.arial.ttf", SearchOption.ALL_DIRECTORIES));
-        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderLowPriority.css",
-            SearchOption.ALL_DIRECTORIES));
+        Assert.Is.Not.EmptyDirectory.getFiles(getArtifactsDir() + "Images",
+                "HtmlSaveOptions.ResourceFolderLowPriority.001.png", SearchOption.ALL_DIRECTORIES));
+        Assert.Is.Not.EmptyDirectory.getFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolderLowPriority.002.png",
+                SearchOption.ALL_DIRECTORIES));
+        Assert.Is.Not.EmptyDirectory.getFiles(getArtifactsDir() + "Fonts",
+                "HtmlSaveOptions.ResourceFolderLowPriority.arial.ttf", SearchOption.ALL_DIRECTORIES));
+        Assert.Is.Not.EmptyDirectory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderLowPriority.css",
+                SearchOption.ALL_DIRECTORIES));
     }
 
     @Test
@@ -586,7 +586,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         Document doc = new Document(getMyDir() + "Missing font.docx");
 
         // This document contains text that names a font that we do not have.
-        Assert.assertNotNull(doc.getFontInfos().get("28 Days Later"));
+        Assert.Is.Not.Nulldoc.getFontInfos().get("28 Days Later"));
 
         // If we have no way of getting this font, and we want to be able to display all the text
         // in this document in an output HTML, we can substitute it with another font.
@@ -613,8 +613,8 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         String outDocContents = File.readAllText(getArtifactsDir() + "HtmlSaveOptions.ResolveFontNames.html");
 
         Assert.assertTrue(resolveFontNames
-            ? Regex.match(outDocContents, "<span style=\"font-family:Arial\">").getSuccess()
-            : Regex.match(outDocContents, "<span style=\"font-family:\'28 Days Later\'\">").getSuccess());
+                ? Regex.match(outDocContents, "<span style=\"font-family:Arial\">").getSuccess()
+                : Regex.match(outDocContents, "<span style=\"font-family:\'28 Days Later\'\">").getSuccess());
         //ExEnd
     }
 
@@ -677,7 +677,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         doc = new Document(getArtifactsDir() + "HtmlSaveOptions.HeadingLevels-01.html");
 
         Assert.assertEquals("Heading #2\r" +
-                        "Heading #3", doc.getText().trim());
+                            "Heading #3", doc.getText().trim());
 
         doc = new Document(getArtifactsDir() + "HtmlSaveOptions.HeadingLevels-02.html");
 
@@ -686,7 +686,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         doc = new Document(getArtifactsDir() + "HtmlSaveOptions.HeadingLevels-03.html");
 
         Assert.assertEquals("Heading #5\r" +
-                        "Heading #6", doc.getText().trim());
+                            "Heading #6", doc.getText().trim());
         //ExEnd
     }
 
@@ -739,16 +739,16 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         if (allowNegativeIndent)
         {
             Assert.assertTrue(outDocContents.contains(
-                "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:-41.65pt; border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
+                    "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:-41.65pt; border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
             Assert.assertTrue(outDocContents.contains(
-                "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:30.35pt; border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
+                    "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:30.35pt; border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
         }
         else
         {
             Assert.assertTrue(outDocContents.contains(
-                "<table cellspacing=\"0\" cellpadding=\"0\" style=\"border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
+                    "<table cellspacing=\"0\" cellpadding=\"0\" style=\"border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
             Assert.assertTrue(outDocContents.contains(
-                "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:30.35pt; border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
+                    "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:30.35pt; border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
         }
         //ExEnd
     }
@@ -832,9 +832,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.SaveExportedFonts.html", options);
 
         for (String fontFilename : Object[].FindAll(Directory.getFiles(getArtifactsDir()), s => s.endsWith(".ttf")))
-        {
             System.out.println(fontFilename);
-        }
 
         Assert.assertEquals(10, Object[].FindAll(Directory.getFiles(getArtifactsDir()), s => s.endsWith(".ttf")).length); //ExSkip
     }
@@ -945,9 +943,9 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         if (showDoctypeDeclaration)
             Assert.assertTrue(outDocContents.contains(
-                $"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>{newLine}" +
-                $"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">{newLine}" +
-                "<html xmlns=\"http://www.w3.org/1999/xhtml\">"));
+                    $"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>{newLine}" +
+                    $"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">{newLine}" +
+                    "<html xmlns=\"http://www.w3.org/1999/xhtml\">"));
         else
             Assert.assertTrue(outDocContents.contains("<html>"));
         //ExEnd
@@ -1133,14 +1131,14 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         if (exportDropDownFormFieldAsText)
             Assert.assertTrue(outDocContents.contains(
-                "<span>Two</span>"));
+                    "<span>Two</span>"));
         else
             Assert.assertTrue(outDocContents.contains(
-                "<select name=\"MyComboBox\">" +
-                    "<option>One</option>" +
-                    "<option selected=\"selected\">Two</option>" +
-                    "<option>Three</option>" +
-                "</select>"));
+                    "<select name=\"MyComboBox\">" +
+                        "<option>One</option>" +
+                        "<option selected=\"selected\">Two</option>" +
+                        "<option>Three</option>" +
+                    "</select>"));
         //ExEnd
     }
 
@@ -1175,8 +1173,8 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         String outDocContents = File.readAllText(getArtifactsDir() + "HtmlSaveOptions.ExportImagesAsBase64.html");
 
         Assert.assertTrue(exportImagesAsBase64
-            ? outDocContents.contains("<img src=\"data:image/png;base64")
-            : outDocContents.contains("<img src=\"HtmlSaveOptions.ExportImagesAsBase64.001.png\""));
+                ? outDocContents.contains("<img src=\"data:image/png;base64")
+                : outDocContents.contains("<img src=\"HtmlSaveOptions.ExportImagesAsBase64.001.png\""));
         //ExEnd
     }
 
@@ -1283,8 +1281,8 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        List list = doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
-        builder.getListFormat().setList(list);
+        List docList = doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
+        builder.getListFormat().setList(docList);
         
         builder.writeln("Default numbered list item 1.");
         builder.writeln("Default numbered list item 2.");
@@ -1292,8 +1290,8 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         builder.writeln("Default numbered list item 3.");
         builder.getListFormat().removeNumbers();
 
-        list = doc.getLists().add(ListTemplate.OUTLINE_HEADINGS_LEGAL);
-        builder.getListFormat().setList(list);
+        docList = doc.getLists().add(ListTemplate.OUTLINE_HEADINGS_LEGAL);
+        builder.getListFormat().setList(docList);
 
         builder.writeln("Outline legal heading list item 1.");
         builder.writeln("Outline legal heading list item 2.");
@@ -1322,38 +1320,38 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         {
             case ExportListLabels.AS_INLINE_TEXT:
                 Assert.assertTrue(outDocContents.contains(
-                    "<p style=\"margin-top:0pt; margin-left:72pt; margin-bottom:0pt; text-indent:-18pt; -aw-import:list-item; -aw-list-level-number:1; -aw-list-number-format:'%1.'; -aw-list-number-styles:'lowerLetter'; -aw-list-number-values:'1'; -aw-list-padding-sml:9.67pt\">" +
-                        "<span style=\"-aw-import:ignore\">" +
-                            "<span>a.</span>" +
-                            "<span style=\"width:9.67pt; font:7pt 'Times New Roman'; display:inline-block; -aw-import:spaces\">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span>" +
-                        "</span>" +
-                        "<span>Default numbered list item 3.</span>" +
-                    "</p>"));
+                        "<p style=\"margin-top:0pt; margin-left:72pt; margin-bottom:0pt; text-indent:-18pt; -aw-import:list-item; -aw-list-level-number:1; -aw-list-number-format:'%1.'; -aw-list-number-styles:'lowerLetter'; -aw-list-number-values:'1'; -aw-list-padding-sml:9.67pt\">" +
+                            "<span style=\"-aw-import:ignore\">" +
+                                "<span>a.</span>" +
+                                "<span style=\"width:9.67pt; font:7pt 'Times New Roman'; display:inline-block; -aw-import:spaces\">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span>" +
+                            "</span>" +
+                            "<span>Default numbered list item 3.</span>" +
+                        "</p>"));
 
                 Assert.assertTrue(outDocContents.contains(
-                    "<p style=\"margin-top:0pt; margin-left:43.2pt; margin-bottom:0pt; text-indent:-43.2pt; -aw-import:list-item; -aw-list-level-number:3; -aw-list-number-format:'%0.%1.%2.%3'; -aw-list-number-styles:'decimal decimal decimal decimal'; -aw-list-number-values:'2 1 1 1'; -aw-list-padding-sml:10.2pt\">" +
-                        "<span style=\"-aw-import:ignore\">" +
-                            "<span>2.1.1.1</span>" +
-                            "<span style=\"width:10.2pt; font:7pt 'Times New Roman'; display:inline-block; -aw-import:spaces\">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span>" +
-                        "</span>" +
-                        "<span>Outline legal heading list item 5.</span>" +
-                    "</p>"));
+                        "<p style=\"margin-top:0pt; margin-left:43.2pt; margin-bottom:0pt; text-indent:-43.2pt; -aw-import:list-item; -aw-list-level-number:3; -aw-list-number-format:'%0.%1.%2.%3'; -aw-list-number-styles:'decimal decimal decimal decimal'; -aw-list-number-values:'2 1 1 1'; -aw-list-padding-sml:10.2pt\">" +
+                            "<span style=\"-aw-import:ignore\">" +
+                                "<span>2.1.1.1</span>" +
+                                "<span style=\"width:10.2pt; font:7pt 'Times New Roman'; display:inline-block; -aw-import:spaces\">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span>" +
+                            "</span>" +
+                            "<span>Outline legal heading list item 5.</span>" +
+                        "</p>"));
                 break;
             case ExportListLabels.AUTO:
                 Assert.assertTrue(outDocContents.contains(
-                    "<ol type=\"a\" style=\"margin-right:0pt; margin-left:0pt; padding-left:0pt\">" +
-                        "<li style=\"margin-left:31.33pt; padding-left:4.67pt\">" +
-                            "<span>Default numbered list item 3.</span>" +
-                        "</li>" +
-                    "</ol>"));
+                        "<ol type=\"a\" style=\"margin-right:0pt; margin-left:0pt; padding-left:0pt\">" +
+                            "<li style=\"margin-left:31.33pt; padding-left:4.67pt\">" +
+                                "<span>Default numbered list item 3.</span>" +
+                            "</li>" +
+                        "</ol>"));
                 break;
             case ExportListLabels.BY_HTML_TAGS:
                 Assert.assertTrue(outDocContents.contains(
-                    "<ol type=\"a\" style=\"margin-right:0pt; margin-left:0pt; padding-left:0pt\">" +
-                        "<li style=\"margin-left:31.33pt; padding-left:4.67pt\">" +
-                            "<span>Default numbered list item 3.</span>" +
-                        "</li>" +
-                    "</ol>"));
+                        "<ol type=\"a\" style=\"margin-right:0pt; margin-left:0pt; padding-left:0pt\">" +
+                            "<li style=\"margin-left:31.33pt; padding-left:4.67pt\">" +
+                                "<span>Default numbered list item 3.</span>" +
+                            "</li>" +
+                        "</ol>"));
                 break;
         }
         //ExEnd
@@ -1458,29 +1456,29 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         if (exportPageSetup)
         {
             Assert.assertTrue(outDocContents.contains(
-                "<style type=\"text/css\">" +
-                    "@page Section_1 { size:419.55pt 595.3pt; margin:36pt 70.85pt; -aw-footer-distance:35.4pt; -aw-header-distance:35.4pt }" +
-                    "@page Section_2 { size:612pt 792pt; margin:70.85pt; -aw-footer-distance:35.4pt; -aw-header-distance:35.4pt }" +
-                    "div.Section_1 { page:Section_1 }div.Section_2 { page:Section_2 }" +
-                "</style>"));
+                    "<style type=\"text/css\">" +
+                        "@page Section_1 { size:419.55pt 595.3pt; margin:36pt 70.85pt; -aw-footer-distance:35.4pt; -aw-header-distance:35.4pt }" +
+                        "@page Section_2 { size:612pt 792pt; margin:70.85pt; -aw-footer-distance:35.4pt; -aw-header-distance:35.4pt }" +
+                        "div.Section_1 { page:Section_1 }div.Section_2 { page:Section_2 }" +
+                    "</style>"));
 
             Assert.assertTrue(outDocContents.contains(
-                "<div class=\"Section_1\">" +
-                    "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                        "<span>Section 1</span>" +
-                    "</p>" +
-                "</div>"));
+                    "<div class=\"Section_1\">" +
+                        "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
+                            "<span>Section 1</span>" +
+                        "</p>" +
+                    "</div>"));
         }
         else
         {
             Assert.assertFalse(outDocContents.contains("style type=\"text/css\">"));
 
             Assert.assertTrue(outDocContents.contains(
-                "<div>" +
-                    "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                        "<span>Section 1</span>" +
-                    "</p>" +
-                "</div>"));
+                    "<div>" +
+                        "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
+                            "<span>Section 1</span>" +
+                        "</p>" +
+                    "</div>"));
         }
         //ExEnd
     }
@@ -1526,36 +1524,36 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         if (exportRelativeFontSize)
         {
             Assert.assertTrue(outDocContents.contains(
-                "<body style=\"font-family:'Times New Roman'\">" +
-                    "<div>" +
-                        "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                            "<span>Default font size, </span>" +
-                        "</p>" +
-                        "<p style=\"margin-top:0pt; margin-bottom:0pt; font-size:2em\">" +
-                            "<span>2x default font size,</span>" +
-                        "</p>" +
-                        "<p style=\"margin-top:0pt; margin-bottom:0pt; font-size:8em\">" +
-                            "<span>8x default font size</span>" +
-                        "</p>" +
-                    "</div>" +
-                "</body>"));
+                    "<body style=\"font-family:'Times New Roman'\">" +
+                        "<div>" +
+                            "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
+                                "<span>Default font size, </span>" +
+                            "</p>" +
+                            "<p style=\"margin-top:0pt; margin-bottom:0pt; font-size:2em\">" +
+                                "<span>2x default font size,</span>" +
+                            "</p>" +
+                            "<p style=\"margin-top:0pt; margin-bottom:0pt; font-size:8em\">" +
+                                "<span>8x default font size</span>" +
+                            "</p>" +
+                        "</div>" +
+                    "</body>"));
         }
         else
         {
             Assert.assertTrue(outDocContents.contains(
-                "<body style=\"font-family:'Times New Roman'; font-size:12pt\">" +
-                    "<div>" +
-                        "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                            "<span>Default font size, </span>" +
-                        "</p>" +
-                        "<p style=\"margin-top:0pt; margin-bottom:0pt; font-size:24pt\">" +
-                            "<span>2x default font size,</span>" +
-                        "</p>" +
-                        "<p style=\"margin-top:0pt; margin-bottom:0pt; font-size:96pt\">" +
-                            "<span>8x default font size</span>" +
-                        "</p>" +
-                    "</div>" +
-                "</body>"));
+                    "<body style=\"font-family:'Times New Roman'; font-size:12pt\">" +
+                        "<div>" +
+                            "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
+                                "<span>Default font size, </span>" +
+                            "</p>" +
+                            "<p style=\"margin-top:0pt; margin-bottom:0pt; font-size:24pt\">" +
+                                "<span>2x default font size,</span>" +
+                            "</p>" +
+                            "<p style=\"margin-top:0pt; margin-bottom:0pt; font-size:96pt\">" +
+                                "<span>8x default font size</span>" +
+                            "</p>" +
+                        "</div>" +
+                    "</body>"));
         }
         //ExEnd
     }
@@ -1599,16 +1597,16 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         if (exportShapesAsSvg)
         {
             Assert.assertTrue(outDocContents.contains(
-                "<span style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\">" +
-                "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"133\" height=\"80\">"));
+                    "<span style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\">" +
+                    "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"133\" height=\"80\">"));
         }
         else
         {
             Assert.assertTrue(outDocContents.contains(
-                "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                    "<img src=\"HtmlSaveOptions.ExportTextBox.001.png\" width=\"136\" height=\"83\" alt=\"\" " +
-                    "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />" +
-                "</p>"));
+                    "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
+                        "<img src=\"HtmlSaveOptions.ExportTextBox.001.png\" width=\"136\" height=\"83\" alt=\"\" " +
+                        "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />" +
+                    "</p>"));
         }
         //ExEnd
     }
@@ -1656,27 +1654,27 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
             Assert.assertTrue(outDocContents.contains("<span style=\"-aw-import:ignore\">&#xa0;</span>"));
 
             Assert.assertTrue(outDocContents.contains(
-                "td colspan=\"2\" style=\"width:210.6pt; border-style:solid; border-width:0.75pt 6pt 0.75pt 0.75pt; " +
-                "padding-right:2.4pt; padding-left:5.03pt; vertical-align:top; " +
-                "-aw-border-bottom:0.5pt single; -aw-border-left:0.5pt single; -aw-border-top:0.5pt single\">"));
+                    "td colspan=\"2\" style=\"width:210.6pt; border-style:solid; border-width:0.75pt 6pt 0.75pt 0.75pt; " +
+                    "padding-right:2.4pt; padding-left:5.03pt; vertical-align:top; " +
+                    "-aw-border-bottom:0.5pt single; -aw-border-left:0.5pt single; -aw-border-top:0.5pt single\">"));
 
             Assert.assertTrue(outDocContents.contains(
-                "<li style=\"margin-left:30.2pt; padding-left:5.8pt; -aw-font-family:'Courier New'; -aw-font-weight:normal; -aw-number-format:'o'\">"));
+                    "<li style=\"margin-left:30.2pt; padding-left:5.8pt; -aw-font-family:'Courier New'; -aw-font-weight:normal; -aw-number-format:'o'\">"));
 
             Assert.assertTrue(outDocContents.contains(
-                "<img src=\"HtmlSaveOptions.RoundTripInformation.003.jpeg\" width=\"350\" height=\"180\" alt=\"\" " +
-                "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />"));
+                    "<img src=\"HtmlSaveOptions.RoundTripInformation.003.jpeg\" width=\"350\" height=\"180\" alt=\"\" " +
+                    "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />"));
 
 
             Assert.assertTrue(outDocContents.contains(
-                "<span>Page number </span>" +
-                "<span style=\"-aw-field-start:true\"></span>" +
-                "<span style=\"-aw-field-code:' PAGE   \\\\* MERGEFORMAT '\"></span>" +
-                "<span style=\"-aw-field-separator:true\"></span>" +
-                "<span>1</span>" +
-                "<span style=\"-aw-field-end:true\"></span>"));
+                    "<span>Page number </span>" +
+                    "<span style=\"-aw-field-start:true\"></span>" +
+                    "<span style=\"-aw-field-code:' PAGE   \\\\* MERGEFORMAT '\"></span>" +
+                    "<span style=\"-aw-field-separator:true\"></span>" +
+                    "<span>1</span>" +
+                    "<span style=\"-aw-field-end:true\"></span>"));
 
-            Assert.AreEqual(1, doc.getRange().getFields().Count(f => f.Type == FieldType.FieldPage));
+            Assert.That(doc.getRange().getFields().Count(f => f.Type == FieldType.FieldPage), assertEquals(1, );
         }
         else
         {
@@ -1684,19 +1682,19 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
             Assert.assertTrue(outDocContents.contains("<span>&#xa0;</span>"));
 
             Assert.assertTrue(outDocContents.contains(
-                "<td colspan=\"2\" style=\"width:210.6pt; border-style:solid; border-width:0.75pt 6pt 0.75pt 0.75pt; " +
-                "padding-right:2.4pt; padding-left:5.03pt; vertical-align:top\">"));
+                    "<td colspan=\"2\" style=\"width:210.6pt; border-style:solid; border-width:0.75pt 6pt 0.75pt 0.75pt; " +
+                    "padding-right:2.4pt; padding-left:5.03pt; vertical-align:top\">"));
             
             Assert.assertTrue(outDocContents.contains(
-                "<li style=\"margin-left:30.2pt; padding-left:5.8pt\">"));
+                    "<li style=\"margin-left:30.2pt; padding-left:5.8pt\">"));
 
             Assert.assertTrue(outDocContents.contains(
-                "<img src=\"HtmlSaveOptions.RoundTripInformation.003.jpeg\" width=\"350\" height=\"180\" alt=\"\" />"));
+                    "<img src=\"HtmlSaveOptions.RoundTripInformation.003.jpeg\" width=\"350\" height=\"180\" alt=\"\" />"));
 
             Assert.assertTrue(outDocContents.contains(
-                "<span>Page number 1</span>"));
+                    "<span>Page number 1</span>"));
 
-            Assert.AreEqual(0, doc.getRange().getFields().Count(f => f.Type == FieldType.FieldPage));
+            Assert.That(doc.getRange().getFields().Count(f => f.Type == FieldType.FieldPage), assertEquals(0, );
         }
         //ExEnd
     }
@@ -1753,18 +1751,18 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         if (exportTocPageNumbers)
         {
             Assert.assertTrue(outDocContents.contains(
-                "<span>Entry 1</span>" +
-                "<span style=\"width:428.14pt; font-family:'Lucida Console'; font-size:10pt; display:inline-block; -aw-font-family:'Times New Roman'; " +
-                "-aw-tabstop-align:right; -aw-tabstop-leader:dots; -aw-tabstop-pos:469.8pt\">.......................................................................</span>" +
-                "<span>2</span>" +
-                "</p>"));
+                    "<span>Entry 1</span>" +
+                    "<span style=\"width:428.14pt; font-family:'Lucida Console'; font-size:10pt; display:inline-block; -aw-font-family:'Times New Roman'; " +
+                    "-aw-tabstop-align:right; -aw-tabstop-leader:dots; -aw-tabstop-pos:469.8pt\">.......................................................................</span>" +
+                    "<span>2</span>" +
+                    "</p>"));
         }
         else
         {
             Assert.assertTrue(outDocContents.contains(
-                "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                "<span>Entry 2</span>" +
-                "</p>"));
+                    "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
+                    "<span>Entry 2</span>" +
+                    "</p>"));
         }
         //ExEnd
     }
@@ -1883,22 +1881,22 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         {
             case HtmlMetafileFormat.PNG:
                 Assert.assertTrue(outDocContents.contains(
-                    "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                        "<img src=\"HtmlSaveOptions.MetafileFormat.001.png\" width=\"500\" height=\"40\" alt=\"\" " +
-                        "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />" +
-                    "</p>"));
+                        "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
+                            "<img src=\"HtmlSaveOptions.MetafileFormat.001.png\" width=\"500\" height=\"40\" alt=\"\" " +
+                            "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />" +
+                        "</p>"));
                 break;
             case HtmlMetafileFormat.SVG:
                 Assert.assertTrue(outDocContents.contains(
-                    "<span style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\">" +
-                    "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"499\" height=\"40\">"));
+                        "<span style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\">" +
+                        "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"499\" height=\"40\">"));
                 break;
             case HtmlMetafileFormat.EMF_OR_WMF:
                 Assert.assertTrue(outDocContents.contains(
-                    "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                        "<img src=\"HtmlSaveOptions.MetafileFormat.001.emf\" width=\"500\" height=\"40\" alt=\"\" " +
-                        "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />" +
-                    "</p>"));
+                        "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
+                            "<img src=\"HtmlSaveOptions.MetafileFormat.001.emf\" width=\"500\" height=\"40\" alt=\"\" " +
+                            "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />" +
+                        "</p>"));
                 break;
         }
         //ExEnd
@@ -1942,30 +1940,30 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         {
             case HtmlOfficeMathOutputMode.IMAGE:
                 Assert.assertTrue(Regex.match(outDocContents,
-                    "<p style=\"margin-top:0pt; margin-bottom:10pt\">" +
-                        "<img src=\"HtmlSaveOptions.OfficeMathOutputMode.001.png\" width=\"163\" height=\"19\" alt=\"\" style=\"vertical-align:middle; " +
-                        "-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />" +
-                    "</p>").getSuccess());
+                        "<p style=\"margin-top:0pt; margin-bottom:10pt\">" +
+                            "<img src=\"HtmlSaveOptions.OfficeMathOutputMode.001.png\" width=\"163\" height=\"19\" alt=\"\" style=\"vertical-align:middle; " +
+                            "-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />" +
+                        "</p>").getSuccess());
                 break;
             case HtmlOfficeMathOutputMode.MATH_ML:
                 Assert.assertTrue(Regex.match(outDocContents,
-                    "<p style=\"margin-top:0pt; margin-bottom:10pt; text-align:center\">" +
-                        "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">" +
-                            "<mi>i</mi>" +
-                            "<mo>[+]</mo>" +
-                            "<mi>b</mi>" +
-                            "<mo>-</mo>" +
-                            "<mi>c</mi>" +
-                            "<mo>≥</mo>" +
-                            ".*" +
-                        "</math>" +
-                    "</p>").getSuccess());
+                        "<p style=\"margin-top:0pt; margin-bottom:10pt; text-align:center\">" +
+                            "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">" +
+                                "<mi>i</mi>" +
+                                "<mo>[+]</mo>" +
+                                "<mi>b</mi>" +
+                                "<mo>-</mo>" +
+                                "<mi>c</mi>" +
+                                "<mo>≥</mo>" +
+                                ".*" +
+                            "</math>" +
+                        "</p>").getSuccess());
                 break;
             case HtmlOfficeMathOutputMode.TEXT:
                 Assert.assertTrue(Regex.match(outDocContents,
-                    "<p style=\\\"margin-top:0pt; margin-bottom:10pt; text-align:center\\\">" +
-                        "<span style=\\\"font-family:'Cambria Math'\\\">i[+]b-c≥iM[+]bM-cM </span>" +
-                    "</p>").getSuccess());
+                        "<p style=\\\"margin-top:0pt; margin-bottom:10pt; text-align:center\\\">" +
+                            "<span style=\\\"font-family:'Cambria Math'\\\">i[+]b-c≥iM[+]bM-cM </span>" +
+                        "</p>").getSuccess());
                 break;
         }
         //ExEnd
@@ -2125,38 +2123,34 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         // Enabling pretty format makes the raw html code more readable by adding tab stop and new line characters.
         String html = File.readAllText(getArtifactsDir() + "HtmlSaveOptions.PrettyFormat.html");
-        String newLine = Environment.getNewLine();
 
+        String newLine = Environment.getNewLine();
         if (usePrettyFormat)
-            Assert.assertEquals(
-                $"<html>{newLine}" +
-                            $"\t<head>{newLine}" +
-                                $"\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />{newLine}" +
-                                $"\t\t<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />{newLine}" +
-                                $"\t\t<meta name=\"generator\" content=\"{BuildVersionInfo.Product} {BuildVersionInfo.Version}\" />{newLine}" +
-                                $"\t\t<title>{newLine}" +
-                                $"\t\t</title>{newLine}" +
-                            $"\t</head>{newLine}" +
-                            $"\t<body style=\"font-family:'Times New Roman'; font-size:12pt\">{newLine}" +
-                                $"\t\t<div>{newLine}" +
-                                    $"\t\t\t<p style=\"margin-top:0pt; margin-bottom:0pt\">{newLine}" +
-                                        $"\t\t\t\t<span>Hello world!</span>{newLine}" +
-                                    $"\t\t\t</p>{newLine}" +
-                                    $"\t\t\t<p style=\"margin-top:0pt; margin-bottom:0pt\">{newLine}" +
-                                        $"\t\t\t\t<span style=\"-aw-import:ignore\">&#xa0;</span>{newLine}" +
-                                    $"\t\t\t</p>{newLine}" +
-                                $"\t\t</div>{newLine}" +
-                            $"\t</body>{newLine}</html>", 
-                html);
+            Assert.assertEquals("<html>{newLine}" +
+                                $"\t<head>{newLine}" +
+                                    $"\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />{newLine}" +
+                                    $"\t\t<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />{newLine}" +
+                                    $"\t\t<meta name=\"generator\" content=\"{BuildVersionInfo.Product} {BuildVersionInfo.Version}\" />{newLine}" +
+                                    $"\t\t<title>{newLine}" +
+                                    $"\t\t</title>{newLine}" +
+                                $"\t</head>{newLine}" +
+                                $"\t<body style=\"font-family:'Times New Roman'; font-size:12pt\">{newLine}" +
+                                    $"\t\t<div>{newLine}" +
+                                        $"\t\t\t<p style=\"margin-top:0pt; margin-bottom:0pt\">{newLine}" +
+                                            $"\t\t\t\t<span>Hello world!</span>{newLine}" +
+                                        $"\t\t\t</p>{newLine}" +
+                                        $"\t\t\t<p style=\"margin-top:0pt; margin-bottom:0pt\">{newLine}" +
+                                            $"\t\t\t\t<span style=\"-aw-import:ignore\">&#xa0;</span>{newLine}" +
+                                        $"\t\t\t</p>{newLine}" +
+                                    $"\t\t</div>{newLine}" +
+                                $"\t</body>{newLine}</html>", html);
         else
-            Assert.assertEquals(
-                "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />" +
-                        "<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />" +
-                        $"<meta name=\"generator\" content=\"{BuildVersionInfo.Product} {BuildVersionInfo.Version}\" /><title></title></head>" +
-                        "<body style=\"font-family:'Times New Roman'; font-size:12pt\">" +
-                        "<div><p style=\"margin-top:0pt; margin-bottom:0pt\"><span>Hello world!</span></p>" +
-                        "<p style=\"margin-top:0pt; margin-bottom:0pt\"><span style=\"-aw-import:ignore\">&#xa0;</span></p></div></body></html>", 
-                html);
+            Assert.assertEquals("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />" +
+                            "<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />" +
+                            $"<meta name=\"generator\" content=\"{BuildVersionInfo.Product} {BuildVersionInfo.Version}\" /><title></title></head>" +
+                            "<body style=\"font-family:'Times New Roman'; font-size:12pt\">" +
+                            "<div><p style=\"margin-top:0pt; margin-bottom:0pt\"><span>Hello world!</span></p>" +
+                            "<p style=\"margin-top:0pt; margin-bottom:0pt\"><span style=\"-aw-import:ignore\">&#xa0;</span></p></div></body></html>", html);
         //ExEnd
     }
 
@@ -2191,7 +2185,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         IllegalStateException exception = Assert.<IllegalStateException>Throws(() =>
             doc.save(getArtifactsDir() + $"HtmlSaveOptions.ProgressCallback.{ext}", saveOptions));
-        Assert.True(exception?.Message.Contains("EstimatedProgress"));
+        Assert.That(exception?.Message.Contains("EstimatedProgress"), assertTrue();
     }
 
 	//JAVA-added data provider for test method
@@ -2216,7 +2210,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         /// </summary>
         public SavingProgressCallback()
         {
-            mSavingStartedAt = new Date();
+            mSavingStartedAt = new Date;
         }
 
         /// <summary>
@@ -2225,7 +2219,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         /// <param name="args">Saving arguments.</param>
         public void notify(DocumentSavingArgs args)
         {
-            DateTime canceledAt = new Date();
+            DateTime canceledAt = new Date;
             double ellapsedSeconds = (DateTime.subtract(canceledAt, mSavingStartedAt)).getTotalSeconds();
             if (ellapsedSeconds > MAX_DURATION)
                 throw new IllegalStateException($"EstimatedProgress = {args.EstimatedProgress}; CanceledAt = {canceledAt}");
@@ -2256,7 +2250,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         doc.save(outputFileName);
 
         Encoding encoding = TestUtil.getEncoding(outputFileName);
-        Assert.assertNotEquals(Encoding.getASCII(), encoding);
+        Assert.Is.Not.EqualTo(Encoding.getASCII())encoding);
         Assert.assertEquals(Encoding.getUTF8(), encoding);
     }
 

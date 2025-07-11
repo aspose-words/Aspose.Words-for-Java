@@ -12,6 +12,7 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import java.util.Iterator;
 import com.aspose.words.Style;
 import com.aspose.ms.System.msConsole;
@@ -106,7 +107,7 @@ public class ExStyles extends ApiExampleBase
         firstParagraphStyle = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getStyle();
 
         // Any text that used a removed style reverts to the default formatting.
-        Assert.False(doc.getStyles().Any(s => s.Name == "MyStyle"));
+        Assert.That(doc.getStyles().Any(s => s.Name == "MyStyle"), assertFalse();
         Assert.assertEquals("Times New Roman", firstParagraphStyle.getFont().getName());
         Assert.assertEquals(12.0d, firstParagraphStyle.getFont().getSize());
         Assert.assertEquals(msColor.Empty.getRGB(), firstParagraphStyle.getFont().getColor().getRGB());
@@ -223,7 +224,7 @@ public class ExStyles extends ApiExampleBase
         Assert.assertEquals(doc.getStyles().get("Heading 1").getType(), newStyle.getType());
         Assert.assertEquals(doc.getStyles().get("Heading 1").getFont().getName(), newStyle.getFont().getName());
         Assert.assertEquals(doc.getStyles().get("Heading 1").getFont().getSize(), newStyle.getFont().getSize());
-        Assert.assertNotEquals(doc.getStyles().get("Heading 1").getFont().getColor(), newStyle.getFont().getColor());
+        Assert.Is.Not.EqualTo(doc.getStyles().get("Heading 1").getFont().getColor())newStyle.getFont().getColor());
         //ExEnd
     }
 
@@ -343,8 +344,7 @@ public class ExStyles extends ApiExampleBase
         builder.getParagraphFormat().setStyle(doc.getStyles().get("MyStyle Alias 2"));
         builder.write("Hello again!");
 
-        Assert.assertEquals(doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getStyle(), 
-            doc.getFirstSection().getBody().getParagraphs().get(1).getParagraphFormat().getStyle());
+        Assert.assertEquals(doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getStyle(), doc.getFirstSection().getBody().getParagraphs().get(1).getParagraphFormat().getStyle());
         //ExEnd
     }
 

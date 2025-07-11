@@ -14,6 +14,7 @@ import com.aspose.words.Document;
 import com.aspose.words.GlossaryDocument;
 import com.aspose.words.BuildingBlock;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.Guid;
 import com.aspose.words.BuildingBlockType;
 import com.aspose.words.BuildingBlockGallery;
@@ -90,7 +91,7 @@ public class ExBuildingBlocks extends ApiExampleBase
             "My custom building blocks", "Custom Block");
 
         // The block itself is a section that contains the text.
-        Assert.assertEquals($"Text inside {customBlock.Name}\f", customBlock.getFirstSection().getBody().getFirstParagraph().getText());
+        Assert.assertEquals("Text inside {customBlock.Name}\f", customBlock.getFirstSection().getBody().getFirstParagraph().getText());
         Assert.assertEquals(customBlock.getFirstSection(), customBlock.getLastSection());
         Assert.DoesNotThrow(() => Guid.parse(customBlock.getGuidInternal().toString())); //ExSkip
         Assert.assertEquals("My custom building blocks", customBlock.getCategory()); //ExSkip
@@ -196,8 +197,7 @@ public class ExBuildingBlocks extends ApiExampleBase
         Assert.assertEquals("Block 3", glossaryDoc.getBuildingBlocks().toArray()[2].getName());
 
         // 3 -  Get the first building block that matches a gallery, name and category:
-        Assert.assertEquals("Block 4", 
-            glossaryDoc.getBuildingBlock(BuildingBlockGallery.ALL, "(Empty Category)", "Block 4").getName());
+        Assert.assertEquals("Block 4", glossaryDoc.getBuildingBlock(BuildingBlockGallery.ALL, "(Empty Category)", "Block 4").getName());
 
         // We will do that using a custom visitor,
         // which will give every BuildingBlock in the GlossaryDocument a unique GUID

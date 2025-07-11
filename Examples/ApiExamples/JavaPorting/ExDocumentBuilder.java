@@ -17,6 +17,7 @@ import java.awt.Color;
 import com.aspose.words.Underline;
 import com.aspose.words.Run;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.HeaderFooterType;
 import com.aspose.words.BreakType;
 import com.aspose.words.HeaderFooterCollection;
@@ -102,7 +103,6 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import com.aspose.words.OlePackage;
 import com.aspose.words.HtmlInsertOptions;
-import com.aspose.words.PhoneticGuide;
 import org.testng.annotations.DataProvider;
 
 
@@ -185,7 +185,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc.save(getArtifactsDir() + "DocumentBuilder.HeadersAndFooters.docx");
         //ExEnd
 
-        HeaderFooterCollection headersFooters = 
+        HeaderFooterCollection headersFooters =
             new Document(getArtifactsDir() + "DocumentBuilder.HeadersAndFooters.docx").getFirstSection().getHeadersFooters();
 
         Assert.assertEquals(3, headersFooters.getCount());
@@ -225,12 +225,12 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "DocumentBuilder.MergeFields.docx");
 
         Assert.assertEquals("\u0013MERGEFIELD MyMergeField1 \\* MERGEFORMAT\u0014«MyMergeField1»\u0015" +
-                        " Text between our merge fields. " +
-                        "\u0013MERGEFIELD MyMergeField2 \\* MERGEFORMAT\u0014«MyMergeField2»\u0015", doc.getText().trim());
+                            " Text between our merge fields. " +
+                            "\u0013MERGEFIELD MyMergeField2 \\* MERGEFORMAT\u0014«MyMergeField2»\u0015", doc.getText().trim());
         Assert.assertEquals(2, doc.getRange().getFields().getCount());
-        TestUtil.verifyField(FieldType.FIELD_MERGE_FIELD, "MERGEFIELD MyMergeField1 \\* MERGEFORMAT", 
+        TestUtil.verifyField(FieldType.FIELD_MERGE_FIELD, "MERGEFIELD MyMergeField1 \\* MERGEFORMAT",
             "«MyMergeField1»", doc.getRange().getFields().get(0));
-        TestUtil.verifyField(FieldType.FIELD_MERGE_FIELD, "MERGEFIELD MyMergeField2 \\* MERGEFORMAT", 
+        TestUtil.verifyField(FieldType.FIELD_MERGE_FIELD, "MERGEFIELD MyMergeField2 \\* MERGEFORMAT",
             "«MyMergeField2»", doc.getRange().getFields().get(1));
     }
 
@@ -384,8 +384,8 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals("here", runs.get(2).getText().trim());
         Assert.assertEquals(Color.BLUE.getRGB(), runs.get(2).getFont().getColor().getRGB());
         Assert.assertEquals(Underline.SINGLE, runs.get(2).getFont().getUnderline());
-        Assert.assertNotEquals(runs.get(0).getFont().getColor(), runs.get(2).getFont().getColor());
-        Assert.assertNotEquals(runs.get(0).getFont().getUnderline(), runs.get(2).getFont().getUnderline());
+        Assert.Is.Not.EqualTo(runs.get(0).getFont().getColor())runs.get(2).getFont().getColor());
+        Assert.Is.Not.EqualTo(runs.get(0).getFont().getUnderline())runs.get(2).getFont().getUnderline());
 
         Assert.assertEquals("http://www.google.com", ((FieldHyperlink)doc.getRange().getFields().get(0)).getAddress());
     }
@@ -451,7 +451,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         {
             // If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
             // the icon according to the file extension and uses the filename for the icon caption.
-            builder.insertOleObjectInternal(getMyDir() + "Spreadsheet.xlsx", false, false, imageStream); 
+            builder.insertOleObjectInternal(getMyDir() + "Spreadsheet.xlsx", false, false, imageStream);
         }
         finally { if (imageStream != null) imageStream.close(); }
 
@@ -498,9 +498,9 @@ public class ExDocumentBuilder extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        final String HTML = "<p align='right'>Paragraph right</p>" + 
+        final String HTML = "<p align='right'>Paragraph right</p>" +
                             "<b>Implicit paragraph left</b>" +
-                            "<div align='center'>Div center</div>" + 
+                            "<div align='center'>Div center</div>" +
                             "<h1 align='left'>Heading 1 left.</h1>";
 
         builder.insertHtml(HTML);
@@ -550,8 +550,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         // The second paragraph has no alignment specified. It can have its alignment value filled in
         // by the builder's value depending on the flag we passed to the InsertHtml method.
         Assert.assertEquals("Paragraph 2.", paragraphs.get(1).getText().trim());
-        Assert.assertEquals(useBuilderFormatting ? ParagraphAlignment.DISTRIBUTED : ParagraphAlignment.LEFT,
-            paragraphs.get(1).getParagraphFormat().getAlignment());
+        Assert.assertEquals(useBuilderFormatting ? ParagraphAlignment.DISTRIBUTED : ParagraphAlignment.LEFT, paragraphs.get(1).getParagraphFormat().getAlignment());
 
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertHtmlWithFormatting.docx");
         //ExEnd
@@ -600,7 +599,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.startBookmark("MyBookmark");
         builder.writeln("Hello world!");
         builder.endBookmark("MyBookmark");
-        
+
         Assert.assertEquals(1, doc.getRange().getBookmarks().getCount());
         Assert.assertEquals("MyBookmark", doc.getRange().getBookmarks().get(0).getName());
         Assert.assertEquals("Hello world!", doc.getRange().getBookmarks().get(0).getText().trim());
@@ -668,7 +667,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         // Form fields are objects in the document that the user can interact with by being prompted to enter values.
         // We can create them using a document builder, and below are two ways of doing so.
         // 1 -  Basic text input:
-        builder.insertTextInput("My text input", TextFormFieldType.REGULAR, 
+        builder.insertTextInput("My text input", TextFormFieldType.REGULAR,
             "", "Enter your name here", 30);
 
         // 2 -  Combo box with prompt text, and a range of possible values:
@@ -696,10 +695,10 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(TextFormFieldType.REGULAR, formField.getTextInputType());
         Assert.assertEquals("-- Select your favorite footwear --", formField.getResult());
         Assert.assertEquals(0, formField.getDropDownSelectedIndex());
-        Assert.AreEqual(new String[]
-        {
-            "-- Select your favorite footwear --", "Sneakers", "Oxfords", "Flip-flops", "Other"
-        }, formField.getDropDownItems().ToArray());
+        Assert.That(formField.getDropDownItems().ToArray(), assertEquals(new String[]
+            {
+                "-- Select your favorite footwear --", "Sneakers", "Oxfords", "Flip-flops", "Other"
+            }, );
     }
 
     @Test
@@ -779,7 +778,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Create a valid bookmark, an entity that consists of nodes enclosed by a bookmark start node,
-        // and a bookmark end node. 
+        // and a bookmark end node.
         builder.startBookmark("MyBookmark");
         builder.write("Bookmark contents.");
         builder.endBookmark("MyBookmark");
@@ -936,7 +935,7 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:DocumentBuilder
-        //ExFor:DocumentBuilder.Write
+        //ExFor:DocumentBuilder.Write(String)
         //ExFor:DocumentBuilder.StartTable
         //ExFor:DocumentBuilder.InsertCell
         //ExFor:DocumentBuilder.EndRow
@@ -1117,12 +1116,10 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc.expandTableStylesToDirectFormatting();
 
         Assert.assertEquals("Medium Shading 1 Accent 1", table.getStyle().getName());
-        Assert.assertEquals(TableStyleOptions.FIRST_COLUMN | TableStyleOptions.ROW_BANDS | TableStyleOptions.FIRST_ROW,
-            table.getStyleOptions());
-        Assert.assertEquals(189, (table.getFirstRow().getFirstCell().getCellFormat().getShading().getBackgroundPatternColor().getBlue() & 0xFF));
+        Assert.assertEquals(TableStyleOptions.FIRST_COLUMN | TableStyleOptions.ROW_BANDS | TableStyleOptions.FIRST_ROW, table.getStyleOptions());
+        Assert.assertEquals(189, table.getFirstRow().getFirstCell().getCellFormat().getShading().getBackgroundPatternColor().getBlue());
         Assert.assertEquals(Color.WHITE.getRGB(), table.getFirstRow().getFirstCell().getFirstParagraph().getRuns().get(0).getFont().getColor().getRGB());
-        Assert.assertNotEquals(msColor.getLightBlue().getRGB(),
-            (table.getLastRow().getFirstCell().getCellFormat().getShading().getBackgroundPatternColor().getBlue() & 0xFF));
+        Assert.Is.Not.EqualTo(msColor.getLightBlue().getRGB())table.getLastRow().getFirstCell().getCellFormat().getShading().getBackgroundPatternColor().getBlue());
         Assert.assertEquals(msColor.Empty.getRGB(), table.getLastRow().getFirstCell().getFirstParagraph().getRuns().get(0).getFont().getColor().getRGB());
     }
 
@@ -1131,7 +1128,7 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:RowFormat.HeadingFormat
-        //ExSummary:Shows how to build a table with rows that repeat on every page. 
+        //ExSummary:Shows how to build a table with rows that repeat on every page.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1241,8 +1238,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.getCellFormat().setPreferredWidth(PreferredWidth.AUTO);
 
         // Each configuration of the "PreferredWidth" property creates a new object.
-        Assert.assertNotEquals(table.getFirstRow().getCells().get(1).getCellFormat().getPreferredWidth().hashCode(),
-            builder.getCellFormat().getPreferredWidth().hashCode());
+        Assert.Is.Not.EqualTo(table.getFirstRow().getCells().get(1).getCellFormat().getPreferredWidth().hashCode())builder.getCellFormat().getPreferredWidth().hashCode());
 
         builder.getCellFormat().getShading().setBackgroundPatternColor(msColor.getLightGreen());
         builder.writeln("Automatically sized cell.");
@@ -1329,7 +1325,7 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:DocumentBuilder
-        //ExFor:DocumentBuilder.Write
+        //ExFor:DocumentBuilder.Write(String)
         //ExFor:DocumentBuilder.InsertCell
         //ExSummary:Shows how to use a document builder to create a table.
         Document doc = new Document();
@@ -1517,10 +1513,8 @@ public class ExDocumentBuilder extends ApiExampleBase
             Assert.assertEquals(LineStyle.SINGLE, c.getCellFormat().getBorders().getLeft().getLineStyle());
         }
 
-        Assert.assertEquals(msColor.getLightSkyBlue().getRGB(),
-            table.getFirstRow().getFirstCell().getCellFormat().getShading().getBackgroundPatternColor().getRGB());
-        Assert.assertEquals(msColor.getOrange().getRGB(),
-            table.getFirstRow().getCells().get(1).getCellFormat().getShading().getBackgroundPatternColor().getRGB());
+        Assert.assertEquals(msColor.getLightSkyBlue().getRGB(), table.getFirstRow().getFirstCell().getCellFormat().getShading().getBackgroundPatternColor().getRGB());
+        Assert.assertEquals(msColor.getOrange().getRGB(), table.getFirstRow().getCells().get(1).getCellFormat().getShading().getBackgroundPatternColor().getRGB());
 
         for (Cell c : (Iterable<Cell>) table.getLastRow())
         {
@@ -1584,7 +1578,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         TestUtil.verifyField(FieldType.FIELD_HYPERLINK, " HYPERLINK \\l \"Bookmark1\" \\o \"Hyperlink Tip\" ", "Link to Bookmark1", hyperlink);
         Assert.assertEquals("Bookmark1", hyperlink.getSubAddress());
         Assert.assertEquals("Hyperlink Tip", hyperlink.getScreenTip());
-        Assert.IsTrue(doc.getRange().getBookmarks().Any(b => b.Name == "Bookmark1"));
+        Assert.That(doc.getRange().getBookmarks().Any(b => b.Name == "Bookmark1"), assertTrue();
     }
 
     @Test
@@ -2033,12 +2027,12 @@ public class ExDocumentBuilder extends ApiExampleBase
             signOptions.setSignatureLineId(signatureLine.getIdInternal());
             signOptions.setProviderId(signatureLine.getProviderIdInternal());
             signOptions.setComments("Document was signed by vderyushev");
-            signOptions.setSignTime(new Date());
+            signOptions.setSignTime(new Date);
         }
 
         CertificateHolder certHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
-        DigitalSignatureUtil.sign(getArtifactsDir() + "DocumentBuilder.SignatureLineProviderId.docx", 
+        DigitalSignatureUtil.sign(getArtifactsDir() + "DocumentBuilder.SignatureLineProviderId.docx",
             getArtifactsDir() + "DocumentBuilder.SignatureLineProviderId.Signed.docx", certHolder, signOptions);
 
         // Re-open our saved document, and verify that the "IsSigned" and "IsValid" properties both equal "true",
@@ -2436,9 +2430,9 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.insertBreak(BreakType.PARAGRAPH_BREAK);
 
         dstDoc.getLists().add(ListTemplate.NUMBER_DEFAULT);
-        List list = dstDoc.getLists().get(0);
+        List docList = dstDoc.getLists().get(0);
 
-        builder.getListFormat().setList(list);
+        builder.getListFormat().setList(docList);
 
         for (int i = 1; i <= 15; i++)
             builder.write($"List Item {i}\n");
@@ -2592,16 +2586,14 @@ public class ExDocumentBuilder extends ApiExampleBase
             Assert.assertNull(builder.getCurrentNode());
             builder.write(" Text immediately after the field.");
 
-            Assert.assertEquals("\u0013 AUTHOR \"John Doe\" \u0014John Doe\u0015 Text immediately after the field.", 
-                doc.getText().trim());
+            Assert.assertEquals("\u0013 AUTHOR \"John Doe\" \u0014John Doe\u0015 Text immediately after the field.", doc.getText().trim());
         }
         else
         {
             Assert.assertEquals(field.getStart(), builder.getCurrentNode());
             builder.write("Text immediately before the field. ");
 
-            Assert.assertEquals("Text immediately before the field. \u0013 AUTHOR \"John Doe\" \u0014John Doe\u0015", 
-                doc.getText().trim());
+            Assert.assertEquals("Text immediately before the field. \u0013 AUTHOR \"John Doe\" \u0014John Doe\u0015", doc.getText().trim());
         }
         //ExEnd
     }
@@ -2635,7 +2627,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Chart chart = builder.insertChart(ChartType.PIE, ConvertUtil.pixelToPoint(300.0), 
+        Chart chart = builder.insertChart(ChartType.PIE, ConvertUtil.pixelToPoint(300.0),
             ConvertUtil.pixelToPoint(300.0)).getChart();
         Assert.assertEquals(225.0d, ConvertUtil.pixelToPoint(300.0)); //ExSkip
         chart.getSeries().clear();
@@ -2752,7 +2744,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc = DocumentHelper.saveOpen(doc);
 
         Assert.assertEquals("This document was written by \u0013 AUTHOR \u0014John Doe\u0015" +
-                        "\r\rThis is page \u0013 PAGE \u00141\u0015", doc.getText().trim());
+                            "\r\rThis is page \u0013 PAGE \u00141\u0015", doc.getText().trim());
 
         TestUtil.verifyField(FieldType.FIELD_AUTHOR, " AUTHOR ", "John Doe", doc.getRange().getFields().get(0));
         TestUtil.verifyField(FieldType.FIELD_PAGE, " PAGE ", "1", doc.getRange().getFields().get(1));
@@ -2825,9 +2817,9 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         public String formatNumeric(double value, String format)
         {
-            if (msString.isNullOrEmpty(mNumberFormat)) 
+            if (msString.isNullOrEmpty(mNumberFormat))
                 return null;
-            
+
             String newValue = MessageFormat.format(mNumberFormat, value);
             getFormatInvocations().add(new FormatInvocation(FormatInvocationType.NUMERIC, value, format, newValue));
             return newValue;
@@ -2881,11 +2873,11 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         private /*final*/ String mNumberFormat;
         private /*final*/ String mDateFormat;
-        private /*final*/ String mGeneralFormat; 
+        private /*final*/ String mGeneralFormat;
         private ArrayList<FieldResultFormatter.FormatInvocation> getFormatInvocations() { return mFormatInvocations; };
 
         private ArrayList<FieldResultFormatter.FormatInvocation> mFormatInvocations !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ ArrayList<FieldResultFormatter.FormatInvocation>list();
-        
+
         private static class FormatInvocation
         {
             public /*FormatInvocationType*/int getFormatInvocationType() { return mFormatInvocationType; };
@@ -3102,14 +3094,13 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertStyleSeparator.docx");
 
         Assert.assertEquals(2, doc.getFirstSection().getBody().getParagraphs().getCount());
-        Assert.assertEquals("This text is in a Heading style. \r This text is in a custom style.",
-            doc.getText().trim());
+        Assert.assertEquals("This text is in a Heading style. \r This text is in a custom style.", doc.getText().trim());
         Assert.assertEquals("Heading 1", doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getStyle().getName());
         Assert.assertEquals("MyParaStyle", doc.getFirstSection().getBody().getParagraphs().get(1).getParagraphFormat().getStyle().getName());
         Assert.assertEquals(" ", doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0).getText());
-        TestUtil.docPackageFileContainsString("w:rPr><w:vanish /><w:specVanish /></w:rPr>", 
+        TestUtil.docPackageFileContainsString("w:rPr><w:vanish /><w:specVanish /></w:rPr>",
             getArtifactsDir() + "DocumentBuilder.InsertStyleSeparator.docx", "document.xml");
-        TestUtil.docPackageFileContainsString("<w:t xml:space=\"preserve\"> </w:t>", 
+        TestUtil.docPackageFileContainsString("<w:t xml:space=\"preserve\"> </w:t>",
             getArtifactsDir() + "DocumentBuilder.InsertStyleSeparator.docx", "document.xml");
     }
 
@@ -3134,7 +3125,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         Assert.assertEquals(29, doc.getStyles().getCount());
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "DocumentBuilder.InsertDocument.docx",
-            getGoldsDir() + "DocumentBuilder.InsertDocument Gold.docx"));
+                getGoldsDir() + "DocumentBuilder.InsertDocument Gold.docx"));
     }
 
     @Test
@@ -3191,11 +3182,11 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:WarningSource
         //ExSummary:Shows how to work with the warning source.
         Document doc = new Document(getMyDir() + "Emphases markdown warning.docx");
-        
+
         WarningInfoCollection warnings = new WarningInfoCollection();
         doc.setWarningCallback(warnings);
         doc.save(getArtifactsDir() + "DocumentBuilder.EmphasesWarningSourceMarkdown.md");
- 
+
         for (WarningInfo warningInfo : warnings)
         {
             if (warningInfo.getSource() == WarningSource.MARKDOWN)
@@ -3219,7 +3210,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         // from "Document.docx" will be used.
         ImportFormatOptions importFormatOptions = new ImportFormatOptions();
         importFormatOptions.setIgnoreHeaderFooter(false);
- 
+
         dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, importFormatOptions);
 
         dstDoc.save(getArtifactsDir() + "DocumentBuilder.DoNotIgnoreHeaderFooter.docx");
@@ -3237,7 +3228,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         // Use clear formatting if we don't want to combine styles between paragraphs.
         builder.getFont().clearFormatting();
-        
+
         builder.getFont().setBold(true);
         builder.writeln("This text will be bold");
 
@@ -3258,7 +3249,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         // Markdown treats asterisks (*), underscores (_) and tilde (~) as indicators of emphasis.
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
-    
+
     @Test (enabled = false)
     public void markdownDocumentInlineCode() throws Exception
     {
@@ -3471,7 +3462,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         // Insert HorizontalRule that will be present in .md file as '-----'.
         builder.insertHorizontalRule();
- 
+
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
@@ -3498,7 +3489,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.getListFormat().listIndent();
         builder.writeln("Item 2a");
         builder.writeln("Item 2b");
- 
+
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
@@ -3745,7 +3736,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExStart
         //ExFor:Run.IsPhoneticGuide
         //ExFor:Run.PhoneticGuide
-        //ExFor:PhoneticGuide
         //ExFor:PhoneticGuide.BaseText
         //ExFor:PhoneticGuide.RubyText
         //ExSummary:Shows how to get properties of the phonetic guide.
@@ -3754,10 +3744,8 @@ public class ExDocumentBuilder extends ApiExampleBase
         RunCollection runs = doc.getFirstSection().getBody().getFirstParagraph().getRuns();
         // Use phonetic guide in the Asian text.
         Assert.assertEquals(true, runs.get(0).isPhoneticGuide());
-
-        PhoneticGuide phoneticGuide = runs.get(0).getPhoneticGuide();
-        Assert.assertEquals("base", phoneticGuide.getBaseText());
-        Assert.assertEquals("ruby", phoneticGuide.getRubyText());
+        Assert.assertEquals("base", runs.get(0).getPhoneticGuide().getBaseText());
+        Assert.assertEquals("ruby", runs.get(0).getPhoneticGuide().getRubyText());
         //ExEnd
     }
 }

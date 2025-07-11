@@ -15,6 +15,7 @@ import com.aspose.words.VbaProject;
 import com.aspose.words.VbaModule;
 import com.aspose.words.VbaModuleType;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.VbaModuleCollection;
 import com.aspose.words.VbaReferenceCollection;
 import com.aspose.words.VbaReference;
@@ -131,7 +132,7 @@ class ExVbaProject !Test class should be public in Java to run, please fix .Net 
         Document doc = new Document(getMyDir() + "VBA project.docm");
         
         VbaReferenceCollection references = doc.getVbaProject().getReferences();
-        Assert.assertEquals(5 ,references.getCount());
+        Assert.assertEquals(5, references.getCount());
         
         for (int i = references.getCount() - 1; i >= 0; i--)
         {
@@ -141,10 +142,10 @@ class ExVbaProject !Test class should be public in Java to run, please fix .Net 
             if (BROKEN_PATH.equals(path))
                 references.removeAt(i);
         }
-        Assert.assertEquals(4 ,references.getCount());
+        Assert.assertEquals(4, references.getCount());
 
         references.remove(references.get(1));
-        Assert.assertEquals(3 ,references.getCount());
+        Assert.assertEquals(3, references.getCount());
 
         doc.save(getArtifactsDir() + "VbaProject.RemoveVbaReference.docm"); 
     }

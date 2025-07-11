@@ -14,6 +14,7 @@ import com.aspose.words.Document;
 import ApiExamples.TestData.TestClasses.MessageTestClass;
 import com.aspose.words.ReportBuildOptions;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import ApiExamples.TestData.TestClasses.NumericTestClass;
 import ApiExamples.TestData.TestBuilders.NumericTestBuilder;
 import com.aspose.ms.System.DateTime;
@@ -27,7 +28,6 @@ import java.awt.Color;
 import com.aspose.ms.System.Drawing.msColor;
 import com.aspose.words.ReportingEngine;
 import com.aspose.words.net.System.Data.DataSet;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.Environment;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
@@ -376,11 +376,9 @@ public class ExReportingEngine extends ApiExampleBase
         template.save(
             getArtifactsDir() + "ReportingEngine.InsertDocumentDynamicallyWithAdditionalTemplateChecking.docx");
 
-        msAssert.isTrue(
-            DocumentHelper.compareDocs(
-                getArtifactsDir() + "ReportingEngine.InsertDocumentDynamicallyWithAdditionalTemplateChecking.docx",
-                getGoldsDir() + "ReportingEngine.InsertDocumentDynamicallyWithAdditionalTemplateChecking Gold.docx"),
-            "Fail inserting document by document");
+        Assert.assertTrue(DocumentHelper.compareDocs(
+                    getArtifactsDir() + "ReportingEngine.InsertDocumentDynamicallyWithAdditionalTemplateChecking.docx",
+                    getGoldsDir() + "ReportingEngine.InsertDocumentDynamicallyWithAdditionalTemplateChecking Gold.docx"), "Fail inserting document by document");
     }
 
     @Test
@@ -394,7 +392,7 @@ public class ExReportingEngine extends ApiExampleBase
         buildReport(template, doc, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
 
-        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by document");
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by document");
     }
 
     @Test
@@ -446,7 +444,7 @@ public class ExReportingEngine extends ApiExampleBase
         buildReport(template, docStream, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
 
-        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by stream");
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by stream");
     }
 
     @Test
@@ -460,7 +458,7 @@ public class ExReportingEngine extends ApiExampleBase
         buildReport(template, docBytes, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
 
-        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
     }
 
     @Test
@@ -474,7 +472,7 @@ public class ExReportingEngine extends ApiExampleBase
         buildReport(template, docUri, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
 
-        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDynamically(uri) Gold.docx"), "Fail inserting document by uri");
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDynamically(uri) Gold.docx"), "Fail inserting document by uri");
     }
 
     @Test
@@ -488,7 +486,7 @@ public class ExReportingEngine extends ApiExampleBase
         buildReport(template, docBase64, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
 
-        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by uri");
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by uri");
     }
 
     @Test
@@ -502,7 +500,7 @@ public class ExReportingEngine extends ApiExampleBase
         buildReport(template, image, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
 
-        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx", getGoldsDir() + "ReportingEngine.InsertImageDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx", getGoldsDir() + "ReportingEngine.InsertImageDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
     }
 
     @Test
@@ -516,7 +514,7 @@ public class ExReportingEngine extends ApiExampleBase
         buildReport(template, imageStream, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
 
-        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx", getGoldsDir() + "ReportingEngine.InsertImageDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx", getGoldsDir() + "ReportingEngine.InsertImageDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
     }
 
     @Test
@@ -529,7 +527,7 @@ public class ExReportingEngine extends ApiExampleBase
         buildReport(template, imageBytes, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
 
-        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx", getGoldsDir() + "ReportingEngine.InsertImageDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx", getGoldsDir() + "ReportingEngine.InsertImageDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
     }
 
     @Test
@@ -538,17 +536,14 @@ public class ExReportingEngine extends ApiExampleBase
         Document template =
             DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.ImageString]>>", ShapeType.TEXT_BOX);
         ImageTestClass imageUri = new ImageTestBuilder()
-            .withImageString(
-                "https://metrics.aspose.com/img/headergraphics.svg")
+            .withImageString("https://metrics.aspose.com/img/headergraphics.svg")
             .build();
 
         buildReport(template, imageUri, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
 
-        msAssert.isTrue(
-            DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx",
-                getGoldsDir() + "ReportingEngine.InsertImageDynamically(uri) Gold.docx"),
-            "Fail inserting document by bytes");
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx",
+                    getGoldsDir() + "ReportingEngine.InsertImageDynamically(uri) Gold.docx"), "Fail inserting document by bytes");
     }
 
     @Test
@@ -563,10 +558,8 @@ public class ExReportingEngine extends ApiExampleBase
         buildReport(template, imageBase64, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
 
-        msAssert.isTrue(
-            DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx",
-                getGoldsDir() + "ReportingEngine.InsertImageDynamically(stream,doc,bytes) Gold.docx"),
-            "Fail inserting document by bytes");
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx",
+                    getGoldsDir() + "ReportingEngine.InsertImageDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
 
     }
 
@@ -618,9 +611,8 @@ public class ExReportingEngine extends ApiExampleBase
         buildReport(template, image, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.DynamicStretchingImageWithinTextBox.docx");
 
-        Assert.assertTrue(
-            DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.DynamicStretchingImageWithinTextBox.docx",
-                getGoldsDir() + "ReportingEngine.DynamicStretchingImageWithinTextBox Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.DynamicStretchingImageWithinTextBox.docx",
+                    getGoldsDir() + "ReportingEngine.DynamicStretchingImageWithinTextBox Gold.docx"));
     }
 
     @Test (dataProvider = "insertHyperlinksDynamicallyDataProvider")
@@ -799,10 +791,10 @@ public class ExReportingEngine extends ApiExampleBase
         for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
             // Assert that the image is really insert in textbox.
-            Assert.assertNotNull(shape.getFill().getImageBytes());
+            Assert.Is.Not.Nullshape.getFill().getImageBytes());
 
             // Assert that the width is preserved, and the height is changed.
-            Assert.assertNotEquals(346.35, shape.getHeight());
+            Assert.Is.Not.EqualTo(346.35)shape.getHeight());
             Assert.assertEquals(431.5, shape.getWidth());
         }
     }
@@ -824,10 +816,10 @@ public class ExReportingEngine extends ApiExampleBase
 
         for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
-            Assert.assertNotNull(shape.getFill().getImageBytes());
+            Assert.Is.Not.Nullshape.getFill().getImageBytes());
 
             // Assert that the height is preserved, and the width is changed.
-            Assert.assertNotEquals(431.5, shape.getWidth());
+            Assert.Is.Not.EqualTo(431.5)shape.getWidth());
             Assert.assertEquals(346.35, shape.getHeight());
         }
     }
@@ -849,11 +841,11 @@ public class ExReportingEngine extends ApiExampleBase
 
         for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
-            Assert.assertNotNull(shape.getFill().getImageBytes());
+            Assert.Is.Not.Nullshape.getFill().getImageBytes());
             
             // Assert that the height and the width are changed.
-            Assert.assertNotEquals(346.35, shape.getHeight());
-            Assert.assertNotEquals(431.5, shape.getWidth());
+            Assert.Is.Not.EqualTo(346.35)shape.getHeight());
+            Assert.Is.Not.EqualTo(431.5)shape.getWidth());
         }
     }
 
@@ -874,7 +866,7 @@ public class ExReportingEngine extends ApiExampleBase
 
         for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
-            Assert.assertNotNull(shape.getFill().getImageBytes());
+            Assert.Is.Not.Nullshape.getFill().getImageBytes());
 
             // Assert that textbox size are equal image size.
             Assert.assertEquals(300.0d, shape.getHeight());
@@ -960,7 +952,7 @@ public class ExReportingEngine extends ApiExampleBase
         doc.save(getArtifactsDir() + "ReportingEngine.SetBackgroundColorDynamically.docx");
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.SetBackgroundColorDynamically.docx",
-            getGoldsDir() + "ReportingEngine.SetBackgroundColorDynamically Gold.docx"));
+                getGoldsDir() + "ReportingEngine.SetBackgroundColorDynamically Gold.docx"));
     }
 
     @Test
@@ -980,7 +972,7 @@ public class ExReportingEngine extends ApiExampleBase
         doc.save(getArtifactsDir() + "ReportingEngine.SetTextColorDynamically.docx");
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.SetTextColorDynamically.docx",
-            getGoldsDir() + "ReportingEngine.SetTextColorDynamically Gold.docx"));
+                getGoldsDir() + "ReportingEngine.SetTextColorDynamically Gold.docx"));
     }
 
     @Test
@@ -993,7 +985,7 @@ public class ExReportingEngine extends ApiExampleBase
         doc.save(getArtifactsDir() + "ReportingEngine.DoNotRemoveEmptyParagraphs.docx");
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.DoNotRemoveEmptyParagraphs.docx",
-            getGoldsDir() + "ReportingEngine.DoNotRemoveEmptyParagraphs Gold.docx"));
+                getGoldsDir() + "ReportingEngine.DoNotRemoveEmptyParagraphs Gold.docx"));
     }
 
     @Test
@@ -1006,7 +998,7 @@ public class ExReportingEngine extends ApiExampleBase
         doc.save(getArtifactsDir() + "ReportingEngine.RemoveEmptyParagraphs.docx");
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.RemoveEmptyParagraphs.docx",
-            getGoldsDir() + "ReportingEngine.RemoveEmptyParagraphs Gold.docx"));
+                getGoldsDir() + "ReportingEngine.RemoveEmptyParagraphs Gold.docx"));
     }
 
     @Test (dataProvider = "mergingTableCellsDynamicallyDataProvider")
@@ -1074,7 +1066,7 @@ public class ExReportingEngine extends ApiExampleBase
         //ExEnd
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.XmlDataString.docx",
-            getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
+                getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
     }
 
     @Test
@@ -1098,7 +1090,7 @@ public class ExReportingEngine extends ApiExampleBase
         //ExEnd
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.XmlDataStream.docx",
-            getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
+                getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
     }
 
     @Test
@@ -1112,7 +1104,7 @@ public class ExReportingEngine extends ApiExampleBase
         doc.save(getArtifactsDir() + "ReportingEngine.XmlDataWithNestedElements.docx");
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.XmlDataWithNestedElements.docx",
-            getGoldsDir() + "ReportingEngine.DataSourceWithNestedElements Gold.docx"));
+                getGoldsDir() + "ReportingEngine.DataSourceWithNestedElements Gold.docx"));
     }
 
     @Test
@@ -1146,7 +1138,7 @@ public class ExReportingEngine extends ApiExampleBase
         //ExEnd
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.JsonDataString.docx",
-            getGoldsDir() + "ReportingEngine.JsonDataString Gold.docx"));
+                getGoldsDir() + "ReportingEngine.JsonDataString Gold.docx"));
     }
 
     @Test
@@ -1186,7 +1178,7 @@ public class ExReportingEngine extends ApiExampleBase
         //ExEnd
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.JsonDataStream.docx",
-            getGoldsDir() + "ReportingEngine.JsonDataString Gold.docx"));
+                getGoldsDir() + "ReportingEngine.JsonDataString Gold.docx"));
     }
 
     @Test
@@ -1200,7 +1192,7 @@ public class ExReportingEngine extends ApiExampleBase
         doc.save(getArtifactsDir() + "ReportingEngine.JsonDataWithNestedElements.docx");
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.JsonDataWithNestedElements.docx",
-            getGoldsDir() + "ReportingEngine.DataSourceWithNestedElements Gold.docx"));
+                getGoldsDir() + "ReportingEngine.DataSourceWithNestedElements Gold.docx"));
     }
 
     @Test
@@ -1262,7 +1254,7 @@ public class ExReportingEngine extends ApiExampleBase
         //ExEnd
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.CsvDataString.docx",
-            getGoldsDir() + "ReportingEngine.CsvData Gold.docx"));
+                getGoldsDir() + "ReportingEngine.CsvData Gold.docx"));
     }
 
     @Test
@@ -1289,7 +1281,7 @@ public class ExReportingEngine extends ApiExampleBase
         //ExEnd
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.CsvDataStream.docx",
-            getGoldsDir() + "ReportingEngine.CsvData Gold.docx"));
+                getGoldsDir() + "ReportingEngine.CsvData Gold.docx"));
     }
 
     @Test (dataProvider = "insertComboboxDropdownListItemsDynamicallyDataProvider")

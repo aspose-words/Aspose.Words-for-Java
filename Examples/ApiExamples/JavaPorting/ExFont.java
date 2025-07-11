@@ -15,6 +15,7 @@ import com.aspose.words.Run;
 import com.aspose.words.Font;
 import java.awt.Color;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.Paragraph;
 import com.aspose.words.NodeType;
 import com.aspose.words.FontInfoCollection;
@@ -490,7 +491,7 @@ public class ExFont extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Set the Outline flag to change the text's fill color to white and
-        // leave a thin outline around each character in the original color of the text. 
+        // leave a thin outline around each character in the original color of the text.
         builder.getFont().setOutline(true);
         builder.getFont().setColor(Color.BLUE);
         builder.getFont().setSize(36.0);
@@ -747,8 +748,8 @@ public class ExFont extends ApiExampleBase
         Assert.assertEquals(ThemeColor.DARK_1, doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getShading().getForegroundPatternThemeColor());
         Assert.assertEquals(ThemeColor.DARK_2, doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getShading().getBackgroundPatternThemeColor());
 
-        Assert.assertEquals(0.5, doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getShading().getForegroundTintAndShade(), 0.1);
-        Assert.assertEquals(-0.2, doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getShading().getBackgroundTintAndShade(), 0.1);
+        Assert.assertEquals(0.5, 0.1, doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getShading().getForegroundTintAndShade());
+        Assert.assertEquals(-0.2, 0.1, doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getShading().getBackgroundTintAndShade());
     }
 
     @Test
@@ -1006,7 +1007,7 @@ public class ExFont extends ApiExampleBase
         Assert.assertTrue(style.getBuiltIn());
 
         // Create a custom style and add it to the collection.
-        // Custom styles such as this will have the "BuiltIn" flag set to "false". 
+        // Custom styles such as this will have the "BuiltIn" flag set to "false".
         style = doc.getStyles().add(StyleType.CHARACTER, "MyStyle");
         style.getFont().setColor(Color.Navy);
         style.getFont().setName("Courier New");
@@ -1076,8 +1077,7 @@ public class ExFont extends ApiExampleBase
         }
         //ExEnd
 
-        Assert.AreEqual(folderFontSource[0].getAvailableFonts().size(),
-            Directory.enumerateFiles(getFontsDir(), "*.*", SearchOption.ALL_DIRECTORIES).Count(f => f.EndsWith(".ttf") || f.EndsWith(".otf")));
+        Assert.That(Directory.enumerateFiles(getFontsDir(), "*.*", SearchOption.ALL_DIRECTORIES).Count(f => f.EndsWith(".ttf") || f.EndsWith(".otf")) + 5, assertEquals(folderFontSource[0].getAvailableFonts().size(), );
     }
 
     @Test
@@ -1355,37 +1355,37 @@ public class ExFont extends ApiExampleBase
             switch (node)
             {
                 case FieldStart fieldStart:
-                    Assert.False(fieldStart.Font.Hidden);
+                    Assert.That(fieldStart.Font.Hidden, assertFalse();
                     break;
                 case FieldEnd fieldEnd:
-                    Assert.False(fieldEnd.Font.Hidden);
+                    Assert.That(fieldEnd.Font.Hidden, assertFalse();
                     break;
                 case FieldSeparator fieldSeparator:
-                    Assert.False(fieldSeparator.Font.Hidden);
+                    Assert.That(fieldSeparator.Font.Hidden, assertFalse();
                     break;
                 case Run run:
-                    Assert.False(run.Font.Hidden);
+                    Assert.That(run.Font.Hidden, assertFalse();
                     break;
                 case Paragraph paragraph:
-                    Assert.False(paragraph.ParagraphBreakFont.Hidden);
+                    Assert.That(paragraph.ParagraphBreakFont.Hidden, assertFalse();
                     break;
                 case FormField formField:
-                    Assert.False(formField.Font.Hidden);
+                    Assert.That(formField.Font.Hidden, assertFalse();
                     break;
                 case GroupShape groupShape:
-                    Assert.False(groupShape.Font.Hidden);
+                    Assert.That(groupShape.Font.Hidden, assertFalse();
                     break;
                 case Shape shape:
-                    Assert.False(shape.Font.Hidden);
+                    Assert.That(shape.Font.Hidden, assertFalse();
                     break;
                 case Comment comment:
-                    Assert.False(comment.Font.Hidden);
+                    Assert.That(comment.Font.Hidden, assertFalse();
                     break;
                 case Footnote footnote:
-                    Assert.False(footnote.Font.Hidden);
+                    Assert.That(footnote.Font.Hidden, assertFalse();
                     break;
                 case SpecialChar specialChar:
-                    Assert.False(specialChar.Font.Hidden);
+                    Assert.That(specialChar.Font.Hidden, assertFalse();
                     break;
             }
         }
@@ -1427,7 +1427,7 @@ public class ExFont extends ApiExampleBase
 
         FontInfo embeddedFont = doc.getFontInfos().get("Alte DIN 1451 Mittelschrift");
         byte[] embeddedFontBytes = embeddedFont.getEmbeddedFont(EmbeddedFontFormat.OPEN_TYPE, EmbeddedFontStyle.REGULAR);
-        Assert.assertNotNull(embeddedFontBytes); //ExSkip
+        Assert.Is.Not.NullembeddedFontBytes); //ExSkip
 
         File.writeAllBytes(getArtifactsDir() + "Alte DIN 1451 Mittelschrift.ttf", embeddedFontBytes);
 
@@ -1436,7 +1436,7 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getMyDir() + "Embedded font.doc");
 
         Assert.assertNull(doc.getFontInfos().get("Alte DIN 1451 Mittelschrift").getEmbeddedFont(EmbeddedFontFormat.OPEN_TYPE, EmbeddedFontStyle.REGULAR));
-        Assert.assertNotNull(doc.getFontInfos().get("Alte DIN 1451 Mittelschrift").getEmbeddedFont(EmbeddedFontFormat.EMBEDDED_OPEN_TYPE, EmbeddedFontStyle.REGULAR));
+        Assert.Is.Not.Nulldoc.getFontInfos().get("Alte DIN 1451 Mittelschrift").getEmbeddedFont(EmbeddedFontFormat.EMBEDDED_OPEN_TYPE, EmbeddedFontStyle.REGULAR));
 
         // Also, we can convert embedded OpenType format, which comes from .doc documents, to OpenType.
         embeddedFontBytes = doc.getFontInfos().get("Alte DIN 1451 Mittelschrift").getEmbeddedFontAsOpenType(EmbeddedFontStyle.REGULAR);
@@ -1542,9 +1542,8 @@ public class ExFont extends ApiExampleBase
             // On Windows 10 fonts may be installed either into system folder "%windir%\fonts" for all users
             // or into user folder "%userprofile%\AppData\Local\Microsoft\Windows\Fonts" for current user.
             SystemFontSource systemFontSource = new SystemFontSource();
-            Assert.NotNull(systemFontSource.getAvailableFonts()
-                    .FirstOrDefault(x => x.FilePath.Contains("\\AppData\\Local\\Microsoft\\Windows\\Fonts")),
-                "Fonts did not install to the user font folder");
+            Assert.That(systemFontSource.getAvailableFonts()
+                    .FirstOrDefault(x => x.FilePath.Contains("\\AppData\\Local\\Microsoft\\Windows\\Fonts")), Is.Not.Null, "Fonts did not install to the user font folder");
         }
     }
 
@@ -1559,13 +1558,13 @@ public class ExFont extends ApiExampleBase
 
         // Possible types of emphasis mark:
         // https://apireference.aspose.com/words/net/aspose.words/emphasismark
-        builder.getFont().setEmphasisMark(emphasisMark); 
-        
+        builder.getFont().setEmphasisMark(emphasisMark);
+
         builder.write("Emphasis text");
         builder.writeln();
         builder.getFont().clearFormatting();
         builder.write("Simple text");
- 
+
         builder.getDocument().save(getArtifactsDir() + "Fonts.SetEmphasisMark.docx");
         //ExEnd
     }
@@ -1738,7 +1737,7 @@ public class ExFont extends ApiExampleBase
 
         // Get the list of document fonts.
         FontInfoCollection fontInfos = doc.getFontInfos();
-        for (FontInfo fontInfo : fontInfos) 
+        for (FontInfo fontInfo : fontInfos)
         {
             if (fontInfo.getEmbeddingLicensingRights() != null)
             {

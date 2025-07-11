@@ -16,6 +16,7 @@ import com.aspose.words.IFieldMergingCallback;
 import com.aspose.words.FieldMergingArgs;
 import com.aspose.words.ImageFieldMergingArgs;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.net.System.Data.DataRow;
 import java.awt.Color;

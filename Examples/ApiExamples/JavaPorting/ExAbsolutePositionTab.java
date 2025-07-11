@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.Section;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.AbsolutePositionTab;
 import com.aspose.words.NodeType;
 import com.aspose.words.DocumentVisitor;

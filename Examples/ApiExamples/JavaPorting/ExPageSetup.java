@@ -16,6 +16,7 @@ import com.aspose.words.Orientation;
 import com.aspose.words.PageVerticalAlignment;
 import com.aspose.words.BreakType;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.HeaderFooterType;
 import com.aspose.words.SectionLayoutMode;
 import com.aspose.words.Paragraph;
@@ -558,7 +559,7 @@ public class ExPageSetup extends ApiExampleBase
 
         Assert.assertEquals(100.0d, doc.getFirstSection().getPageSetup().getTextColumns().getSpacing());
         Assert.assertEquals(2, doc.getFirstSection().getPageSetup().getTextColumns().getCount());
-        Assert.assertEquals(185.15, doc.getFirstSection().getPageSetup().getTextColumns().getWidth(), 0.01);
+        Assert.assertEquals(185.15, 0.01, doc.getFirstSection().getPageSetup().getTextColumns().getWidth());
     }
 
     @Test
@@ -582,7 +583,7 @@ public class ExPageSetup extends ApiExampleBase
         // Determine the amount of room that we have available for arranging columns.
         double contentWidth = pageSetup.getPageWidth() - pageSetup.getLeftMargin() - pageSetup.getRightMargin();
 
-        Assert.assertEquals(470.30d, contentWidth, 0.01d);
+        Assert.assertEquals(470.30d, 0.01d, contentWidth);
 
         // Set the first column to be narrow.
         TextColumn column = columns.get(0);
@@ -1005,7 +1006,7 @@ public class ExPageSetup extends ApiExampleBase
         PageSetup pageSetup = doc.getSections().get(0).getPageSetup();
 
         // Determine how much space our pages have for text within the margins and then add an amount to pad a margin. 
-        Assert.assertEquals(470.30d, pageSetup.getPageWidth() - pageSetup.getLeftMargin() - pageSetup.getRightMargin(), 0.01d);
+        Assert.assertEquals(470.30d, 0.01d, pageSetup.getPageWidth() - pageSetup.getLeftMargin() - pageSetup.getRightMargin());
 
         pageSetup.setGutter(100.0d);
 

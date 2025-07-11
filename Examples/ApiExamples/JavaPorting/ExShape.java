@@ -16,6 +16,7 @@ import com.aspose.words.Shape;
 import com.aspose.words.ShapeType;
 import org.testng.Assert;
 import com.aspose.ms.System.IO.File;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.NodeType;
 import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
@@ -856,7 +857,7 @@ public class ExShape extends ApiExampleBase
         Color colorWithOpacity = new Color((msColor.getLightBlue().getRed()), (msColor.getLightBlue().getGreen()), (msColor.getLightBlue().getBlue()), (Convert.toInt32(255.0 * shape.getFill().getOpacity())));
         Assert.assertEquals(colorWithOpacity.getRGB(), shape.getFillColor().getRGB());
         Assert.assertEquals(Color.CadetBlue.getRGB(), shape.getStrokeColor().getRGB());
-        Assert.assertEquals(0.3d, shape.getFill().getOpacity(), 0.01d);
+        Assert.assertEquals(0.3d, 0.01d, shape.getFill().getOpacity());
     }
 
     @Test
@@ -1006,12 +1007,12 @@ public class ExShape extends ApiExampleBase
 
         Assert.assertEquals(new Color((0), (255), (255), (255)), gradientStops.get(0).getBaseColor());
         Assert.assertEquals(msColor.getAqua().getRGB(), gradientStops.get(0).getColor().getRGB());
-        Assert.assertEquals(0.1d, gradientStops.get(0).getPosition(), 0.01d);
-        Assert.assertEquals(0.25d, gradientStops.get(0).getTransparency(), 0.01d);
+        Assert.assertEquals(0.1d, 0.01d, gradientStops.get(0).getPosition());
+        Assert.assertEquals(0.25d, 0.01d, gradientStops.get(0).getTransparency());
 
         Assert.assertEquals(msColor.getChocolate().getRGB(), gradientStops.get(1).getColor().getRGB());
-        Assert.assertEquals(0.75d, gradientStops.get(1).getPosition(), 0.01d);
-        Assert.assertEquals(0.3d, gradientStops.get(1).getTransparency(), 0.01d);
+        Assert.assertEquals(0.75d, 0.01d, gradientStops.get(1).getPosition());
+        Assert.assertEquals(0.3d, 0.01d, gradientStops.get(1).getTransparency());
 
         // Use the compliance option to define the shape using DML
         // if you want to get "GradientStops" property after the document saves.
@@ -1028,12 +1029,12 @@ public class ExShape extends ApiExampleBase
         Assert.assertEquals(2, gradientStops.getCount());
 
         Assert.assertEquals(msColor.getAqua().getRGB(), gradientStops.get(0).getColor().getRGB());
-        Assert.assertEquals(0.1d, gradientStops.get(0).getPosition(), 0.01d);
-        Assert.assertEquals(0.25d, gradientStops.get(0).getTransparency(), 0.01d);
+        Assert.assertEquals(0.1d, 0.01d, gradientStops.get(0).getPosition());
+        Assert.assertEquals(0.25d, 0.01d, gradientStops.get(0).getTransparency());
 
         Assert.assertEquals(msColor.getChocolate().getRGB(), gradientStops.get(1).getColor().getRGB());
-        Assert.assertEquals(0.75d, gradientStops.get(1).getPosition(), 0.01d);
-        Assert.assertEquals(0.3d, gradientStops.get(1).getTransparency(), 0.01d);
+        Assert.assertEquals(0.75d, 0.01d, gradientStops.get(1).getPosition());
+        Assert.assertEquals(0.3d, 0.01d, gradientStops.get(1).getTransparency());
     }
 
     @Test
@@ -1150,8 +1151,8 @@ public class ExShape extends ApiExampleBase
 
         Shape[] shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().ToArray();
 
-        Assert.AreEqual(3, shapes.Count(s => s.ShapeType == ShapeType.TextBox));
-        Assert.AreEqual(1, shapes.Count(s => s.ShapeType == ShapeType.Image));
+        Assert.That(shapes.Count(s => s.ShapeType == ShapeType.TextBox), assertEquals(3, );
+        Assert.That(shapes.Count(s => s.ShapeType == ShapeType.Image), assertEquals(1, );
 
         for (Shape shape : shapes)
         {
@@ -1177,8 +1178,8 @@ public class ExShape extends ApiExampleBase
 
         shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().ToArray();
 
-        Assert.AreEqual(0, shapes.Count(s => s.ShapeType == ShapeType.TextBox));
-        Assert.AreEqual(4, shapes.Count(s => s.ShapeType == ShapeType.Image));
+        Assert.That(shapes.Count(s => s.ShapeType == ShapeType.TextBox), assertEquals(0, );
+        Assert.That(shapes.Count(s => s.ShapeType == ShapeType.Image), assertEquals(4, );
 
         doc.save(getArtifactsDir() + "Shape.ReplaceTextboxesWithImages.docx");
         //ExEnd
@@ -1427,7 +1428,7 @@ public class ExShape extends ApiExampleBase
         Shape[] shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().ToArray();
 
         Assert.assertEquals(2, shapes.length);
-        Assert.AreEqual(2, shapes.Count(s => s.ShapeType == ShapeType.OleObject));
+        Assert.That(shapes.Count(s => s.ShapeType == ShapeType.OleObject), assertEquals(2, );
 
         // If a shape contains an OLE object, it will have a valid "OleFormat" property,
         // which we can use to verify some aspects of the shape.
@@ -1548,11 +1549,10 @@ public class ExShape extends ApiExampleBase
 
         math.getMathRenderer().save(getArtifactsDir() + "Shape.RenderOfficeMath.png", saveOptions);
         //ExEnd
-
-        if (!isRunningOnMono())
-            TestUtil.verifyImage(813, 87, getArtifactsDir() + "Shape.RenderOfficeMath.png");
-        else
+        if (isRunningOnMono())
             TestUtil.verifyImage(735, 128, getArtifactsDir() + "Shape.RenderOfficeMath.png");
+        else
+            TestUtil.verifyImage(813, 87, getArtifactsDir() + "Shape.RenderOfficeMath.png");
     }
 
     @Test
@@ -2719,7 +2719,7 @@ public class ExShape extends ApiExampleBase
         Assert.assertFalse(shapes.get(4).getTextPath().getKerning());
 
         TestUtil.verifyShape(ShapeType.TEXT_CASCADE_DOWN, "", 120.0, 24.0, 0.0d, 0.0d, shapes.get(5));
-        Assert.assertEquals(0.1d, shapes.get(5).getTextPath().getSpacing(), 0.01d);
+        Assert.assertEquals(0.1d, 0.01d, shapes.get(5).getTextPath().getSpacing());
 
         TestUtil.verifyShape(ShapeType.TEXT_WAVE, "", 200.0, 36.0, 0.0d, 0.0d, shapes.get(6));
         Assert.assertTrue(shapes.get(6).getTextPath().getRotateLetters());
@@ -2948,15 +2948,15 @@ public class ExShape extends ApiExampleBase
         OfficeMathRenderer renderer = new OfficeMathRenderer(officeMath);
 
         // Verify the size of the image that the OfficeMath object will create when we render it.
-        Assert.assertEquals(122.0f, msSizeF.getWidth(renderer.getSizeInPointsInternal()), 0.25f);
-        Assert.assertEquals(13.0f, msSizeF.getHeight(renderer.getSizeInPointsInternal()), 0.15f);
+        Assert.assertEquals(122.0f, 0.25f, msSizeF.getWidth(renderer.getSizeInPointsInternal()));
+        Assert.assertEquals(13.0f, 0.15f, msSizeF.getHeight(renderer.getSizeInPointsInternal()));
 
-        Assert.assertEquals(122.0f, renderer.getBoundsInPointsInternal().getWidth(), 0.25f);
-        Assert.assertEquals(13.0f, renderer.getBoundsInPointsInternal().getHeight(), 0.15f);
+        Assert.assertEquals(122.0f, 0.25f, renderer.getBoundsInPointsInternal().getWidth());
+        Assert.assertEquals(13.0f, 0.15f, renderer.getBoundsInPointsInternal().getHeight());
 
         // Shapes with transparent parts may contain different values in the "OpaqueBoundsInPoints" properties.
-        Assert.assertEquals(122.0f, renderer.getOpaqueBoundsInPointsInternal().getWidth(), 0.25f);
-        Assert.assertEquals(14.2f, renderer.getOpaqueBoundsInPointsInternal().getHeight(), 0.1f);
+        Assert.assertEquals(122.0f, 0.25f, renderer.getOpaqueBoundsInPointsInternal().getWidth());
+        Assert.assertEquals(14.2f, 0.1f, renderer.getOpaqueBoundsInPointsInternal().getHeight());
 
         // Get the shape size in pixels, with linear scaling to a specific DPI.
         Rectangle bounds = renderer.getBoundsInPixelsInternal(1.0f, 96.0f);
@@ -3275,7 +3275,7 @@ public class ExShape extends ApiExampleBase
 
         Assert.assertEquals(ThemeColor.DARK_2, shape.getStroke().getBackThemeColor());
         double precision = 1e-6;
-        Assert.assertEquals(0.2d, shape.getStroke().getBackTintAndShade(), precision);
+        Assert.assertEquals(0.2d, precision, shape.getStroke().getBackTintAndShade());
     }
 
     @Test
@@ -3325,7 +3325,7 @@ public class ExShape extends ApiExampleBase
 
         Assert.assertEquals(new Color((250), (128), (114), (217)).getRGB(), shape.getGlow().getColor().getRGB());
         Assert.assertEquals(30, shape.getGlow().getRadius());
-        Assert.assertEquals(0.15d, shape.getGlow().getTransparency(), 0.01d);
+        Assert.assertEquals(0.15d, 0.01d, shape.getGlow().getTransparency());
 
         shape.getGlow().remove();
 
@@ -3363,10 +3363,10 @@ public class ExShape extends ApiExampleBase
 
         ReflectionFormat reflectionFormat = shape.getReflection();
 
-        Assert.assertEquals(0.37d, reflectionFormat.getTransparency(), 0.01d);
-        Assert.assertEquals(0.48d, reflectionFormat.getSize(), 0.01d);
-        Assert.assertEquals(17.5d, reflectionFormat.getBlur(), 0.01d);
-        Assert.assertEquals(9.2d, reflectionFormat.getDistance(), 0.01d);
+        Assert.assertEquals(0.37d, 0.01d, reflectionFormat.getTransparency());
+        Assert.assertEquals(0.48d, 0.01d, reflectionFormat.getSize());
+        Assert.assertEquals(17.5d, 0.01d, reflectionFormat.getBlur());
+        Assert.assertEquals(9.2d, 0.01d, reflectionFormat.getDistance());
 
         reflectionFormat.remove();
 
@@ -3616,8 +3616,8 @@ public class ExShape extends ApiExampleBase
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
         for (Shape shape : (Iterable<Shape>) shapes)
         {
-            Assert.assertNotEquals(0, shape.getWidth());
-            Assert.assertNotEquals(0, shape.getHeight());
+            Assert.Is.Not.EqualTo(0)shape.getWidth());
+            Assert.Is.Not.EqualTo(0)shape.getHeight());
         }
     }
 

@@ -12,6 +12,7 @@ package ApiExamples;
 import com.aspose.ms.System.IO.Path;
 import com.aspose.ms.System.Drawing.Rectangle;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.Table;
 import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.ControlChar;
@@ -76,22 +77,22 @@ class TestUtil extends ApiExampleBase
             try /*JAVA: was using*/
             {
                 Rectangle bounds = metafile.GetMetafileHeader().Bounds;
-                Assert.assertEquals(expectedWidth, bounds.getWidth(), 1.0);
-                Assert.assertEquals(expectedHeight, bounds.getHeight(), 1.0);
+                Assert.assertEquals(expectedWidth, 1, bounds.getWidth());
+                Assert.assertEquals(expectedHeight, 1, bounds.getHeight());
             }
             finally { if (metafile != null) metafile.close(); }
         }
         else if (".emf".equals(ext))
         {
             var (w, h) = GetEmfDimensions(filename);
-            Assert.AreEqual(expectedWidth, w, 1);
-            Assert.AreEqual(expectedHeight, h, 1);
+            Assert.That(w, assertEquals(expectedWidth, 1, );
+            Assert.That(h, assertEquals(expectedHeight, 1, );
         }
         else if (".wmf".equals(ext))
         {
             var (w, h) = GetWmfDimensions(filename);
-            Assert.AreEqual(expectedWidth, w, 1);
-            Assert.AreEqual(expectedHeight, h, 1);
+            Assert.That(w, assertEquals(expectedWidth, 1, );
+            Assert.That(h, assertEquals(expectedHeight, 1, );
         }
         else
         {
@@ -100,8 +101,8 @@ class TestUtil extends ApiExampleBase
             {
                 Assert.Multiple(() =>
                 {
-                    Assert.AreEqual(expectedWidth, image.Width, 1);
-                    Assert.AreEqual(expectedHeight, image.Height, 1);
+                Assert.That(image.Width, Is.EqualTo(expectedWidth).Within(1));
+                Assert.That(image.Height, Is.EqualTo(expectedHeight).Within(1));
                 });
             }
             finally { if (image != null) image.close(); }
@@ -171,24 +172,13 @@ class TestUtil extends ApiExampleBase
         finally { if (bitmap != null) bitmap.close(); }
 
         Assert.fail($"The image from \"{filename}\" does not contain any transparency.");
-    }
-
-    /// <summary>
-    /// Checks whether an HTTP request sent to the specified address produces an expected web response. 
-    /// </summary>
-    /// <remarks>
-    /// Serves as a notification of any URLs used in code examples becoming unusable in the future.
-    /// </remarks>
-    /// <param name="expectedHttpStatusCode">Expected result status code of a request HTTP "HEAD" method performed on the web address.</param>
-    /// <param name="webAddress">URL where the request will be sent.</param>
-     static async System.Threading.Tasks.Task private VerifyWebResponseStatusCodeAsyncverifyWebResponseStatusCodeAsync(int expectedHttpStatusCode, String webAddress)
+    }private VerifyWebResponseStatusCodeAsyncverifyWebResponseStatusCodeAsync(int expectedHttpStatusCode, String webAddress)
     {
         var myClient = new System.Net.Http.HttpClient();
         var response = await myClient.GetAsync(webAddress);
 
-        Assert.AreEqual(expectedHttpStatusCode, response.StatusCode);
+        Assert.That(response.StatusCode, assertEquals(expectedHttpStatusCode, );
     }
-
     /// <summary>
     /// Checks whether an SQL query performed on a database file stored in the local file system
     /// produces a result that resembles the contents of an Aspose.Words table.
@@ -216,8 +206,7 @@ class TestUtil extends ApiExampleBase
 
             for (int i = 0; i < myDataTable.getRows().getCount(); i++)
                 for (int j = 0; j < myDataTable.getColumns().getCount(); j++)
-                    Assert.assertEquals(expectedResult.getRows().get(i).getCells().get(j).getText().replace(ControlChar.CELL, ""),
-                        myDataTable.getRows().get(i).get(j).toString());
+                    Assert.assertEquals(expectedResult.getRows().get(i).getCells().get(j).getText().replace(ControlChar.CELL, ""), myDataTable.getRows().get(i).get(j).toString());
         }
         finally { if (connection != null) connection.close(); }
     }
@@ -397,8 +386,10 @@ class TestUtil extends ApiExampleBase
     /// <param name="filename">Local system filename of a file which, when read from the beginning, should contain the string.</param>
     static void fileContainsString(String expected, String filename) throws Exception
     {
-        if (!isRunningOnMono())
+        if (isRunningOnMono())
         {
+            return;
+        }
             Stream stream = new FileStream(filename, FileMode.OPEN);
             try /*JAVA: was using*/
             {
@@ -406,7 +397,6 @@ class TestUtil extends ApiExampleBase
             }
             finally { if (stream != null) stream.close(); }
         }
-    }
 
     /// <summary>
     /// Checks whether a stream contains a string.
@@ -472,7 +462,7 @@ class TestUtil extends ApiExampleBase
         {
             Assert.assertEquals(expectedType, field.getType());
             Assert.assertEquals(expectedFieldCode, field.getFieldCode(true));
-            DateTime actual = new Date();
+            DateTime actual = new Date;
             try
             {
                 actual = DateTime.parse(field.getResult());

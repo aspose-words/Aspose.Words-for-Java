@@ -17,6 +17,7 @@ import java.awt.Color;
 import com.aspose.words.LineStyle;
 import com.aspose.words.Border;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.ThemeColor;
 import com.aspose.words.BorderCollection;
 import com.aspose.words.ParagraphCollection;
@@ -95,7 +96,7 @@ public class ExBorder extends ApiExampleBase
         Assert.assertEquals(4.0d, border.getLineWidth());
         Assert.assertEquals(LineStyle.DASH_SMALL_GAP, border.getLineStyle());
         Assert.assertEquals(ThemeColor.ACCENT_1, border.getThemeColor());
-        Assert.assertEquals(0.25d, border.getTintAndShade(), 0.01);
+        Assert.assertEquals(0.25d, 0.01, border.getTintAndShade());
     }
 
     @Test
@@ -177,7 +178,7 @@ public class ExBorder extends ApiExampleBase
         for (int i = 0; i < firstParagraphBorders.getCount(); i++)
         {
             Assert.assertFalse(firstParagraphBorders.get(i).equals(secondParagraphBorders.get(i)));
-            Assert.assertNotEquals(firstParagraphBorders.get(i).hashCode(), secondParagraphBorders.get(i).hashCode());
+            Assert.Is.Not.EqualTo(firstParagraphBorders.get(i).hashCode())secondParagraphBorders.get(i).hashCode());
 
             // Changing the appearance of an empty border makes it visible.
             Assert.assertTrue(secondParagraphBorders.get(i).isVisible());

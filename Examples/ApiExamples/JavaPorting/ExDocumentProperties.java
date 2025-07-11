@@ -16,6 +16,7 @@ import com.aspose.ms.System.msConsole;
 import com.aspose.words.DocumentProperty;
 import java.util.Collection;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.BuiltInDocumentProperties;
 import com.aspose.words.FieldType;
@@ -163,14 +164,14 @@ public class ExDocumentProperties extends ApiExampleBase
 
         Assert.assertEquals("John Doe", properties.getAuthor());
         Assert.assertEquals("My category", properties.getCategory());
-        Assert.assertEquals($"This is {properties.Author}'s document about {properties.Subject}", properties.getComments());
+        Assert.assertEquals("This is {properties.Author}'s document about {properties.Subject}", properties.getComments());
         Assert.assertEquals("Tag 1; Tag 2; Tag 3", properties.getKeywords());
         Assert.assertEquals("My subject", properties.getSubject());
         Assert.assertEquals("John's Document", properties.getTitle());
         Assert.assertEquals("Author:\t\u0013 AUTHOR \u0014John Doe\u0015\r" +
-                        "Doc title:\t\u0013 TITLE \u0014John's Document\u0015\r" +
-                        "Subject:\t\u0013 SUBJECT \u0014My subject\u0015\r" +
-                        "Comments:\t\"\u0013 COMMENTS \u0014This is John Doe's document about My subject\u0015\"", doc.getText().trim());
+                            "Doc title:\t\u0013 TITLE \u0014John's Document\u0015\r" +
+                            "Subject:\t\u0013 SUBJECT \u0014My subject\u0015\r" +
+                            "Comments:\t\"\u0013 COMMENTS \u0014This is John Doe's document about My subject\u0015\"", doc.getText().trim());
     }
 
     @Test
@@ -211,7 +212,7 @@ public class ExDocumentProperties extends ApiExampleBase
         // Microsoft Word updates the following properties automatically when we save the document.
         // To use these properties with Aspose.Words, we will need to set values for them manually.
         properties.setLastSavedBy("John Doe");
-        properties.setLastSavedTimeInternal(new Date());
+        properties.setLastSavedTimeInternal(new Date);
 
         // We can right-click this document in Windows Explorer and find these properties in "Properties" -> "Details" -> "Origin".
         doc.save(getArtifactsDir() + "DocumentProperties.Origin.docx");
@@ -223,7 +224,7 @@ public class ExDocumentProperties extends ApiExampleBase
         Assert.assertEquals(new DateTime(2006, 4, 25, 10, 10, 0), properties.getCreatedTimeInternal());
         Assert.assertEquals(new DateTime(2019, 4, 21, 10, 0, 0), properties.getLastPrintedInternal());
         Assert.assertEquals("John Doe", properties.getLastSavedBy());
-        TestUtil.verifyDate(new Date(), properties.getLastSavedTimeInternal(), TimeSpan.fromSeconds(5.0));
+        TestUtil.verifyDate(new Date, properties.getLastSavedTimeInternal(), TimeSpan.fromSeconds(5.0));
         Assert.assertEquals("Jane Doe", properties.getManager());
         Assert.assertEquals("Microsoft Office Word", properties.getNameOfApplication());
         Assert.assertEquals(12, properties.getRevisionNumber());
@@ -362,7 +363,7 @@ public class ExDocumentProperties extends ApiExampleBase
         Assert.assertEquals(7041, properties.getCharactersWithSpaces());
         Assert.assertEquals(142, properties.getLines());
         Assert.assertEquals(29, properties.getParagraphs());
-        Assert.assertEquals(15500.0, properties.getBytes(), 200.0);
+        Assert.assertEquals(15500, 200, properties.getBytes());
         Assert.assertEquals(getMyDir().replace("\\\\", "\\") + "Business brochure.dotx", properties.getTemplate());
         Assert.assertEquals("Draft", properties.getContentStatus());
         Assert.assertEquals("", properties.getContentType());
@@ -507,8 +508,7 @@ public class ExDocumentProperties extends ApiExampleBase
         doc.getWriteProtection().setReadOnlyRecommended(true);
         doc.save(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyRecommended.docx");
 
-        Assert.assertEquals(DocumentSecurity.READ_ONLY_RECOMMENDED, 
-            new Document(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyRecommended.docx").getBuiltInDocumentProperties().getSecurity());
+        Assert.assertEquals(DocumentSecurity.READ_ONLY_RECOMMENDED, new Document(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyRecommended.docx").getBuiltInDocumentProperties().getSecurity());
 
         // Write-protect a document, and then verify its security level.
         doc = new Document();
@@ -522,8 +522,7 @@ public class ExDocumentProperties extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyEnforced.docx");
         
-        Assert.assertEquals(DocumentSecurity.READ_ONLY_ENFORCED,
-            new Document(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyEnforced.docx").getBuiltInDocumentProperties().getSecurity());
+        Assert.assertEquals(DocumentSecurity.READ_ONLY_ENFORCED, new Document(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyEnforced.docx").getBuiltInDocumentProperties().getSecurity());
 
         // "Security" is a descriptive property. We can edit its value manually.
         doc = new Document();
@@ -532,8 +531,7 @@ public class ExDocumentProperties extends ApiExampleBase
         doc.getBuiltInDocumentProperties().setSecurity(DocumentSecurity.READ_ONLY_EXCEPT_ANNOTATIONS);
         doc.save(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyExceptAnnotations.docx");
 
-        Assert.assertEquals(DocumentSecurity.READ_ONLY_EXCEPT_ANNOTATIONS,
-            new Document(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyExceptAnnotations.docx").getBuiltInDocumentProperties().getSecurity());
+        Assert.assertEquals(DocumentSecurity.READ_ONLY_EXCEPT_ANNOTATIONS, new Document(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyExceptAnnotations.docx").getBuiltInDocumentProperties().getSecurity());
         //ExEnd
     }
 
@@ -547,12 +545,12 @@ public class ExDocumentProperties extends ApiExampleBase
         //ExSummary:Shows how to create a custom document property which contains a date and time.
         Document doc = new Document();
 
-        doc.getCustomDocumentProperties().addInternal("AuthorizationDate", new Date());
+        doc.getCustomDocumentProperties().addInternal("AuthorizationDate", new Date);
         DateTime authorizationDate = doc.getCustomDocumentProperties().get("AuthorizationDate").toDateTimeInternal();
         System.out.println("Document authorized on {authorizationDate}");
         //ExEnd
 
-        TestUtil.verifyDate(new Date(), 
+        TestUtil.verifyDate(new Date, 
             DocumentHelper.saveOpen(doc).getCustomDocumentProperties().get("AuthorizationDate").toDateTimeInternal(), 
             TimeSpan.fromSeconds(1.0));
     }

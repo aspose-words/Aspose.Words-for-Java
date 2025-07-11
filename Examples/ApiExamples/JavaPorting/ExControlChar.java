@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.ControlChar;
 import com.aspose.words.NodeType;
 import com.aspose.words.Section;
@@ -39,14 +40,14 @@ public class ExControlChar extends ApiExampleBase
 
         // Converting the document to text form reveals that control characters
         // represent some of the document's structural elements, such as page breaks.
-        Assert.assertEquals($"Hello world!{ControlChar.Cr}" +
-                        $"Hello again!{ControlChar.Cr}" +
-                        ControlChar.PAGE_BREAK, doc.getText());
+        Assert.assertEquals("Hello world!{ControlChar.Cr}" +
+                            $"Hello again!{ControlChar.Cr}" +
+                            ControlChar.PAGE_BREAK, doc.getText());
 
         // When converting a document to string form,
         // we can omit some of the control characters with the Trim method.
-        Assert.assertEquals($"Hello world!{ControlChar.Cr}" +
-                        "Hello again!", doc.getText().trim());
+        Assert.assertEquals("Hello world!{ControlChar.Cr}" +
+                            "Hello again!", doc.getText().trim());
         //ExEnd
     }
 

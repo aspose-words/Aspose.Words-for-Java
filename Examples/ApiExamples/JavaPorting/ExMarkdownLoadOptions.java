@@ -15,6 +15,7 @@ import com.aspose.ms.System.Text.Encoding;
 import com.aspose.words.MarkdownLoadOptions;
 import com.aspose.words.Document;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.Paragraph;
 import com.aspose.words.NodeType;
 import com.aspose.words.Underline;

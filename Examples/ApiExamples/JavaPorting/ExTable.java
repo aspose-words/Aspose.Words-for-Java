@@ -17,6 +17,7 @@ import com.aspose.words.Cell;
 import com.aspose.words.Paragraph;
 import com.aspose.words.Run;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.PreferredWidth;
 import com.aspose.words.RowFormat;
@@ -66,6 +67,7 @@ import com.aspose.words.TabStop;
 import com.aspose.words.TabAlignment;
 import com.aspose.words.TabLeader;
 import com.aspose.words.DocumentBuilderOptions;
+import com.aspose.words.AutoFitBehavior;
 import org.testng.annotations.DataProvider;
 import com.aspose.words.ref.RefInt;
 
@@ -239,7 +241,7 @@ public class ExTable extends ApiExampleBase
 
             // We can use the "ToArray" method on a row collection to clone it into an array.
             Assert.assertEquals(rows, rows.toArray());
-            Assert.assertNotSame(rows, rows.toArray());
+            Assert.Is.Not.SameAs(rows)rows.toArray());
 
             for (int j = 0; j < rows.getCount(); j++)
             {
@@ -249,7 +251,7 @@ public class ExTable extends ApiExampleBase
 
                 // We can use the "ToArray" method on a cell collection to clone it into an array.
                 Assert.assertEquals(cells, cells.toArray());
-                Assert.assertNotSame(cells, cells.toArray());
+                Assert.Is.Not.SameAs(cells)cells.toArray());
 
                 for (int k = 0; k < cells.getCount(); k++)
                 {
@@ -466,8 +468,8 @@ public class ExTable extends ApiExampleBase
         Assert.assertEquals(msColor.getGreen().getRGB(), borders.getLeft().getColor().getRGB());
         Assert.assertEquals(msColor.getGreen().getRGB(), borders.getRight().getColor().getRGB());
         Assert.assertEquals(msColor.getGreen().getRGB(), borders.getBottom().getColor().getRGB());
-        Assert.assertNotEquals(msColor.getGreen().getRGB(), borders.getHorizontal().getColor().getRGB());
-        Assert.assertNotEquals(msColor.getGreen().getRGB(), borders.getVertical().getColor().getRGB());
+        Assert.Is.Not.EqualTo(msColor.getGreen().getRGB())borders.getHorizontal().getColor().getRGB());
+        Assert.Is.Not.EqualTo(msColor.getGreen().getRGB())borders.getVertical().getColor().getRGB());
         Assert.assertEquals(msColor.getLightGreen().getRGB(), table.getFirstRow().getFirstCell().getCellFormat().getShading().getForegroundPatternColor().getRGB());
     }
 
@@ -651,7 +653,7 @@ public class ExTable extends ApiExampleBase
         table.getLastRow().getLastCell().getRange().replace("50", "20", options);
 
         Assert.assertEquals("Eggs\u000750\u0007\u0007" +
-                        "Potatoes\u000720\u0007\u0007", table.getText().trim());
+                            "Potatoes\u000720\u0007\u0007", table.getText().trim());
         //ExEnd
     }
 
@@ -686,8 +688,7 @@ public class ExTable extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Table.RemoveParagraphTextAndMark.docx");
 
-        Assert.assertEquals(isSmartParagraphBreakReplacement ? 1 : 2,
-            doc.getFirstSection().getBody().getTables().get(0).getRows().get(0).getCells().get(0).getParagraphs().getCount());
+        Assert.assertEquals(isSmartParagraphBreakReplacement ? 1 : 2, doc.getFirstSection().getBody().getTables().get(0).getRows().get(0).getCells().get(0).getParagraphs().getCount());
     }
 
 	//JAVA-added data provider for test method
@@ -775,7 +776,7 @@ public class ExTable extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Table.AllowBreakAcrossPages.docx");
         table = doc.getFirstSection().getBody().getTables().get(0);
 
-        Assert.AreEqual(3, table.getRows().Count(r => ((Row)r).RowFormat.AllowBreakAcrossPages == allowBreakAcrossPages));
+        Assert.That(table.getRows().Count(r => ((Row)r).RowFormat.AllowBreakAcrossPages == allowBreakAcrossPages), assertEquals(3, );
     }
 
 	//JAVA-added data provider for test method
@@ -1343,7 +1344,7 @@ public class ExTable extends ApiExampleBase
         builder.endTable();
         table.setPreferredWidth(PreferredWidth.fromPoints(300.0));
 
-        // We can also set a horizontal and vertical offset in points from the paragraph's location where we inserted the table. 
+        // We can also set a horizontal and vertical offset in points from the paragraph's location where we inserted the table.
         table.setAbsoluteVerticalDistance(50.0);
         table.setAbsoluteHorizontalDistance(100.0);
 
@@ -1428,7 +1429,7 @@ public class ExTable extends ApiExampleBase
         Assert.assertEquals(5.0d, tableStyle.getLeftPadding());
         Assert.assertEquals(10.0d, tableStyle.getRightPadding());
         Assert.assertEquals(20.0d, tableStyle.getTopPadding());
-        Assert.AreEqual(6, table.getFirstRow().getRowFormat().getBorders().Count(b => b.Color.ToArgb() == Color.Blue.ToArgb()));
+        Assert.That(table.getFirstRow().getRowFormat().getBorders().Count(b => b.Color.ToArgb() == Color.Blue.ToArgb()), assertEquals(6, );
         Assert.assertEquals(CellVerticalAlignment.CENTER, tableStyle.getVerticalAlignment());
 
         tableStyle = (TableStyle)doc.getStyles().get("MyTableStyle1");
@@ -1469,7 +1470,7 @@ public class ExTable extends ApiExampleBase
         builder.write("Aligned to the center of the page");
         builder.endTable();
         table.setPreferredWidth(PreferredWidth.fromPoints(300.0));
-        
+
         table.setStyle(tableStyle);
 
         // 2 -  Use the "LeftIndent" to specify an indent from the left margin of the page:
@@ -1591,8 +1592,7 @@ public class ExTable extends ApiExampleBase
         table.setStyle(tableStyle);
 
         // Our style applies some conditional styles by default.
-        Assert.assertEquals(TableStyleOptions.FIRST_ROW | TableStyleOptions.FIRST_COLUMN | TableStyleOptions.ROW_BANDS, 
-            table.getStyleOptions());
+        Assert.assertEquals(TableStyleOptions.FIRST_ROW | TableStyleOptions.FIRST_COLUMN | TableStyleOptions.ROW_BANDS, table.getStyleOptions());
 
         // We will need to enable all other styles ourselves via the "StyleOptions" property.
         table.setStyleOptions(table.getStyleOptions() | TableStyleOptions.LAST_ROW | TableStyleOptions.LAST_COLUMN);
@@ -1658,7 +1658,7 @@ public class ExTable extends ApiExampleBase
         // 2 -  Clear the conditional styles for the entire table:
         tableStyle.getConditionalStyles().clearFormatting();
 
-        Assert.True(tableStyle.getConditionalStyles().All(s => s.Borders.Color == Color.Empty));
+        Assert.That(tableStyle.getConditionalStyles().All(s => s.Borders.Color == Color.Empty), assertTrue();
         //ExEnd
     }
 
@@ -1707,8 +1707,7 @@ public class ExTable extends ApiExampleBase
         table.setStyle(tableStyle);
 
         // The "StyleOptions" property enables row banding by default.
-        Assert.assertEquals(TableStyleOptions.FIRST_ROW | TableStyleOptions.FIRST_COLUMN | TableStyleOptions.ROW_BANDS,
-            table.getStyleOptions());
+        Assert.assertEquals(TableStyleOptions.FIRST_ROW | TableStyleOptions.FIRST_COLUMN | TableStyleOptions.ROW_BANDS, table.getStyleOptions());
 
         // Use the "StyleOptions" property also to enable column banding.
         table.setStyleOptions(table.getStyleOptions() | TableStyleOptions.COLUMN_BANDS);
@@ -1747,7 +1746,7 @@ public class ExTable extends ApiExampleBase
         Row row = table.getRows().get(0);
 
         Assert.assertEquals(5, row.getCells().getCount());
-        Assert.True(row.getCells().All(c => ((Cell)c).CellFormat.HorizontalMerge == CellMerge.None));
+        Assert.That(row.getCells().All(c => ((Cell)c).CellFormat.HorizontalMerge == CellMerge.None), assertTrue();
 
         // Use the "ConvertToHorizontallyMergedCells" method to convert cells horizontally merged
         // by its width to the cell horizontally merged by flags.
@@ -1929,7 +1928,7 @@ public class ExTable extends ApiExampleBase
 
                 int rowSpan = 1;
                 int colSpan = 1;
-                
+
                 // Check if the current cell is the start of a vertically merged set of cells.
                 if (cell.getCellFormat().getVerticalMerge() == CellMerge.FIRST)
                     rowSpan = calculateRowSpan(table, rowIndex, cellIndex);
@@ -1962,7 +1961,7 @@ public class ExTable extends ApiExampleBase
         for (int i = rowIndex; i < table.getRows().getCount(); i++)
         {
             Row currentRow = table.getRows().get(i + 1);
-            if (currentRow == null) 
+            if (currentRow == null)
                 break;
 
             Cell currentCell = currentRow.getCells().get(cellIndex);
@@ -2027,5 +2026,62 @@ public class ExTable extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Table.ContextTableFormatting.docx");
         //ExEnd:ContextTableFormatting
+    }
+
+    @Test
+    public void autofitToWindow() throws Exception
+    {
+        double[] expectedPercents = new double[] { 51.0, 49.0 };
+
+        Document doc = new Document(getMyDir() + "Table wrapped by text.docx");
+
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
+        table.autoFit(AutoFitBehavior.AUTO_FIT_TO_WINDOW);
+
+        Assert.assertEquals(expectedPercents.length, table.getFirstRow().getCells().getCount());
+
+        for (Row row : (Iterable<Row>) table.getRows())
+        {
+            int i = 0;
+            for (Cell cell : (Iterable<Cell>) row.getCells())
+            {
+                double expectedPercent = expectedPercents[i];
+
+                PreferredWidth cellPrefferedWidth = cell.getCellFormat().getPreferredWidth();
+                Assert.assertEquals(expectedPercent, cellPrefferedWidth.getValue());
+
+                i++;
+            }
+        }
+    }
+
+    @Test
+    public void hiddenRow() throws Exception
+    {
+        //ExStart:HiddenRow
+        //GistId:67c1d01ce69d189983b497fd497a7768
+        //ExFor:Row.Hidden
+        //ExSummary:Shows how to hide a table row.
+        Document doc = new Document(getMyDir() + "Tables.docx");
+
+        Row row = doc.getFirstSection().getBody().getTables().get(0).getFirstRow();
+        row.setHidden(true);
+
+        doc.save(getArtifactsDir() + "Table.HiddenRow.docx");
+
+        doc = new Document(getArtifactsDir() + "Table.HiddenRow.docx");
+
+        row = doc.getFirstSection().getBody().getTables().get(0).getFirstRow();
+        Assert.assertTrue(row.getHidden());
+
+        for (Cell cell : (Iterable<Cell>) row.getCells())
+        {
+            for (Paragraph para : (Iterable<Paragraph>) cell.getParagraphs())
+            {
+                for (Run run : (Iterable<Run>) para.getRuns())
+                    Assert.assertTrue(run.getFont().getHidden());
+            }
+        }
+        //ExEnd:HiddenRow
     }
 }

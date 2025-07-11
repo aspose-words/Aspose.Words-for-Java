@@ -16,6 +16,7 @@ import com.aspose.words.Body;
 import com.aspose.words.Paragraph;
 import com.aspose.words.Run;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.LoadOptions;
 import com.aspose.ms.System.IO.Stream;
 import java.io.FileInputStream;
@@ -48,7 +49,6 @@ import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.words.ImportFormatMode;
 import java.io.FileNotFoundException;
 import com.aspose.words.ImportFormatOptions;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.ParagraphCollection;
 import com.aspose.words.DigitalSignature;
 import com.aspose.words.CertificateHolder;
@@ -214,9 +214,8 @@ public class ExDocument extends ApiExampleBase
 
                 // At this stage, we can read and edit the document's contents and then save it to the local file system.
                 Assert.assertEquals("There are eight section headings in this document. At the beginning, \"Sample Document\" is a level 1 heading. " +
-                              "The main section headings, such as \"Headings\" and \"Lists\" are level 2 headings. " +
-                              "The Tables section contains two sub-headings, \"Simple Table\" and \"Complex Table,\" which are both level 3 headings.",
-                    doc.getFirstSection().getBody().getParagraphs().get(3).getText().trim());
+                                  "The main section headings, such as \"Headings\" and \"Lists\" are level 2 headings. " +
+                                    "The Tables section contains two sub-headings, \"Simple Table\" and \"Complex Table,\" which are both level 3 headings.", doc.getFirstSection().getBody().getParagraphs().get(3).getText().trim());
 
                 doc.save(getArtifactsDir() + "Document.LoadFromWeb.docx");
             }
@@ -314,9 +313,7 @@ public class ExDocument extends ApiExampleBase
     {
         Document doc = new Document(getMyDir() + "Pdf Document.pdf");
 
-        Assert.assertEquals(
-            "Heading 1\rHeading 1.1.1.1 Heading 1.1.1.2\rHeading 1.1.1.1.1.1.1.1.1 Heading 1.1.1.1.1.1.1.1.2\f",
-            doc.getRange().getText());
+        Assert.assertEquals("Heading 1\rHeading 1.1.1.1 Heading 1.1.1.2\rHeading 1.1.1.1.1.1.1.1.1 Heading 1.1.1.1.1.1.1.1.2\f", doc.getRange().getText());
     }
 
     @Test
@@ -359,9 +356,9 @@ public class ExDocument extends ApiExampleBase
             Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
             Assert.assertTrue(shape.isImage());
-            Assert.assertNotNull(shape.getImageData().getImageBytes());
-            Assert.assertEquals(32.0, ConvertUtil.pointToPixel(shape.getWidth()), 0.01);
-            Assert.assertEquals(32.0, ConvertUtil.pointToPixel(shape.getHeight()), 0.01);
+            Assert.Is.Not.Nullshape.getImageData().getImageBytes());
+            Assert.assertEquals(32.0, 0.01, ConvertUtil.pointToPixel(shape.getWidth()));
+            Assert.assertEquals(32.0, 0.01, ConvertUtil.pointToPixel(shape.getHeight()));
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd
@@ -387,10 +384,12 @@ public class ExDocument extends ApiExampleBase
             {
                 // The URL is used again as a baseUri to ensure that any relative image paths are retrieved correctly.
                 LoadOptions options = new LoadOptions(LoadFormat.HTML, "", URL);
+
                 // Load the HTML document from stream and pass the LoadOptions object.
                 Document doc = new Document(stream, options);
-                // Verify document content.
-                Assert.assertTrue(doc.getText().contains("HYPERLINK \"https://products.aspose.com/words/net/\" \\o \"Aspose.Words\""));
+
+                // At this stage, we can read and edit the document's contents and then save it to the local file system.
+                Assert.assertTrue(doc.getText().contains("HYPERLINK \"https://products.aspose.com/words/net/\" \\o \"Aspose.Words\"")); //ExSkip
 
                 doc.save(getArtifactsDir() + "Document.InsertHtmlFromWebPage.docx");
             }
@@ -719,7 +718,7 @@ public class ExDocument extends ApiExampleBase
 
         String paraText = dstDoc.getSections().get(1).getBody().getLastParagraph().getText();
 
-        msAssert.isTrue(paraText.startsWith("13->13"), paraText);
+        Assert.assertTrue(paraText.startsWith("13->13"), paraText);
         Assert.assertEquals("1.", dstDoc.getSections().get(1).getBody().getLastParagraph().getListLabel().getLabelString());
     }
 
@@ -820,7 +819,7 @@ public class ExDocument extends ApiExampleBase
         Assert.assertEquals("XmlDsig", DigitalSignatureType.toString(digitalSig.getSignatureType()));
         Assert.assertTrue(digitalSig.getCertificateHolder().getCertificateInternal().getSubject().contains("Aspose Pty Ltd"));
         Assert.assertTrue(digitalSig.getCertificateHolder().getCertificateInternal().getIssuerName().Name != null &&
-                    digitalSig.getCertificateHolder().getCertificateInternal().getIssuerName().Name.contains("VeriSign"));
+                        digitalSig.getCertificateHolder().getCertificateInternal().getIssuerName().Name.contains("VeriSign"));
     }
 
     @Test
@@ -847,7 +846,7 @@ public class ExDocument extends ApiExampleBase
 
         // There are two ways of saving a signed copy of a document to the local file system:
         // 1 - Designate a document by a local system filename and save a signed copy at a location specified by another filename.
-        SignOptions signOptions = new SignOptions(); { signOptions.setSignTime(new Date()); }
+        SignOptions signOptions = new SignOptions(); { signOptions.setSignTime(new Date); }
         DigitalSignatureUtil.sign(getMyDir() + "Document.docx", getArtifactsDir() + "Document.DigitalSignature.docx",
             certificateHolder, signOptions);
 
@@ -892,8 +891,8 @@ public class ExDocument extends ApiExampleBase
         {
             String signatureValue = Convert.toBase64String(digitalSignature.getSignatureValue());
             Assert.assertEquals("K1cVLLg2kbJRAzT5WK+m++G8eEO+l7S+5ENdjMxxTXkFzGUfvwxREuJdSFj9AbD" +
-                "MhnGvDURv9KEhC25DDF1al8NRVR71TF3CjHVZXpYu7edQS5/yLw/k5CiFZzCp1+MmhOdYPcVO+Fm" +
-                "+9fKr2iNLeyYB+fgEeZHfTqTFM2WwAqo=", signatureValue);
+                    "MhnGvDURv9KEhC25DDF1al8NRVR71TF3CjHVZXpYu7edQS5/yLw/k5CiFZzCp1+MmhOdYPcVO+Fm" +
+                    "+9fKr2iNLeyYB+fgEeZHfTqTFM2WwAqo=", signatureValue);
         }
         //ExEnd
     }
@@ -995,10 +994,8 @@ public class ExDocument extends ApiExampleBase
         // but with a unique copy of each of the original document's nodes.
         Document clone = doc.deepClone();
 
-        Assert.assertEquals(doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getText(),
-            clone.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getText());
-        Assert.assertNotEquals(doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).hashCode(),
-            clone.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).hashCode());
+        Assert.assertEquals(doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getText(), clone.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getText());
+        Assert.Is.Not.EqualTo(doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).hashCode())clone.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).hashCode());
         //ExEnd
     }
 
@@ -1343,7 +1340,7 @@ public class ExDocument extends ApiExampleBase
         Assert.assertEquals(true, doc.getHyphenationOptions().getHyphenateCaps());
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "Document.HyphenationOptions.docx",
-            getGoldsDir() + "Document.HyphenationOptions Gold.docx"));
+                getGoldsDir() + "Document.HyphenationOptions Gold.docx"));
     }
 
     @Test
@@ -1434,8 +1431,8 @@ public class ExDocument extends ApiExampleBase
         builder.getFont().setStyle(doc.getStyles().get("MyParagraphStyle1"));
         builder.writeln("Hello world!");
 
-        List list = doc.getLists().add(doc.getStyles().get("MyListStyle1"));
-        builder.getListFormat().setList(list);
+        List docList = doc.getLists().add(doc.getStyles().get("MyListStyle1"));
+        builder.getListFormat().setList(docList);
         builder.writeln("Item 1");
         builder.writeln("Item 2");
 
@@ -1511,7 +1508,7 @@ public class ExDocument extends ApiExampleBase
     public void useSubstitutions() throws Exception
     {
         //ExStart
-        //ExFor:FindReplaceOptions.#ctor
+        //ExFor:FindReplaceOptions.#ctor()
         //ExFor:FindReplaceOptions.UseSubstitutions
         //ExFor:FindReplaceOptions.LegacyMode
         //ExSummary:Shows how to recognize and use substitutions within replacement patterns.
@@ -1615,9 +1612,9 @@ public class ExDocument extends ApiExampleBase
         TextAbsorber textAbsorber = new TextAbsorber();
         textAbsorber.Visit(pdfDoc);
 
-        Assert.AreEqual(showHiddenText ?
-                $"This text is not hidden.{Environment.NewLine}This text is hidden." :
-                "This text is not hidden.", textAbsorber.Text);
+        Assert.That(textAbsorber.Text, assertEquals(showHiddenText ?
+                    $"This text is not hidden.{Environment.NewLine}This text is hidden." :
+                    "This text is not hidden.", );
     }
 
 	//JAVA-added data provider for test method
@@ -1674,9 +1671,9 @@ public class ExDocument extends ApiExampleBase
         TextAbsorber textAbsorber = new TextAbsorber();
         textAbsorber.Visit(pdfDoc);
 
-        Assert.AreEqual(showParagraphMarks ?
-                $"Hello world!¶{Environment.NewLine}Hello again!¶{Environment.NewLine}¶" :
-                $"Hello world!{Environment.NewLine}Hello again!", textAbsorber.Text.Trim());
+        Assert.That(textAbsorber.Text.Trim(), assertEquals(showParagraphMarks ?
+                    $"Hello world!¶{Environment.NewLine}Hello again!¶{Environment.NewLine}¶" :
+                    $"Hello world!{Environment.NewLine}Hello again!", );
     }
 
 	//JAVA-added data provider for test method
@@ -1889,7 +1886,7 @@ public class ExDocument extends ApiExampleBase
         builder.writeln("Writing text in a protected document.");
 
         Assert.assertEquals("Hello world! This document is protected." +
-                        "\rWriting text in a protected document.", doc.getText().trim());
+                            "\rWriting text in a protected document.", doc.getText().trim());
         //ExEnd
         Assert.assertTrue(doc.getWriteProtection().getReadOnlyRecommended());
         Assert.assertTrue(doc.getWriteProtection().validatePassword("MyPassword"));
@@ -1909,7 +1906,7 @@ public class ExDocument extends ApiExampleBase
         doc.getBuiltInDocumentProperties().setAuthor("John Doe");
         doc.getBuiltInDocumentProperties().setCompany("Placeholder Inc.");
 
-        doc.startTrackRevisionsInternal(doc.getBuiltInDocumentProperties().getAuthor(), new Date());
+        doc.startTrackRevisionsInternal(doc.getBuiltInDocumentProperties().getAuthor(), new Date);
         builder.write("Hello world!");
         doc.stopTrackRevisions();
 
@@ -1952,7 +1949,7 @@ public class ExDocument extends ApiExampleBase
 
         builder.write("Hello world!");
 
-        Comment comment = new Comment(doc, "John Doe", "J.D.", new Date());
+        Comment comment = new Comment(doc, "John Doe", "J.D.", new Date);
         comment.setText("My comment.");
         builder.getCurrentParagraph().appendChild(comment);
 
@@ -1980,9 +1977,7 @@ public class ExDocument extends ApiExampleBase
         TextAbsorber textAbsorber = new TextAbsorber();
         textAbsorber.Visit(pdfDoc);
 
-        Assert.AreEqual(
-            "Hello world!                                                                    Commented [J.D.1]:  My comment.",
-            textAbsorber.Text);
+        Assert.That(textAbsorber.Text, assertEquals("Hello world!                                                                    Commented [J.D.1]:  My comment.", );
     }
 
     @Test
@@ -2085,7 +2080,7 @@ public class ExDocument extends ApiExampleBase
 
         VbaModuleCollection vbaModules = doc.getVbaProject().getModules();
 
-        Assert.AreEqual(vbaModules.Count(), 3);
+        Assert.That(3, Is.EqualTo(vbaModules.Count()));
 
         for (VbaModule module : vbaModules)
             System.out.println("Module name: {module.Name};\nModule code:\n{module.SourceCode}\n");
@@ -2099,7 +2094,7 @@ public class ExDocument extends ApiExampleBase
         //ExEnd
 
         Assert.assertEquals("AsposeVBAtest", vbaProject.getName());
-        Assert.AreEqual(2, vbaProject.getModules().Count());
+        Assert.That(vbaProject.getModules().Count(), assertEquals(2, );
         Assert.assertEquals(1251, vbaProject.getCodePage());
         Assert.assertFalse(vbaProject.isSigned());
 
@@ -2360,12 +2355,12 @@ public class ExDocument extends ApiExampleBase
     public void imageWatermark() throws Exception
     {
         //ExStart
+        //ExFor:Watermark.SetImage(Image)
         //ExFor:Watermark.SetImage(Image, ImageWatermarkOptions)
+        //ExFor:Watermark.SetImage(String, ImageWatermarkOptions)
         //ExFor:ImageWatermarkOptions
         //ExFor:ImageWatermarkOptions.Scale
         //ExFor:ImageWatermarkOptions.IsWashout
-        //ExFor:Watermark.SetImage(Image)
-        //ExFor:Watermark.SetImage(String, ImageWatermarkOptions)
         //ExSummary:Shows how to create a watermark from an image in the local file system.
         Document doc = new Document();
 
@@ -2375,18 +2370,19 @@ public class ExDocument extends ApiExampleBase
         imageWatermarkOptions.setScale(5.0);
         imageWatermarkOptions.isWashout(false);
 
-        // We have a different options to insert image:
-        doc.getWatermark().setImage(ImageIO.read(getImageDir() + "Logo.jpg"), imageWatermarkOptions);
-
+        // We have a different options to insert image.
+        // Use on of the following methods to add image watermark.
         doc.getWatermark().setImage(ImageIO.read(getImageDir() + "Logo.jpg"));
 
+        doc.getWatermark().setImage(ImageIO.read(getImageDir() + "Logo.jpg"), imageWatermarkOptions);
+
         doc.getWatermark().setImage(getImageDir() + "Logo.jpg", imageWatermarkOptions);
+
 
         doc.save(getArtifactsDir() + "Document.ImageWatermark.docx");
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Document.ImageWatermark.docx");
-
         Assert.assertEquals(WatermarkType.IMAGE, doc.getWatermark().getType());
     }
 
@@ -2569,8 +2565,7 @@ public class ExDocument extends ApiExampleBase
 
         Assert.assertEquals(3, doc.getFrameset().getChildFramesets().getCount());
         // We can check the default URL (a web page URL or local document) or if the frame is an external resource.
-        Assert.assertEquals("https://file-examples-com.github.io/uploads/2017/02/file-sample_100kB.docx",
-            doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).getFrameDefaultUrl());
+        Assert.assertEquals("https://file-examples-com.github.io/uploads/2017/02/file-sample_100kB.docx", doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).getFrameDefaultUrl());
         Assert.assertTrue(doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).isFrameLinkToFile());
 
         Assert.assertEquals("Document.docx", doc.getFrameset().getChildFramesets().get(1).getFrameDefaultUrl());
@@ -2583,9 +2578,7 @@ public class ExDocument extends ApiExampleBase
 
         doc = DocumentHelper.saveOpen(doc);
 
-        Assert.assertEquals(
-            "https://github.com/aspose-words/Aspose.Words-for-.NET/blob/master/Examples/Data/Absolute%20position%20tab.docx",
-            doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).getFrameDefaultUrl());
+        Assert.assertEquals("https://github.com/aspose-words/Aspose.Words-for-.NET/blob/master/Examples/Data/Absolute%20position%20tab.docx", doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).getFrameDefaultUrl());
         Assert.assertFalse(doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).isFrameLinkToFile());
     }
 

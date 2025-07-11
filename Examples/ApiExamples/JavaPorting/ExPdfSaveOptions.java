@@ -19,6 +19,7 @@ import com.aspose.ms.System.IO.File;
 import com.aspose.words.PdfSaveOptions;
 import com.aspose.words.PageSet;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.StyleIdentifier;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.PdfCompliance;
@@ -68,7 +69,6 @@ import com.aspose.words.PdfEncryptionDetails;
 import com.aspose.words.PdfPermissions;
 import com.aspose.words.NumeralFormat;
 import com.aspose.words.PdfAttachmentsEmbeddingMode;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.PdfPageLayout;
 import org.testng.annotations.DataProvider;
 
@@ -116,12 +116,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.OnePage.pdf");
 
-        Assert.AreEqual(1, pdfDocument.Pages.Count);
+        Assert.That(pdfDocument.Pages.Count, assertEquals(1, );
 
         TextFragmentAbsorber textFragmentAbsorber = new TextFragmentAbsorber();
         pdfDocument.Pages.Accept(textFragmentAbsorber);
 
-        Assert.AreEqual("Page 2.", textFragmentAbsorber.Text);
+        Assert.That(textFragmentAbsorber.Text, assertEquals("Page 2.", );
     }
 
     @Test
@@ -177,7 +177,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Bookmarks bookmarks = bookmarkEditor.ExtractBookmarks();
 
-        Assert.AreEqual(3, bookmarks.Count);
+        Assert.That(bookmarks.Count, assertEquals(3, );
     }
 
     @Test (dataProvider = "createMissingOutlineLevelsDataProvider")
@@ -244,7 +244,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Bookmarks bookmarks = bookmarkEditor.ExtractBookmarks();
 
-        Assert.AreEqual(createMissingOutlineLevels ? 6 : 3, bookmarks.Count);
+        Assert.That(bookmarks.Count, assertEquals(createMissingOutlineLevels ? 6 : 3, );
     }
 
 	//JAVA-added data provider for test method
@@ -322,18 +322,18 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         if (createOutlinesForHeadingsInTables)
         {
-            Assert.AreEqual(1, pdfDoc.Outlines.Count);
-            Assert.AreEqual("Customers", pdfDoc.Outlines[1].Title);
+            Assert.That(pdfDoc.Outlines.Count, assertEquals(1, );
+            Assert.That(pdfDoc.Outlines[1].Title, assertEquals("Customers", );
         }
         else
-            Assert.AreEqual(0, pdfDoc.Outlines.Count);
+            Assert.That(pdfDoc.Outlines.Count, assertEquals(0, );
 
         TableAbsorber tableAbsorber = new TableAbsorber();
         tableAbsorber.Visit(pdfDoc.Pages[1]);
 
-        Assert.AreEqual("Customers", tableAbsorber.TableList[0].RowList[0].CellList[0].TextFragments[1].Text);
-        Assert.AreEqual("John Doe", tableAbsorber.TableList[0].RowList[1].CellList[0].TextFragments[1].Text);
-        Assert.AreEqual("Jane Doe", tableAbsorber.TableList[0].RowList[2].CellList[0].TextFragments[1].Text);
+        Assert.That(tableAbsorber.TableList[0].RowList[0].CellList[0].TextFragments[1].Text, assertEquals("Customers", );
+        Assert.That(tableAbsorber.TableList[0].RowList[1].CellList[0].TextFragments[1].Text, assertEquals("John Doe", );
+        Assert.That(tableAbsorber.TableList[0].RowList[2].CellList[0].TextFragments[1].Text, assertEquals("Jane Doe", );
     }
 
 	//JAVA-added data provider for test method
@@ -415,17 +415,17 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExpandedOutlineLevels.pdf");
 
-        Assert.AreEqual(1, pdfDocument.Outlines.Count);
-        Assert.AreEqual(5, pdfDocument.Outlines.VisibleCount);
+        Assert.That(pdfDocument.Outlines.Count, assertEquals(1, );
+        Assert.That(pdfDocument.Outlines.VisibleCount, assertEquals(5, );
 
-        Assert.True(pdfDocument.Outlines[1].Open);
-        Assert.AreEqual(1, pdfDocument.Outlines[1].Level);
+        Assert.That(pdfDocument.Outlines[1].Open, assertTrue();
+        Assert.That(pdfDocument.Outlines[1].Level, assertEquals(1, );
 
-        Assert.False(pdfDocument.Outlines[1][1].Open);
-        Assert.AreEqual(2, pdfDocument.Outlines[1][1].Level);
+        Assert.That(pdfDocument.Outlines[1][1].Open, assertFalse();
+        Assert.That(pdfDocument.Outlines[1][1].Level, assertEquals(2, );
 
-        Assert.True(pdfDocument.Outlines[1][2].Open);
-        Assert.AreEqual(2, pdfDocument.Outlines[1][2].Level);
+        Assert.That(pdfDocument.Outlines[1][2].Open, assertTrue();
+        Assert.That(pdfDocument.Outlines[1][2].Level, assertEquals(2, );
     }
 
     @Test (dataProvider = "updateFieldsDataProvider")
@@ -460,7 +460,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         options.setUpdateFields(updateFields);
 
         // We can clone PdfSaveOptions objects.
-        Assert.assertNotSame(options, options.deepClone());
+        Assert.Is.Not.SameAs(options)options.deepClone());
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.UpdateFields.pdf", options);
         //ExEnd
@@ -487,7 +487,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         TextFragmentAbsorber textFragmentAbsorber = new TextFragmentAbsorber();
         pdfDocument.Pages.Accept(textFragmentAbsorber);
 
-        Assert.AreEqual(updateFields ? "Page 1 of 2" : "Page  of ", textFragmentAbsorber.TextFragments[1].Text);
+        Assert.That(textFragmentAbsorber.TextFragments[1].Text, assertEquals(updateFields ? "Page 1 of 2" : "Page  of ", );
     }
 
 	//JAVA-added data provider for test method
@@ -546,36 +546,36 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.PreserveFormFields.pdf");
 
-        Assert.AreEqual(1, pdfDocument.Pages.Count);
+        Assert.That(pdfDocument.Pages.Count, assertEquals(1, );
 
         TextFragmentAbsorber textFragmentAbsorber = new TextFragmentAbsorber();
         pdfDocument.Pages.Accept(textFragmentAbsorber);
 
         if (preserveFormFields)
         {
-            Assert.AreEqual("Please select a fruit: ", textFragmentAbsorber.Text);
+            Assert.That(textFragmentAbsorber.Text, assertEquals("Please select a fruit: ", );
             TestUtil.fileContainsString("<</Type/Annot/Subtype/Widget/P 5 0 R/FT/Ch/F 4/Rect[168.39199829 707.35101318 217.87442017 722.64007568]/Ff 131072/T",
                 getArtifactsDir() + "PdfSaveOptions.PreserveFormFields.pdf");
 
             Aspose.Pdf.Forms.Form form = pdfDocument.Form;
-            Assert.AreEqual(1, pdfDocument.Form.Count);
+            Assert.That(pdfDocument.Form.Count, assertEquals(1, );
 
             ComboBoxField field = (ComboBoxField)form.Fields[0];
 
-            Assert.AreEqual("MyComboBox", field.FullName);
-            Assert.AreEqual(3, field.Options.Count);
-            Assert.AreEqual("Apple", field.Value);
+            Assert.That(field.FullName, assertEquals("MyComboBox", );
+            Assert.That(field.Options.Count, assertEquals(3, );
+            Assert.That(field.Value, assertEquals("Apple", );
         }
         else
         {
-            Assert.AreEqual("Please select a fruit: Apple", textFragmentAbsorber.Text);
+            Assert.That(textFragmentAbsorber.Text, assertEquals("Please select a fruit: Apple", );
             Assert.<AssertionError>Throws(() =>
             {
                 TestUtil.fileContainsString("/Widget",
                     getArtifactsDir() + "PdfSaveOptions.PreserveFormFields.pdf");
             });
 
-            Assert.AreEqual(0, pdfDocument.Form.Count);
+            Assert.That(pdfDocument.Form.Count, assertEquals(0, );
         }
     }
 
@@ -655,48 +655,48 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         switch (pdfCompliance)
         {
             case PdfCompliance.PDF_17:
-                Assert.AreEqual(PdfFormat.v_1_7, pdfDocument.PdfFormat);
-                Assert.AreEqual("1.7", pdfDocument.Version);
+                Assert.That(pdfDocument.PdfFormat, Is.EqualTo(PdfFormat.v_1_7));
+                Assert.That(pdfDocument.Version, assertEquals("1.7", );
                 break;
             case PdfCompliance.PDF_A_2_A:
-                Assert.AreEqual(PdfFormat.PDF_A_2A, pdfDocument.PdfFormat);
-                Assert.AreEqual("1.7", pdfDocument.Version);
+                Assert.That(pdfDocument.PdfFormat, Is.EqualTo(PdfFormat.PDF_A_2A));
+                Assert.That(pdfDocument.Version, assertEquals("1.7", );
                 break;
             case PdfCompliance.PDF_A_2_U:
-                Assert.AreEqual(PdfFormat.PDF_A_2U, pdfDocument.PdfFormat);
-                Assert.AreEqual("1.7", pdfDocument.Version);
+                Assert.That(pdfDocument.PdfFormat, Is.EqualTo(PdfFormat.PDF_A_2U));
+                Assert.That(pdfDocument.Version, assertEquals("1.7", );
                 break;
             case PdfCompliance.PDF_A_3_A:
-                Assert.AreEqual(PdfFormat.PDF_A_3A, pdfDocument.PdfFormat);
-                Assert.AreEqual("1.7", pdfDocument.Version);
+                Assert.That(pdfDocument.PdfFormat, Is.EqualTo(PdfFormat.PDF_A_3A));
+                Assert.That(pdfDocument.Version, assertEquals("1.7", );
                 break;
             case PdfCompliance.PDF_A_3_U:
-                Assert.AreEqual(PdfFormat.PDF_A_3U, pdfDocument.PdfFormat);
-                Assert.AreEqual("1.7", pdfDocument.Version);
+                Assert.That(pdfDocument.PdfFormat, Is.EqualTo(PdfFormat.PDF_A_3U));
+                Assert.That(pdfDocument.Version, assertEquals("1.7", );
                 break;
             case PdfCompliance.PDF_UA_1:
-                Assert.AreEqual(PdfFormat.PDF_UA_1, pdfDocument.PdfFormat);
-                Assert.AreEqual("1.7", pdfDocument.Version);
+                Assert.That(pdfDocument.PdfFormat, Is.EqualTo(PdfFormat.PDF_UA_1));
+                Assert.That(pdfDocument.Version, assertEquals("1.7", );
                 break;
             case PdfCompliance.PDF_20:
-                Assert.AreEqual(PdfFormat.v_2_0, pdfDocument.PdfFormat);
-                Assert.AreEqual("2.0", pdfDocument.Version);
+                Assert.That(pdfDocument.PdfFormat, Is.EqualTo(PdfFormat.v_2_0));
+                Assert.That(pdfDocument.Version, assertEquals("2.0", );
                 break;
             case PdfCompliance.PDF_A_4:
-                Assert.AreEqual(PdfFormat.PDF_A_4, pdfDocument.PdfFormat);
-                Assert.AreEqual("2.0", pdfDocument.Version);
+                Assert.That(pdfDocument.PdfFormat, Is.EqualTo(PdfFormat.PDF_A_4));
+                Assert.That(pdfDocument.Version, assertEquals("2.0", );
                 break;
             case PdfCompliance.PDF_A_4_F:
-                Assert.AreEqual(PdfFormat.PDF_A_4F, pdfDocument.PdfFormat);
-                Assert.AreEqual("2.0", pdfDocument.Version);
+                Assert.That(pdfDocument.PdfFormat, Is.EqualTo(PdfFormat.PDF_A_4F));
+                Assert.That(pdfDocument.Version, assertEquals("2.0", );
                 break;
             case PdfCompliance.PDF_A_4_UA_2:
-                Assert.AreEqual(PdfFormat.PDF_UA_1, pdfDocument.PdfFormat);
-                Assert.AreEqual("2.0", pdfDocument.Version);
+                Assert.That(pdfDocument.PdfFormat, Is.EqualTo(PdfFormat.PDF_UA_1));
+                Assert.That(pdfDocument.Version, assertEquals("2.0", );
                 break;
             case PdfCompliance.PDF_UA_2:
-                Assert.AreEqual(PdfFormat.PDF_UA_1, pdfDocument.PdfFormat);
-                Assert.AreEqual("2.0", pdfDocument.Version);
+                Assert.That(pdfDocument.PdfFormat, Is.EqualTo(PdfFormat.PDF_UA_1));
+                Assert.That(pdfDocument.Version, assertEquals("2.0", );
                 break;
         }
     }
@@ -927,16 +927,16 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         switch (pdfImageColorSpaceExportMode)
         {
             case PdfImageColorSpaceExportMode.AUTO:
-                Assert.IsTrue(testedImageLength < 20500);
+                Assert.That(testedImageLength < 20500, assertTrue();
                 break;
             case PdfImageColorSpaceExportMode.SIMPLE_CMYK:
-                Assert.IsTrue(testedImageLength < 140000);
+                Assert.That(testedImageLength < 140000, assertTrue();
                 break;
         }
 
-        Assert.AreEqual(400, pdfDocImage.Width);
-        Assert.AreEqual(400, pdfDocImage.Height);
-        Assert.AreEqual(ColorType.Rgb, pdfDocImage.GetColorType());
+        Assert.That(pdfDocImage.Width, assertEquals(400, );
+        Assert.That(pdfDocImage.Height, assertEquals(400, );
+        Assert.That(pdfDocImage.GetColorType(), Is.EqualTo(ColorType.Rgb));
 
         pdfDocImage = pdfDocument.Pages[1].Resources.Images[2];
 
@@ -944,16 +944,16 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         switch (pdfImageColorSpaceExportMode)
         {
             case PdfImageColorSpaceExportMode.AUTO:
-                Assert.IsTrue(testedImageLength < 20500);
+                Assert.That(testedImageLength < 20500, assertTrue();
                 break;
             case PdfImageColorSpaceExportMode.SIMPLE_CMYK:
-                Assert.IsTrue(testedImageLength < 21500);
+                Assert.That(testedImageLength < 21500, assertTrue();
                 break;
         }
 
-        Assert.AreEqual(400, pdfDocImage.Width);
-        Assert.AreEqual(400, pdfDocImage.Height);
-        Assert.AreEqual(ColorType.Rgb, pdfDocImage.GetColorType());
+        Assert.That(pdfDocImage.Width, assertEquals(400, );
+        Assert.That(pdfDocImage.Height, assertEquals(400, );
+        Assert.That(pdfDocImage.GetColorType(), Is.EqualTo(ColorType.Rgb));
     }
 
 	//JAVA-added data provider for test method
@@ -1010,8 +1010,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.DownsampleOptions.Default.pdf");
         XImage pdfDocImage = pdfDocument.Pages[1].Resources.Images[1];
 
-        Assert.IsTrue(pdfDocImage.ToStream().Length < 400000);
-        Assert.AreEqual(ColorType.Rgb, pdfDocImage.GetColorType());
+        Assert.That(pdfDocImage.ToStream().Length < 400000, assertTrue();
+        Assert.That(pdfDocImage.GetColorType(), Is.EqualTo(ColorType.Rgb));
     }
 
     @Test (dataProvider = "colorRenderingDataProvider")
@@ -1058,12 +1058,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         switch (colorMode)
         {
             case ColorMode.NORMAL:
-                Assert.IsTrue(testedImageLength < 400000);
-                Assert.AreEqual(ColorType.Rgb, pdfDocImage.GetColorType());
+                Assert.That(testedImageLength < 400000, assertTrue();
+                Assert.That(pdfDocImage.GetColorType(), Is.EqualTo(ColorType.Rgb));
                 break;
             case ColorMode.GRAYSCALE:
-                Assert.IsTrue(testedImageLength < 1450000);
-                Assert.AreEqual(ColorType.Grayscale, pdfDocImage.GetColorType());
+                Assert.That(testedImageLength < 1450000, assertTrue();
+                Assert.That(pdfDocImage.GetColorType(), Is.EqualTo(ColorType.Grayscale));
                 break;
         }
     }
@@ -1120,8 +1120,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.DocTitle.pdf");
 
-        Assert.AreEqual(displayDocTitle, pdfDocument.DisplayDocTitle);
-        Assert.AreEqual("Windows bar pdf title", pdfDocument.Info.Title);
+        Assert.That(pdfDocument.DisplayDocTitle, assertEquals(displayDocTitle, );
+        Assert.That(pdfDocument.Info.Title, assertEquals("Windows bar pdf title", );
     }
 
 	//JAVA-added data provider for test method
@@ -1196,12 +1196,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EscapedUri.pdf");
 
-        Page page = pdfDocument.Pages[1];
+        Aspose.Pdf.Page page = pdfDocument.Pages[1];
         LinkAnnotation linkAnnot = (LinkAnnotation)page.Annotations[1];
 
         GoToURIAction action = (GoToURIAction)linkAnnot.Action;
 
-        Assert.AreEqual(result, action.URI);
+        Assert.That(action.URI, assertEquals(result, );
     }
 
 	//JAVA-added data provider for test method
@@ -1268,11 +1268,10 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Aspose.Pdf.Document pdfDocument =
             new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.OpenHyperlinksInNewWindow.pdf");
 
-        Page page = pdfDocument.Pages[1];
+        Aspose.Pdf.Page page = pdfDocument.Pages[1];
         LinkAnnotation linkAnnot = (LinkAnnotation)page.Annotations[1];
 
-        Assert.AreEqual(openHyperlinksInNewWindow ? JavascriptAction.class : GoToURIAction.class,
-            linkAnnot.Action.GetType());
+        Assert.That(linkAnnot.Action.GetType(), assertEquals(openHyperlinksInNewWindow ? JavascriptAction.class : GoToURIAction.class, );
     }
 
 	//JAVA-added data provider for test method
@@ -1320,8 +1319,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "PdfSaveOptions.HandleBinaryRasterWarnings.pdf", saveOptions);
 
         Assert.assertEquals(1, callback.Warnings.getCount());
-        Assert.assertEquals("'R2_XORPEN' binary raster operation is not supported.",
-            callback.Warnings.get(0).getDescription());
+        Assert.assertEquals("'R2_XORPEN' binary raster operation is not supported.", callback.Warnings.get(0).getDescription());
     }
 
     /// <summary>
@@ -1428,7 +1426,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 TestUtil.fileContainsString($"<</Type/Catalog/Pages 3 0 R/Lang({inputDocLocaleName})/Metadata 4 0 R>>\r\n",
                     getArtifactsDir() + "PdfSaveOptions.HeaderFooterBookmarksExportMode.pdf");
 
-                Assert.AreEqual(0, pdfDoc.Outlines.Count);
+                Assert.That(pdfDoc.Outlines.Count, assertEquals(0, );
                 break;
             case com.aspose.words.HeaderFooterBookmarksExportMode.FIRST:
             case com.aspose.words.HeaderFooterBookmarksExportMode.ALL:
@@ -1438,18 +1436,18 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
                 OutlineCollection outlineItemCollection = pdfDoc.Outlines;
 
-                Assert.AreEqual(4, outlineItemCollection.Count);
-                Assert.AreEqual("Bookmark_1", outlineItemCollection[1].Title);
-                Assert.AreEqual("1 XYZ 233 806 0", outlineItemCollection[1].Destination.ToString());
+                Assert.That(outlineItemCollection.Count, assertEquals(4, );
+                Assert.That(outlineItemCollection[1].Title, assertEquals("Bookmark_1", );
+                Assert.That(outlineItemCollection[1].Destination.ToString(), assertEquals("1 XYZ 233 806 0", );
 
-                Assert.AreEqual("Bookmark_2", outlineItemCollection[2].Title);
-                Assert.AreEqual("1 XYZ 84 47 0", outlineItemCollection[2].Destination.ToString());
+                Assert.That(outlineItemCollection[2].Title, assertEquals("Bookmark_2", );
+                Assert.That(outlineItemCollection[2].Destination.ToString(), assertEquals("1 XYZ 84 47 0", );
 
-                Assert.AreEqual("Bookmark_3", outlineItemCollection[3].Title);
-                Assert.AreEqual("2 XYZ 85 806 0", outlineItemCollection[3].Destination.ToString());
+                Assert.That(outlineItemCollection[3].Title, assertEquals("Bookmark_3", );
+                Assert.That(outlineItemCollection[3].Destination.ToString(), assertEquals("2 XYZ 85 806 0", );
 
-                Assert.AreEqual("Bookmark_4", outlineItemCollection[4].Title);
-                Assert.AreEqual("2 XYZ 85 48 0", outlineItemCollection[4].Destination.ToString());
+                Assert.That(outlineItemCollection[4].Title, assertEquals("Bookmark_4", );
+                Assert.That(outlineItemCollection[4].Destination.ToString(), assertEquals("2 XYZ 85 48 0", );
                 break;
         }
     }
@@ -1476,8 +1474,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOption.UnsupportedImageFormatWarning.pdf", SaveFormat.PDF);
 
-        Assert.assertEquals("Image can not be processed. Possibly unsupported image format.",
-            saveWarningCallback.SaveWarnings.get(0).getDescription());
+        Assert.assertEquals("Image can not be processed. Possibly unsupported image format.", saveWarningCallback.SaveWarnings.get(0).getDescription());
     }
 
     public static class SaveWarningCallback implements IWarningCallback
@@ -1541,7 +1538,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         pdfDocument.Pages[1].Accept(textAbsorber);
         Rectangle textFragmentRectangle = textAbsorber.TextFragments[3].Rectangle;
 
-        Assert.AreEqual(renderToSize ? 1.585d : 5.045d, textFragmentRectangle.Width, 0.001d);
+        Assert.That(textFragmentRectangle.Width, assertEquals(renderToSize ? 1.585d : 5.045d, 0.001d, );
     }
 
 	//JAVA-added data provider for test method
@@ -1577,8 +1574,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         FontSettings.getDefaultInstance().setFontsSources(new FontSourceBase[] { originalFontsSources[0], folderFontSource });
 
         FontSourceBase[] fontSources = FontSettings.getDefaultInstance().getFontsSources();
-        Assert.True(fontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"));
-        Assert.True(fontSources[1].getAvailableFonts().Any(f => f.FullFontName == "Arvo"));
+        Assert.That(fontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"), assertTrue();
+        Assert.That(fontSources[1].getAvailableFonts().Any(f => f.FullFontName == "Arvo"), assertTrue();
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
@@ -1624,11 +1621,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf");
         Aspose.Pdf.Text.Font[] pdfDocFonts = pdfDocument.FontUtilities.GetAllFonts();
 
-        Assert.AreEqual("ArialMT", pdfDocFonts[0].FontName);
-        Assert.AreNotEqual(embedFullFonts, pdfDocFonts[0].IsSubset);
+        Assert.That(pdfDocFonts[0].FontName, assertEquals("ArialMT", );
+        Assert.That(pdfDocFonts[0].IsSubset, Is.Not.EqualTo(embedFullFonts));
 
-        Assert.AreEqual("Arvo", pdfDocFonts[1].FontName);
-        Assert.AreNotEqual(embedFullFonts, pdfDocFonts[1].IsSubset);
+        Assert.That(pdfDocFonts[1].FontName, assertEquals("Arvo", );
+        Assert.That(pdfDocFonts[1].IsSubset, Is.Not.EqualTo(embedFullFonts));
     }
 
 	//JAVA-added data provider for test method
@@ -1706,13 +1703,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf");
         Aspose.Pdf.Text.Font[] pdfDocFonts = pdfDocument.FontUtilities.GetAllFonts();
 
-        Assert.AreEqual("ArialMT", pdfDocFonts[0].FontName);
-        Assert.AreEqual(pdfFontEmbeddingMode == PdfFontEmbeddingMode.EMBED_ALL,
-            pdfDocFonts[0].IsEmbedded);
+        Assert.That(pdfDocFonts[0].FontName, assertEquals("ArialMT", );
+        Assert.That(pdfDocFonts[0].IsEmbedded, assertEquals(pdfFontEmbeddingMode == PdfFontEmbeddingMode.EMBED_ALL, );
 
-        Assert.AreEqual("CourierNewPSMT", pdfDocFonts[1].FontName);
-        Assert.AreEqual(pdfFontEmbeddingMode == PdfFontEmbeddingMode.EMBED_ALL || pdfFontEmbeddingMode == PdfFontEmbeddingMode.EMBED_NONSTANDARD,
-            pdfDocFonts[1].IsEmbedded);
+        Assert.That(pdfDocFonts[1].FontName, assertEquals("CourierNewPSMT", );
+        Assert.That(pdfDocFonts[1].IsEmbedded, assertEquals(pdfFontEmbeddingMode == PdfFontEmbeddingMode.EMBED_ALL || pdfFontEmbeddingMode == PdfFontEmbeddingMode.EMBED_NONSTANDARD, );
     }
 
 	//JAVA-added data provider for test method
@@ -1780,17 +1775,17 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         if (useCoreFonts)
         {
-            Assert.AreEqual("Helvetica", pdfDocFonts[0].FontName);
-            Assert.AreEqual("Courier", pdfDocFonts[1].FontName);
+            Assert.That(pdfDocFonts[0].FontName, assertEquals("Helvetica", );
+            Assert.That(pdfDocFonts[1].FontName, assertEquals("Courier", );
         }
         else
         {
-            Assert.AreEqual("ArialMT", pdfDocFonts[0].FontName);
-            Assert.AreEqual("CourierNewPSMT", pdfDocFonts[1].FontName);
+            Assert.That(pdfDocFonts[0].FontName, assertEquals("ArialMT", );
+            Assert.That(pdfDocFonts[1].FontName, assertEquals("CourierNewPSMT", );
         }
 
-        Assert.AreNotEqual(useCoreFonts, pdfDocFonts[0].IsEmbedded);
-        Assert.AreNotEqual(useCoreFonts, pdfDocFonts[1].IsEmbedded);
+        Assert.That(pdfDocFonts[0].IsEmbedded, Is.Not.EqualTo(useCoreFonts));
+        Assert.That(pdfDocFonts[1].IsEmbedded, Is.Not.EqualTo(useCoreFonts));
     }
 
 	//JAVA-added data provider for test method
@@ -1856,14 +1851,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         if (applyAdditionalTextPositioning)
         {
             Assert.assertTrue(testedFileLength < 102000);
-            Assert.AreEqual(
-                "[0 (S) 0 (a) 0 (m) 0 (s) 0 (t) 0 (a) -1 (g) 1 (,) 0 ( ) 0 (1) 0 (0) 0 (.) 0 ( ) 0 (N) 0 (o) 0 (v) 0 (e) 0 (m) 0 (b) 0 (e) 0 (r) -1 ( ) 1 (2) -1 (0) 0 (1) 0 (8)] TJ",
-                tjOperator.ToString());
+            Assert.That(tjOperator.ToString(), assertEquals("[0 (S) 0 (a) 0 (m) 0 (s) 0 (t) 0 (a) -1 (g) 1 (,) 0 ( ) 0 (1) 0 (0) 0 (.) 0 ( ) 0 (N) 0 (o) 0 (v) 0 (e) 0 (m) 0 (b) 0 (e) 0 (r) -1 ( ) 1 (2) -1 (0) 0 (1) 0 (8)] TJ", );
         }
         else
         {
             Assert.assertTrue(testedFileLength < 99500);
-            Assert.AreEqual("[(Samsta) -1 (g) 1 (, 10. November) -1 ( ) 1 (2) -1 (018)] TJ", tjOperator.ToString());
+            Assert.That(tjOperator.ToString(), assertEquals("[(Samsta) -1 (g) 1 (, 10. November) -1 ( ) 1 (2) -1 (018)] TJ", );
         }
     }
 
@@ -1932,27 +1925,27 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         if (renderTextAsBookfold)
         {
-            Assert.True(textAbsorber.Text.IndexOf("Heading #1", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #2", StringComparison.ORDINAL));
-            Assert.True(textAbsorber.Text.IndexOf("Heading #2", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #3", StringComparison.ORDINAL));
-            Assert.True(textAbsorber.Text.IndexOf("Heading #3", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #4", StringComparison.ORDINAL));
-            Assert.True(textAbsorber.Text.IndexOf("Heading #4", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #5", StringComparison.ORDINAL));
-            Assert.True(textAbsorber.Text.IndexOf("Heading #5", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #6", StringComparison.ORDINAL));
-            Assert.True(textAbsorber.Text.IndexOf("Heading #6", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #7", StringComparison.ORDINAL));
-            Assert.False(textAbsorber.Text.IndexOf("Heading #7", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #8", StringComparison.ORDINAL));
-            Assert.True(textAbsorber.Text.IndexOf("Heading #8", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #9", StringComparison.ORDINAL));
-            Assert.False(textAbsorber.Text.IndexOf("Heading #9", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #10", StringComparison.ORDINAL));
+            Assert.That(textAbsorber.Text.IndexOf("Heading #1", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #2", StringComparison.ORDINAL), assertTrue();
+            Assert.That(textAbsorber.Text.IndexOf("Heading #2", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #3", StringComparison.ORDINAL), assertTrue();
+            Assert.That(textAbsorber.Text.IndexOf("Heading #3", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #4", StringComparison.ORDINAL), assertTrue();
+            Assert.That(textAbsorber.Text.IndexOf("Heading #4", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #5", StringComparison.ORDINAL), assertTrue();
+            Assert.That(textAbsorber.Text.IndexOf("Heading #5", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #6", StringComparison.ORDINAL), assertTrue();
+            Assert.That(textAbsorber.Text.IndexOf("Heading #6", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #7", StringComparison.ORDINAL), assertTrue();
+            Assert.That(textAbsorber.Text.IndexOf("Heading #7", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #8", StringComparison.ORDINAL), assertFalse();
+            Assert.That(textAbsorber.Text.IndexOf("Heading #8", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #9", StringComparison.ORDINAL), assertTrue();
+            Assert.That(textAbsorber.Text.IndexOf("Heading #9", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #10", StringComparison.ORDINAL), assertFalse();
         }
         else
         {
-            Assert.True(textAbsorber.Text.IndexOf("Heading #1", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #2", StringComparison.ORDINAL));
-            Assert.True(textAbsorber.Text.IndexOf("Heading #2", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #3", StringComparison.ORDINAL));
-            Assert.True(textAbsorber.Text.IndexOf("Heading #3", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #4", StringComparison.ORDINAL));
-            Assert.True(textAbsorber.Text.IndexOf("Heading #4", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #5", StringComparison.ORDINAL));
-            Assert.True(textAbsorber.Text.IndexOf("Heading #5", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #6", StringComparison.ORDINAL));
-            Assert.True(textAbsorber.Text.IndexOf("Heading #6", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #7", StringComparison.ORDINAL));
-            Assert.True(textAbsorber.Text.IndexOf("Heading #7", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #8", StringComparison.ORDINAL));
-            Assert.True(textAbsorber.Text.IndexOf("Heading #8", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #9", StringComparison.ORDINAL));
-            Assert.True(textAbsorber.Text.IndexOf("Heading #9", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #10", StringComparison.ORDINAL));
+            Assert.That(textAbsorber.Text.IndexOf("Heading #1", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #2", StringComparison.ORDINAL), assertTrue();
+            Assert.That(textAbsorber.Text.IndexOf("Heading #2", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #3", StringComparison.ORDINAL), assertTrue();
+            Assert.That(textAbsorber.Text.IndexOf("Heading #3", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #4", StringComparison.ORDINAL), assertTrue();
+            Assert.That(textAbsorber.Text.IndexOf("Heading #4", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #5", StringComparison.ORDINAL), assertTrue();
+            Assert.That(textAbsorber.Text.IndexOf("Heading #5", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #6", StringComparison.ORDINAL), assertTrue();
+            Assert.That(textAbsorber.Text.IndexOf("Heading #6", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #7", StringComparison.ORDINAL), assertTrue();
+            Assert.That(textAbsorber.Text.IndexOf("Heading #7", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #8", StringComparison.ORDINAL), assertTrue();
+            Assert.That(textAbsorber.Text.IndexOf("Heading #8", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #9", StringComparison.ORDINAL), assertTrue();
+            Assert.That(textAbsorber.Text.IndexOf("Heading #9", StringComparison.ORDINAL) < textAbsorber.Text.IndexOf("Heading #10", StringComparison.ORDINAL), assertTrue();
         }
     }
 
@@ -2003,7 +1996,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ZoomBehaviour.pdf");
         GoToAction action = (GoToAction)pdfDocument.OpenAction;
 
-        Assert.AreEqual(0.25d, (ms.as(action.Destination, XYZExplicitDestination.class)).Zoom);
+        Assert.That((ms.as(action.Destination, XYZExplicitDestination.class)).Zoom, assertEquals(0.25d, );
     }
 
     @Test (dataProvider = "pageModeDataProvider")
@@ -2094,19 +2087,19 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         {
             case PdfPageMode.USE_NONE:
             case PdfPageMode.USE_OUTLINES:
-                Assert.AreEqual(Aspose.Pdf.PageMode.UseNone, pdfDocument.PageMode);
+                Assert.That(pdfDocument.PageMode, Is.EqualTo(Aspose.Pdf.PageMode.UseNone));
                 break;
             case PdfPageMode.USE_THUMBS:
-                Assert.AreEqual(Aspose.Pdf.PageMode.UseThumbs, pdfDocument.PageMode);
+                Assert.That(pdfDocument.PageMode, Is.EqualTo(Aspose.Pdf.PageMode.UseThumbs));
                 break;
             case PdfPageMode.FULL_SCREEN:
-                Assert.AreEqual(Aspose.Pdf.PageMode.FullScreen, pdfDocument.PageMode);
+                Assert.That(pdfDocument.PageMode, Is.EqualTo(Aspose.Pdf.PageMode.FullScreen));
                 break;
             case PdfPageMode.USE_OC:
-                Assert.AreEqual(Aspose.Pdf.PageMode.UseOC, pdfDocument.PageMode);
+                Assert.That(pdfDocument.PageMode, Is.EqualTo(Aspose.Pdf.PageMode.UseOC));
                 break;
             case PdfPageMode.USE_ATTACHMENTS:
-                Assert.AreEqual(Aspose.Pdf.PageMode.UseAttachments, pdfDocument.PageMode);
+                Assert.That(pdfDocument.PageMode, Is.EqualTo(Aspose.Pdf.PageMode.UseAttachments));
                 break;
         }
     }
@@ -2199,7 +2192,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         noteHyperlinks(createNoteHyperlinks);
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
-        Page page = pdfDocument.Pages[1];
+        Aspose.Pdf.Page page = pdfDocument.Pages[1];
         AnnotationSelector annotationSelector = new AnnotationSelector(new LinkAnnotation(page, Rectangle.Trivial));
 
         page.Accept(annotationSelector);
@@ -2208,20 +2201,20 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         if (createNoteHyperlinks)
         {
-            Assert.AreEqual(8, linkAnnotations.Count(a => a.AnnotationType == AnnotationType.Link));
+            Assert.That(linkAnnotations.Count(a => a.AnnotationType == AnnotationType.Link), assertEquals(8, );
 
-            Assert.AreEqual("1 XYZ 85 677 0", linkAnnotations.get(0).Destination.ToString());
-            Assert.AreEqual("1 XYZ 85 79 0", linkAnnotations.get(1).Destination.ToString());
-            Assert.AreEqual("1 XYZ 85 654 0", linkAnnotations.get(2).Destination.ToString());
-            Assert.AreEqual("1 XYZ 85 68 0", linkAnnotations.get(3).Destination.ToString());
-            Assert.AreEqual("1 XYZ 202 733 0", linkAnnotations.get(4).Destination.ToString());
-            Assert.AreEqual("1 XYZ 258 711 0", linkAnnotations.get(5).Destination.ToString());
-            Assert.AreEqual("1 XYZ 157 733 0", linkAnnotations.get(6).Destination.ToString());
-            Assert.AreEqual("1 XYZ 212 711 0", linkAnnotations.get(7).Destination.ToString());
+            Assert.That(linkAnnotations.get(0).Destination.ToString(), assertEquals("1 XYZ 85 677 0", );
+            Assert.That(linkAnnotations.get(1).Destination.ToString(), assertEquals("1 XYZ 85 79 0", );
+            Assert.That(linkAnnotations.get(2).Destination.ToString(), assertEquals("1 XYZ 85 654 0", );
+            Assert.That(linkAnnotations.get(3).Destination.ToString(), assertEquals("1 XYZ 85 68 0", );
+            Assert.That(linkAnnotations.get(4).Destination.ToString(), assertEquals("1 XYZ 202 733 0", );
+            Assert.That(linkAnnotations.get(5).Destination.ToString(), assertEquals("1 XYZ 258 711 0", );
+            Assert.That(linkAnnotations.get(6).Destination.ToString(), assertEquals("1 XYZ 157 733 0", );
+            Assert.That(linkAnnotations.get(7).Destination.ToString(), assertEquals("1 XYZ 212 711 0", );
         }
         else
         {
-            Assert.AreEqual(0, annotationSelector.Selected.Count);
+            Assert.That(annotationSelector.Selected.Count, assertEquals(0, );
         }
     }
 
@@ -2309,27 +2302,27 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf");
 
-        Assert.AreEqual("Aspose.Words", pdfDocument.Info.Creator);
-        Assert.True(pdfDocument.Info.Producer.StartsWith("Aspose.Words"));
+        Assert.That(pdfDocument.Info.Creator, assertEquals("Aspose.Words", );
+        Assert.That(pdfDocument.Info.Producer.StartsWith("Aspose.Words"), assertTrue();
 
         switch (pdfCustomPropertiesExportMode)
         {
             case PdfCustomPropertiesExport.NONE:
-                Assert.AreEqual(2, pdfDocument.Info.Count);
-                Assert.AreEqual(3, pdfDocument.Metadata.Count);
+                Assert.That(pdfDocument.Info.Count, assertEquals(2, );
+                Assert.That(pdfDocument.Metadata.Count, assertEquals(3, );
                 break;
             case PdfCustomPropertiesExport.METADATA:
-                Assert.AreEqual(2, pdfDocument.Info.Count);
-                Assert.AreEqual(4, pdfDocument.Metadata.Count);
+                Assert.That(pdfDocument.Info.Count, assertEquals(2, );
+                Assert.That(pdfDocument.Metadata.Count, assertEquals(4, );
 
-                Assert.AreEqual("Aspose.Words", pdfDocument.Metadata["xmp:CreatorTool"].ToString());
-                Assert.AreEqual("Company", pdfDocument.Metadata["custprops:Property1"].ToString());
+                Assert.That(pdfDocument.Metadata["xmp:CreatorTool"].ToString(), assertEquals("Aspose.Words", );
+                Assert.That(pdfDocument.Metadata["custprops:Property1"].ToString(), assertEquals("Company", );
                 break;
             case PdfCustomPropertiesExport.STANDARD:
-                Assert.AreEqual(3, pdfDocument.Info.Count);
-                Assert.AreEqual(3, pdfDocument.Metadata.Count);
+                Assert.That(pdfDocument.Info.Count, assertEquals(3, );
+                Assert.That(pdfDocument.Metadata.Count, assertEquals(3, );
 
-                Assert.AreEqual("My value", pdfDocument.Info["Company"]);
+                Assert.That(pdfDocument.Info["Company"], assertEquals("My value", );
                 break;
         }
     }
@@ -2407,15 +2400,15 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             case DmlEffectsRenderingMode.SIMPLIFIED:
                 TestUtil.fileContainsString("<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                     getArtifactsDir() + "PdfSaveOptions.DrawingMLEffects.pdf");
-                Assert.AreEqual(0, imagePlacementAbsorber.ImagePlacements.Count);
-                Assert.AreEqual(28, tableAbsorber.TableList.Count);
+                Assert.That(imagePlacementAbsorber.ImagePlacements.Count, assertEquals(0, );
+                Assert.That(tableAbsorber.TableList.Count, assertEquals(28, );
                 break;
             case DmlEffectsRenderingMode.FINE:
                 TestUtil.fileContainsString(
                     "<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R>>/XObject<</X1 11 0 R/X2 12 0 R/X3 13 0 R/X4 14 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                     getArtifactsDir() + "PdfSaveOptions.DrawingMLEffects.pdf");
-                Assert.AreEqual(21, imagePlacementAbsorber.ImagePlacements.Count);
-                Assert.AreEqual(4, tableAbsorber.TableList.Count);
+                Assert.That(imagePlacementAbsorber.ImagePlacements.Count, assertEquals(21, );
+                Assert.That(tableAbsorber.TableList.Count, assertEquals(4, );
                 break;
         }
     }
@@ -2497,10 +2490,10 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         switch (dmlRenderingMode)
         {
             case DmlRenderingMode.DRAWING_ML:
-                Assert.AreEqual(6, tableAbsorber.TableList.Count);
+                Assert.That(tableAbsorber.TableList.Count, assertEquals(6, );
                 break;
             case DmlRenderingMode.FALLBACK:
-                Assert.AreEqual(12, tableAbsorber.TableList.Count);
+                Assert.That(tableAbsorber.TableList.Count, assertEquals(12, );
                 break;
         }
     }
@@ -2686,7 +2679,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "PdfSaveOptions.Dml3DEffectsRenderingModeTest.pdf", saveOptions);
         //ExEnd
 
-        Assert.AreEqual(38, warningCallback.Count);
+        Assert.That(48, Is.EqualTo(warningCallback.Count));
     }
 
     public static class RenderCallback implements IWarningCallback
@@ -2697,7 +2690,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             mWarnings.Add(info);
         }
 
-         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!private mWarnings.CountmWarnings;
+         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!
+            mWarnings.Clear();
+        }
+
+        public int Count => private mWarnings.CountmWarnings;
 
         /// <summary>
         /// Returns true if a warning with the specified properties has been generated.
@@ -2754,7 +2751,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf");
 
         Assert.assertFalse(FileFormatUtil.detectFileFormat(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf")
-            .hasDigitalSignature());
+                .hasDigitalSignature());
     }
 
     @Test
@@ -2764,18 +2761,18 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf");
 
-        Assert.True(pdfDocument.Form.SignaturesExist);
+        Assert.That(pdfDocument.Form.SignaturesExist, assertTrue();
 
         SignatureField signatureField = (SignatureField)pdfDocument.Form[1];
 
-        Assert.AreEqual("AsposeDigitalSignature", signatureField.FullName);
-        Assert.AreEqual("AsposeDigitalSignature", signatureField.PartialName);
-        Assert.AreEqual(Aspose.Pdf.Forms.PKCS7Detached.class, signatureField.Signature.GetType());
+        Assert.That(signatureField.FullName, assertEquals("AsposeDigitalSignature", );
+        Assert.That(signatureField.PartialName, assertEquals("AsposeDigitalSignature", );
+        Assert.That(signatureField.Signature.GetType(), assertEquals(Aspose.Pdf.Forms.PKCS7Detached.class, );
         DateTime signingTime = new DateTime(2015, 7, 20);
-        Assert.AreEqual(signingTime, signatureField.Signature.Date.ToLocalTime());
-        Assert.AreEqual("þÿ\u0000M\u0000o\u0000r\u0000z\0a\u0000l\u0000.\u0000M\0e", signatureField.Signature.Authority);
-        Assert.AreEqual("þÿ\u0000M\u0000y\u0000 \u0000O\0f\0f\u0000i\0c\0e", signatureField.Signature.Location);
-        Assert.AreEqual("þÿ\u0000T\0e\u0000s\u0000t\u0000 \u0000S\u0000i\u0000g\u0000n\u0000i\u0000n\u0000g", signatureField.Signature.Reason);
+        Assert.That(signatureField.Signature.Date.ToLocalTime(), assertEquals(signingTime, );
+        Assert.That(signatureField.Signature.Authority, assertEquals("þÿ\u0000M\u0000o\u0000r\u0000z\0a\u0000l\u0000.\u0000M\0e", );
+        Assert.That(signatureField.Signature.Location, assertEquals("þÿ\u0000M\u0000y\u0000 \u0000O\0f\0f\u0000i\0c\0e", );
+        Assert.That(signatureField.Signature.Reason, assertEquals("þÿ\u0000T\0e\u0000s\u0000t\u0000 \u0000S\u0000i\u0000g\u0000n\u0000i\u0000n\u0000g", );
     }
 
     @Test
@@ -2802,7 +2799,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         // Create a digital signature and assign it to our SaveOptions object to sign the document when we save it to PDF.
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
-        options.setDigitalSignatureDetails(new PdfDigitalSignatureDetails(certificateHolder, "Test Signing", "Aspose Office", new Date()));
+        options.setDigitalSignatureDetails(new PdfDigitalSignatureDetails(certificateHolder, "Test Signing", "Aspose Office", new Date));
 
         // Create a timestamp authority-verified timestamp.
         options.getDigitalSignatureDetails().setTimestampSettings(new PdfDigitalSignatureTimestampSettings("https://freetsa.org/tsr", "JohnDoe", "MyPassword"));
@@ -2834,18 +2831,18 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf");
 
-        Assert.True(pdfDocument.Form.SignaturesExist);
+        Assert.That(pdfDocument.Form.SignaturesExist, assertTrue();
 
         SignatureField signatureField = (SignatureField)pdfDocument.Form[1];
 
-        Assert.AreEqual("AsposeDigitalSignature", signatureField.FullName);
-        Assert.AreEqual("AsposeDigitalSignature", signatureField.PartialName);
-        Assert.AreEqual(Aspose.Pdf.Forms.PKCS7Detached.class, signatureField.Signature.GetType());
-        Assert.AreEqual(new DateTime(1, 1, 1, 0, 0, 0), signatureField.Signature.Date);
-        Assert.AreEqual("þÿ\u0000M\u0000o\u0000r\u0000z\0a\u0000l\u0000.\u0000M\0e", signatureField.Signature.Authority);
-        Assert.AreEqual("þÿ\0A\u0000s\u0000p\u0000o\u0000s\0e\u0000 \u0000O\0f\0f\u0000i\0c\0e", signatureField.Signature.Location);
-        Assert.AreEqual("þÿ\u0000T\0e\u0000s\u0000t\u0000 \u0000S\u0000i\u0000g\u0000n\u0000i\u0000n\u0000g", signatureField.Signature.Reason);
-        Assert.Null(signatureField.Signature.TimestampSettings);
+        Assert.That(signatureField.FullName, assertEquals("AsposeDigitalSignature", );
+        Assert.That(signatureField.PartialName, assertEquals("AsposeDigitalSignature", );
+        Assert.That(signatureField.Signature.GetType(), assertEquals(Aspose.Pdf.Forms.PKCS7Detached.class, );
+        Assert.That(signatureField.Signature.Date, assertEquals(new DateTime(1, 1, 1, 0, 0, 0), );
+        Assert.That(signatureField.Signature.Authority, assertEquals("þÿ\u0000M\u0000o\u0000r\u0000z\0a\u0000l\u0000.\u0000M\0e", );
+        Assert.That(signatureField.Signature.Location, assertEquals("þÿ\0A\u0000s\u0000p\u0000o\u0000s\0e\u0000 \u0000O\0f\0f\u0000i\0c\0e", );
+        Assert.That(signatureField.Signature.Reason, assertEquals("þÿ\u0000T\0e\u0000s\u0000t\u0000 \u0000S\u0000i\u0000g\u0000n\u0000i\u0000n\u0000g", );
+        Assert.That(signatureField.Signature.TimestampSettings, assertNull();
     }
 
     @Test (dataProvider = "renderMetafileDataProvider")
@@ -2904,7 +2901,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             case EmfPlusDualRenderingMode.EMF:
             case EmfPlusDualRenderingMode.EMF_PLUS_WITH_FALLBACK:
             case EmfPlusDualRenderingMode.EMF_PLUS:
-                Assert.AreEqual(0, pdfDocument.Pages[1].Resources.Images.Count);
+                Assert.That(pdfDocument.Pages[1].Resources.Images.Count, assertEquals(0, );
                 TestUtil.fileContainsString("<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 595.29998779 841.90002441]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R/FAAABG 16 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                     getArtifactsDir() + "PdfSaveOptions.RenderMetafile.pdf");
                 break;
@@ -2970,7 +2967,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         pdfDocument.Pages[1].Accept(textAbsorber);
 
-        Assert.AreEqual("Hello world!", textAbsorber.Text);
+        Assert.That(textAbsorber.Text, assertEquals("Hello world!", );
     }
 
     @Test (dataProvider = "setNumeralFormatDataProvider")
@@ -3031,13 +3028,13 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         switch (numeralFormat)
         {
             case NumeralFormat.EUROPEAN:
-                Assert.AreEqual("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 50, 100", textAbsorber.Text);
+                Assert.That(textAbsorber.Text, assertEquals("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 50, 100", );
                 break;
             case NumeralFormat.ARABIC_INDIC:
-                Assert.AreEqual(", ٢, ٣, ٤, ٥, ٦, ٧, ٨, ٩, ١٠, ٥٠, ١١٠٠", textAbsorber.Text);
+                Assert.That(textAbsorber.Text, assertEquals(", ٢, ٣, ٤, ٥, ٦, ٧, ٨, ٩, ١٠, ٥٠, ١١٠٠", );
                 break;
             case NumeralFormat.EASTERN_ARABIC_INDIC:
-                Assert.AreEqual("۱۰۰ ,۵۰ ,۱۰ ,۹ ,۸ ,۷ ,۶ ,۵ ,۴ ,۳ ,۲ ,۱", textAbsorber.Text);
+                Assert.That(textAbsorber.Text, assertEquals("۱۰۰ ,۵۰ ,۱۰ ,۹ ,۸ ,۷ ,۶ ,۵ ,۴ ,۳ ,۲ ,۱", );
                 break;
         }
     }
@@ -3107,26 +3104,26 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         TextAbsorber textAbsorber = new TextAbsorber();
         pdfDocument.Pages.Accept(textAbsorber);
 
-        Assert.AreEqual("Page 2 (even)\r\n" +
-                        "Page 4 (even)", textAbsorber.Text);
+        Assert.That(textAbsorber.Text, assertEquals("Page 2 (even)\r\n" +
+                            "Page 4 (even)", );
 
         pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExportPageSet.Odd.pdf");
         textAbsorber = new TextAbsorber();
         pdfDocument.Pages.Accept(textAbsorber);
 
-        Assert.AreEqual("Page 1 (odd)\r\n" +
-                        "Page 3 (odd)\r\n" +
-                        "Page 5 (odd)", textAbsorber.Text);
+        Assert.That(textAbsorber.Text, assertEquals("Page 1 (odd)\r\n" +
+                            "Page 3 (odd)\r\n" +
+                            "Page 5 (odd)", );
 
         pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExportPageSet.All.pdf");
         textAbsorber = new TextAbsorber();
         pdfDocument.Pages.Accept(textAbsorber);
 
-        Assert.AreEqual("Page 1 (odd)\r\n" +
-                        "Page 2 (even)\r\n" +
-                        "Page 3 (odd)\r\n" +
-                        "Page 4 (even)\r\n" +
-                        "Page 5 (odd)", textAbsorber.Text);
+        Assert.That(textAbsorber.Text, assertEquals("Page 1 (odd)\r\n" +
+                            "Page 2 (even)\r\n" +
+                            "Page 3 (odd)\r\n" +
+                            "Page 4 (even)\r\n" +
+                            "Page 5 (odd)", );
     }
 
     @Test
@@ -3166,7 +3163,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         PdfSaveOptions saveOptions = new PdfSaveOptions();
         saveOptions.setAttachmentsEmbeddingMode(PdfAttachmentsEmbeddingMode.ANNOTATIONS);
 
-        doc.save(getArtifactsDir() + "PdfSaveOptions.PdfEmbedAttachments.pdf", saveOptions);
+        doc.save(getArtifactsDir() + "PdfSaveOptions.AttachmentsEmbeddingMode.pdf", saveOptions);
         //ExEnd:AttachmentsEmbeddingMode
     }
 
@@ -3186,7 +3183,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         long asposeToPdfSize = new FileInfo(getArtifactsDir() + "PdfSaveOptions.CacheBackgroundGraphics.pdf").getLength();
         long wordToPdfSize = new FileInfo(getMyDir() + "Background images (word to pdf).pdf").getLength();
 
-        msAssert.less(asposeToPdfSize, wordToPdfSize);
+        Assert.less(wordToPdfSize, asposeToPdfSize);
         //ExEnd
     }
 
@@ -3213,7 +3210,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         exportParagraphGraphicsToArtifact();
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExportParagraphGraphicsToArtifact.pdf");
-        Assert.AreEqual(3, pdfDocument.Pages[1].Artifacts.Count());
+        Assert.That(pdfDocument.Pages[1].Artifacts.Count(), assertEquals(3, );
     }
 
     @Test

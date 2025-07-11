@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.RtfLoadOptions;
 import com.aspose.words.Document;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.annotations.DataProvider;
 
 
@@ -37,13 +38,11 @@ public class ExRtfLoadOptions extends ApiExampleBase
 
         Document doc = new Document(getMyDir() + "UTF-8 characters.rtf", loadOptions);
 
-        Assert.assertEquals(
-            recognizeUtf8Text
-                ? "“John Doe´s list of currency symbols”™\r" +
-                  "€, ¢, £, ¥, ¤"
-                : "â€œJohn DoeÂ´s list of currency symbolsâ€\u009dâ„¢\r" +
-                  "â‚¬, Â¢, Â£, Â¥, Â¤",
-            doc.getFirstSection().getBody().getText().trim());
+        Assert.assertEquals(recognizeUtf8Text
+                    ? "“John Doe´s list of currency symbols”™\r" +
+                      "€, ¢, £, ¥, ¤"
+                    : "â€œJohn DoeÂ´s list of currency symbolsâ€\u009dâ„¢\r" +
+                      "â‚¬, Â¢, Â£, Â¥, Â¤", doc.getFirstSection().getBody().getText().trim());
         //ExEnd
     }
 
