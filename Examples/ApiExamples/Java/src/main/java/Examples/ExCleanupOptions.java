@@ -42,8 +42,8 @@ public class ExCleanupOptions extends ApiExampleBase {
         builder.getFont().setStyle(doc.getStyles().get("MyParagraphStyle1"));
         builder.writeln("Hello world!");
 
-        List list = doc.getLists().add(doc.getStyles().get("MyListStyle1"));
-        builder.getListFormat().setList(list);
+        List docList = doc.getLists().add(doc.getStyles().get("MyListStyle1"));
+        builder.getListFormat().setList(docList);
         builder.writeln("Item 1");
         builder.writeln("Item 2");
 

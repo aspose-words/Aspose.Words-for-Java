@@ -68,7 +68,7 @@ public class ExBookmarks extends ApiExampleBase {
     //ExFor:BookmarkCollection.Item(String)
     //ExFor:BookmarkCollection.GetEnumerator
     //ExFor:Range.Bookmarks
-    //ExFor:DocumentVisitor.VisitBookmarkStart 
+    //ExFor:DocumentVisitor.VisitBookmarkStart
     //ExFor:DocumentVisitor.VisitBookmarkEnd
     //ExSummary:Shows how to add bookmarks and update their contents.
     @Test //ExSkip

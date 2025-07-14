@@ -832,7 +832,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     public void insertTable() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder
-        //ExFor:DocumentBuilder.Write
+        //ExFor:DocumentBuilder.Write(String)
         //ExFor:DocumentBuilder.StartTable
         //ExFor:DocumentBuilder.InsertCell
         //ExFor:DocumentBuilder.EndRow
@@ -1023,7 +1023,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     public void insertTableSetHeadingRow() throws Exception {
         //ExStart
         //ExFor:RowFormat.HeadingFormat
-        //ExSummary:Shows how to build a table with rows that repeat on every page. 
+        //ExSummary:Shows how to build a table with rows that repeat on every page.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1215,7 +1215,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     public void createTable() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder
-        //ExFor:DocumentBuilder.Write
+        //ExFor:DocumentBuilder.Write(String)
         //ExFor:DocumentBuilder.InsertCell
         //ExSummary:Shows how to use a document builder to create a table.
         Document doc = new Document();
@@ -3556,7 +3556,6 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExStart
         //ExFor:Run.IsPhoneticGuide
         //ExFor:Run.PhoneticGuide
-        //ExFor:PhoneticGuide
         //ExFor:PhoneticGuide.BaseText
         //ExFor:PhoneticGuide.RubyText
         //ExSummary:Shows how to get properties of the phonetic guide.

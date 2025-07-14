@@ -187,7 +187,7 @@ public class ExDrawing extends ApiExampleBase {
     public void fillSolid() throws Exception
     {
         //ExStart
-        //ExFor:Fill.Color()
+        //ExFor:Fill.Color
         //ExFor:FillType
         //ExFor:Fill.FillType
         //ExFor:Fill.Solid

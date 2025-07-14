@@ -1278,8 +1278,8 @@ public class ExDocument extends ApiExampleBase
         builder.getFont().setStyle(doc.getStyles().get("MyParagraphStyle1"));
         builder.writeln("Hello world!");
 
-        List list = doc.getLists().add(doc.getStyles().get("MyListStyle1"));
-        builder.getListFormat().setList(list);
+        List docList = doc.getLists().add(doc.getStyles().get("MyListStyle1"));
+        builder.getListFormat().setList(docList);
         builder.writeln("Item 1");
         builder.writeln("Item 2");
 
@@ -1353,7 +1353,7 @@ public class ExDocument extends ApiExampleBase
     public void useSubstitutions() throws Exception
     {
         //ExStart
-        //ExFor:FindReplaceOptions.#ctor
+        //ExFor:FindReplaceOptions.#ctor()
         //ExFor:FindReplaceOptions.UseSubstitutions
         //ExFor:FindReplaceOptions.LegacyMode
         //ExSummary:Shows how to recognize and use substitutions within replacement patterns.
@@ -1852,8 +1852,8 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Document.VbaProject
         //ExFor:VbaModuleCollection
         //ExFor:VbaModuleCollection.Count
-        //ExFor:VbaModuleCollection.Item(Int32)
-        //ExFor:VbaModuleCollection.Item(String)
+        //ExFor:VbaModuleCollection.Item(System.Int32)
+        //ExFor:VbaModuleCollection.Item(System.String)
         //ExFor:VbaModuleCollection.Remove
         //ExFor:VbaModule
         //ExFor:VbaModule.Name
@@ -2140,12 +2140,12 @@ public class ExDocument extends ApiExampleBase
     @Test
     public void imageWatermark() throws Exception {
         //ExStart
+        //ExFor:Watermark.SetImage(Image)
         //ExFor:Watermark.SetImage(Image, ImageWatermarkOptions)
+        //ExFor:Watermark.SetImage(String, ImageWatermarkOptions)
         //ExFor:ImageWatermarkOptions
         //ExFor:ImageWatermarkOptions.Scale
         //ExFor:ImageWatermarkOptions.IsWashout
-        //ExFor:Watermark.SetImage(Image)
-        //ExFor:Watermark.SetImage(String, ImageWatermarkOptions)
         //ExSummary:Shows how to create a watermark from an image in the local file system.
         Document doc = new Document();
 

@@ -335,7 +335,28 @@ public class ExRange extends ApiExampleBase {
     }
 
     @Test
-    public void updateFieldsInRange() throws Exception {
+    public void ignoreShapes() throws Exception 
+    {
+        //ExStart
+        //ExFor:FindReplaceOptions.IgnoreShapes
+        //ExSummary:Shows how to ignore shapes while replacing text.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+        builder.insertShape(ShapeType.BALLOON, 200.0, 200.0);
+        builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+
+        FindReplaceOptions findReplaceOptions = new FindReplaceOptions(); { findReplaceOptions.setIgnoreShapes(true); }
+        builder.getDocument().getRange().replace("Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", findReplaceOptions);
+        Assert.assertEquals("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", builder.getDocument().getText().trim());
+        //ExEnd
+    }
+
+    @Test
+    public void updateFieldsInRange() throws Exception
+    {
         //ExStart
         //ExFor:Range.UpdateFields
         //ExSummary:Shows how to update all the fields in a range.
@@ -825,8 +846,51 @@ public class ExRange extends ApiExampleBase {
         public ArrayList<String> getMatches() {
             return mMatches;
         }
-
-        private final ArrayList<String> mMatches = new ArrayList<String>();
+        private ArrayList<String> mMatches = new ArrayList<>();
     }
     //ExEnd
+
+    //ExStart:MatchEndNode
+    //GistId:67c1d01ce69d189983b497fd497a7768
+    //ExFor:ReplacingArgs.MatchEndNode
+    //ExSummary:Shows how to get match end node.
+    @Test
+    public void matchEndNode() throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("1");
+        builder.writeln("2");
+        builder.writeln("3");
+
+        ReplacingCallback replacingCallback = new ReplacingCallback();
+        FindReplaceOptions opts = new FindReplaceOptions();
+        opts.setReplacingCallback(replacingCallback);
+
+        doc.getRange().replace(Pattern.compile("1[\\s\\S]*3"), "X", opts);
+        Assert.assertEquals("1", replacingCallback.getStartNodeText());
+        Assert.assertEquals("3", replacingCallback.getEndNodeText());
+    }
+
+    /// <summary>
+    /// The replacing callback.
+    /// </summary>
+    private static class ReplacingCallback implements IReplacingCallback
+    {
+        public int replacing(ReplacingArgs e)
+        {
+            setStartNodeText(e.getMatchNode().getText().trim());
+            setEndNodeText(e.getMatchEndNode().getText().trim());
+
+            return ReplaceAction.REPLACE;
+        }
+
+        private String mStartNodeText;
+        String getStartNodeText() { return mStartNodeText; }; private void setStartNodeText(String value) { mStartNodeText = value; };
+
+        private String mEndNodeText;
+        String getEndNodeText() { return mEndNodeText; }; private void setEndNodeText(String value) { mEndNodeText = value; };
+    }
+    //ExEnd:MatchEndNode
 }
