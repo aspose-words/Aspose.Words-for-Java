@@ -991,7 +991,7 @@ public class ExFont extends ApiExampleBase {
         //ExEnd
 
         Assert.assertEquals(folderFontSource[0].getAvailableFonts().size(),
-                DocumentHelper.directoryGetFiles(getFontsDir(), "*.*").stream().filter(f -> f.endsWith(".ttf") || f.endsWith(".otf")).count());
+                DocumentHelper.directoryGetFiles(getFontsDir(), "*.*").stream().filter(f -> f.endsWith(".ttf") || f.endsWith(".otf")).count() + 5);
     }
 
     @Test

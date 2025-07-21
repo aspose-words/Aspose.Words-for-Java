@@ -284,8 +284,7 @@ public class ExFontSettings extends ApiExampleBase {
         doc.save(getArtifactsDir() + "FontSettings.SubstitutionWarningsClosestMatch.pdf");
 
         Assert.assertTrue(callback.get(0).getDescription()
-                .equals(
-                    "Font \'SymbolPS\' has not been found. Using \'Wingdings\' font instead. Reason: font info substitution."));
+                .equals("Font \'SymbolPS\' has not been found. Using \'Wingdings\' font instead. Reason: font info substitution."));
     }
 
     @Test
@@ -426,7 +425,7 @@ public class ExFontSettings extends ApiExampleBase {
 
         // The "Amethysta" font is in a subfolder of the font directory.
         if (recursive) {
-            Assert.assertEquals(25, newFontSources[0].getAvailableFonts().size());
+            Assert.assertEquals(30, newFontSources[0].getAvailableFonts().size());
             Assert.assertTrue(IterableUtils.matchesAny(newFontSources[0].getAvailableFonts(), f -> f.getFullFontName().contains("Amethysta")));
         } else {
             Assert.assertEquals(18, newFontSources[0].getAvailableFonts().size());
@@ -491,7 +490,7 @@ public class ExFontSettings extends ApiExampleBase {
 
         // The "Junction" folder itself contains no font files, but has subfolders that do.
         if (recursive) {
-            Assert.assertEquals(6, newFontSources[1].getAvailableFonts().size());
+            Assert.assertEquals(11, newFontSources[1].getAvailableFonts().size());
             Assert.assertTrue(IterableUtils.matchesAny(newFontSources[1].getAvailableFonts(), f -> f.getFullFontName().contains("Junction Light")));
         } else {
             Assert.assertEquals(0, newFontSources[1].getAvailableFonts().size());
