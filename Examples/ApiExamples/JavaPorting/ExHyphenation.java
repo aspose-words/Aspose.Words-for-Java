@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -12,6 +12,7 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.Hyphenation;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.Document;
 import com.aspose.words.Run;
 import com.aspose.words.WarningInfoCollection;
@@ -50,8 +51,8 @@ public class ExHyphenation extends ApiExampleBase
         // and save it to a fixed-page save format. The text in that document will be hyphenated.
         Document doc = new Document(getMyDir() + "German text.docx");
 
-        Assert.True(doc.getFirstSection().getBody().getFirstParagraph().getRuns().<Run>OfType().All(
-            r => r.Font.LocaleId == new CultureInfo("de-CH").LCID));
+        Assert.That(doc.getFirstSection().getBody().getFirstParagraph().getRuns().<Run>OfType().All(
+            r => r.Font.LocaleId == new CultureInfo("de-CH").LCID), assertTrue();
 
         doc.save(getArtifactsDir() + "Hyphenation.Dictionary.Registered.pdf");
 
@@ -76,17 +77,17 @@ public class ExHyphenation extends ApiExampleBase
         Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "Hyphenation.Dictionary.Registered.pdf");
         TextAbsorber textAbsorber = new TextAbsorber();
         textAbsorber.Visit(pdfDoc);
-        Assert.True(textAbsorber.Text.Replace("  ", " ").Contains($"La ob storen an deinen am sachen. Dop{unicodeOptionalHyphen}{Environment.NewLine}" +
+        Assert.That(textAbsorber.Text.Replace("  ", " ").Contains($"La ob storen an deinen am sachen. Dop{unicodeOptionalHyphen}{Environment.NewLine}" +
             $"pelte um da am spateren verlogen ge{unicodeOptionalHyphen}{Environment.NewLine}" +
-            $"kommen achtzehn blaulich."));
+            $"kommen achtzehn blaulich."), assertTrue();
 
         pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "Hyphenation.Dictionary.Unregistered.pdf");
         textAbsorber = new TextAbsorber();
         textAbsorber.Visit(pdfDoc);
 
-        Assert.True(textAbsorber.Text.Replace("  ", " ").Contains($"La ob storen an deinen am sachen. {Environment.NewLine}" +
+        Assert.That(textAbsorber.Text.Replace("  ", " ").Contains($"La ob storen an deinen am sachen. {Environment.NewLine}" +
                                                $"Doppelte um da am spateren verlogen {Environment.NewLine}" +
-                                               $"gekommen achtzehn blaulich."));
+                                               $"gekommen achtzehn blaulich."), assertTrue();
     }
 
     //ExStart
@@ -126,7 +127,7 @@ public class ExHyphenation extends ApiExampleBase
         Assert.assertEquals(WarningType.MINOR_FORMATTING_LOSS, warningInfoCollection.get(0).getWarningType());
         Assert.assertEquals(WarningSource.LAYOUT, warningInfoCollection.get(0).getSource());
         Assert.assertEquals("Hyphenation dictionary contains duplicate patterns. The only first found pattern will be used. " +
-                        "Content can be wrapped differently.", warningInfoCollection.get(0).getDescription());
+                            "Content can be wrapped differently.", warningInfoCollection.get(0).getDescription());
 
         Hyphenation.setWarningCallback(null); //ExSkip
         Hyphenation.unregisterDictionary("en-US"); //ExSkip

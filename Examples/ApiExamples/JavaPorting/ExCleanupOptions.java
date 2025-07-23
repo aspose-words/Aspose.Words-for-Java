@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.StyleType;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.List;
 import com.aspose.words.CleanupOptions;
@@ -51,8 +52,8 @@ public class ExCleanupOptions extends ApiExampleBase
         builder.getFont().setStyle(doc.getStyles().get("MyParagraphStyle1"));
         builder.writeln("Hello world!");
 
-        List list = doc.getLists().add(doc.getStyles().get("MyListStyle1"));
-        builder.getListFormat().setList(list);
+        List docList = doc.getLists().add(doc.getStyles().get("MyListStyle1"));
+        builder.getListFormat().setList(docList);
         builder.writeln("Item 1");
         builder.writeln("Item 2");
 

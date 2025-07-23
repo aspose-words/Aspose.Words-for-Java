@@ -12,17 +12,19 @@ import com.aspose.words.Paragraph;
 import com.aspose.words.Document;
 import com.aspose.words.NodeImporter;
 import com.aspose.words.ImportFormatMode;
+import com.aspose.words.HeaderFooter;
 
 
 class ExtractContentHelper
 {
-    public static ArrayList<Node> extractContent(Node startNode, Node endNode, boolean isInclusive)
+    public static ArrayList<Node> extractContent(Node startNode, Node endNode, boolean isInclusive, boolean copySection)
     {
         // First, check that the nodes passed to this method are valid for use.
         verifyParameterNodes(startNode, endNode);
 
         // Create a list to store the extracted nodes.
         ArrayList<Node> nodes = new ArrayList<Node>();
+
         // If either marker is part of a comment, including the comment itself, we need to move the pointer
         // forward to the Comment Node found after the CommentRangeEnd node.
         if (endNode.getNodeType() == NodeType.COMMENT_RANGE_END && isInclusive)
@@ -52,6 +54,13 @@ class ExtractContentHelper
         // in extracting using inline nodes, fields, bookmarks, etc. to make it useful.
         while (isExtracting)
         {
+            if (copySection)
+            {
+                Node section = currNode.getAncestor(NodeType.SECTION);
+                if (!nodes.Any(o => o.Range.Text.Equals(section.Range.Text)))
+                    nodes.add(section.deepClone(true));
+            }
+
             // Clone the current node and its children to obtain a copy.
             Node cloneNode = currNode.deepClone(true);
             boolean isEndingNode = currNode.equals(endNode);
@@ -88,9 +97,9 @@ class ExtractContentHelper
                 Section nextSection = (Section) currNode.getAncestor(NodeType.SECTION).getNextSibling();
                 currNode = nextSection.getBody().getFirstChild();
             }
-            else                
+            else
                 // Move to the next node in the body.
-                currNode = currNode.getNextSibling();                
+                currNode = currNode.getNextSibling();
         }
 
         // For compatibility with mode with inline bookmarks, add the next paragraph (empty).
@@ -99,7 +108,7 @@ class ExtractContentHelper
 
         // Return the nodes between the node markers.
         return nodes;
-    }        
+    }
 
     private static void verifyParameterNodes(Node startNode, Node endNode)
     {
@@ -147,7 +156,7 @@ class ExtractContentHelper
         }
 
         return findNextNode(nodeType, fromNode.getNextSibling());
-    }        
+    }
 
     private static void processMarker(Node cloneNode, ArrayList<Node> nodes, Node node, Node blockLevelAncestor,
         boolean isInclusive, boolean isStartMarker, boolean canAdd, boolean forceAdd)
@@ -271,15 +280,30 @@ class ExtractContentHelper
     public static Document generateDocument(Document srcDoc, ArrayList<Node> nodes) throws Exception
     {
         Document dstDoc = new Document();
-        // Remove the first paragraph from the empty document.
-        dstDoc.getFirstSection().getBody().removeAllChildren();
+        // Remove default section in the destination document.
+        dstDoc.getFirstSection().remove();
 
         // Import each node from the list into the new document. Keep the original formatting of the node.
         NodeImporter importer = new NodeImporter(srcDoc, dstDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
+        Section importedSection = null;
         for (Node node : nodes)
         {
-            Node importNode = importer.importNode(node, true);
-            dstDoc.getFirstSection().getBody().appendChild(importNode);
+            if (node.getNodeType() == NodeType.SECTION)
+            {
+                // Import a section from the source document.
+                Section srcSection = (Section)node;
+                importedSection = (Section)importer.importNode(srcSection, false);
+                importedSection.appendChild(importer.importNode(srcSection.getBody(), false));
+                for (HeaderFooter hf : (Iterable<HeaderFooter>) srcSection.getHeadersFooters())
+                    importedSection.getHeadersFooters().add(importer.importNode(hf, true));
+
+                dstDoc.appendChild(importedSection);
+            }
+            else
+            {
+                Node importNode = importer.importNode(node, true);
+                importedSection.getBody().appendChild(importNode);
+            }
         }
 
         return dstDoc;

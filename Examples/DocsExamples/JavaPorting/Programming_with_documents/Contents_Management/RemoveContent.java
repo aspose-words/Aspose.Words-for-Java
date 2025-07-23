@@ -101,7 +101,8 @@ class RemoveContent extends DocsExamplesBase
     }
 
     @Test
-    //ExStart:RemoveTOCFromDocument
+    //ExStart:RemoveToc
+    //GistId:db118a3e1559b9c88355356df9d7ea10
     public void removeToc() throws Exception
     {
         Document doc = new Document(getMyDir() + "Table of contents.docx");
@@ -160,5 +161,5 @@ class RemoveContent extends DocsExamplesBase
             node.remove();
         }
     }
-    //ExEnd:RemoveTOCFromDocument
+    //ExEnd:RemoveToc
 }

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.SaveFormat;
 import com.aspose.ms.System.msString;
+import com.aspose.words.Node;
 
 
 class WorkingWithComments extends DocsExamplesBase
@@ -26,6 +27,7 @@ class WorkingWithComments extends DocsExamplesBase
     public void addComments() throws Exception
     {
         //ExStart:AddComments
+        //GistId:70902b20df8b1f6b0459f676e21623bb
         //ExStart:CreateSimpleDocumentUsingDocumentBuilder
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -46,6 +48,7 @@ class WorkingWithComments extends DocsExamplesBase
     public void anchorComment() throws Exception
     {
         //ExStart:AnchorComment
+        //GistId:70902b20df8b1f6b0459f676e21623bb
         Document doc = new Document();
 
         Paragraph para1 = new Paragraph(doc);
@@ -81,6 +84,7 @@ class WorkingWithComments extends DocsExamplesBase
     public void addRemoveCommentReply() throws Exception
     {
         //ExStart:AddRemoveCommentReply
+        //GistId:70902b20df8b1f6b0459f676e21623bb
         Document doc = new Document(getMyDir() + "Comments.docx");
 
         Comment comment = (Comment) doc.getChild(NodeType.COMMENT, 0, true);
@@ -96,6 +100,7 @@ class WorkingWithComments extends DocsExamplesBase
     public void processComments() throws Exception
     {
         //ExStart:ProcessComments
+        //GistId:70902b20df8b1f6b0459f676e21623bb
         Document doc = new Document(getMyDir() + "Comments.docx");
 
         // Extract the information about the comments of all the authors.
@@ -122,6 +127,7 @@ class WorkingWithComments extends DocsExamplesBase
     }
 
     //ExStart:ExtractComments
+    //GistId:70902b20df8b1f6b0459f676e21623bb
     private ArrayList<String> extractComments(Document doc) throws Exception
     {
         ArrayList<String> collectedComments = new ArrayList<String>();
@@ -138,6 +144,7 @@ class WorkingWithComments extends DocsExamplesBase
     //ExEnd:ExtractComments
 
     //ExStart:ExtractCommentsByAuthor
+    //GistId:70902b20df8b1f6b0459f676e21623bb
     private ArrayList<String> extractComments(Document doc, String authorName) throws Exception
     {
         ArrayList<String> collectedComments = new ArrayList<String>();
@@ -155,15 +162,16 @@ class WorkingWithComments extends DocsExamplesBase
     //ExEnd:ExtractCommentsByAuthor
 
     //ExStart:RemoveComments
+    //GistId:70902b20df8b1f6b0459f676e21623bb
     private void removeComments(Document doc)
     {
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
-
         comments.clear();
     }
     //ExEnd:RemoveComments
 
     //ExStart:RemoveCommentsByAuthor
+    //GistId:70902b20df8b1f6b0459f676e21623bb
     private void removeComments(Document doc, String authorName)
     {
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
@@ -179,6 +187,7 @@ class WorkingWithComments extends DocsExamplesBase
     //ExEnd:RemoveCommentsByAuthor
 
     //ExStart:CommentResolvedAndReplies
+    //GistId:70902b20df8b1f6b0459f676e21623bb
     private void commentResolvedAndReplies(Document doc)
     {
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
@@ -195,5 +204,30 @@ class WorkingWithComments extends DocsExamplesBase
         }
     }
     //ExEnd:CommentResolvedAndReplies
+
+    @Test
+    public void removeRangeText() throws Exception
+    {
+        //ExStart:RemoveRangeText
+        //GistId:70902b20df8b1f6b0459f676e21623bb
+        Document doc = new Document(getMyDir() + "Comments.docx");
+
+        CommentRangeStart commentStart = (CommentRangeStart)doc.getChild(NodeType.COMMENT_RANGE_START, 0, true);
+        Node currentNode = commentStart;
+
+        boolean isRemoving = true;
+        while (currentNode != null && isRemoving)
+        {
+            if (currentNode.getNodeType() == NodeType.COMMENT_RANGE_END)
+                isRemoving = false;
+
+            Node nextNode = currentNode.nextPreOrder(doc);
+            currentNode.remove();
+            currentNode = nextNode;
+        }
+
+        doc.save(getArtifactsDir() + "WorkingWithComments.RemoveRangeText.docx");
+        //ExEnd:RemoveRangeText
+    }
 }
 

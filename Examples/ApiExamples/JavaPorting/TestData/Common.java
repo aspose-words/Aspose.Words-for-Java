@@ -6,6 +6,8 @@ import ApiExamples.TestData.TestClasses.ManagerTestClass;
 import ApiExamples.TestData.TestClasses.ContractTestClass;
 import ApiExamples.TestData.TestClasses.ClientTestClass;
 import com.aspose.ms.System.DateTime;
+import ApiExamples.TestData.TestClasses.ShareTestClass;
+import ApiExamples.TestData.TestClasses.ShareQuoteTestClass;
 
 
 public /*static*/ class Common

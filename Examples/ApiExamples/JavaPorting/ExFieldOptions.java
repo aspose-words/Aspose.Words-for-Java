@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -15,6 +15,7 @@ import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.UserInformation;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.FieldUserName;
 import com.aspose.words.FieldUserInitials;
 import com.aspose.words.FieldUserAddress;
@@ -33,7 +34,6 @@ import com.aspose.words.EditingLanguage;
 import com.aspose.words.IFieldUpdateCultureProvider;
 import com.aspose.ms.System.Globalization.msDateTimeFormatInfo;
 import com.aspose.words.BarcodeParameters;
-import java.awt.image.BufferedImage;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
 
@@ -451,9 +451,9 @@ public class ExFieldOptions extends ApiExampleBase
             barcodeParameters.setSymbolRotation("0");
         }
 
-        BufferedImage img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
+        Image img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
         img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.QR.jpg");
-        builder.insertImage(img);
+        builder.InsertImage(img);
 
         // 2 -  EAN13 barcode:
         barcodeParameters = new BarcodeParameters();
@@ -467,7 +467,7 @@ public class ExFieldOptions extends ApiExampleBase
 
         img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
         img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.EAN13.jpg");
-        builder.insertImage(img);
+        builder.InsertImage(img);
 
         // 3 -  CODE39 barcode:
         barcodeParameters = new BarcodeParameters();
@@ -479,7 +479,7 @@ public class ExFieldOptions extends ApiExampleBase
 
         img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
         img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.CODE39.jpg");
-        builder.insertImage(img);
+        builder.InsertImage(img);
 
         // 4 -  ITF14 barcode:
         barcodeParameters = new BarcodeParameters();
@@ -491,7 +491,7 @@ public class ExFieldOptions extends ApiExampleBase
 
         img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
         img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.ITF14.jpg");
-        builder.insertImage(img);
+        builder.InsertImage(img);
 
         doc.save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.docx");
         //ExEnd

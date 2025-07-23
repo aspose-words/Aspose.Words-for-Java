@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -18,6 +18,7 @@ import com.aspose.ms.System.msConsole;
 import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.net.System.Data.DataView;
 import com.aspose.words.net.System.Data.DataSet;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import java.util.ArrayList;
 import com.aspose.words.MailMergeRegionInfo;
 import com.aspose.words.FieldQuote;
@@ -166,7 +167,7 @@ public class ExMailMerge extends ApiExampleBase
 
         // To work with ADO DataSets, we will need to add a reference to the Microsoft ActiveX Data Objects library,
         // which is included in the .NET distribution and stored in "adodb.dll".
-        ADODB.Connection connection = new ADODB.Connection();
+        Interop.ADODB.Connection connection = new Interop.ADODB.Connection();
 
         // Create a connection string that points to the "Northwind" database file
         // in our local file system and open a connection.
@@ -178,7 +179,7 @@ public class ExMailMerge extends ApiExampleBase
         // to the values of the MERGEFIELDS that will accommodate our data.
         final String COMMAND = "SELECT ProductName, QuantityPerUnit, UnitPrice FROM Products";
 
-        ADODB.Recordset recordset = new ADODB.Recordset();
+        Interop.ADODB.Recordset recordset = new Interop.ADODB.Recordset();
         recordset.Open(COMMAND, connection);
 
         // Execute the mail merge and save the document.
@@ -216,7 +217,7 @@ public class ExMailMerge extends ApiExampleBase
 
         // To work with ADO DataSets, we will need to add a reference to the Microsoft ActiveX Data Objects library,
         // which is included in the .NET distribution and stored in "adodb.dll".
-        ADODB.Connection connection = new ADODB.Connection();
+        Interop.ADODB.Connection connection = new Interop.ADODB.Connection();
 
         // Create a connection string that points to the "Northwind" database file
         // in our local file system and open a connection.
@@ -228,7 +229,7 @@ public class ExMailMerge extends ApiExampleBase
         // to the values of the MERGEFIELDS that will accommodate our data.
         String command = "SELECT FirstName, LastName, City FROM Employees";
 
-        ADODB.Recordset recordset = new ADODB.Recordset();
+        Interop.ADODB.Recordset recordset = new Interop.ADODB.Recordset();
         recordset.Open(command, connection);
 
         // Run a mail merge on just the first region, filling its MERGEFIELDS with data from the record set.
@@ -682,9 +683,9 @@ public class ExMailMerge extends ApiExampleBase
         Assert.assertEquals(doc.getText().contains("{{ Column2 }}"), preserveUnusedTags);
 
         if (preserveUnusedTags)
-            Assert.AreEqual(0, doc.getRange().getFields().Count(f => f.Type == FieldType.FieldMergeField));
+            Assert.That(doc.getRange().getFields().Count(f => f.Type == FieldType.FieldMergeField), assertEquals(0, );
         else
-            Assert.AreEqual(1, doc.getRange().getFields().Count(f => f.Type == FieldType.FieldMergeField));
+            Assert.That(doc.getRange().getFields().Count(f => f.Type == FieldType.FieldMergeField), assertEquals(1, );
         TestUtil.mailMergeMatchesDataTable(dataTable, doc, true); //ExSkip
     }
 
@@ -750,8 +751,7 @@ public class ExMailMerge extends ApiExampleBase
         doc.save(getArtifactsDir() + "MailMerge.MergeWholeDocument.docx");
 
         Assert.assertTrue(doc.getText().contains("This QUOTE field is inside the \"MyTable\" merge region."));
-        Assert.assertEquals(mergeWholeDocument, 
-            doc.getText().contains("This QUOTE field is outside of the \"MyTable\" merge region."));
+        Assert.assertEquals(mergeWholeDocument, doc.getText().contains("This QUOTE field is outside of the \"MyTable\" merge region."));
         TestUtil.mailMergeMatchesDataTable(dataTable, doc, true); //ExSkip
     }
 
@@ -962,9 +962,7 @@ public class ExMailMerge extends ApiExampleBase
         builder.writeln(",");
         builder.writeln("Greetings!");
 
-        Assert.assertEquals(
-            "Dear \u0013 MERGEFIELD FirstName \u0014«FirstName»\u0015 \u0013 MERGEFIELD LastName \u0014«LastName»\u0015,\rGreetings!", 
-            doc.getText().trim());
+        Assert.assertEquals("Dear \u0013 MERGEFIELD FirstName \u0014«FirstName»\u0015 \u0013 MERGEFIELD LastName \u0014«LastName»\u0015,\rGreetings!", doc.getText().trim());
 
         doc.getMailMerge().deleteFields();
 
@@ -1056,14 +1054,12 @@ public class ExMailMerge extends ApiExampleBase
         doc.getMailMerge().executeWithRegions(dataTable);
 
         if (doc.getMailMerge().getCleanupOptions() == MailMergeCleanupOptions.REMOVE_EMPTY_PARAGRAPHS) 
-            Assert.assertEquals(
-                "John Doe\r" +
-                "Jane Doe", doc.getText().trim());
+            Assert.assertEquals("John Doe\r" +
+                    "Jane Doe", doc.getText().trim());
         else
-            Assert.assertEquals(
-                "John Doe\r" +
-                " \r" +
-                "Jane Doe", doc.getText().trim());
+            Assert.assertEquals("John Doe\r" +
+                    " \r" +
+                    "Jane Doe", doc.getText().trim());
         //ExEnd
 
         TestUtil.mailMergeMatchesDataTable(dataTable, doc, false);
@@ -1516,11 +1512,9 @@ public class ExMailMerge extends ApiExampleBase
         
         doc.save(getArtifactsDir() + "MailMerge.UnconditionalMergeFieldsAndRegions.docx");
 
-        Assert.assertEquals(
-            countAllMergeFields
-                ? "\u0013 IF 1 = 2 \"James Bond\"\u0014\u0015"
-                : "\u0013 IF 1 = 2 \u0013 MERGEFIELD  FullName \u0014«FullName»\u0015\u0014\u0015",
-            doc.getText().trim());
+        Assert.assertEquals(countAllMergeFields
+                    ? "\u0013 IF 1 = 2 \"James Bond\"\u0014\u0015"
+                    : "\u0013 IF 1 = 2 \u0013 MERGEFIELD  FullName \u0014«FullName»\u0015\u0014\u0015", doc.getText().trim());
         //ExEnd
     }
 
@@ -1640,8 +1634,8 @@ public class ExMailMerge extends ApiExampleBase
         odso.setColumnDelimiter('|');
         odso.setFirstRowContainsColumnNames(true);
 
-        Assert.assertNotSame(odso, odso.deepClone());
-        Assert.assertNotSame(settings, settings.deepClone());
+        Assert.Is.Not.SameAs(odso)odso.deepClone());
+        Assert.Is.Not.SameAs(settings)settings.deepClone());
 
         // Opening this document in Microsoft Word will execute the mail merge before displaying the contents. 
         doc.save(getArtifactsDir() + "MailMerge.MailMergeSettings.docx");
@@ -1788,13 +1782,11 @@ public class ExMailMerge extends ApiExampleBase
         doc.save(getArtifactsDir() + "MailMerge.MailingLabelMerge.docx");
         //ExEnd
 
-        Assert.assertEquals("FirstName\u0007LastName\u0007\u0007",
-            new Document(getArtifactsDir() + "MailMerge.MailingLabelMerge.Header.docx").
-                getChild(NodeType.TABLE, 0, true).getText().trim());
+        Assert.assertEquals("FirstName\u0007LastName\u0007\u0007", new Document(getArtifactsDir() + "MailMerge.MailingLabelMerge.Header.docx").
+                    getChild(NodeType.TABLE, 0, true).getText().trim());
 
-        Assert.assertEquals("John\u0007Doe\u0007\u0007",
-            new Document(getArtifactsDir() + "MailMerge.MailingLabelMerge.Data.docx").
-                getChild(NodeType.TABLE, 0, true).getText().trim());
+        Assert.assertEquals("John\u0007Doe\u0007\u0007", new Document(getArtifactsDir() + "MailMerge.MailingLabelMerge.Data.docx").
+                    getChild(NodeType.TABLE, 0, true).getText().trim());
 
         doc = new Document(getArtifactsDir() + "MailMerge.MailingLabelMerge.docx");
 
@@ -1854,7 +1846,7 @@ public class ExMailMerge extends ApiExampleBase
         finally { if (enumerator != null) enumerator.close(); }
 
         // Clone the elements in this collection.
-        Assert.assertNotEquals(dataCollection.get(0), dataCollection.get(0).deepClone());
+        Assert.Is.Not.EqualTo(dataCollection.get(0))dataCollection.get(0).deepClone());
 
         // Use the "RemoveAt" method elements individually by index.
         dataCollection.removeAt(0);
@@ -1908,7 +1900,7 @@ public class ExMailMerge extends ApiExampleBase
         finally { if (enumerator != null) enumerator.close(); }
 
         // We can clone the elements in this collection.
-        Assert.assertNotEquals(dataCollection.get(0), dataCollection.get(0).deepClone());
+        Assert.Is.Not.EqualTo(dataCollection.get(0))dataCollection.get(0).deepClone());
 
         // We can also remove elements individually, or clear the entire collection at once.
         dataCollection.removeAt(0);

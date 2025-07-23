@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.VariableCollection;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.FieldDocVariable;
 import com.aspose.words.FieldType;
@@ -71,7 +72,7 @@ public class ExVariableCollection extends ApiExampleBase
 
         // Verify that the document variables with a certain name or value exist.
         Assert.assertTrue(variables.contains("City"));
-        Assert.True(variables.Any(v => v.Value == "London"));
+        Assert.That(variables.Any(v => v.Value == "London"), assertTrue();
 
         // The collection of variables automatically sorts variables alphabetically by name.
         Assert.assertEquals(0, variables.indexOfKey("Bedrooms"));

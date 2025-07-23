@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -17,6 +17,7 @@ import com.aspose.words.ImageSaveOptions;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.PageSet;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.IO.File;
 import com.aspose.words.GraphicsQualityOptions;
 import com.aspose.ms.System.Drawing.Drawing2D.SmoothingMode;
@@ -39,6 +40,7 @@ import com.aspose.words.TiffCompression;
 import com.aspose.words.ImageBinarizationMethod;
 import com.aspose.words.PageRange;
 import com.aspose.words.ImlRenderingMode;
+import com.aspose.words.MultiPageLayout;
 import org.testng.annotations.DataProvider;
 
 
@@ -282,10 +284,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
 
         ArrayList<String> imageFileNames = Directory.getFiles(getArtifactsDir(), "*.tiff")
             .Where(item => item.Contains("ImageSaveOptions.PageByPage.") && item.EndsWith(".tiff")).ToList();
-
         Assert.assertEquals(3, imageFileNames.size());
-        for (String imageFileName : imageFileNames)
-            TestUtil.verifyImage(2325, 5325, imageFileName);
     }
 
     @Test (dataProvider = "colorModeDataProvider")
@@ -403,7 +402,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         imageSaveOptions.setPixelFormat(imagePixelFormat);
 
         // We can clone ImageSaveOptions instances.
-        Assert.assertNotEquals(imageSaveOptions, imageSaveOptions.deepClone());
+        Assert.Is.Not.EqualTo(imageSaveOptions)imageSaveOptions.deepClone());
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png", imageSaveOptions);
         //ExEnd
@@ -485,7 +484,10 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.FloydSteinbergDithering.tiff", options);
         //ExEnd
-        TestUtil.verifyImage(816, 1056, getArtifactsDir() + "ImageSaveOptions.FloydSteinbergDithering.tiff");
+
+        ArrayList<String> imageFileNames = Directory.getFiles(getArtifactsDir(), "*.tiff")
+            .Where(item => item.Contains("ImageSaveOptions.FloydSteinbergDithering.") && item.EndsWith(".tiff")).ToList();
+        Assert.assertEquals(1, imageFileNames.size());
     }
 
     @Test
@@ -698,6 +700,35 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.RenderInkObject.jpeg", saveOptions);
         //ExEnd
+    }
+
+    @Test
+    public void gridLayout() throws Exception
+    {
+        //ExStart:GridLayout
+        //GistId:70330eacdfc2e253f00a9adea8972975
+        //ExFor:ImageSaveOptions.PageLayout
+        //ExFor:MultiPageLayout
+        //ExSummary:Shows how to save the document into JPG image with multi-page layout settings.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        ImageSaveOptions options = new ImageSaveOptions(SaveFormat.JPEG);
+        // Set up a grid layout with:
+        // - 3 columns per row.
+        // - 10pts spacing between pages (horizontal and vertical).
+        options.setPageLayout(MultiPageLayout.grid(3, 10f, 10f));
+
+        // Alternative layouts:
+        // options.PageLayout = MultiPageLayout.Horizontal(10);
+        // options.PageLayout = MultiPageLayout.Vertical(10);
+
+        // Customize the background and border.
+        options.getPageLayout().setBackColor(msColor.getLightGray());
+        options.getPageLayout().setBorderColor(Color.BLUE);
+        options.getPageLayout().setBorderWidth(2f);
+
+        doc.save(getArtifactsDir() + "ImageSaveOptions.GridLayout.jpg", options);
+        //ExEnd:GridLayout
     }
 }
 

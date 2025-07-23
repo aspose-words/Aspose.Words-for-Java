@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -991,7 +991,7 @@ public class ExFont extends ApiExampleBase {
         //ExEnd
 
         Assert.assertEquals(folderFontSource[0].getAvailableFonts().size(),
-                DocumentHelper.directoryGetFiles(getFontsDir(), "*.*").stream().filter(f -> f.endsWith(".ttf") || f.endsWith(".otf")).count());
+                DocumentHelper.directoryGetFiles(getFontsDir(), "*.*").stream().filter(f -> f.endsWith(".ttf") || f.endsWith(".otf")).count() + 5);
     }
 
     @Test
@@ -1386,6 +1386,10 @@ public class ExFont extends ApiExampleBase {
             }
         }
         //ExEnd
+
+        Assert.assertEquals(new byte[] { 2, 15, 5, 2, 2, 2, 4, 3, 2, 4 }, doc.getFontInfos().get("Calibri").getPanose());
+        Assert.assertEquals(new byte[] { 2, 15, 3, 2, 2, 2, 4, 3, 2, 4 }, doc.getFontInfos().get("Calibri Light").getPanose());
+        Assert.assertEquals(new byte[] { 2, 2, 6, 3, 5, 4, 5, 2, 3, 4 }, doc.getFontInfos().get("Times New Roman").getPanose());
     }
 
     @Test
@@ -1659,5 +1663,35 @@ public class ExFont extends ApiExampleBase {
             }
         }
         //ExEnd:PhysicalFontInfoEmbeddingLicensingRights
+    }
+
+    @Test
+    public void numberSpacing() throws Exception
+    {
+        //ExStart:NumberSpacing
+        //GistId:8c0f38c5965151e1cdf79c1c8f9e4640
+        //ExFor:Font.NumberSpacing
+        //ExFor:NumSpacing
+        //ExSummary:Shows how to set the spacing type of the numeral.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // This effect is only supported in newer versions of MS Word.
+        doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2019);
+
+        builder.write("1 ");
+        builder.write("This is an example");
+
+        Run run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
+        if (run.getFont().getNumberSpacing() == NumSpacing.DEFAULT)
+            run.getFont().setNumberSpacing(NumSpacing.PROPORTIONAL);
+
+        doc.save(getArtifactsDir() + "Fonts.NumberSpacing.docx");
+        //ExEnd:NumberSpacing
+
+        doc = new Document(getArtifactsDir() + "Fonts.NumberSpacing.docx");
+
+        run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
+        Assert.assertEquals(NumSpacing.PROPORTIONAL, run.getFont().getNumberSpacing());
     }
 }

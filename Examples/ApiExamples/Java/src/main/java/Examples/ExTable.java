@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -1904,5 +1904,62 @@ public class ExTable extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Table.ContextTableFormatting.docx");
         //ExEnd:ContextTableFormatting
+    }
+
+    @Test
+    public void autofitToWindow() throws Exception
+    {
+        double[] expectedPercents = new double[] { 51.0, 49.0 };
+
+        Document doc = new Document(getMyDir() + "Table wrapped by text.docx");
+
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
+        table.autoFit(AutoFitBehavior.AUTO_FIT_TO_WINDOW);
+
+        Assert.assertEquals(expectedPercents.length, table.getFirstRow().getCells().getCount());
+
+        for (Row row : table.getRows())
+        {
+            int i = 0;
+            for (Cell cell : row.getCells())
+            {
+                double expectedPercent = expectedPercents[i];
+
+                PreferredWidth cellPrefferedWidth = cell.getCellFormat().getPreferredWidth();
+                Assert.assertEquals(expectedPercent, cellPrefferedWidth.getValue());
+
+                i++;
+            }
+        }
+    }
+
+    @Test
+    public void hiddenRow() throws Exception
+    {
+        //ExStart:HiddenRow
+        //GistId:67c1d01ce69d189983b497fd497a7768
+        //ExFor:Row.Hidden
+        //ExSummary:Shows how to hide a table row.
+        Document doc = new Document(getMyDir() + "Tables.docx");
+
+        Row row = doc.getFirstSection().getBody().getTables().get(0).getFirstRow();
+        row.setHidden(true);
+
+        doc.save(getArtifactsDir() + "Table.HiddenRow.docx");
+
+        doc = new Document(getArtifactsDir() + "Table.HiddenRow.docx");
+
+        row = doc.getFirstSection().getBody().getTables().get(0).getFirstRow();
+        Assert.assertTrue(row.getHidden());
+
+        for (Cell cell : row.getCells())
+        {
+            for (Paragraph para : cell.getParagraphs())
+            {
+                for (Run run : para.getRuns())
+                    Assert.assertTrue(run.getFont().getHidden());
+            }
+        }
+        //ExEnd:HiddenRow
     }
 }

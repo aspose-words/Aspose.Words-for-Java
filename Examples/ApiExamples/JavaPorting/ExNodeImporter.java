@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -18,6 +18,7 @@ import com.aspose.words.Paragraph;
 import com.aspose.words.Node;
 import org.testng.Assert;
 import com.aspose.words.SaveFormat;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Bookmark;
 import com.aspose.words.NodeType;
@@ -65,27 +66,25 @@ public class ExNodeImporter extends ApiExampleBase
 
         if (keepSourceNumbering)
         {
-            Assert.assertEquals(
-                "6. Item 1\r\n" +
-                "7. Item 2 \r\n" +
-                "8. Item 3\r\n" +
-                "9. Item 4\r\n" +
-                "6. Item 1\r\n" +
-                "7. Item 2 \r\n" +
-                "8. Item 3\r\n" +
-                "9. Item 4", dstDoc.getFirstSection().getBody().toString(SaveFormat.TEXT).trim());
+            Assert.assertEquals("6. Item 1\r\n" +
+                    "7. Item 2 \r\n" +
+                    "8. Item 3\r\n" +
+                    "9. Item 4\r\n" +
+                    "6. Item 1\r\n" +
+                    "7. Item 2 \r\n" +
+                    "8. Item 3\r\n" +
+                    "9. Item 4", dstDoc.getFirstSection().getBody().toString(SaveFormat.TEXT).trim());
         }
         else
         {
-            Assert.assertEquals(
-                "6. Item 1\r\n" +
-                "7. Item 2 \r\n" +
-                "8. Item 3\r\n" +
-                "9. Item 4\r\n" +
-                "10. Item 1\r\n" +
-                "11. Item 2 \r\n" +
-                "12. Item 3\r\n" +
-                "13. Item 4", dstDoc.getFirstSection().getBody().toString(SaveFormat.TEXT).trim());
+            Assert.assertEquals("6. Item 1\r\n" +
+                    "7. Item 2 \r\n" +
+                    "8. Item 3\r\n" +
+                    "9. Item 4\r\n" +
+                    "10. Item 1\r\n" +
+                    "11. Item 2 \r\n" +
+                    "12. Item 3\r\n" +
+                    "13. Item 4", dstDoc.getFirstSection().getBody().toString(SaveFormat.TEXT).trim());
         }
         //ExEnd
     }
@@ -128,7 +127,7 @@ public class ExNodeImporter extends ApiExampleBase
         insertDocument(bookmark.getBookmarkStart().getParentNode(), docToInsert);
 
         Assert.assertEquals("We will insert a document here: " +
-                        "\rHello world!", doc.getText().trim());
+                            "\rHello world!", doc.getText().trim());
     }
 
     /// <summary>
@@ -191,7 +190,7 @@ public class ExNodeImporter extends ApiExampleBase
             new Object[] { getArtifactsDir() + "NodeImporter.InsertAtMergeField.docx" });
 
         Assert.assertEquals("A document will appear here: \r" +
-                        "Hello world!", doc.getText().trim());
+                            "Hello world!", doc.getText().trim());
     }
 
     /// <summary>

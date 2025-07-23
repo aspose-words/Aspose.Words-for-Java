@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -503,6 +503,14 @@ public class ExPdfSaveOptions extends ApiExampleBase {
                 Assert.assertEquals(PdfFormat.PDF_A_2U, pdfDocument.getPdfFormat());
                 Assert.assertEquals("1.7", pdfDocument.getVersion());
                 break;
+            case PdfCompliance.PDF_A_3_A:
+                Assert.assertEquals(PdfFormat.PDF_A_3A, pdfDocument.getPdfFormat());
+                Assert.assertEquals("1.7", pdfDocument.getVersion());
+                break;
+            case PdfCompliance.PDF_A_3_U:
+                Assert.assertEquals(PdfFormat.PDF_A_3U, pdfDocument.getPdfFormat());
+                Assert.assertEquals("1.7", pdfDocument.getVersion());
+                break;
             case PdfCompliance.PDF_UA_1:
                 Assert.assertEquals(PdfFormat.PDF_UA_1, pdfDocument.getPdfFormat());
                 Assert.assertEquals("1.7", pdfDocument.getVersion());
@@ -513,6 +521,10 @@ public class ExPdfSaveOptions extends ApiExampleBase {
                 break;
             case PdfCompliance.PDF_A_4:
                 Assert.assertEquals(PdfFormat.PDF_A_4, pdfDocument.getPdfFormat());
+                Assert.assertEquals("2.0", pdfDocument.getVersion());
+                break;
+            case PdfCompliance.PDF_A_4_F:
+                Assert.assertEquals(PdfFormat.PDF_A_4F, pdfDocument.getPdfFormat());
                 Assert.assertEquals("2.0", pdfDocument.getVersion());
                 break;
             case PdfCompliance.PDF_A_4_UA_2:
@@ -532,14 +544,17 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     public static Object[][] complianceDataProvider() {
         return new Object[][]
                 {
-                        {PdfCompliance.PDF_A_1_B},
+                        {PdfCompliance.PDF_A_2_U},
+                        {PdfCompliance.PDF_A_3_A},
+                        {PdfCompliance.PDF_A_3_U},
                         {PdfCompliance.PDF_17},
-			{PdfCompliance.PDF_A_2_A},
-			{PdfCompliance.PDF_UA_1},
-			{PdfCompliance.PDF_20},
-			{PdfCompliance.PDF_A_4},
-			{PdfCompliance.PDF_A_4_UA_2},
-			{PdfCompliance.PDF_UA_2},
+                        {PdfCompliance.PDF_A_2_A},
+                        {PdfCompliance.PDF_UA_1},
+                        {PdfCompliance.PDF_20},
+                        {PdfCompliance.PDF_A_4},
+                        {PdfCompliance.PDF_A_4_F},
+                        {PdfCompliance.PDF_A_4_UA_2},
+                        {PdfCompliance.PDF_UA_2},
                 };
     }
 
@@ -1373,7 +1388,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         pdfDocument.getPages().get_Item(1).accept(textAbsorber);
 
         SetGlyphsPositionShowText tjOperator =
-                (SetGlyphsPositionShowText) textAbsorber.getTextFragments().get_Item(1).getPage().getContents().get_Item(83);
+                (SetGlyphsPositionShowText) textAbsorber.getTextFragments().get_Item(1).getPage().getContents().get_Item(71);
 
         if (applyAdditionalTextPositioning) {
             Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").length() < 102000);
@@ -2427,21 +2442,22 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void pdfEmbedAttachments() throws Exception
+    public void attachmentsEmbeddingMode() throws Exception
     {
-        //ExStart
-        //ExFor:PdfSaveOptions.EmbedAttachments
-        //ExSummary:Shows how to add embed attachments to the PDF document.
+        //ExStart:AttachmentsEmbeddingMode
+        //GistId:3c52d1e8d47af34d5026f3a951027f59
+        //ExFor:PdfSaveOptions.AttachmentsEmbeddingMode
+        //ExSummary:Shows how to set a value determining how attachments are embedded to the PDF document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, true, null);
 
-        PdfSaveOptions options = new PdfSaveOptions();
-        options.setEmbedAttachments(true);
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setAttachmentsEmbeddingMode(PdfAttachmentsEmbeddingMode.ANNOTATIONS);
 
-        doc.save(getArtifactsDir() + "PdfSaveOptions.PdfEmbedAttachments.pdf", options);
-        //ExEnd
+        doc.save(getArtifactsDir() + "PdfSaveOptions.AttachmentsEmbeddingMode.pdf", saveOptions);
+        //ExEnd:AttachmentsEmbeddingMode
     }
 
     @Test

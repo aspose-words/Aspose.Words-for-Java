@@ -14,35 +14,38 @@ import com.aspose.words.FootnoteNumberingRule;
 public class WorkingWithFootnoteAndEndnote extends DocsExamplesBase
 {
     @Test
-    public void setFootNoteColumns() throws Exception
+    public void setFootnoteColumns() throws Exception
     {
-        //ExStart:SetFootNoteColumns
+        //ExStart:SetFootnoteColumns
+        //GistId:3b39c2019380ee905e7d9596494916a4
         Document doc = new Document(getMyDir() + "Document.docx");
 
         // Specify the number of columns with which the footnotes area is formatted.
         doc.getFootnoteOptions().setColumns(3);
         
-        doc.save(getArtifactsDir() + "WorkingWithFootnotes.SetFootNoteColumns.docx");
-        //ExEnd:SetFootNoteColumns
+        doc.save(getArtifactsDir() + "WorkingWithFootnotes.SetFootnoteColumns.docx");
+        //ExEnd:SetFootnoteColumns
     }
 
     @Test
-    public void setFootnoteAndEndNotePosition() throws Exception
+    public void setFootnoteAndEndnotePosition() throws Exception
     {
-        //ExStart:SetFootnoteAndEndNotePosition
+        //ExStart:SetFootnoteAndEndnotePosition
+        //GistId:3b39c2019380ee905e7d9596494916a4
         Document doc = new Document(getMyDir() + "Document.docx");
 
         doc.getFootnoteOptions().setPosition(FootnotePosition.BENEATH_TEXT);
         doc.getEndnoteOptions().setPosition(EndnotePosition.END_OF_SECTION);
         
-        doc.save(getArtifactsDir() + "WorkingWithFootnotes.SetFootnoteAndEndNotePosition.docx");
-        //ExEnd:SetFootnoteAndEndNotePosition
+        doc.save(getArtifactsDir() + "WorkingWithFootnotes.SetFootnoteAndEndnotePosition.docx");
+        //ExEnd:SetFootnoteAndEndnotePosition
     }
 
     @Test
     public void setEndnoteOptions() throws Exception
     {
         //ExStart:SetEndnoteOptions
+        //GistId:3b39c2019380ee905e7d9596494916a4
         Document doc = new Document(getMyDir() + "Document.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);
         

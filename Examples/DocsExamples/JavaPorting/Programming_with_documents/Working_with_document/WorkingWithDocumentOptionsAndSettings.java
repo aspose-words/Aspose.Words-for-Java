@@ -27,15 +27,16 @@ import java.awt.Color;
 class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
 {
     @Test
-    public void optimizeForMsWord() throws Exception
+    public void optimizeFor() throws Exception
     {
-        //ExStart:OptimizeForMsWord
+        //ExStart:OptimizeFor
+        //GistId:5d2997d42c1f1fad79b18873f170855f
         Document doc = new Document(getMyDir() + "Document.docx");
 
         doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2016);
 
-        doc.save(getArtifactsDir() + "WorkingWithDocumentOptionsAndSettings.OptimizeForMsWord.docx");
-        //ExEnd:OptimizeForMsWord
+        doc.save(getArtifactsDir() + "WorkingWithDocumentOptionsAndSettings.OptimizeFor.docx");
+        //ExEnd:OptimizeFor
     }
 
     @Test
@@ -54,7 +55,8 @@ class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
     @Test
     public void cleanupUnusedStylesAndLists() throws Exception
     {
-        //ExStart:CleanupUnusedStylesandLists
+        //ExStart:CleanupUnusedStylesAndLists
+        //GistId:669f3d08f45b14f75f9d2cb17fa1056a
         Document doc = new Document(getMyDir() + "Unused styles.docx");
 
         // Combined with the built-in styles, the document now has eight styles.
@@ -71,13 +73,14 @@ class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
                               $"Count of lists after Cleanup is the same: {doc.Lists.Count}");
 
         doc.save(getArtifactsDir() + "WorkingWithDocumentOptionsAndSettings.CleanupUnusedStylesAndLists.docx");
-        //ExEnd:CleanupUnusedStylesandLists
+        //ExEnd:CleanupUnusedStylesAndLists
     }
 
     @Test
     public void cleanupDuplicateStyle() throws Exception
     {
         //ExStart:CleanupDuplicateStyle
+        //GistId:669f3d08f45b14f75f9d2cb17fa1056a
         Document doc = new Document(getMyDir() + "Document.docx");
 
         // Count of styles before Cleanup.
@@ -98,6 +101,7 @@ class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
     public void viewOptions() throws Exception
     {
         //ExStart:SetViewOption
+        //GistId:5d2997d42c1f1fad79b18873f170855f
         Document doc = new Document(getMyDir() + "Document.docx");
         
         doc.getViewOptions().setViewType(ViewType.PAGE_LAYOUT);
@@ -111,6 +115,7 @@ class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
     public void documentPageSetup() throws Exception
     {
         //ExStart:DocumentPageSetup
+        //GistId:5d2997d42c1f1fad79b18873f170855f
         Document doc = new Document(getMyDir() + "Document.docx");
 
         // Set the layout mode for a section allowing to define the document grid behavior.
@@ -146,6 +151,7 @@ class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
     public void setRussianAsDefaultEditingLanguage() throws Exception
     {
         //ExStart:SetRussianAsDefaultEditingLanguage
+        //GistId:5d2997d42c1f1fad79b18873f170855f
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.getLanguagePreferences().setDefaultEditingLanguage(EditingLanguage.RUSSIAN);
 

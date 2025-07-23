@@ -19,6 +19,10 @@ import java.awt.Color;
 import com.aspose.words.Paragraph;
 import com.aspose.words.NodeType;
 import com.aspose.ms.System.msConsole;
+import com.aspose.words.LayoutCollector;
+import com.aspose.words.LayoutEnumerator;
+import com.aspose.words.Node;
+import com.aspose.words.Table;
 
 
 class DocumentFormatting extends DocsExamplesBase
@@ -27,6 +31,7 @@ class DocumentFormatting extends DocsExamplesBase
     public void spaceBetweenAsianAndLatinText() throws Exception
     {
         //ExStart:SpaceBetweenAsianAndLatinText
+        //GistId:4f54ffd5c7580f0d146b53e52d986f38
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -45,6 +50,7 @@ class DocumentFormatting extends DocsExamplesBase
     public void asianTypographyLineBreakGroup() throws Exception
     {
         //ExStart:AsianTypographyLineBreakGroup
+        //GistId:4f54ffd5c7580f0d146b53e52d986f38
         Document doc = new Document(getMyDir() + "Asian typography.docx");
 
         ParagraphFormat format = doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat();
@@ -60,6 +66,7 @@ class DocumentFormatting extends DocsExamplesBase
     public void paragraphFormatting() throws Exception
     {
         //ExStart:ParagraphFormatting
+        //GistId:4b5526c3c0d9cad73e05fb4b18d2c3d2
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -82,6 +89,7 @@ class DocumentFormatting extends DocsExamplesBase
     public void multilevelListFormatting() throws Exception
     {
         //ExStart:MultilevelListFormatting
+        //GistId:a1dfeba1e0480d5b277a61742c8921af
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -113,6 +121,7 @@ class DocumentFormatting extends DocsExamplesBase
     public void applyParagraphStyle() throws Exception
     {
         //ExStart:ApplyParagraphStyle
+        //GistId:4b5526c3c0d9cad73e05fb4b18d2c3d2
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -127,6 +136,7 @@ class DocumentFormatting extends DocsExamplesBase
     public void applyBordersAndShadingToParagraph() throws Exception
     {
         //ExStart:ApplyBordersAndShadingToParagraph
+        //GistId:4b5526c3c0d9cad73e05fb4b18d2c3d2
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -189,6 +199,7 @@ class DocumentFormatting extends DocsExamplesBase
     public void getParagraphStyleSeparator() throws Exception
     {
         //ExStart:GetParagraphStyleSeparator
+        //GistId:4b5526c3c0d9cad73e05fb4b18d2c3d2
         Document doc = new Document(getMyDir() + "Document.docx");
 
         for (Paragraph paragraph : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true))
@@ -200,4 +211,83 @@ class DocumentFormatting extends DocsExamplesBase
         }
         //ExEnd:GetParagraphStyleSeparator
     }
+
+    @Test
+    //ExStart:GetParagraphLines
+    //GistId:4b5526c3c0d9cad73e05fb4b18d2c3d2
+    public void getParagraphLines() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Properties.docx");
+
+        LayoutCollector collector = new LayoutCollector(doc);
+        LayoutEnumerator enumerator = new LayoutEnumerator(doc);
+        for (Paragraph paragraph : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true))
+        {
+            processParagraph(paragraph, collector, enumerator);
+        }
+    }
+
+    private static void processParagraph(Paragraph paragraph, LayoutCollector collector, LayoutEnumerator enumerator) throws Exception
+    {
+        Object paragraphBreak = collector.getEntity(paragraph);
+        if (paragraphBreak == null)
+            return;
+
+        Object stopEntity = getStopEntity(paragraph, collector, enumerator);
+
+        enumerator.setCurrent(paragraphBreak);
+        enumerator.moveParent();
+
+        int lineCount = countLines(enumerator, stopEntity);
+
+        String paragraphText = getTruncatedText(paragraph.getText());
+        System.out.println("Paragraph '{paragraphText}' has {lineCount} line(-s).");
+    }
+
+    private static Object getStopEntity(Paragraph paragraph, LayoutCollector collector, LayoutEnumerator enumerator) throws Exception
+    {
+        Node previousNode = paragraph.getPreviousSibling();
+        if (previousNode == null)
+            return null;
+
+        if (previousNode instanceof Paragraph prevParagraph)
+        {
+            enumerator.setCurrent(collector.GetEntity(prevParagraph)); // Para break.
+            enumerator.moveParent(); // Last line.
+            return enumerator.getCurrent();
+        }
+        else if (previousNode instanceof Table table)
+        {
+            enumerator.setCurrent(collector.GetEntity(table.LastRow.LastCell.LastParagraph)); // Cell break.
+            enumerator.moveParent(); // Cell.
+            enumerator.moveParent(); // Row.
+            return enumerator.getCurrent();
+        }
+        else
+        {
+            throw new IllegalStateException("Unsupported node type encountered.");
+        }
+    }
+    /// <summary>
+    /// We move from line to line in a paragraph.
+    /// When paragraph spans multiple pages the we will follow across them.
+    /// </summary>
+    private static int countLines(LayoutEnumerator enumerator, Object stopEntity)
+    {
+        int count = 1;
+        while (enumerator.getCurrent() != stopEntity)
+        {
+            if (!enumerator.movePreviousLogical())
+                break;
+            count++;
+        }
+        return count;
+    }
+
+    private static String getTruncatedText(String text)
+    {
+        int MaxChars = 16;
+        return text.length() > MaxChars ? $"{text.Substring(0, MaxChars)}..." : text;
+    }
+    //ExEnd:GetParagraphLines
 }

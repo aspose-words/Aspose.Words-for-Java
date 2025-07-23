@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -16,6 +16,7 @@ import com.aspose.words.Orientation;
 import com.aspose.words.PageVerticalAlignment;
 import com.aspose.words.BreakType;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.HeaderFooterType;
 import com.aspose.words.SectionLayoutMode;
 import com.aspose.words.Paragraph;
@@ -558,7 +559,7 @@ public class ExPageSetup extends ApiExampleBase
 
         Assert.assertEquals(100.0d, doc.getFirstSection().getPageSetup().getTextColumns().getSpacing());
         Assert.assertEquals(2, doc.getFirstSection().getPageSetup().getTextColumns().getCount());
-        Assert.assertEquals(185.15, doc.getFirstSection().getPageSetup().getTextColumns().getWidth(), 0.01);
+        Assert.assertEquals(185.15, 0.01, doc.getFirstSection().getPageSetup().getTextColumns().getWidth());
     }
 
     @Test
@@ -582,7 +583,7 @@ public class ExPageSetup extends ApiExampleBase
         // Determine the amount of room that we have available for arranging columns.
         double contentWidth = pageSetup.getPageWidth() - pageSetup.getLeftMargin() - pageSetup.getRightMargin();
 
-        Assert.assertEquals(470.30d, contentWidth, 0.01d);
+        Assert.assertEquals(470.30d, 0.01d, contentWidth);
 
         // Set the first column to be narrow.
         TextColumn column = columns.get(0);
@@ -1005,7 +1006,7 @@ public class ExPageSetup extends ApiExampleBase
         PageSetup pageSetup = doc.getSections().get(0).getPageSetup();
 
         // Determine how much space our pages have for text within the margins and then add an amount to pad a margin. 
-        Assert.assertEquals(470.30d, pageSetup.getPageWidth() - pageSetup.getLeftMargin() - pageSetup.getRightMargin(), 0.01d);
+        Assert.assertEquals(470.30d, 0.01d, pageSetup.getPageWidth() - pageSetup.getLeftMargin() - pageSetup.getRightMargin());
 
         pageSetup.setGutter(100.0d);
 
@@ -1172,6 +1173,28 @@ public class ExPageSetup extends ApiExampleBase
         pageSetup.setChapterPageSeparator(com.aspose.words.ChapterPageSeparator.COLON);
         pageSetup.setHeadingLevelForChapter(1);
         //ExEnd
+    }
+
+    @Test
+    public void jisbPaperSize() throws Exception
+    {
+        //ExStart:JisbPaperSize
+        //GistId:12a3a3cfe30f3145220db88428a9f814
+        //ExFor:PageSetup.PaperSize
+        //ExSummary:Shows how to set the paper size of JisB4 or JisB5.
+        Document doc = new Document(getMyDir() + "Big document.docx");
+
+        PageSetup pageSetup = doc.getFirstSection().getPageSetup();
+        // Set the paper size to JisB4 (257x364mm).
+        pageSetup.setPaperSize(PaperSize.JIS_B_4);
+        // Alternatively, set the paper size to JisB5. (182x257mm).
+        pageSetup.setPaperSize(PaperSize.JIS_B_5);
+        //ExEnd:JisbPaperSize
+
+        doc = DocumentHelper.saveOpen(doc);
+        pageSetup = doc.getFirstSection().getPageSetup();
+
+        Assert.assertEquals(PaperSize.JIS_B_5, pageSetup.getPaperSize());
     }
 }
 

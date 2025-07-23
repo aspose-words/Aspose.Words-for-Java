@@ -12,6 +12,7 @@ public class WorkingWithRtfSaveOptions extends DocsExamplesBase
     public void savingImagesAsWmf() throws Exception
     {
         //ExStart:SavingImagesAsWmf
+        //GistId:6f849e51240635a6322ab0460938c922
         Document doc = new Document(getMyDir() + "Document.docx");
 
         RtfSaveOptions saveOptions = new RtfSaveOptions(); { saveOptions.setSaveImagesAsWmf(true); }

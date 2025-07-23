@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -2033,5 +2033,21 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ReplaceBackslashWithYenSign.html", saveOptions);
         //ExEnd:HtmlReplaceBackslashWithYenSign
+    }
+
+    @Test
+    public void removeJavaScriptFromLinks() throws Exception
+    {
+        //ExStart:HtmlRemoveJavaScriptFromLinks
+        //GistId:cc5f9f2033531562b29954d9f73776a5
+        //ExFor:HtmlFixedSaveOptions.RemoveJavaScriptFromLinks
+        //ExSummary:Shows how to remove JavaScript from the links.
+        Document doc = new Document(getMyDir() + "JavaScript in HREF.docx");
+
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+        saveOptions.setRemoveJavaScriptFromLinks(true);
+
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.RemoveJavaScriptFromLinks.html", saveOptions);
+        //ExEnd:HtmlRemoveJavaScriptFromLinks
     }
 }

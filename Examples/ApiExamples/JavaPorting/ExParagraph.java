@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -18,6 +18,7 @@ import com.aspose.words.Underline;
 import com.aspose.words.ParagraphFormat;
 import com.aspose.words.ParagraphAlignment;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.Paragraph;
 import com.aspose.words.FieldType;
 import java.util.Date;
@@ -135,8 +136,8 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         doc = new Document(getArtifactsDir() + "Paragraph.AppendField.docx");
 
-        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE ", new Date(), doc.getRange().getFields().get(0), new TimeSpan(0, 0, 0, 0));
-        TestUtil.verifyField(FieldType.FIELD_TIME, " TIME  \\@ \"HH:mm:ss\" ", new Date(), doc.getRange().getFields().get(1), new TimeSpan(0, 0, 0, 5));
+        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE ", new Date, doc.getRange().getFields().get(0), new TimeSpan(0, 0, 0, 0));
+        TestUtil.verifyField(FieldType.FIELD_TIME, " TIME  \\@ \"HH:mm:ss\" ", new Date, doc.getRange().getFields().get(1), new TimeSpan(0, 0, 0, 5));
         TestUtil.verifyField(FieldType.FIELD_QUOTE, " QUOTE \"Real value\"", "Real value", doc.getRange().getFields().get(2));
     }
 
@@ -193,8 +194,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         insertFieldUsingFieldCode(doc, " AUTHOR ", null, false, 1);
 
-        Assert.assertEquals("\u0013 AUTHOR \u0014Test Author\u0015Hello World!\r",
-            DocumentHelper.getParagraphText(doc, 1));
+        Assert.assertEquals("\u0013 AUTHOR \u0014Test Author\u0015Hello World!\r", DocumentHelper.getParagraphText(doc, 1));
     }
 
     @Test
@@ -206,8 +206,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         insertFieldUsingFieldCode(doc, " DATE ", null, true, 1);
 
-        Assert.assertEquals(MessageFormat.format("Hello World!\u0013 DATE \u0014{0}\u0015\r", date),
-            DocumentHelper.getParagraphText(doc, 1));
+        Assert.assertEquals(MessageFormat.format("Hello World!\u0013 DATE \u0014{0}\u0015\r", date), DocumentHelper.getParagraphText(doc, 1));
     }
 
     @Test
@@ -271,8 +270,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         insertFieldUsingFieldCodeFieldString(doc, " AUTHOR ", "Test Field Value", run, false, 1);
 
-        Assert.assertEquals("Hello World!\u0013 AUTHOR \u0014Test Field Value\u0015 Hello World!\r",
-            DocumentHelper.getParagraphText(doc, 1));
+        Assert.assertEquals("Hello World!\u0013 AUTHOR \u0014Test Field Value\u0015 Hello World!\r", DocumentHelper.getParagraphText(doc, 1));
     }
 
     @Test
@@ -285,8 +283,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         insertFieldUsingFieldCodeFieldString(doc, " AUTHOR ", "", run, true, 1);
 
-        Assert.assertEquals("Hello World! Hello World!\u0013 AUTHOR \u0014\u0015\r",
-            DocumentHelper.getParagraphText(doc, 1));
+        Assert.assertEquals("Hello World! Hello World!\u0013 AUTHOR \u0014\u0015\r", DocumentHelper.getParagraphText(doc, 1));
     }
 
     @Test (description = "WORDSNET-12396")
@@ -382,7 +379,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         // This document contains "Move" revisions, which appear when we highlight text with the cursor,
         // and then drag it to move it to another location
         // while tracking revisions in Microsoft Word via "Review" -> "Track changes".
-        Assert.AreEqual(6, doc.getRevisions().Count(r => r.RevisionType == RevisionType.Moving));
+        Assert.That(doc.getRevisions().Count(r => r.RevisionType == RevisionType.Moving), assertEquals(6, );
 
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
 
@@ -522,7 +519,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         // The above paragraphs are not revisions.
         // Paragraphs that we add after starting revision tracking will register as "Insert" revisions.
-        doc.startTrackRevisionsInternal("John Doe", new Date());
+        doc.startTrackRevisionsInternal("John Doe", new Date);
 
         para = body.appendParagraph("Paragraph 4. ");
 
@@ -547,10 +544,9 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         Assert.assertEquals(3, paragraphs.getCount());
         Assert.assertEquals(0, para.getCount());
-        Assert.assertEquals(
-            "Paragraph 1. \r" +
-            "Paragraph 2. \r" +
-            "Paragraph 4.", doc.getText().trim());
+        Assert.assertEquals("Paragraph 1. \r" +
+                "Paragraph 2. \r" +
+                "Paragraph 4.", doc.getText().trim());
         //ExEnd
     }
 

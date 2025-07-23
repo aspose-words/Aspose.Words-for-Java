@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -218,6 +219,10 @@ public class ExFontSettings extends ApiExampleBase {
     }
     //ExEnd
 
+    
+    @Test
+    public void enableFontSubstitution() throws Exception
+    {
     //ExStart
     //ExFor:FontInfoSubstitutionRule
     //ExFor:FontSubstitutionSettings.FontInfoSubstitution
@@ -229,19 +234,16 @@ public class ExFontSettings extends ApiExampleBase {
     //ExFor:WarningInfo.WarningType
     //ExFor:WarningInfoCollection
     //ExFor:WarningInfoCollection.Warning(WarningInfo)
-    //ExFor:WarningInfoCollection.GetEnumerator
     //ExFor:WarningInfoCollection.Clear
     //ExFor:WarningType
     //ExFor:DocumentBase.WarningCallback
     //ExSummary:Shows how to set the property for finding the closest match for a missing font from the available font sources.
-    @Test//ExSkip
-    public void enableFontSubstitution() throws Exception {
         // Open a document that contains text formatted with a font that does not exist in any of our font sources.
         Document doc = new Document(getMyDir() + "Missing font.docx");
 
         // Assign a callback for handling font substitution warnings.
-        HandleDocumentSubstitutionWarnings substitutionWarningHandler = new HandleDocumentSubstitutionWarnings();
-        doc.setWarningCallback(substitutionWarningHandler);
+        WarningInfoCollection warningCollector = new WarningInfoCollection();
+        doc.setWarningCallback(warningCollector);
 
         // Set a default font name and enable font substitution.
         FontSettings fontSettings = new FontSettings();
@@ -255,52 +257,41 @@ public class ExFontSettings extends ApiExampleBase {
         doc.setFontSettings(fontSettings);
         doc.save(getArtifactsDir() + "FontSettings.EnableFontSubstitution.pdf");
 
-        Iterator<WarningInfo> warnings = substitutionWarningHandler.FontWarnings.iterator();
-
-        while (warnings.hasNext())
-            System.out.println(warnings.next().getDescription());
+        for (WarningInfo info : warningCollector)
+        {
+            if (info.getWarningType() == WarningType.FONT_SUBSTITUTION)
+                System.out.println(info.getDescription());
+        }
+        //ExEnd
 
         // We can also verify warnings in the collection and clear them.
-        Assert.assertEquals(WarningSource.LAYOUT, substitutionWarningHandler.FontWarnings.get(0).getSource());
-        Assert.assertEquals("Font '28 Days Later' has not been found. Using 'Calibri' font instead. Reason: alternative name from document.",
-                substitutionWarningHandler.FontWarnings.get(0).getDescription());
+        Assert.assertEquals(WarningSource.LAYOUT, warningCollector.get(0).getSource());
+        Assert.assertEquals("Font '28 Days Later' has not been found. Using 'Calibri' font instead. Reason: alternative name from document.", warningCollector.get(0).getDescription());
 
-        substitutionWarningHandler.FontWarnings.clear();
+        warningCollector.clear();
 
-        Assert.assertTrue(substitutionWarningHandler.FontWarnings.getCount() == 0);
+        Assert.assertEquals(0, warningCollector.getCount());
     }
-
-    public static class HandleDocumentSubstitutionWarnings implements IWarningCallback {
-        /// <summary>
-        /// Called every time a warning occurs during loading/saving.
-        /// </summary>
-        public void warning(WarningInfo info) {
-            if (info.getWarningType() == WarningType.FONT_SUBSTITUTION)
-                FontWarnings.warning(info);
-        }
-
-        public WarningInfoCollection FontWarnings = new WarningInfoCollection();
-    }
-    //ExEnd
+    
 
     @Test
     public void substitutionWarningsClosestMatch() throws Exception {
         Document doc = new Document(getMyDir() + "Bullet points with alternative font.docx");
 
-        HandleDocumentSubstitutionWarnings callback = new HandleDocumentSubstitutionWarnings();
+        WarningInfoCollection callback = new WarningInfoCollection();
         doc.setWarningCallback(callback);
 
         doc.save(getArtifactsDir() + "FontSettings.SubstitutionWarningsClosestMatch.pdf");
 
-        Assert.assertTrue(callback.FontWarnings.get(0).getDescription()
-                .equals("Font 'SymbolPS' has not been found. Using 'Wingdings' font instead. Reason: font info substitution."));
+        Assert.assertTrue(callback.get(0).getDescription()
+                .equals("Font \'SymbolPS\' has not been found. Using \'Wingdings\' font instead. Reason: font info substitution."));
     }
 
     @Test
     public void disableFontSubstitution() throws Exception {
         Document doc = new Document(getMyDir() + "Missing font.docx");
 
-        HandleDocumentSubstitutionWarnings callback = new HandleDocumentSubstitutionWarnings();
+        WarningInfoCollection callback = new WarningInfoCollection();
         doc.setWarningCallback(callback);
 
         FontSettings fontSettings = new FontSettings();
@@ -312,7 +303,7 @@ public class ExFontSettings extends ApiExampleBase {
 
         Pattern pattern = Pattern.compile("Font '28 Days Later' has not been found. Using (.*) font instead. Reason: alternative name from document.");
 
-        for (WarningInfo fontWarning : callback.FontWarnings) {
+        for (WarningInfo fontWarning : callback) {
             Matcher match = pattern.matcher(fontWarning.getDescription());
             if (match.find() == false) {
                 Assert.fail();
@@ -325,7 +316,7 @@ public class ExFontSettings extends ApiExampleBase {
     public void substitutionWarnings() throws Exception {
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
-        HandleDocumentSubstitutionWarnings callback = new HandleDocumentSubstitutionWarnings();
+        WarningInfoCollection callback = new WarningInfoCollection();
         doc.setWarningCallback(callback);
 
         FontSettings fontSettings = new FontSettings();
@@ -337,13 +328,14 @@ public class ExFontSettings extends ApiExampleBase {
         doc.save(getArtifactsDir() + "FontSettings.SubstitutionWarnings.pdf");
 
         Assert.assertEquals("Font 'Arial' has not been found. Using 'Arvo' font instead. Reason: table substitution.",
-                callback.FontWarnings.get(0).getDescription());
+                callback.get(0).getDescription());
         Assert.assertEquals("Font 'Times New Roman' has not been found. Using 'M+ 2m' font instead. Reason: font info substitution.",
-                callback.FontWarnings.get(1).getDescription());
+                callback.get(1).getDescription());
     }
 
     @Test
-    public void fontSourceFile() throws Exception {
+    public void fontSourceFile() throws Exception
+    {
         //ExStart
         //ExFor:FileFontSource
         //ExFor:FileFontSource.#ctor(String)
@@ -433,7 +425,7 @@ public class ExFontSettings extends ApiExampleBase {
 
         // The "Amethysta" font is in a subfolder of the font directory.
         if (recursive) {
-            Assert.assertEquals(25, newFontSources[0].getAvailableFonts().size());
+            Assert.assertEquals(30, newFontSources[0].getAvailableFonts().size());
             Assert.assertTrue(IterableUtils.matchesAny(newFontSources[0].getAvailableFonts(), f -> f.getFullFontName().contains("Amethysta")));
         } else {
             Assert.assertEquals(18, newFontSources[0].getAvailableFonts().size());
@@ -498,7 +490,7 @@ public class ExFontSettings extends ApiExampleBase {
 
         // The "Junction" folder itself contains no font files, but has subfolders that do.
         if (recursive) {
-            Assert.assertEquals(6, newFontSources[1].getAvailableFonts().size());
+            Assert.assertEquals(11, newFontSources[1].getAvailableFonts().size());
             Assert.assertTrue(IterableUtils.matchesAny(newFontSources[1].getAvailableFonts(), f -> f.getFullFontName().contains("Junction Light")));
         } else {
             Assert.assertEquals(0, newFontSources[1].getAvailableFonts().size());
@@ -523,7 +515,7 @@ public class ExFontSettings extends ApiExampleBase {
     @Test
     public void addFontSource() throws Exception {
         //ExStart
-        //ExFor:FontSettings            
+        //ExFor:FontSettings
         //ExFor:FontSettings.GetFontsSources()
         //ExFor:FontSettings.SetFontsSources(FontSourceBase[])
         //ExSummary:Shows how to add a font source to our existing font sources.

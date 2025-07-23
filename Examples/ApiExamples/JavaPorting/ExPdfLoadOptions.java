@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -15,6 +15,7 @@ import com.aspose.words.Document;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.NodeType;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.annotations.DataProvider;
 
 
@@ -41,7 +42,7 @@ class ExPdfLoadOptions !Test class should be public in Java to run, please fix .
         if (isSkipPdfImages)
             Assert.assertEquals(shapeCollection.getCount(), 0);
         else
-            Assert.assertNotEquals(shapeCollection.getCount(), 0);
+            Assert.Is.Not.EqualTo(shapeCollection.getCount())0);
         //ExEnd
     }
 

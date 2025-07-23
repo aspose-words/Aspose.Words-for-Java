@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -13,9 +13,10 @@ import org.testng.annotations.Test;
 import com.aspose.words.HtmlLoadOptions;
 import com.aspose.words.Document;
 import org.testng.Assert;
-import com.aspose.words.ImageType;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
+import com.aspose.ms.NUnit.Framework.msAssert;
+import com.aspose.words.ImageType;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.ms.System.Text.Encoding;
 import com.aspose.words.WarningSource;
@@ -120,7 +121,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         // We can also configure a custom callback to pick up any warnings from timed out web requests.
         Assert.assertEquals(WarningSource.HTML, warningCallback.warnings().get(0).getSource());
         Assert.assertEquals(WarningType.DATA_LOSS, warningCallback.warnings().get(0).getWarningType());
-        Assert.assertEquals($"Couldn't load a resource from \'{ImageUrl}\'.", warningCallback.warnings().get(0).getDescription());
+        Assert.assertEquals("Couldn't load a resource from \'{ImageUrl}\'.", warningCallback.warnings().get(0).getDescription());
 
         Assert.assertEquals(WarningSource.HTML, warningCallback.warnings().get(1).getSource());
         Assert.assertEquals(WarningType.DATA_LOSS, warningCallback.warnings().get(1).getWarningType());
@@ -181,7 +182,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         SignOptions signOptions = new SignOptions();
         {
             signOptions.setComments("Comment");
-            signOptions.setSignTime(new Date());
+            signOptions.setSignTime(new Date);
             signOptions.setDecryptionPassword("docPassword");
         }
 
@@ -310,7 +311,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         TextAbsorber textAbsorber = new TextAbsorber();
         textAbsorber.Visit(pdfDoc);
 
-        Assert.AreEqual(ignoreNoscriptElements ? "" : "Your browser does not support JavaScript!", textAbsorber.Text);
+        Assert.That(textAbsorber.Text, assertEquals(ignoreNoscriptElements ? "" : "Your browser does not support JavaScript!", );
     }
 
 	//JAVA-added data provider for test method

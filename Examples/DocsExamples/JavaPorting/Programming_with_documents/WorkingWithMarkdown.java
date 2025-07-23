@@ -22,6 +22,7 @@ class WorkingWithMarkdown extends DocsExamplesBase
     public void boldText() throws Exception
     {
         //ExStart:BoldText
+        //GistId:0697355b7f872839932388d269ed6a63
         // Use a document builder to add content to the document.
         DocumentBuilder builder = new DocumentBuilder();
 
@@ -35,6 +36,7 @@ class WorkingWithMarkdown extends DocsExamplesBase
     public void italicText() throws Exception
     {
         //ExStart:ItalicText
+        //GistId:0697355b7f872839932388d269ed6a63
         // Use a document builder to add content to the document.
         DocumentBuilder builder = new DocumentBuilder();
 
@@ -48,6 +50,7 @@ class WorkingWithMarkdown extends DocsExamplesBase
     public void strikethrough() throws Exception
     {
         //ExStart:Strikethrough
+        //GistId:0697355b7f872839932388d269ed6a63
         // Use a document builder to add content to the document.
         DocumentBuilder builder = new DocumentBuilder();
 
@@ -81,6 +84,7 @@ class WorkingWithMarkdown extends DocsExamplesBase
     public void autolink() throws Exception
     {
         //ExStart:Autolink
+        //GistId:0697355b7f872839932388d269ed6a63
         // Use a document builder to add content to the document.
         DocumentBuilder builder = new DocumentBuilder();
 
@@ -94,6 +98,7 @@ class WorkingWithMarkdown extends DocsExamplesBase
     public void link() throws Exception
     {
         //ExStart:Link
+        //GistId:0697355b7f872839932388d269ed6a63
         // Use a document builder to add content to the document.
         DocumentBuilder builder = new DocumentBuilder();
 
@@ -106,6 +111,7 @@ class WorkingWithMarkdown extends DocsExamplesBase
     public void image() throws Exception
     {
         //ExStart:Image
+        //GistId:0697355b7f872839932388d269ed6a63
         // Use a document builder to add content to the document.
         DocumentBuilder builder = new DocumentBuilder();
 
@@ -119,6 +125,7 @@ class WorkingWithMarkdown extends DocsExamplesBase
     public void horizontalRule() throws Exception
     {
         //ExStart:HorizontalRule
+        //GistId:0697355b7f872839932388d269ed6a63
         // Use a document builder to add content to the document.
         DocumentBuilder builder = new DocumentBuilder();
 
@@ -131,16 +138,36 @@ class WorkingWithMarkdown extends DocsExamplesBase
     public void heading() throws Exception
     {
         //ExStart:Heading
+        //GistId:0697355b7f872839932388d269ed6a63
         // Use a document builder to add content to the document.
-        DocumentBuilder builder = new DocumentBuilder();
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
         // By default Heading styles in Word may have Bold and Italic formatting.
         //If we do not want to be emphasized, set these properties explicitly to false.
         builder.getFont().setBold(false);
         builder.getFont().setItalic(false);
 
-        builder.getParagraphFormat().setStyleName("Heading 1");
-        builder.writeln("This is an H1 tag");
+        builder.writeln("The following produces headings:");
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 1"));
+        builder.writeln("Heading1");
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 2"));
+        builder.writeln("Heading2");
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 3"));
+        builder.writeln("Heading3");
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 4"));
+        builder.writeln("Heading4");
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 5"));
+        builder.writeln("Heading5");
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 6"));
+        builder.writeln("Heading6");
+
+        // Note, emphases are also allowed inside Headings:
+        builder.getFont().setBold(true);
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 1"));
+        builder.writeln("Bold Heading1");
+
+        doc.save(getArtifactsDir() + "WorkingWithMarkdown.Heading.md");
         //ExEnd:Heading
     }
 
@@ -148,6 +175,7 @@ class WorkingWithMarkdown extends DocsExamplesBase
     public void setextHeading() throws Exception
     {
         //ExStart:SetextHeading
+        //GistId:0697355b7f872839932388d269ed6a63
         // Use a document builder to add content to the document.
         DocumentBuilder builder = new DocumentBuilder();
 
@@ -178,13 +206,14 @@ class WorkingWithMarkdown extends DocsExamplesBase
         builder.writeln("Setext Heading level 2");
         //ExEnd:SetextHeading
 
-        builder.getDocument().save(getArtifactsDir() + "Test.md");
+        builder.getDocument().save(getArtifactsDir() + "WorkingWithMarkdown.SetextHeading.md");
     }
 
     @Test
     public void indentedCode() throws Exception
     {
         //ExStart:IndentedCode
+        //GistId:0697355b7f872839932388d269ed6a63
         // Use a document builder to add content to the document.
         DocumentBuilder builder = new DocumentBuilder();
 
@@ -198,6 +227,7 @@ class WorkingWithMarkdown extends DocsExamplesBase
     public void fencedCode() throws Exception
     {
         //ExStart:FencedCode
+        //GistId:0697355b7f872839932388d269ed6a63
         // Use a document builder to add content to the document.
         DocumentBuilder builder = new DocumentBuilder();
 
@@ -215,8 +245,10 @@ class WorkingWithMarkdown extends DocsExamplesBase
     public void quote() throws Exception
     {
         //ExStart:Quote
+        //GistId:0697355b7f872839932388d269ed6a63
         // Use a document builder to add content to the document.
-        DocumentBuilder builder = new DocumentBuilder();
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
         // By default a document stores blockquote style for the first level.
         builder.getParagraphFormat().setStyleName("Quote");
@@ -227,6 +259,8 @@ class WorkingWithMarkdown extends DocsExamplesBase
         builder.getParagraphFormat().setStyle(quoteLevel2);
         builder.getDocument().getStyles().get("Quote1").setBaseStyleName("Quote");
         builder.writeln("1. Nested blockquote");
+
+        doc.save(getArtifactsDir() + "WorkingWithMarkdown.Quote.md");
         //ExEnd:Quote
     }
 
@@ -234,6 +268,7 @@ class WorkingWithMarkdown extends DocsExamplesBase
     public void bulletedList() throws Exception
     {
         //ExStart:BulletedList
+        //GistId:0697355b7f872839932388d269ed6a63
         // Use a document builder to add content to the document.
         DocumentBuilder builder = new DocumentBuilder();
 
@@ -254,6 +289,7 @@ class WorkingWithMarkdown extends DocsExamplesBase
     public void orderedList() throws Exception
     {
         //ExStart:OrderedList
+        //GistId:0697355b7f872839932388d269ed6a63
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -273,6 +309,7 @@ class WorkingWithMarkdown extends DocsExamplesBase
     public void table() throws Exception
     {
         //ExStart:Table
+        //GistId:0697355b7f872839932388d269ed6a63
         // Use a document builder to add content to the document.
         DocumentBuilder builder = new DocumentBuilder();
 
@@ -296,6 +333,7 @@ class WorkingWithMarkdown extends DocsExamplesBase
     public void readMarkdownDocument() throws Exception
     {
         //ExStart:ReadMarkdownDocument
+        //GistId:19de942ef8827201c1dca99f76c59133
         Document doc = new Document(getMyDir() + "Quotes.md");
 
         // Let's remove Heading formatting from a Quote in the very last paragraph.
@@ -310,6 +348,7 @@ class WorkingWithMarkdown extends DocsExamplesBase
     public void emphases() throws Exception
     {
         //ExStart:Emphases
+        //GistId:19de942ef8827201c1dca99f76c59133
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -359,5 +398,37 @@ class WorkingWithMarkdown extends DocsExamplesBase
                 System.out.println(warningInfo.getDescription());
         }
         //ExEnd:UseWarningSourceMarkdown
+    }
+
+    @Test
+    public void supportedFeatures() throws Exception
+    {
+        //ExStart:SupportedFeatures
+        //GistId:51b4cb9c451832f23527892e19c7bca6
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Specify the "Heading 1" style for the paragraph.
+        builder.insertParagraph();
+        builder.getParagraphFormat().setStyleName("Heading 1");
+        builder.write("Heading 1");
+
+        // Specify the Italic emphasis for the paragraph.
+        builder.insertParagraph();
+        // Reset styles from the previous paragraph to not combine styles between paragraphs.
+        builder.getParagraphFormat().setStyleName("Normal");
+        builder.getFont().setItalic(true);
+        builder.write("Italic Text");
+        // Reset styles from the previous paragraph to not combine styles between paragraphs.
+        builder.setItalic(false);
+
+        // Specify a Hyperlink for the desired text.
+        builder.insertParagraph();
+        builder.insertHyperlink("Aspose", "https://www.aspose.com", false);
+        builder.write("Aspose");
+
+        // Save your document as a Markdown file.
+        doc.save(getArtifactsDir() + "WorkingWithMarkdown.SupportedFeatures.md");
+        //ExEnd:SupportedFeatures
     }
 }

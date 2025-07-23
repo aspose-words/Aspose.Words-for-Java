@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -68,7 +68,7 @@ public class ExBookmarks extends ApiExampleBase {
     //ExFor:BookmarkCollection.Item(String)
     //ExFor:BookmarkCollection.GetEnumerator
     //ExFor:Range.Bookmarks
-    //ExFor:DocumentVisitor.VisitBookmarkStart 
+    //ExFor:DocumentVisitor.VisitBookmarkStart
     //ExFor:DocumentVisitor.VisitBookmarkEnd
     //ExSummary:Shows how to add bookmarks and update their contents.
     @Test //ExSkip

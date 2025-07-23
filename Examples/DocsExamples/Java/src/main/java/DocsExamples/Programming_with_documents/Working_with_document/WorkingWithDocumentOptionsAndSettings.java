@@ -11,15 +11,16 @@ import java.text.MessageFormat;
 public class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
 {
     @Test
-    public void optimizeForMsWord() throws Exception
+    public void optimizeFor() throws Exception
     {
-        //ExStart:OptimizeForMsWord
+        //ExStart:OptimizeFor
+        //GistId:5d2997d42c1f1fad79b18873f170855f
         Document doc = new Document(getMyDir() + "Document.docx");
 
         doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2016);
 
-        doc.save(getArtifactsDir() + "WorkingWithDocumentOptionsAndSettings.OptimizeForMsWord.docx");
-        //ExEnd:OptimizeForMsWord
+        doc.save(getArtifactsDir() + "WorkingWithDocumentOptionsAndSettings.OptimizeFor.docx");
+        //ExEnd:OptimizeFor
     }
 
     @Test
@@ -38,7 +39,8 @@ public class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
     @Test
     public void cleanupUnusedStylesAndLists() throws Exception
     {
-        //ExStart:CleanupUnusedStylesandLists
+        //ExStart:CleanupUnusedStylesAndLists
+        //GistId:669f3d08f45b14f75f9d2cb17fa1056a
         Document doc = new Document(getMyDir() + "Unused styles.docx");
 
         // Combined with the built-in styles, the document now has eight styles.
@@ -55,13 +57,14 @@ public class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
                               MessageFormat.format("Count of lists after Cleanup is the same: {0}", doc.getLists().getCount()));
 
         doc.save(getArtifactsDir() + "WorkingWithDocumentOptionsAndSettings.CleanupUnusedStylesAndLists.docx");
-        //ExEnd:CleanupUnusedStylesandLists
+        //ExEnd:CleanupUnusedStylesAndLists
     }
 
     @Test
     public void cleanupDuplicateStyle() throws Exception
     {
         //ExStart:CleanupDuplicateStyle
+        //GistId:669f3d08f45b14f75f9d2cb17fa1056a
         Document doc = new Document(getMyDir() + "Document.docx");
 
         // Count of styles before Cleanup.
@@ -82,6 +85,7 @@ public class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
     public void viewOptions() throws Exception
     {
         //ExStart:SetViewOption
+        //GistId:5d2997d42c1f1fad79b18873f170855f
         Document doc = new Document(getMyDir() + "Document.docx");
         
         doc.getViewOptions().setViewType(ViewType.PAGE_LAYOUT);
@@ -95,6 +99,7 @@ public class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
     public void documentPageSetup() throws Exception
     {
         //ExStart:DocumentPageSetup
+        //GistId:5d2997d42c1f1fad79b18873f170855f
         Document doc = new Document(getMyDir() + "Document.docx");
 
         // Set the layout mode for a section allowing to define the document grid behavior.
@@ -109,16 +114,16 @@ public class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
     }
 
     @Test
-    public void addJapaneseAsEditingLanguages() throws Exception
+    public void addEditingLanguage() throws Exception
     {
-        //ExStart:AddJapaneseAsEditinglanguages
+        //ExStart:AddEditingLanguage
+        //GistId:40be8275fc43f78f5e5877212e4e1bf3
         LoadOptions loadOptions = new LoadOptions();
-        
         // Set language preferences that will be used when document is loading.
         loadOptions.getLanguagePreferences().addEditingLanguage(EditingLanguage.JAPANESE);
-        //ExEnd:AddJapaneseAsEditinglanguages
-
+        
         Document doc = new Document(getMyDir() + "No default editing language.docx", loadOptions);
+        //ExEnd:AddEditingLanguage
 
         int localeIdFarEast = doc.getStyles().getDefaultFont().getLocaleIdFarEast();
         System.out.println(localeIdFarEast == (int) EditingLanguage.JAPANESE
@@ -130,6 +135,7 @@ public class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
     public void setRussianAsDefaultEditingLanguage() throws Exception
     {
         //ExStart:SetRussianAsDefaultEditingLanguage
+        //GistId:5d2997d42c1f1fad79b18873f170855f
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.getLanguagePreferences().setDefaultEditingLanguage(EditingLanguage.RUSSIAN);
 
@@ -154,7 +160,7 @@ public class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
         builder.getPageSetup().setLeftMargin(50.0);
         builder.getPageSetup().setPaperSize(PaperSize.PAPER_10_X_14);
 
-        doc.save(getArtifactsDir() + "WorkingWithDocumentOptionsAndSettings.SetPageSetupAndSectionFormatting.docx");
+        doc.save(getArtifactsDir() + "WorkingWithDocumentOptionsAndSettings.PageSetupAndSectionFormatting.docx");
         //ExEnd:PageSetupAndSectionFormatting
     }
 

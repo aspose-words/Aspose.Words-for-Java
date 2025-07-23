@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -1067,5 +1067,27 @@ public class ExPageSetup extends ApiExampleBase {
         pageSetup.setChapterPageSeparator(com.aspose.words.ChapterPageSeparator.COLON);
         pageSetup.setHeadingLevelForChapter(1);
         //ExEnd
+    }
+
+    @Test
+    public void jisbPaperSize() throws Exception
+    {
+        //ExStart:JisbPaperSize
+        //GistId:cc5f9f2033531562b29954d9f73776a5
+        //ExFor:PageSetup.PaperSize
+        //ExSummary:Shows how to set the paper size of JisB4 or JisB5.
+        Document doc = new Document(getMyDir() + "Big document.docx");
+
+        PageSetup pageSetup = doc.getFirstSection().getPageSetup();
+        // Set the paper size to JisB4 (257x364mm).
+        pageSetup.setPaperSize(PaperSize.JIS_B_4);
+        // Alternatively, set the paper size to JisB5. (182x257mm).
+        pageSetup.setPaperSize(PaperSize.JIS_B_5);
+        //ExEnd:JisbPaperSize
+
+        doc = DocumentHelper.saveOpen(doc);
+        pageSetup = doc.getFirstSection().getPageSetup();
+
+        Assert.assertEquals(PaperSize.JIS_B_5, pageSetup.getPaperSize());
     }
 }

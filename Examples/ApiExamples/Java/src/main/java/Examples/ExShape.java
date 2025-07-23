@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -770,13 +770,13 @@ public class ExShape extends ApiExampleBase {
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setCompliance(OoxmlCompliance.ISO_29500_2008_STRICT); }
 
         doc.save(getArtifactsDir() + "Shape.TextureFill.docx", saveOptions);
-        //ExEnd
 
         doc = new Document(getArtifactsDir() + "Shape.TextureFill.docx");
-
         shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
         Assert.assertEquals(TextureAlignment.TOP_RIGHT, shape.getFill().getTextureAlignment());
+        Assert.assertEquals(PresetTexture.CANVAS, shape.getFill().getPresetTexture());
+        //ExEnd
     }
 
     @Test
@@ -1197,6 +1197,14 @@ public class ExShape extends ApiExampleBase {
             Assert.assertEquals(checkBox.getChildNodes(), null);
         }
         //ExEnd
+
+        doc.save(getArtifactsDir() + "Shape.GetActiveXControlProperties.docx");
+        doc = new Document(getArtifactsDir() + "Shape.GetActiveXControlProperties.docx");
+
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Forms2OleControl forms2OleControl = (Forms2OleControl)shape.getOleFormat().getOleControl();
+
+        Assert.assertEquals("", forms2OleControl.getGroupName());
     }
 
     @Test
@@ -1230,9 +1238,6 @@ public class ExShape extends ApiExampleBase {
 
         String sourceFullName = shape.getChart().getSourceFullName();
         Assert.assertTrue(sourceFullName.contains("Examples\\Data\\Spreadsheet.xlsx"));
-
-        sourceFullName = "D:\\Documents\\ChartData.xlsx";
-        Assert.assertTrue(sourceFullName.equals("D:\\Documents\\ChartData.xlsx"));
         //ExEnd
     }
 
@@ -1902,7 +1907,7 @@ public class ExShape extends ApiExampleBase {
     @Test //ExSkip
     public void visitShapes() throws Exception {
         Document doc = new Document(getMyDir() + "Revision shape.docx");
-        Assert.assertEquals(2, doc.getChildNodes(NodeType.SHAPE, true).getCount()); //ExSKip
+        Assert.assertEquals(2, doc.getChildNodes(NodeType.SHAPE, true).getCount()); //ExSkip
 
         ShapeAppearancePrinter visitor = new ShapeAppearancePrinter();
         doc.accept(visitor);

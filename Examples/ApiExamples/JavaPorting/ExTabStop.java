@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -20,6 +20,7 @@ import com.aspose.words.TabLeader;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.TabStopCollection;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.ParagraphCollection;
 
 
@@ -108,7 +109,7 @@ public class ExTabStop extends ApiExampleBase
 
         // Each paragraph gets its tab stop collection, which clones its values from the document builder's tab stop collection.
         Assert.assertEquals(paragraphs.get(0).getParagraphFormat().getTabStops(), paragraphs.get(1).getParagraphFormat().getTabStops());
-        Assert.assertNotSame(paragraphs.get(0).getParagraphFormat().getTabStops(), paragraphs.get(1).getParagraphFormat().getTabStops());
+        Assert.Is.Not.SameAs(paragraphs.get(0).getParagraphFormat().getTabStops())paragraphs.get(1).getParagraphFormat().getTabStops());
 
         // A tab stop collection can point us to TabStops before and after certain positions.
         Assert.assertEquals(72.0, tabStops.before(100.0).getPosition());
@@ -174,7 +175,7 @@ public class ExTabStop extends ApiExampleBase
         tabStops.add(ConvertUtil.millimeterToPoint(60.0), TabAlignment.LEFT, TabLeader.DASHES);
 
         // Verify the position of the second tab stop in the collection.
-        Assert.assertEquals(ConvertUtil.millimeterToPoint(60.0), tabStops.getPositionByIndex(1), 0.1d);
+        Assert.assertEquals(ConvertUtil.millimeterToPoint(60.0), 0.1d, tabStops.getPositionByIndex(1));
         //ExEnd
     }
 

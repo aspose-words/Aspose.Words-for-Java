@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 public class WorkingWithNode extends DocsExamplesBase
 {
     @Test
-    public void useNodeType() throws Exception
+    public void getNodeType() throws Exception
     {
         //ExStart:UseNodeType            
         Document doc = new Document();
@@ -20,39 +20,35 @@ public class WorkingWithNode extends DocsExamplesBase
     @Test
     public void getParentNode() throws Exception
     {
-        //ExStart:GetParentNode           
+        //ExStart:GetParentNode
+        //GistId:3e9d92093b2f5995f984791bfc10c944
         Document doc = new Document();
-
         // The section is the first child node of the document.
         Node section = doc.getFirstChild();
-
         // The section's parent node is the document.
         System.out.println("Section parent is the document: " + (doc == section.getParentNode()));
-        //ExEnd:GetParentNode           
+        //ExEnd:GetParentNode
     }
 
     @Test
     public void ownerDocument() throws Exception
     {
         //ExStart:OwnerDocument
+        //GistId:3e9d92093b2f5995f984791bfc10c944
         Document doc = new Document();
 
         // Creating a new node of any type requires a document passed into the constructor.
         Paragraph para = new Paragraph(doc);
-
         // The new paragraph node does not yet have a parent.
         System.out.println("Paragraph has no parent node: " + (para.getParentNode() == null));
-
         // But the paragraph node knows its document.
         System.out.println("Both nodes' documents are the same: " + (para.getDocument() == doc));
-
         // The fact that a node always belongs to a document allows us to access and modify
         // properties that reference the document-wide data, such as styles or lists.
         para.getParagraphFormat().setStyleName("Heading 1");
-
         // Now add the paragraph to the main text of the first section.
         doc.getFirstSection().getBody().appendChild(para);
-
+        
         // The paragraph node is now a child of the Body node.
         System.out.println("Paragraph has a parent node: " + (para.getParentNode() != null));
         //ExEnd:OwnerDocument
@@ -61,7 +57,8 @@ public class WorkingWithNode extends DocsExamplesBase
     @Test
     public void enumerateChildNodes() throws Exception
     {
-        //ExStart:EnumerateChildNodes 
+        //ExStart:EnumerateChildNodes
+        //GistId:3e9d92093b2f5995f984791bfc10c944
         Document doc = new Document();
         Paragraph paragraph = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
@@ -80,10 +77,10 @@ public class WorkingWithNode extends DocsExamplesBase
 
     @Test
     //ExStart:RecurseAllNodes
+    //GistId:3e9d92093b2f5995f984791bfc10c944
     public void recurseAllNodes() throws Exception
     {
         Document doc = new Document(getMyDir() + "Paragraphs.docx");
-
         // Invoke the recursive function that will walk the tree.
         traverseAllNodes(doc);
     }
@@ -92,7 +89,7 @@ public class WorkingWithNode extends DocsExamplesBase
     /// A simple function that will walk through all children of a specified node recursively 
     /// and print the type of each node to the screen.
     /// </summary>
-    private void traverseAllNodes(CompositeNode parentNode)
+    private static void traverseAllNodes(CompositeNode parentNode)
     {
         // This is the most efficient way to loop through immediate children of a node.
         for (Node childNode = parentNode.getFirstChild(); childNode != null; childNode = childNode.getNextSibling())
@@ -110,11 +107,11 @@ public class WorkingWithNode extends DocsExamplesBase
     public void typedAccess() throws Exception
     {
         //ExStart:TypedAccess
+        //GistId:3e9d92093b2f5995f984791bfc10c944
         Document doc = new Document();
 
         Section section = doc.getFirstSection();
         Body body = section.getBody();
-        
         // Quick typed access to all Table child nodes contained in the Body.
         TableCollection tables = body.getTables();
 

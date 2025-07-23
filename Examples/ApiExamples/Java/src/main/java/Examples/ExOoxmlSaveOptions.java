@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -431,5 +431,28 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.DigitalSignature.docx", saveOptions);
         //ExEnd:DigitalSignature
+    }
+
+    @Test
+    public void updateAmbiguousTextFont() throws Exception
+    {
+        //ExStart:UpdateAmbiguousTextFont
+        //GistId:3c52d1e8d47af34d5026f3a951027f59
+        //ExFor:SaveOptions.UpdateAmbiguousTextFont
+        //ExSummary:Shows how to update the font to match the character code being used.
+        Document doc = new Document(getMyDir() + "Special symbol.docx");
+        Run run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
+        System.out.println(run.getText()); // ฿
+        System.out.println(run.getFont().getName()); // Arial
+
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
+        saveOptions.setUpdateAmbiguousTextFont(true);
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.UpdateAmbiguousTextFont.docx", saveOptions);
+
+        doc = new Document(getArtifactsDir() + "OoxmlSaveOptions.UpdateAmbiguousTextFont.docx");
+        run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
+        System.out.println(run.getText()); // ฿
+        System.out.println(run.getFont().getName()); // Angsana New
+        //ExEnd:UpdateAmbiguousTextFont
     }
 }

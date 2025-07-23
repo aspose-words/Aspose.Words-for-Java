@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -16,6 +16,7 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.words.HtmlFixedSaveOptions;
 import com.aspose.ms.System.Text.Encoding;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.ms.System.IO.File;
 import com.aspose.ms.System.IO.Directory;
@@ -51,7 +52,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         // we can use a SaveOptions object to set a specific encoding.
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         {
-            htmlFixedSaveOptions.setEncoding(Encoding.getEncoding("ASCII"));
+            htmlFixedSaveOptions.setEncoding(Encoding.getASCII());
         }
 
         Assert.assertEquals("US-ASCII", htmlFixedSaveOptions.getEncodingInternal().getEncodingName());
@@ -60,7 +61,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         //ExEnd
 
         Assert.assertTrue(Regex.match(File.readAllText(getArtifactsDir() + "HtmlFixedSaveOptions.UseEncoding.html"),
-            "content=\"text/html; charset=us-ascii\"").getSuccess());
+                "content=\"text/html; charset=us-ascii\"").getSuccess());
     }
 
     @Test
@@ -70,7 +71,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
 
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         {
-            htmlFixedSaveOptions.setEncoding(Encoding.getEncoding("utf-16"));
+            htmlFixedSaveOptions.setEncoding(Encoding.getUTF8());
         }
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.GetEncoding.html", htmlFixedSaveOptions);
@@ -106,7 +107,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         else
         {
             Assert.assertTrue(Regex.match(outDocContents,
-                "<link rel=\"stylesheet\" type=\"text/css\" href=\"HtmlFixedSaveOptions[.]ExportEmbeddedCss/styles[.]css\" media=\"all\" />").getSuccess());
+                    "<link rel=\"stylesheet\" type=\"text/css\" href=\"HtmlFixedSaveOptions[.]ExportEmbeddedCss/styles[.]css\" media=\"all\" />").getSuccess());
             Assert.assertTrue(File.exists(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedCss/styles.css"));
         }
         //ExEnd
@@ -150,14 +151,14 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         if (exportEmbeddedFonts)
         {
             Assert.assertTrue(Regex.match(outDocContents,
-                "@font-face { font-family:'Arial'; font-style:normal; font-weight:normal; src:local[(]'☺'[)], url[(].+[)] format[(]'woff'[)]; }").getSuccess());
-            Assert.AreEqual(0, Directory.getFiles(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedFonts").Count(f => f.EndsWith(".woff")));
+                    "@font-face { font-family:'Arial'; font-style:normal; font-weight:normal; src:local[(]'☺'[)], url[(].+[)] format[(]'woff'[)]; }").getSuccess());
+            Assert.That(Directory.getFiles(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedFonts").Count(f => f.EndsWith(".woff")), assertEquals(0, );
         }
         else
         {
             Assert.assertTrue(Regex.match(outDocContents,
-                "@font-face { font-family:'Arial'; font-style:normal; font-weight:normal; src:local[(]'☺'[)], url[(]'font001[.]woff'[)] format[(]'woff'[)]; }").getSuccess());
-            Assert.AreEqual(2, Directory.getFiles(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedFonts").Count(f => f.EndsWith(".woff")));
+                    "@font-face { font-family:'Arial'; font-style:normal; font-weight:normal; src:local[(]'☺'[)], url[(]'font001[.]woff'[)] format[(]'woff'[)]; }").getSuccess());
+            Assert.That(Directory.getFiles(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedFonts").Count(f => f.EndsWith(".woff")), assertEquals(2, );
         }
         //ExEnd
     }
@@ -200,14 +201,14 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         {
             Assert.assertFalse(File.exists(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedImages/image001.jpeg"));
             Assert.assertTrue(Regex.match(outDocContents,
-                "<img class=\"awimg\" style=\"left:0pt; top:0pt; width:493.1pt; height:300.55pt;\" src=\".+\" />").getSuccess());
+                    "<img class=\"awimg\" style=\"left:0pt; top:0pt; width:493.1pt; height:300.55pt;\" src=\".+\" />").getSuccess());
         }
         else
         {
             Assert.assertTrue(File.exists(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedImages/image001.jpeg"));
             Assert.assertTrue(Regex.match(outDocContents,
-                "<img class=\"awimg\" style=\"left:0pt; top:0pt; width:493.1pt; height:300.55pt;\" " +
-                "src=\"HtmlFixedSaveOptions[.]ExportEmbeddedImages/image001[.]jpeg\" />").getSuccess());
+                    "<img class=\"awimg\" style=\"left:0pt; top:0pt; width:493.1pt; height:300.55pt;\" " +
+                    "src=\"HtmlFixedSaveOptions[.]ExportEmbeddedImages/image001[.]jpeg\" />").getSuccess());
         }
         //ExEnd
     }
@@ -250,13 +251,13 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         {
             Assert.assertFalse(File.exists(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedSvgs/svg001.svg"));
             Assert.assertTrue(Regex.match(outDocContents,
-                "<image id=\"image004\" xlink:href=.+/>").getSuccess());
+                    "<image id=\"image004\" xlink:href=.+/>").getSuccess());
         }
         else
         {
             Assert.assertTrue(File.exists(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedSvgs/svg001.svg"));
             Assert.assertTrue(Regex.match(outDocContents,
-                "<object type=\"image/svg[+]xml\" data=\"HtmlFixedSaveOptions.ExportEmbeddedSvgs/svg001[.]svg\"></object>").getSuccess());
+                    "<object type=\"image/svg[+]xml\" data=\"HtmlFixedSaveOptions.ExportEmbeddedSvgs/svg001[.]svg\"></object>").getSuccess());
         }
         //ExEnd
     }
@@ -301,14 +302,14 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         if (exportFormFields)
         {
             Assert.assertTrue(Regex.match(outDocContents,
-                "<a name=\"CheckBox\" style=\"left:0pt; top:0pt;\"></a>" +
-                "<input style=\"position:absolute; left:0pt; top:0pt;\" type=\"checkbox\" name=\"CheckBox\" />").getSuccess());
+                    "<a name=\"CheckBox\" style=\"left:0pt; top:0pt;\"></a>" +
+                    "<input style=\"position:absolute; left:0pt; top:0pt;\" type=\"checkbox\" name=\"CheckBox\" />").getSuccess());
         }
         else
         {
             Assert.assertTrue(Regex.match(outDocContents,
-                "<a name=\"CheckBox\" style=\"left:0pt; top:0pt;\"></a>" +
-                "<div class=\"awdiv\" style=\"left:0.8pt; top:0.8pt; width:14.25pt; height:14.25pt; border:solid 0.75pt #000000;\"").getSuccess());
+                    "<a name=\"CheckBox\" style=\"left:0pt; top:0pt;\"></a>" +
+                    "<div class=\"awdiv\" style=\"left:0.8pt; top:0.8pt; width:14.25pt; height:14.25pt; border:solid 0.75pt #000000;\"").getSuccess());
         }
         //ExEnd
     }
@@ -344,15 +345,15 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         String outDocContents = File.readAllText(getArtifactsDir() + "HtmlFixedSaveOptions.AddCssClassNamesPrefix.html");
 
         Assert.assertTrue(Regex.match(outDocContents,
-            "<div class=\"myprefixdiv myprefixpage\" style=\"width:595[.]3pt; height:841[.]9pt;\">" +
-            "<div class=\"myprefixdiv\" style=\"left:85[.]05pt; top:36pt; clip:rect[(]0pt,510[.]25pt,74[.]95pt,-85.05pt[)];\">" +
-            "<span class=\"myprefixspan myprefixtext001\" style=\"font-size:11pt; left:294[.]73pt; top:0[.]36pt; line-height:12[.]29pt;\">").getSuccess());
+                "<div class=\"myprefixdiv myprefixpage\" style=\"width:595[.]3pt; height:841[.]9pt;\">" +
+                "<div class=\"myprefixdiv\" style=\"left:85[.]05pt; top:36pt; clip:rect[(]0pt,510[.]25pt,74[.]95pt,-85.05pt[)];\">" +
+                "<span class=\"myprefixspan myprefixtext001\" style=\"font-size:11pt; left:294[.]73pt; top:0[.]36pt; line-height:12[.]29pt;\">").getSuccess());
 
         outDocContents = File.readAllText(getArtifactsDir() + "HtmlFixedSaveOptions.AddCssClassNamesPrefix/styles.css");
 
         Assert.assertTrue(Regex.match(outDocContents,
-            ".myprefixdiv { position:absolute; } " +
-            ".myprefixspan { position:absolute; white-space:pre; color:#000000; font-size:12pt; }").getSuccess());
+                ".myprefixdiv { position:absolute; } " +
+                ".myprefixspan { position:absolute; white-space:pre; color:#000000; font-size:12pt; }").getSuccess());
         //ExEnd
     }
 
@@ -378,15 +379,15 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         {
             case HtmlFixedPageHorizontalAlignment.CENTER:
                 Assert.assertTrue(Regex.match(outDocContents,
-                    "[.]awpage { position:relative; border:solid 1pt black; margin:10pt auto 10pt auto; overflow:hidden; }").getSuccess());
+                        "[.]awpage { position:relative; border:solid 1pt black; margin:10pt auto 10pt auto; overflow:hidden; }").getSuccess());
                 break;
             case HtmlFixedPageHorizontalAlignment.LEFT:
                 Assert.assertTrue(Regex.match(outDocContents,
-                    "[.]awpage { position:relative; border:solid 1pt black; margin:10pt auto 10pt 10pt; overflow:hidden; }").getSuccess());
+                        "[.]awpage { position:relative; border:solid 1pt black; margin:10pt auto 10pt 10pt; overflow:hidden; }").getSuccess());
                 break;
             case HtmlFixedPageHorizontalAlignment.RIGHT:
                 Assert.assertTrue(Regex.match(outDocContents,
-                    "[.]awpage { position:relative; border:solid 1pt black; margin:10pt 10pt 10pt auto; overflow:hidden; }").getSuccess());
+                        "[.]awpage { position:relative; border:solid 1pt black; margin:10pt 10pt 10pt auto; overflow:hidden; }").getSuccess());
                 break;
         }
         //ExEnd
@@ -422,7 +423,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         String outDocContents = File.readAllText(getArtifactsDir() + "HtmlFixedSaveOptions.PageMargins/styles.css");
 
         Assert.assertTrue(Regex.match(outDocContents,
-            "[.]awpage { position:relative; border:solid 1pt black; margin:15pt auto 15pt auto; overflow:hidden; }").getSuccess());
+                "[.]awpage { position:relative; border:solid 1pt black; margin:15pt auto 15pt auto; overflow:hidden; }").getSuccess());
         //ExEnd
     }
 
@@ -446,8 +447,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html", saveOptions);
 
         // The size of the optimized version of the document is almost a third of the size of the unoptimized document.
-        Assert.assertEquals(optimizeOutput ? 61889 : 191770,
-            new FileInfo(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").getLength(), 200.0);
+        Assert.assertEquals(optimizeOutput ? 60385 : 191000, 200, new FileInfo(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").getLength());
         //ExEnd
     }
 
@@ -488,8 +488,8 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
             Assert.assertFalse(Regex.match(outDocContents, "@font-face").getSuccess());
         else
             Assert.assertTrue(Regex.match(outDocContents,
-                "@font-face { font-family:'Arial'; font-style:normal; font-weight:normal; src:local[(]'☺'[)], " +
-                "url[(]'HtmlFixedSaveOptions.UsingMachineFonts/font001.ttf'[)] format[(]'truetype'[)]; }").getSuccess());
+                    "@font-face { font-family:'Arial'; font-style:normal; font-weight:normal; src:local[(]'☺'[)], " +
+                    "url[(]'HtmlFixedSaveOptions.UsingMachineFonts/font001.ttf'[)] format[(]'truetype'[)]; }").getSuccess());
         //ExEnd
     }
 
@@ -597,7 +597,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         String[] resourceFiles = Directory.getFiles(getArtifactsDir() + "HtmlFixedResourceFolderAlias");
 
         Assert.assertFalse(Directory.exists(getArtifactsDir() + "HtmlFixedResourceFolder"));
-        Assert.AreEqual(6, resourceFiles.Count(f => f.EndsWith(".jpeg") || f.EndsWith(".png") || f.EndsWith(".css")));
+        Assert.That(resourceFiles.Count(f => f.EndsWith(".jpeg") || f.EndsWith(".png") || f.EndsWith(".css")), assertEquals(6, );
         testHtmlFixedResourceFolder(callback); //ExSkip
     }
 
@@ -669,7 +669,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         //ExStart:RemoveJavaScriptFromLinks
         //GistId:f86d49dc0e6781b93e576539a01e6ca2
         //ExFor:HtmlFixedSaveOptions.RemoveJavaScriptFromLinks
-        //ExSummary:Shows how to remove JavaScript from the links.
+        //ExSummary:Shows how to remove JavaScript from the links for html fixed documents.
         Document doc = new Document(getMyDir() + "JavaScript in HREF.docx");
 
         HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();

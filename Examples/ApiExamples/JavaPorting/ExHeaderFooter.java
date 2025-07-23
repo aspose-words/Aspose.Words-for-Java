@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -15,6 +15,7 @@ import com.aspose.words.HeaderFooter;
 import com.aspose.words.HeaderFooterType;
 import com.aspose.words.Paragraph;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.BreakType;
 import com.aspose.words.Section;
@@ -81,9 +82,9 @@ public class ExHeaderFooter extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "HeaderFooter.Create.docx");
 
         Assert.assertTrue(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getRange().getText()
-            .contains("My header."));
+                .contains("My header."));
         Assert.assertTrue(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getRange().getText()
-            .contains("My footer."));
+                .contains("My footer."));
     }
 
     @Test
@@ -121,8 +122,8 @@ public class ExHeaderFooter extends ApiExampleBase
 
         // Each section will still have its own header/footer objects. When we link sections,
         // the linking section will display the linked section's header/footers while keeping its own.
-        Assert.assertNotEquals(doc.getSections().get(0).getHeadersFooters().get(0), doc.getSections().get(1).getHeadersFooters().get(0));
-        Assert.assertNotEquals(doc.getSections().get(0).getHeadersFooters().get(0).getParentSection(), doc.getSections().get(1).getHeadersFooters().get(0).getParentSection());
+        Assert.Is.Not.EqualTo(doc.getSections().get(0).getHeadersFooters().get(0))doc.getSections().get(1).getHeadersFooters().get(0));
+        Assert.Is.Not.EqualTo(doc.getSections().get(0).getHeadersFooters().get(0).getParentSection())doc.getSections().get(1).getHeadersFooters().get(0).getParentSection());
 
         // Link the headers/footers of the third section to the headers/footers of the second section.
         // The second section already links to the first section's header/footers,
@@ -139,15 +140,15 @@ public class ExHeaderFooter extends ApiExampleBase
 
         // The first section's header/footers cannot link themselves to anything because there is no previous section.
         Assert.assertEquals(2, doc.getSections().get(0).getHeadersFooters().getCount());
-        Assert.AreEqual(2, doc.getSections().get(0).getHeadersFooters().Count(hf => !((HeaderFooter)hf).IsLinkedToPrevious));
+        Assert.That(doc.getSections().get(0).getHeadersFooters().Count(hf => !((HeaderFooter)hf).IsLinkedToPrevious), assertEquals(2, );
         
         // All the second section's header/footers are linked to the first section's headers/footers.
         Assert.assertEquals(6, doc.getSections().get(1).getHeadersFooters().getCount());
-        Assert.AreEqual(6, doc.getSections().get(1).getHeadersFooters().Count(hf => ((HeaderFooter)hf).IsLinkedToPrevious));
+        Assert.That(doc.getSections().get(1).getHeadersFooters().Count(hf => ((HeaderFooter)hf).IsLinkedToPrevious), assertEquals(6, );
 
         // In the third section, only the footer is linked to the first section's footer via the second section.
         Assert.assertEquals(6, doc.getSections().get(2).getHeadersFooters().getCount());
-        Assert.AreEqual(5, doc.getSections().get(2).getHeadersFooters().Count(hf => !((HeaderFooter)hf).IsLinkedToPrevious));
+        Assert.That(doc.getSections().get(2).getHeadersFooters().Count(hf => !((HeaderFooter)hf).IsLinkedToPrevious), assertEquals(5, );
         Assert.assertTrue(doc.getSections().get(2).getHeadersFooters().get(3).isLinkedToPrevious());
 
         doc.save(getArtifactsDir() + "HeaderFooter.Link.docx");
@@ -156,13 +157,13 @@ public class ExHeaderFooter extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "HeaderFooter.Link.docx");
 
         Assert.assertEquals(2, doc.getSections().get(0).getHeadersFooters().getCount());
-        Assert.AreEqual(2, doc.getSections().get(0).getHeadersFooters().Count(hf => !((HeaderFooter)hf).IsLinkedToPrevious));
+        Assert.That(doc.getSections().get(0).getHeadersFooters().Count(hf => !((HeaderFooter)hf).IsLinkedToPrevious), assertEquals(2, );
 
         Assert.assertEquals(0, doc.getSections().get(1).getHeadersFooters().getCount());
-        Assert.AreEqual(0, doc.getSections().get(1).getHeadersFooters().Count(hf => ((HeaderFooter)hf).IsLinkedToPrevious));
+        Assert.That(doc.getSections().get(1).getHeadersFooters().Count(hf => ((HeaderFooter)hf).IsLinkedToPrevious), assertEquals(0, );
 
         Assert.assertEquals(5, doc.getSections().get(2).getHeadersFooters().getCount());
-        Assert.AreEqual(5, doc.getSections().get(2).getHeadersFooters().Count(hf => !((HeaderFooter)hf).IsLinkedToPrevious));
+        Assert.That(doc.getSections().get(2).getHeadersFooters().Count(hf => !((HeaderFooter)hf).IsLinkedToPrevious), assertEquals(5, );
     }
 
     @Test
@@ -192,7 +193,7 @@ public class ExHeaderFooter extends ApiExampleBase
             footer = section.getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_EVEN);
             footer?.Remove();
 
-            Assert.AreEqual(0, section.getHeadersFooters().Count(hf => !((HeaderFooter)hf).IsHeader));
+            Assert.That(section.getHeadersFooters().Count(hf => !((HeaderFooter)hf).IsHeader), assertEquals(0, );
         }
 
         doc.save(getArtifactsDir() + "HeaderFooter.RemoveFooters.docx");
@@ -201,8 +202,8 @@ public class ExHeaderFooter extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "HeaderFooter.RemoveFooters.docx");
 
         Assert.assertEquals(1, doc.getSections().getCount());
-        Assert.AreEqual(0, doc.getFirstSection().getHeadersFooters().Count(hf => !((HeaderFooter)hf).IsHeader));
-        Assert.AreEqual(3, doc.getFirstSection().getHeadersFooters().Count(hf => ((HeaderFooter)hf).IsHeader));
+        Assert.That(doc.getFirstSection().getHeadersFooters().Count(hf => !((HeaderFooter)hf).IsHeader), assertEquals(0, );
+        Assert.That(doc.getFirstSection().getHeadersFooters().Count(hf => ((HeaderFooter)hf).IsHeader), assertEquals(3, );
     }
 
     @Test
@@ -254,7 +255,7 @@ public class ExHeaderFooter extends ApiExampleBase
             options.setFindWholeWordsOnly(false);
         }
 
-        int currentYear = new Date().getYear();
+        int currentYear = new Date.getYear();
         footer.getRange().replace("(C) 2006 Aspose Pty Ltd.", $"Copyright (C) {currentYear} by Aspose Pty Ltd.", options);
 
         doc.save(getArtifactsDir() + "HeaderFooter.ReplaceText.docx");
@@ -285,11 +286,9 @@ public class ExHeaderFooter extends ApiExampleBase
         doc.getRange().replaceInternal(new Regex("(header|footer)"), "", options);
 
         if (differentFirstPageHeaderFooter)
-            Assert.AreEqual("First header\nFirst footer\nSecond header\nSecond footer\nThird header\nThird footer\n", 
-                logger.Text.Replace("\r", ""));
+            Assert.That(logger.Text.Replace("\r", ""), assertEquals("First header\nFirst footer\nSecond header\nSecond footer\nThird header\nThird footer\n", );
         else
-            Assert.AreEqual("Third header\nFirst header\nThird footer\nFirst footer\nSecond header\nSecond footer\n", 
-                logger.Text.Replace("\r", ""));
+            Assert.That(logger.Text.Replace("\r", ""), assertEquals("Third header\nFirst header\nThird footer\nFirst footer\nSecond header\nSecond footer\n", );
     }
 
 	//JAVA-added data provider for test method
@@ -314,9 +313,7 @@ public class ExHeaderFooter extends ApiExampleBase
         {
             mTextBuilder.AppendLine(args.getMatchNode().getText());
             return ReplaceAction.SKIP;
-        }
-
-         String Text => private mTextBuilder.ToStringmTextBuilder();
+        }private mTextBuilder.ToStringmTextBuilder();
 
         private /*final*/ StringBuilder mTextBuilder = new StringBuilder();
     }

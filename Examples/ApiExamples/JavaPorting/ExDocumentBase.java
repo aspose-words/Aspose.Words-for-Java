@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -13,6 +13,7 @@ import com.aspose.ms.java.collections.StringSwitchMap;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.DocumentBase;
 import com.aspose.words.GlossaryDocument;
 import com.aspose.words.DocumentBuilder;
@@ -33,7 +34,6 @@ import com.aspose.words.ResourceLoadingAction;
 import com.aspose.words.ResourceLoadingArgs;
 import com.aspose.words.ResourceType;
 import com.aspose.ms.System.IO.File;
-import com.aspose.ms.NUnit.Framework.msAssert;
 
 
 @Test
@@ -92,8 +92,8 @@ public class ExDocumentBase extends ApiExampleBase
 
         // Every node has a parent document, which is the document that contains the node.
         // Inserting a node into a document that the node does not belong to will throw an exception.
-        Assert.assertNotEquals(dstDoc, srcDoc.getFirstSection().getDocument());
-        Assert.<IllegalArgumentException>Throws(() => { dstDoc.appendChild(srcDoc.getFirstSection()); });
+        Assert.Is.Not.EqualTo(dstDoc)srcDoc.getFirstSection().getDocument());
+        Assert.<IllegalArgumentException>Throws(() => dstDoc.appendChild(srcDoc.getFirstSection()));
 
         // Use the ImportNode method to create a copy of a node, which will have the document
         // that called the ImportNode method set as its new owner document.
@@ -104,14 +104,12 @@ public class ExDocumentBase extends ApiExampleBase
         // We can now insert the node into the document.
         dstDoc.appendChild(importedSection);
 
-        Assert.assertEquals("Destination document first paragraph text.\r\nSource document first paragraph text.\r\n",
-            dstDoc.toString(SaveFormat.TEXT));
+        Assert.assertEquals("Destination document first paragraph text.\r\nSource document first paragraph text.\r\n", dstDoc.toString(SaveFormat.TEXT));
         //ExEnd
 
-        Assert.assertNotEquals(importedSection, srcDoc.getFirstSection());
-        Assert.assertNotEquals(importedSection.getDocument(), srcDoc.getFirstSection().getDocument());
-        Assert.assertEquals(importedSection.getBody().getFirstParagraph().getText(),
-            srcDoc.getFirstSection().getBody().getFirstParagraph().getText());
+        Assert.Is.Not.EqualTo(importedSection)srcDoc.getFirstSection());
+        Assert.Is.Not.EqualTo(importedSection.getDocument())srcDoc.getFirstSection().getDocument());
+        Assert.assertEquals(importedSection.getBody().getFirstParagraph().getText(), srcDoc.getFirstSection().getBody().getFirstParagraph().getText());
     }
 
     @Test
@@ -212,9 +210,9 @@ public class ExDocumentBase extends ApiExampleBase
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "DocumentBase.BackgroundShape.Image.pdf");
         XImage pdfDocImage = pdfDocument.Pages[1].Resources.Images[1];
 
-        Assert.AreEqual(400, pdfDocImage.Width);
-        Assert.AreEqual(400, pdfDocImage.Height);
-        Assert.AreEqual(ColorType.Rgb, pdfDocImage.GetColorType());
+        Assert.That(pdfDocImage.Width, assertEquals(400, );
+        Assert.That(pdfDocImage.Height, assertEquals(400, );
+        Assert.That(pdfDocImage.GetColorType(), Is.EqualTo(ColorType.Rgb));
     }
 
     //ExStart
@@ -262,12 +260,13 @@ public class ExDocumentBase extends ApiExampleBase
                 switch (gStringSwitchMap.of(args.getOriginalUri()))
                 {
                     case /*"Google logo"*/0:
-                        WebClient webClient = new WebClient();
+                        HttpClient client = new HttpClient();
                         try /*JAVA: was using*/
                         {
-                            args.setData(webClient.DownloadData("http://www.google.com/images/logos/ps_logo2.png"));
+                            byte[] imageData = client.GetByteArrayAsync("http://www.google.com/images/logos/ps_logo2.png").GetAwaiter().GetResult();
+                            args.setData(imageData);
                         }
-                        finally { if (webClient != null) webClient.close(); }
+                        finally { if (client != null) client.close(); }
 
                         return ResourceLoadingAction.USER_PROVIDED;
 
@@ -292,7 +291,7 @@ public class ExDocumentBase extends ApiExampleBase
         for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true))
         {
             Assert.assertTrue(shape.hasImage());
-            msAssert.isNotEmpty(shape.getImageData().getImageBytes());
+            Assert.Is.Not.Emptyshape.getImageData().getImageBytes());
         }
     }
 

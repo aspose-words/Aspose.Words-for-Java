@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -15,6 +15,7 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.words.PageSetup;
 import com.aspose.words.ConvertUtil;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 
 
 @Test
@@ -56,14 +57,14 @@ public class ExUtilityClasses extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "UtilityClasses.PointsAndInches.docx");
         pageSetup = doc.getFirstSection().getPageSetup();
 
-        Assert.assertEquals(72.0d, pageSetup.getTopMargin(), 0.01d);
-        Assert.assertEquals(1.0d, ConvertUtil.pointToInch(pageSetup.getTopMargin()), 0.01d);
-        Assert.assertEquals(144.0d, pageSetup.getBottomMargin(), 0.01d);
-        Assert.assertEquals(2.0d, ConvertUtil.pointToInch(pageSetup.getBottomMargin()), 0.01d);
-        Assert.assertEquals(180.0d, pageSetup.getLeftMargin(), 0.01d);
-        Assert.assertEquals(2.5d, ConvertUtil.pointToInch(pageSetup.getLeftMargin()), 0.01d);
-        Assert.assertEquals(108.0d, pageSetup.getRightMargin(), 0.01d);
-        Assert.assertEquals(1.5d, ConvertUtil.pointToInch(pageSetup.getRightMargin()), 0.01d);
+        Assert.assertEquals(72.0d, 0.01d, pageSetup.getTopMargin());
+        Assert.assertEquals(1.0d, 0.01d, ConvertUtil.pointToInch(pageSetup.getTopMargin()));
+        Assert.assertEquals(144.0d, 0.01d, pageSetup.getBottomMargin());
+        Assert.assertEquals(2.0d, 0.01d, ConvertUtil.pointToInch(pageSetup.getBottomMargin()));
+        Assert.assertEquals(180.0d, 0.01d, pageSetup.getLeftMargin());
+        Assert.assertEquals(2.5d, 0.01d, ConvertUtil.pointToInch(pageSetup.getLeftMargin()));
+        Assert.assertEquals(108.0d, 0.01d, pageSetup.getRightMargin());
+        Assert.assertEquals(1.5d, 0.01d, ConvertUtil.pointToInch(pageSetup.getRightMargin()));
     }
 
     @Test
@@ -85,7 +86,7 @@ public class ExUtilityClasses extends ApiExampleBase
         pageSetup.setRightMargin(ConvertUtil.millimeterToPoint(40.0));
 
         // A centimeter is approximately 28.3 points.
-        Assert.assertEquals(28.34d, ConvertUtil.millimeterToPoint(10.0), 0.01d);
+        Assert.assertEquals(28.34d, 0.01d, ConvertUtil.millimeterToPoint(10.0));
 
         // Add content to demonstrate the new margins.
         builder.writeln($"This Text is {pageSetup.LeftMargin} points from the left, " +
@@ -99,10 +100,10 @@ public class ExUtilityClasses extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "UtilityClasses.PointsAndMillimeters.docx");
         pageSetup = doc.getFirstSection().getPageSetup();
 
-        Assert.assertEquals(85.05d, pageSetup.getTopMargin(), 0.01d);
-        Assert.assertEquals(141.75d, pageSetup.getBottomMargin(), 0.01d);
-        Assert.assertEquals(226.75d, pageSetup.getLeftMargin(), 0.01d);
-        Assert.assertEquals(113.4d, pageSetup.getRightMargin(), 0.01d);
+        Assert.assertEquals(85.05d, 0.01d, pageSetup.getTopMargin());
+        Assert.assertEquals(141.75d, 0.01d, pageSetup.getBottomMargin());
+        Assert.assertEquals(226.75d, 0.01d, pageSetup.getLeftMargin());
+        Assert.assertEquals(113.4d, 0.01d, pageSetup.getRightMargin());
     }
 
     @Test
@@ -143,14 +144,14 @@ public class ExUtilityClasses extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "UtilityClasses.PointsAndPixels.docx");
         pageSetup = doc.getFirstSection().getPageSetup();
 
-        Assert.assertEquals(75.0d, pageSetup.getTopMargin(), 0.01d);
-        Assert.assertEquals(100.0d, ConvertUtil.pointToPixel(pageSetup.getTopMargin()), 0.01d);
-        Assert.assertEquals(150.0d, pageSetup.getBottomMargin(), 0.01d);
-        Assert.assertEquals(200.0d, ConvertUtil.pointToPixel(pageSetup.getBottomMargin()), 0.01d);
-        Assert.assertEquals(168.75d, pageSetup.getLeftMargin(), 0.01d);
-        Assert.assertEquals(225.0d, ConvertUtil.pointToPixel(pageSetup.getLeftMargin()), 0.01d);
-        Assert.assertEquals(93.75d, pageSetup.getRightMargin(), 0.01d);
-        Assert.assertEquals(125.0d, ConvertUtil.pointToPixel(pageSetup.getRightMargin()), 0.01d);
+        Assert.assertEquals(75.0d, 0.01d, pageSetup.getTopMargin());
+        Assert.assertEquals(100.0d, 0.01d, ConvertUtil.pointToPixel(pageSetup.getTopMargin()));
+        Assert.assertEquals(150.0d, 0.01d, pageSetup.getBottomMargin());
+        Assert.assertEquals(200.0d, 0.01d, ConvertUtil.pointToPixel(pageSetup.getBottomMargin()));
+        Assert.assertEquals(168.75d, 0.01d, pageSetup.getLeftMargin());
+        Assert.assertEquals(225.0d, 0.01d, ConvertUtil.pointToPixel(pageSetup.getLeftMargin()));
+        Assert.assertEquals(93.75d, 0.01d, pageSetup.getRightMargin());
+        Assert.assertEquals(125.0d, 0.01d, ConvertUtil.pointToPixel(pageSetup.getRightMargin()));
     }
 
     @Test
@@ -170,7 +171,7 @@ public class ExUtilityClasses extends ApiExampleBase
         PageSetup pageSetup = builder.getPageSetup();
         pageSetup.setTopMargin(ConvertUtil.pixelToPoint(100.0, MY_DPI));
 
-        Assert.assertEquals(37.5d, pageSetup.getTopMargin(), 0.01d);
+        Assert.assertEquals(37.5d, 0.01d, pageSetup.getTopMargin());
 
         // At the default DPI of 96, a pixel is 0.75 points.
         Assert.assertEquals(0.75d, ConvertUtil.pixelToPoint(1.0));
@@ -181,7 +182,7 @@ public class ExUtilityClasses extends ApiExampleBase
         // Set a new DPI and adjust the top margin value accordingly.
         final double NEW_DPI = 300.0;
         pageSetup.setTopMargin(ConvertUtil.pixelToNewDpi(pageSetup.getTopMargin(), MY_DPI, NEW_DPI));
-        Assert.assertEquals(59.0d, pageSetup.getTopMargin(), 0.01d);
+        Assert.assertEquals(59.0d, 0.01d, pageSetup.getTopMargin());
 
         builder.writeln($"At a DPI of {newDpi}, the text is now {pageSetup.TopMargin} points/{ConvertUtil.PointToPixel(pageSetup.TopMargin, myDpi)} " +
                         "pixels from the top of the page.");
@@ -192,10 +193,10 @@ public class ExUtilityClasses extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "UtilityClasses.PointsAndPixelsDpi.docx");
         pageSetup = doc.getFirstSection().getPageSetup();
 
-        Assert.assertEquals(59.0d, pageSetup.getTopMargin(), 0.01d);
-        Assert.assertEquals(78.66, ConvertUtil.pointToPixel(pageSetup.getTopMargin()), 0.01d);
-        Assert.assertEquals(157.33, ConvertUtil.pointToPixel(pageSetup.getTopMargin(), MY_DPI), 0.01d);
-        Assert.assertEquals(133.33d, ConvertUtil.pointToPixel(100.0), 0.01d);
-        Assert.assertEquals(266.66d, ConvertUtil.pointToPixel(100.0, MY_DPI), 0.01d);
+        Assert.assertEquals(59.0d, 0.01d, pageSetup.getTopMargin());
+        Assert.assertEquals(78.66, 0.01d, ConvertUtil.pointToPixel(pageSetup.getTopMargin()));
+        Assert.assertEquals(157.33, 0.01d, ConvertUtil.pointToPixel(pageSetup.getTopMargin(), MY_DPI));
+        Assert.assertEquals(133.33d, 0.01d, ConvertUtil.pointToPixel(100.0));
+        Assert.assertEquals(266.66d, 0.01d, ConvertUtil.pointToPixel(100.0, MY_DPI));
     }
 }

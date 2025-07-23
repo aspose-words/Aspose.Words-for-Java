@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -27,21 +27,24 @@ class ExLicense !Test class should be public in Java to run, please fix .Net sou
         //ExFor:License
         //ExFor:License.#ctor
         //ExFor:License.SetLicense(String)
-        //ExSummary:Shows how initialize a license for Aspose.Words using a license file in the local file system.
+        //ExSummary:Shows how to initialize a license for Aspose.Words using a license file in the local file system.
+        
+        String testLicenseFileName = "Aspose.Total.NET.lic";
+        
         // Set the license for our Aspose.Words product by passing the local file system filename of a valid license file.
-        String licenseFileName = Path.combine(getLicenseDir(), "Aspose.Words.NET.lic");
+        String licenseFileName = Path.combine(getLicenseDir(), testLicenseFileName);
 
         License license = new License();
         license.setLicense(licenseFileName);
 
         // Create a copy of our license file in the binaries folder of our application.
-        String licenseCopyFileName = Path.combine(getAssemblyDir(), "Aspose.Words.NET.lic");
+        String licenseCopyFileName = Path.combine(getAssemblyDir(), testLicenseFileName);
         File.copy(licenseFileName, licenseCopyFileName);
 
         // If we pass a file's name without a path,
         // the SetLicense will search several local file system locations for this file.
         // One of those locations will be the "bin" folder, which contains a copy of our license file.
-        license.setLicense("Aspose.Words.NET.lic");
+        license.setLicense(testLicenseFileName);
         //ExEnd
 
         license.setLicense("");
@@ -54,8 +57,9 @@ class ExLicense !Test class should be public in Java to run, please fix .Net sou
         //ExStart
         //ExFor:License.SetLicense(Stream)
         //ExSummary:Shows how to initialize a license for Aspose.Words from a stream.
+        String testLicenseFileName = "Aspose.Total.NET.lic";
         // Set the license for our Aspose.Words product by passing a stream for a valid license file in our local file system.
-        Stream myStream = new FileInputStream(Path.combine(getLicenseDir(), "Aspose.Words.NET.lic"));
+        Stream myStream = new FileInputStream(Path.combine(getLicenseDir(), testLicenseFileName));
         try /*JAVA: was using*/
         {
             License license = new License();

@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -400,10 +400,10 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
 
         // The size of the optimized version of the document is almost a third of the size of the unoptimized document.
         if (optimizeOutput)
-            Assert.assertEquals(61889.0,
+            Assert.assertEquals(60385.0,
                 new File(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").length(), 200.0);
         else
-            Assert.assertEquals(191770.0,
+            Assert.assertEquals(191000.0,
                 new File(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").length(), 200.0);
         //ExEnd
     }
@@ -618,7 +618,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         //ExStart:RemoveJavaScriptFromLinks
         //GistId:f86d49dc0e6781b93e576539a01e6ca2
         //ExFor:HtmlFixedSaveOptions.RemoveJavaScriptFromLinks
-        //ExSummary:Shows how to remove JavaScript from the links.
+        //ExSummary:Shows how to remove JavaScript from the links for html fixed documents.
         Document doc = new Document(getMyDir() + "JavaScript in HREF.docx");
 
         HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();

@@ -23,9 +23,10 @@ public class RemoveContent extends DocsExamplesBase
     @Test
     public void removePageBreaks() throws Exception
     {
-        //ExStart:OpenFromFile
+        //ExStart:OpenDocument
+        //GistId:1d626c7186a318d22d022dc96dd91d55
         Document doc = new Document(getMyDir() + "Document.docx");
-        //ExEnd:OpenFromFile
+        //ExEnd:OpenDocument
 
         // In Aspose.Words section breaks are represented as separate Section nodes in the document.
         // To remove these separate sections, the sections are combined.
@@ -98,7 +99,8 @@ public class RemoveContent extends DocsExamplesBase
     }
 
     @Test
-    //ExStart:RemoveTOCFromDocument
+    //ExStart:RemoveToc
+    //GistId:db118a3e1559b9c88355356df9d7ea10
     public void removeToc() throws Exception
     {
         Document doc = new Document(getMyDir() + "Table of contents.docx");
@@ -157,5 +159,5 @@ public class RemoveContent extends DocsExamplesBase
             node.remove();
         }
     }
-    //ExEnd:RemoveTOCFromDocument
+    //ExEnd:RemoveToc
 }

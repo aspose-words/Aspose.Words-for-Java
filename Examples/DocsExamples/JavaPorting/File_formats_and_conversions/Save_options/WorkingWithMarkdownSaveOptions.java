@@ -15,9 +15,10 @@ import com.aspose.ms.System.IO.MemoryStream;
 public class WorkingWithMarkdownSaveOptions extends DocsExamplesBase
 {
     @Test
-    public void exportIntoMarkdownWithTableContentAlignment() throws Exception
+    public void markdownTableContentAlignment() throws Exception
     {
-        //ExStart:ExportIntoMarkdownWithTableContentAlignment
+        //ExStart:MarkdownTableContentAlignment
+        //GistId:19de942ef8827201c1dca99f76c59133
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -44,7 +45,7 @@ public class WorkingWithMarkdownSaveOptions extends DocsExamplesBase
         // The alignment in this case will be taken from the first paragraph in corresponding table column.
         saveOptions.setTableContentAlignment(TableContentAlignment.AUTO);
         doc.save(getArtifactsDir() + "WorkingWithMarkdownSaveOptions.AutoTableContentAlignment.md", saveOptions);
-        //ExEnd:ExportIntoMarkdownWithTableContentAlignment
+        //ExEnd:MarkdownTableContentAlignment
     }
 
     @Test

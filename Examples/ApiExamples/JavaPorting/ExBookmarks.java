@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.BookmarkCollection;
 import java.util.Iterator;
 import com.aspose.words.Bookmark;
@@ -243,23 +244,23 @@ public class ExBookmarks extends ApiExampleBase
         // 1 -  Calling the bookmark's Remove method:
         bookmarks.get("MyBookmark_1").remove();
 
-        Assert.False(bookmarks.Any(b => b.Name == "MyBookmark_1"));
+        Assert.That(bookmarks.Any(b => b.Name == "MyBookmark_1"), assertFalse();
 
         // 2 -  Passing the bookmark to the collection's Remove method:
         Bookmark bookmark = doc.getRange().getBookmarks().get(0);
         doc.getRange().getBookmarks().remove(bookmark);
 
-        Assert.False(bookmarks.Any(b => b.Name == "MyBookmark_2"));
+        Assert.That(bookmarks.Any(b => b.Name == "MyBookmark_2"), assertFalse();
         
         // 3 -  Removing a bookmark from the collection by name:
         doc.getRange().getBookmarks().remove("MyBookmark_3");
 
-        Assert.False(bookmarks.Any(b => b.Name == "MyBookmark_3"));
+        Assert.That(bookmarks.Any(b => b.Name == "MyBookmark_3"), assertFalse();
 
         // 4 -  Removing a bookmark at an index in the bookmark collection:
         doc.getRange().getBookmarks().removeAt(0);
 
-        Assert.False(bookmarks.Any(b => b.Name == "MyBookmark_4"));
+        Assert.That(bookmarks.Any(b => b.Name == "MyBookmark_4"), assertFalse();
 
         // We can clear the entire bookmark collection.
         bookmarks.clear();
@@ -267,10 +268,10 @@ public class ExBookmarks extends ApiExampleBase
         // The text that was inside the bookmarks is still present in the document.
         Assert.assertEquals(0, bookmarks.getCount());
         Assert.assertEquals("Text inside MyBookmark_1.\r" +
-                        "Text inside MyBookmark_2.\r" +
-                        "Text inside MyBookmark_3.\r" +
-                        "Text inside MyBookmark_4.\r" +
-                        "Text inside MyBookmark_5.", doc.getText().trim());
+                            "Text inside MyBookmark_2.\r" +
+                            "Text inside MyBookmark_3.\r" +
+                            "Text inside MyBookmark_4.\r" +
+                            "Text inside MyBookmark_5.", doc.getText().trim());
         //ExEnd
     }
 }

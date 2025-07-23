@@ -38,18 +38,20 @@ class SplitDocument extends DocsExamplesBase
     public void bySectionsHtml() throws Exception
     {
         Document doc = new Document(getMyDir() + "Rendering.docx");
- 
+
         //ExStart:SplitDocumentBySectionsHtml
+        //GistId:6759a1a6b7f448798751d54922a8efcb
         HtmlSaveOptions options = new HtmlSaveOptions(); { options.setDocumentSplitCriteria(DocumentSplitCriteria.SECTION_BREAK); }
         //ExEnd:SplitDocumentBySectionsHtml
-        
-        doc.save(getArtifactsDir() + "SplitDocument.BySectionsHtml.html", options);
+
+        doc.save(getArtifactsDir() + "SplitDocument.BySections.html", options);
     }
 
     @Test
     public void bySections() throws Exception
     {
         //ExStart:SplitDocumentBySections
+        //GistId:6759a1a6b7f448798751d54922a8efcb
         Document doc = new Document(getMyDir() + "Big document.docx");
 
         for (int i = 0; i < doc.getSections().getCount(); i++)
@@ -73,6 +75,7 @@ class SplitDocument extends DocsExamplesBase
     public void pageByPage() throws Exception
     {
         //ExStart:SplitDocumentPageByPage
+        //GistId:6759a1a6b7f448798751d54922a8efcb
         Document doc = new Document(getMyDir() + "Big document.docx");
 
         int pageCount = doc.getPageCount();
@@ -89,6 +92,7 @@ class SplitDocument extends DocsExamplesBase
     }
 
     //ExStart:MergeSplitDocuments
+    //GistId:6759a1a6b7f448798751d54922a8efcb
     private void mergeDocuments() throws Exception
     {
         // Find documents using for merge.
@@ -123,6 +127,7 @@ class SplitDocument extends DocsExamplesBase
     public void byPageRange() throws Exception
     {
         //ExStart:SplitDocumentByPageRange
+        //GistId:6759a1a6b7f448798751d54922a8efcb
         Document doc = new Document(getMyDir() + "Big document.docx");
         
         // Get part of the document.

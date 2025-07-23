@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.RtfLoadOptions;
 import com.aspose.words.Document;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.annotations.DataProvider;
 
 
@@ -37,13 +38,11 @@ public class ExRtfLoadOptions extends ApiExampleBase
 
         Document doc = new Document(getMyDir() + "UTF-8 characters.rtf", loadOptions);
 
-        Assert.assertEquals(
-            recognizeUtf8Text
-                ? "“John Doe´s list of currency symbols”™\r" +
-                  "€, ¢, £, ¥, ¤"
-                : "â€œJohn DoeÂ´s list of currency symbolsâ€\u009dâ„¢\r" +
-                  "â‚¬, Â¢, Â£, Â¥, Â¤",
-            doc.getFirstSection().getBody().getText().trim());
+        Assert.assertEquals(recognizeUtf8Text
+                    ? "“John Doe´s list of currency symbols”™\r" +
+                      "€, ¢, £, ¥, ¤"
+                    : "â€œJohn DoeÂ´s list of currency symbolsâ€\u009dâ„¢\r" +
+                      "â‚¬, Â¢, Â£, Â¥, Â¤", doc.getFirstSection().getBody().getText().trim());
         //ExEnd
     }
 

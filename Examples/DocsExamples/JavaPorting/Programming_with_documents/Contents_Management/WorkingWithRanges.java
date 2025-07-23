@@ -13,6 +13,7 @@ class WorkingWithRanges extends DocsExamplesBase
     public void rangesDeleteText() throws Exception
     {
         //ExStart:RangesDeleteText
+        //GistId:9164e9c0658006e51db723b0742c12fc
         Document doc = new Document(getMyDir() + "Document.docx");
         doc.getSections().get(0).getRange().delete();
         //ExEnd:RangesDeleteText
@@ -22,6 +23,7 @@ class WorkingWithRanges extends DocsExamplesBase
     public void rangesGetText() throws Exception
     {
         //ExStart:RangesGetText
+        //GistId:9164e9c0658006e51db723b0742c12fc
         Document doc = new Document(getMyDir() + "Document.docx");
         String text = doc.getRange().getText();
         //ExEnd:RangesGetText

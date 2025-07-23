@@ -17,6 +17,7 @@ public class WorkingWithRevisions extends DocsExamplesBase
     public void acceptRevisions() throws Exception
     {
         //ExStart:AcceptAllRevisions
+        //GistId:e8d71fde166d275d0fc9471c56c3ad39
         Document doc = new Document();
         Body body = doc.getFirstSection().getBody();
         Paragraph para = body.getFirstParagraph();
@@ -108,6 +109,7 @@ public class WorkingWithRevisions extends DocsExamplesBase
     public void showRevisionsInBalloons() throws Exception
     {
         //ExStart:ShowRevisionsInBalloons
+        //GistId:ce015d9bade4e0294485ffb47462ded4
         //ExStart:SetMeasurementUnit
         //ExStart:SetRevisionBarsPosition
         Document doc = new Document(getMyDir() + "Revisions.docx");
@@ -174,6 +176,7 @@ public class WorkingWithRevisions extends DocsExamplesBase
     public void moveNodeInTrackedDocument() throws Exception
     {
         //ExStart:MoveNodeInTrackedDocument
+        //GistId:e8d71fde166d275d0fc9471c56c3ad39
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.writeln("Paragraph 1");
@@ -217,6 +220,7 @@ public class WorkingWithRevisions extends DocsExamplesBase
     public void shapeRevision() throws Exception
     {
         //ExStart:ShapeRevision
+        //GistId:e8d71fde166d275d0fc9471c56c3ad39
         Document doc = new Document();
 
         // Insert an inline shape without tracking revisions.

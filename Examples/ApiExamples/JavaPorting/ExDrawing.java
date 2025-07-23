@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -20,6 +20,7 @@ import com.aspose.words.ArrowLength;
 import com.aspose.words.ArrowWidth;
 import com.aspose.words.DashStyle;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.JoinStyle;
 import com.aspose.words.EndCap;
 import com.aspose.ms.System.Drawing.msColor;
@@ -270,7 +271,7 @@ public class ExDrawing extends ApiExampleBase
     public void fillSolid() throws Exception
     {
         //ExStart
-        //ExFor:Fill.Color()
+        //ExFor:Fill.Color
         //ExFor:FillType
         //ExFor:Fill.FillType
         //ExFor:Fill.Solid
@@ -364,7 +365,7 @@ public class ExDrawing extends ApiExampleBase
         Assert.assertEquals(new Color((128), (0), (0), (255)), stroke.getColor());
         Assert.assertEquals(new Color((255), (255), (0), (255)), stroke.getColor2());
 
-        Assert.assertNotNull(stroke.getImageBytes());
+        Assert.Is.Not.Nullstroke.getImageBytes());
         File.writeAllBytes(getArtifactsDir() + "Drawing.StrokePattern.png", stroke.getImageBytes());
         //ExEnd
 
@@ -640,8 +641,8 @@ public class ExDrawing extends ApiExampleBase
 
         TestUtil.verifyImageInShape(2467, 1500, ImageType.JPEG, sourceShape);
         Assert.assertEquals("Imported Image", sourceShape.getImageData().getTitle());
-        Assert.assertEquals(0.8d, sourceShape.getImageData().getBrightness(), 0.1d);
-        Assert.assertEquals(1.0d, sourceShape.getImageData().getContrast(), 0.1d);
+        Assert.assertEquals(0.8d, 0.1d, sourceShape.getImageData().getBrightness());
+        Assert.assertEquals(1.0d, 0.1d, sourceShape.getImageData().getContrast());
         Assert.assertEquals(Color.WHITE.getRGB(), sourceShape.getImageData().getChromaKey().getRGB());
 
         sourceShape = (Shape)imgSourceDoc.getChild(NodeType.SHAPE, 1, true);
@@ -653,10 +654,10 @@ public class ExDrawing extends ApiExampleBase
 
         TestUtil.verifyImageInShape(2467, 1500, ImageType.JPEG, sourceShape);
         Assert.assertTrue(sourceShape.getImageData().getBiLevel());
-        Assert.assertEquals(0.3d, sourceShape.getImageData().getCropBottom(), 0.1d);
-        Assert.assertEquals(0.3d, sourceShape.getImageData().getCropLeft(), 0.1d);
-        Assert.assertEquals(0.3d, sourceShape.getImageData().getCropTop(), 0.1d);
-        Assert.assertEquals(0.3d, sourceShape.getImageData().getCropRight(), 0.1d);
+        Assert.assertEquals(0.3d, 0.1d, sourceShape.getImageData().getCropBottom());
+        Assert.assertEquals(0.3d, 0.1d, sourceShape.getImageData().getCropLeft());
+        Assert.assertEquals(0.3d, 0.1d, sourceShape.getImageData().getCropTop());
+        Assert.assertEquals(0.3d, 0.1d, sourceShape.getImageData().getCropRight());
     }
 
     @Test
@@ -683,8 +684,8 @@ public class ExDrawing extends ApiExampleBase
         Assert.assertEquals(400, imageSize.getWidthPixels());
 
         final double DELTA = 0.05;
-        Assert.assertEquals(95.98d, imageSize.getHorizontalResolution(), DELTA);
-        Assert.assertEquals(95.98d, imageSize.getVerticalResolution(), DELTA);
+        Assert.assertEquals(95.98d, DELTA, imageSize.getHorizontalResolution());
+        Assert.assertEquals(95.98d, DELTA, imageSize.getVerticalResolution());
 
         // We can base the size of the shape on the size of its image to avoid stretching the image.
         shape.setWidth(imageSize.getWidthPoints() * 2.0);
@@ -704,7 +705,7 @@ public class ExDrawing extends ApiExampleBase
 
         Assert.assertEquals(400, imageSize.getHeightPixels());
         Assert.assertEquals(400, imageSize.getWidthPixels());
-        Assert.assertEquals(95.98d, imageSize.getHorizontalResolution(), DELTA);
-        Assert.assertEquals(95.98d, imageSize.getVerticalResolution(), DELTA);
+        Assert.assertEquals(95.98d, DELTA, imageSize.getHorizontalResolution());
+        Assert.assertEquals(95.98d, DELTA, imageSize.getVerticalResolution());
     }
 }

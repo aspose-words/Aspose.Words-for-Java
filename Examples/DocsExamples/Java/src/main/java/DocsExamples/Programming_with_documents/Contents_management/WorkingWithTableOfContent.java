@@ -1,12 +1,8 @@
 package DocsExamples.Programming_with_documents.Contents_management;
 
 import DocsExamples.DocsExamplesBase;
+import com.aspose.words.*;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.StyleIdentifier;
-import com.aspose.words.Paragraph;
-import com.aspose.words.NodeType;
-import com.aspose.words.TabStop;
 
 @Test
 public class WorkingWithTableOfContent extends DocsExamplesBase
@@ -14,17 +10,19 @@ public class WorkingWithTableOfContent extends DocsExamplesBase
     @Test
     public void changeStyleOfTocLevel() throws Exception
     {
-        //ExStart:ChangeStyleOfTOCLevel
+        //ExStart:ChangeStyleOfTocLevel
+        //GistId:db118a3e1559b9c88355356df9d7ea10
         Document doc = new Document();
         // Retrieve the style used for the first level of the TOC and change the formatting of the style.
         doc.getStyles().getByStyleIdentifier(StyleIdentifier.TOC_1).getFont().setBold(true);
-        //ExEnd:ChangeStyleOfTOCLevel
+        //ExEnd:ChangeStyleOfTocLevel
     }
 
     @Test
     public void changeTocTabStops() throws Exception
     {
-        //ExStart:ChangeTOCTabStops
+        //ExStart:ChangeTocTabStops
+        //GistId:db118a3e1559b9c88355356df9d7ea10
         Document doc = new Document(getMyDir() + "Table of contents.docx");
 
         for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true))
@@ -47,6 +45,35 @@ public class WorkingWithTableOfContent extends DocsExamplesBase
         }
 
         doc.save(getArtifactsDir() + "WorkingWithTableOfContent.ChangeTocTabStops.docx");
-        //ExEnd:ChangeTOCTabStops
+        //ExEnd:ChangeTocTabStops
+    }
+
+    @Test
+    public void extractToc() throws Exception
+    {
+        //ExStart:ExtractToc
+        //GistId:db118a3e1559b9c88355356df9d7ea10
+        Document doc = new Document(getMyDir() + "Table of contents.docx");
+
+        for (Field field : doc.getRange().getFields())
+        {
+            if (((field.getType()) == (FieldType.FIELD_HYPERLINK)))
+            {
+                FieldHyperlink hyperlink = (FieldHyperlink)field;
+                if (hyperlink.getSubAddress() != null && hyperlink.getSubAddress().startsWith("_Toc"))
+                {
+                    Paragraph tocItem = (Paragraph)field.getStart().getAncestor(NodeType.PARAGRAPH);
+                    System.out.println(tocItem.toString(SaveFormat.TEXT).trim());
+                    System.out.println("------------------");
+                    if (tocItem != null)
+                    {
+                        Bookmark bm = doc.getRange().getBookmarks().get(hyperlink.getSubAddress());
+                        Paragraph pointer = (Paragraph)bm.getBookmarkStart().getAncestor(NodeType.PARAGRAPH);
+                        System.out.println(pointer.toString(SaveFormat.TEXT));
+                    }
+                }
+            }
+        }
+        //ExEnd:ExtractToc
     }
 }

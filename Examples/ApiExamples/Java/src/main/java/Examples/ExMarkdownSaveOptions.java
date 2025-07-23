@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -351,5 +351,52 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
         doc.save(getArtifactsDir() + "MarkdownSaveOptions.OfficeMathExportMode.md", saveOptions);
         //ExEnd:OfficeMathExportMode
     }
+
+    @Test (dataProvider = "emptyParagraphExportModeDataProvider")
+    public void emptyParagraphExportMode(int exportMode) throws Exception
+    {
+        //ExStart:EmptyParagraphExportMode
+        //GistId:ad73e0dd58a8c2ae742bb64f8561df35
+        //ExFor:MarkdownEmptyParagraphExportMode
+        //ExFor:MarkdownSaveOptions.EmptyParagraphExportMode
+        //ExSummary:Shows how to export empty paragraphs.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("First");
+        builder.writeln("\r\n\r\n\r\n");
+        builder.writeln("Last");
+
+        MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
+        saveOptions.setEmptyParagraphExportMode(exportMode);
+
+        doc.save(getArtifactsDir() + "MarkdownSaveOptions.EmptyParagraphExportMode.md", saveOptions);
+
+        String result = FileUtils.readFileToString( new File(getArtifactsDir() + "MarkdownSaveOptions.EmptyParagraphExportMode.md"), StandardCharsets.UTF_8);
+
+        switch (exportMode)
+        {
+            case MarkdownEmptyParagraphExportMode.NONE:
+                Assert.assertEquals("\uFEFFFirst\r\n\r\nLast\r\n", result);
+                break;
+            case MarkdownEmptyParagraphExportMode.EMPTY_LINE:
+                Assert.assertEquals("\uFEFFFirst\r\n\r\n\r\n\r\n\r\nLast\r\n\r\n", result);
+                break;
+            case MarkdownEmptyParagraphExportMode.MARKDOWN_HARD_LINE_BREAK:
+                Assert.assertEquals("\uFEFFFirst\r\n\\\r\n\\\r\n\\\r\n\\\r\n\\\r\nLast\r\n<br>\r\n", result);
+                break;
+        }
+        //ExEnd:EmptyParagraphExportMode
+    }
+
+	@DataProvider(name = "emptyParagraphExportModeDataProvider")
+	public static Object[][] emptyParagraphExportModeDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{MarkdownEmptyParagraphExportMode.NONE},
+			{MarkdownEmptyParagraphExportMode.EMPTY_LINE},
+			{MarkdownEmptyParagraphExportMode.MARKDOWN_HARD_LINE_BREAK},
+		};
+	}
 }
 

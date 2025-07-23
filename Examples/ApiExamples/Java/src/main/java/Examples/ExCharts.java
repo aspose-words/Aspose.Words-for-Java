@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -1983,7 +1983,7 @@ public class ExCharts extends ApiExampleBase {
                                 new ChartMultilevelValue("Latin America", "Brazil"),
                                 new ChartMultilevelValue("Latin America", "Mexico"),
                                 new ChartMultilevelValue("Latin America", "Other"),
-                                new ChartMultilevelValue("Northern America", "United States"),
+                                new ChartMultilevelValue("Northern America", "United States", "Other"),
                                 new ChartMultilevelValue("Northern America", "Other"),
                                 new ChartMultilevelValue("Oceania")
                         },
@@ -2508,7 +2508,11 @@ public class ExCharts extends ApiExampleBase {
             ChartDataLabel dataLabel = dataLabels.get(i);
 
             double value = series.getYValues().get(i).getDoubleValue();
-            double labelWidth = (value < 10) ? ONE_CHAR_LABEL_WIDTH : TWO_CHAR_LABEL_WIDTH;
+            double labelWidth;
+            if (value < 10)
+                labelWidth = ONE_CHAR_LABEL_WIDTH;
+            else
+                labelWidth = TWO_CHAR_LABEL_WIDTH;
             double labelSegmentAngle = value / totalValue * 2.0 * Math.PI;
             double labelAngle = labelSegmentAngle / 2.0 + totalAngle;
             double labelCenterX = LABEL_CIRCLE_RADIUS * Math.cos(labelAngle) + DOUGHNUT_CENTER_X;
@@ -2523,7 +2527,13 @@ public class ExCharts extends ApiExampleBase {
             {
                 // Move right on the top, left on the bottom.
                 boolean isOnTop = (totalAngle < 0) || (totalAngle >= Math.PI);
-                labelLeft = previousLabel.getLeft() + labelWidth * (isOnTop ? 1 : -1) + LABEL_MARGIN;
+                int factor;
+                if (isOnTop)
+                    factor = 1;
+                else
+                    factor = -1;
+
+                labelLeft = previousLabel.getLeft() + labelWidth * factor + LABEL_MARGIN;
             }
 
             dataLabel.setLeft(labelLeft);
@@ -2564,5 +2574,31 @@ public class ExCharts extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Charts.PopulateChartWithData.docx");
         //ExEnd
+    }
+
+    @Test
+    public void setChartStyle() throws Exception
+    {
+        //ExStart:SetChartStyle
+        //GistId:b62c3f2b553726aa85992f50f6d39aaa
+        //ExFor:ChartStyle
+        //ExSummary:Shows how to set and get chart style.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a chart in the Black style.
+        builder.insertChart(ChartType.COLUMN, 400.0, 250.0, ChartStyle.BLACK);
+
+        doc.save(getArtifactsDir() + "Charts.SetChartStyle.docx");
+
+        doc = new Document(getArtifactsDir() + "Charts.SetChartStyle.docx");
+
+        // Get a chart to update.
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Chart chart = shape.getChart();
+
+        // Get the chart style.
+        Assert.assertEquals(ChartStyle.BLACK, chart.getStyle());
+        //ExEnd:SetChartStyle
     }
 }

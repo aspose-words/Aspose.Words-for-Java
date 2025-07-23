@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -31,6 +31,7 @@ import com.aspose.ms.System.EventArgs;
 import java.awt.image.BufferedImage;
 import com.aspose.ms.System.Drawing.Text.TextRenderingHint;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.Drawing.msSizeF;
 
 
@@ -189,7 +190,7 @@ public class ExRendering extends ApiExampleBase
                 float returnedScale = doc.renderToSize(0, gr, 0f, 0f, 3f, 3f);
 
                 // This is the scaling factor that the RenderToSize method applied to the first page to fit the specified size.
-                Assert.assertEquals(0.2566f, returnedScale, 0.0001f);
+                Assert.assertEquals(0.2566f, 0.0001f, returnedScale);
 
                 // Set the "PageUnit" property to "GraphicsUnit.Millimeter" to use millimeters as the
                 // measurement unit for any transformations and dimensions that we will define.

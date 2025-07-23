@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.RtfSaveOptions;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Shape;
@@ -61,13 +62,14 @@ public class ExRtfSaveOptions extends ApiExampleBase
         }
         else
         {
-            if (!isRunningOnMono())
+            if (isRunningOnMono())
             {
+                return;
+            }
                 Assert.<AssertionError>Throws(() =>
                     TestUtil.fileContainsString("nonshppict", getArtifactsDir() + "RtfSaveOptions.ExportImages.rtf"));
                 Assert.<AssertionError>Throws(() =>
                     TestUtil.fileContainsString("shprslt", getArtifactsDir() + "RtfSaveOptions.ExportImages.rtf"));
-            }
         }
     }
 

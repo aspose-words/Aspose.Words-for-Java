@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -21,6 +21,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import org.testng.Assert;
 import com.aspose.words.NodeType;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.Text.Encoding;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.FontSettings;
@@ -190,7 +191,7 @@ public class ExLoadOptions extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
 
         // The style's line spacing will have this value when loaded by Microsoft Word 2007 specification.
-        Assert.assertEquals(12.95d, doc.getStyles().getDefaultParagraphFormat().getLineSpacing(), 0.01d);
+        Assert.assertEquals(12.95d, 0.01d, doc.getStyles().getDefaultParagraphFormat().getLineSpacing());
         //ExEnd
     }
 
@@ -401,7 +402,7 @@ public class ExLoadOptions extends ApiExampleBase
         /// </summary>
         public LoadingProgressCallback()
         {
-            mLoadingStartedAt = new Date();
+            mLoadingStartedAt = new Date;
         }
 
         /// <summary>
@@ -410,7 +411,7 @@ public class ExLoadOptions extends ApiExampleBase
         /// <param name="args">Loading arguments.</param>
         public void notify(DocumentLoadingArgs args)
         {
-            DateTime canceledAt = new Date();
+            DateTime canceledAt = new Date;
             double ellapsedSeconds = (DateTime.subtract(canceledAt, mLoadingStartedAt)).getTotalSeconds();
 
             if (ellapsedSeconds > MAX_DURATION)

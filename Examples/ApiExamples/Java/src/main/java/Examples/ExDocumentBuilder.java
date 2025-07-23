@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -238,13 +238,18 @@ public class ExDocumentBuilder extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertHyperlink.docx");
 
         FieldHyperlink hyperlink = (FieldHyperlink)doc.getRange().getFields().get(0);
+        Assert.assertEquals("https://www.google.com", hyperlink.getAddress());
         TestUtil.verifyWebResponseStatusCode(200, new URL(hyperlink.getAddress()));
 
-        Run fieldContents = (Run) hyperlink.getStart().getNextSibling();
+        // This field is written as w:hyperlink element therefore field code cannot have formatting.
+        Run fieldCode = (Run)hyperlink.getStart().getNextSibling();
+        Assert.assertEquals("HYPERLINK \"https://www.google.com\"", fieldCode.getText().trim());
 
-        Assert.assertEquals(Color.BLUE.getRGB(), fieldContents.getFont().getColor().getRGB());
-        Assert.assertEquals(Underline.SINGLE, fieldContents.getFont().getUnderline());
-        Assert.assertEquals("HYPERLINK \"https://www.google.com\"", fieldContents.getText().trim());
+        Run fieldResult = (Run)hyperlink.getSeparator().getNextSibling();
+
+        Assert.assertEquals(Color.BLUE.getRGB(), fieldResult.getFont().getColor().getRGB());
+        Assert.assertEquals(Underline.SINGLE, fieldResult.getFont().getUnderline());
+        Assert.assertEquals("Google website", fieldResult.getText().trim());
     }
 
     @Test
@@ -827,7 +832,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     public void insertTable() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder
-        //ExFor:DocumentBuilder.Write
+        //ExFor:DocumentBuilder.Write(String)
         //ExFor:DocumentBuilder.StartTable
         //ExFor:DocumentBuilder.InsertCell
         //ExFor:DocumentBuilder.EndRow
@@ -1018,7 +1023,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     public void insertTableSetHeadingRow() throws Exception {
         //ExStart
         //ExFor:RowFormat.HeadingFormat
-        //ExSummary:Shows how to build a table with rows that repeat on every page. 
+        //ExSummary:Shows how to build a table with rows that repeat on every page.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1210,7 +1215,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     public void createTable() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder
-        //ExFor:DocumentBuilder.Write
+        //ExFor:DocumentBuilder.Write(String)
         //ExFor:DocumentBuilder.InsertCell
         //ExSummary:Shows how to use a document builder to create a table.
         Document doc = new Document();
@@ -3551,7 +3556,6 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExStart
         //ExFor:Run.IsPhoneticGuide
         //ExFor:Run.PhoneticGuide
-        //ExFor:PhoneticGuide
         //ExFor:PhoneticGuide.BaseText
         //ExFor:PhoneticGuide.RubyText
         //ExSummary:Shows how to get properties of the phonetic guide.

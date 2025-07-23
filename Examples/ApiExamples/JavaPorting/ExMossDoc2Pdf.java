@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -46,7 +46,7 @@ public /*static*/ class ExMossDoc2Pdf
 
         try
         {
-            gLog.writeLine(new Date().toString(msCultureInfo.getInvariantCulture()) + " Started");
+            gLog.writeLine(new Date.toString(msCultureInfo.getInvariantCulture()) + " Started");
             gLog.writeLine(Environment.getCommandLine());
 
             parseCommandLine(args);

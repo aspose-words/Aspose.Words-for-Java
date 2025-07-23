@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -16,6 +16,7 @@ import com.aspose.words.Run;
 import com.aspose.words.Node;
 import org.testng.Assert;
 import com.aspose.words.CompositeNode;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.NodeType;
 import com.aspose.words.Shape;
 import com.aspose.words.ShapeType;
@@ -124,7 +125,7 @@ public class ExNode extends ApiExampleBase
         //ExEnd
 
         Assert.assertEquals(doc, para.getDocument());
-        Assert.assertNotNull(para.getParentNode());
+        Assert.Is.Not.Nullpara.getParentNode());
     }
 
     @Test
@@ -478,16 +479,16 @@ public class ExNode extends ApiExampleBase
         // When we call the ToString method using the html SaveFormat overload,
         // it converts the node's contents to their raw html representation.
         Assert.assertEquals("<p style=\"margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:12pt\">" +
-                        "<span style=\"font-family:'Times New Roman'\">Hello World!</span>" +
-                        "</p>", node.toString(SaveFormat.HTML));
+                            "<span style=\"font-family:'Times New Roman'\">Hello World!</span>" +
+                            "</p>", node.toString(SaveFormat.HTML));
 
         // We can also modify the result of this conversion using a SaveOptions object.
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setExportRelativeFontSize(true);
 
         Assert.assertEquals("<p style=\"margin-top:0pt; margin-bottom:8pt; line-height:108%\">" +
-                        "<span style=\"font-family:'Times New Roman'\">Hello World!</span>" +
-                        "</p>", node.toString(saveOptions));
+                            "<span style=\"font-family:'Times New Roman'\">Hello World!</span>" +
+                            "</p>", node.toString(saveOptions));
         //ExEnd
     }
 
@@ -637,7 +638,7 @@ public class ExNode extends ApiExampleBase
         public void /*INodeChangingCallback.*/nodeInserted(NodeChangingArgs args)
         {
             Assert.assertEquals(NodeChangingAction.INSERT, args.getAction());
-            Assert.assertNotNull(args.getNewParent());
+            Assert.Is.Not.Nullargs.getNewParent());
 
             System.out.println("Inserted node:");
             System.out.println("\tType:\t{args.Node.NodeType}");
@@ -699,7 +700,7 @@ public class ExNode extends ApiExampleBase
         runs.remove(run);
 
         Assert.assertEquals("Run 1. Run 3.", doc.getText().trim());
-        Assert.assertNotNull(run);
+        Assert.Is.Not.Nullrun);
         Assert.assertFalse(runs.contains(run));
         //ExEnd
     }
@@ -730,22 +731,21 @@ public class ExNode extends ApiExampleBase
         NodeList nodeList = doc.selectNodes("//Run");
 
         Assert.assertEquals(3, nodeList.getCount());
-        Assert.True(nodeList.Any(n => n.GetText().Trim() == "Hello world!"));
-        Assert.True(nodeList.Any(n => n.GetText().Trim() == "Cell 1"));
-        Assert.True(nodeList.Any(n => n.GetText().Trim() == "Cell 2"));
+        Assert.That(nodeList.Any(n => n.GetText().Trim() == "Hello world!"), assertTrue();
+        Assert.That(nodeList.Any(n => n.GetText().Trim() == "Cell 1"), assertTrue();
+        Assert.That(nodeList.Any(n => n.GetText().Trim() == "Cell 2"), assertTrue();
 
         // Use a double forward slash to select all Run nodes
         // that are indirect descendants of a Table node, which would be the runs inside the two cells we inserted.
         nodeList = doc.selectNodes("//Table//Run");
 
         Assert.assertEquals(2, nodeList.getCount());
-        Assert.True(nodeList.Any(n => n.GetText().Trim() == "Cell 1"));
-        Assert.True(nodeList.Any(n => n.GetText().Trim() == "Cell 2"));
+        Assert.That(nodeList.Any(n => n.GetText().Trim() == "Cell 1"), assertTrue();
+        Assert.That(nodeList.Any(n => n.GetText().Trim() == "Cell 2"), assertTrue();
 
         // Single forward slashes specify direct descendant relationships,
         // which we skipped when we used double slashes.
-        Assert.assertEquals(doc.selectNodes("//Table//Run"), 
-            doc.selectNodes("//Table/Row/Cell/Paragraph/Run"));
+        Assert.assertEquals(doc.selectNodes("//Table//Run"), doc.selectNodes("//Table/Row/Cell/Paragraph/Run"));
 
         // Access the shape that contains the image we inserted.
         nodeList = doc.selectNodes("//Shape");

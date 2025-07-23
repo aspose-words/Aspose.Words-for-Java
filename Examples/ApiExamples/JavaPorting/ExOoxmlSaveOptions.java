@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -16,10 +16,11 @@ import com.aspose.words.OoxmlSaveOptions;
 import org.testng.Assert;
 import com.aspose.words.IncorrectPasswordException;
 import com.aspose.words.LoadOptions;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.MsWordVersion;
-import com.aspose.words.ShapeMarkupLanguage;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
+import com.aspose.words.ShapeMarkupLanguage;
 import com.aspose.words.OoxmlCompliance;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.ListTemplate;
@@ -45,6 +46,7 @@ import com.aspose.words.Zip64Mode;
 import com.aspose.words.CertificateHolder;
 import com.aspose.words.DigitalSignatureDetails;
 import com.aspose.words.SignOptions;
+import com.aspose.words.Run;
 import org.testng.annotations.DataProvider;
 
 
@@ -132,8 +134,8 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
 
         doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
 
-        List list = doc.getLists().get(0);
-        list.isRestartAtEachSection(restartListAtEachSection);
+        List docList = doc.getLists().get(0);
+        docList.isRestartAtEachSection(restartListAtEachSection);
 
         // The "IsRestartAtEachSection" property will only be applicable when
         // the document's OOXML compliance level is to a standard that is newer than "OoxmlComplianceCore.Ecma376".
@@ -142,7 +144,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
             options.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
         }
 
-        builder.getListFormat().setList(list);
+        builder.getListFormat().setList(docList);
 
         builder.writeln("List item 1");
         builder.writeln("List item 2");
@@ -177,8 +179,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         //ExSummary:Shows how to determine whether to preserve the document's "Last saved time" property when saving.
         Document doc = new Document(getMyDir() + "Document.docx");
 
-        Assert.assertEquals(new DateTime(2021, 5, 11, 6, 32, 0), 
-            doc.getBuiltInDocumentProperties().getLastSavedTimeInternal());
+        Assert.assertEquals(new DateTime(2021, 5, 11, 6, 32, 0), doc.getBuiltInDocumentProperties().getLastSavedTimeInternal());
 
         // When we save the document to an OOXML format, we can create an OoxmlSaveOptions object
         // and then pass it to the document's saving method to modify how we save the document.
@@ -195,10 +196,9 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         DateTime lastSavedTimeNew = doc.getBuiltInDocumentProperties().getLastSavedTimeInternal();
 
         if (updateLastSavedTimeProperty)
-            Assert.assertTrue((DateTime.subtract(new Date(), lastSavedTimeNew)).getDays() < 1);
+            Assert.assertTrue((DateTime.subtract(new Date, lastSavedTimeNew)).getDays() < 1);
         else
-            Assert.assertEquals(new DateTime(2021, 5, 11, 6, 32, 0), 
-                lastSavedTimeNew);
+            Assert.assertEquals(new DateTime(2021, 5, 11, 6, 32, 0), lastSavedTimeNew);
         //ExEnd
     }
 
@@ -235,8 +235,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         
         doc = new Document(getArtifactsDir() + "OoxmlSaveOptions.KeepLegacyControlChars.docx");
 
-        Assert.assertEquals(keepLegacyControlChars ? "\u0013date \\@ \"MM/dd/yyyy\"\u0014\u0015\f" : "\u001e\f",
-            doc.getFirstSection().getBody().getText());
+        Assert.assertEquals(keepLegacyControlChars ? "\u0013date \\@ \"MM/dd/yyyy\"\u0014\u0015\f" : "\u001e\f", doc.getFirstSection().getBody().getText());
         //ExEnd
     }
 
@@ -395,7 +394,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
 
         IllegalStateException exception = Assert.<IllegalStateException>Throws(() =>
             doc.save(getArtifactsDir() + $"OoxmlSaveOptions.ProgressCallback.{ext}", saveOptions));
-        Assert.True(exception?.Message.Contains("EstimatedProgress"));
+        Assert.That(exception?.Message.Contains("EstimatedProgress"), assertTrue();
     }
 
 	//JAVA-added data provider for test method
@@ -422,7 +421,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         /// </summary>
         public SavingProgressCallback()
         {
-            mSavingStartedAt = new Date();
+            mSavingStartedAt = new Date;
         }
 
         /// <summary>
@@ -431,7 +430,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         /// <param name="args">Saving arguments.</param>
         public void notify(DocumentSavingArgs args)
         {
-            DateTime canceledAt = new Date();
+            DateTime canceledAt = new Date;
             double ellapsedSeconds = (DateTime.subtract(canceledAt, mSavingStartedAt)).getTotalSeconds();
             if (ellapsedSeconds > MAX_DURATION)
                 throw new IllegalStateException($"EstimatedProgress = {args.EstimatedProgress}; CanceledAt = {canceledAt}");
@@ -503,7 +502,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
         DigitalSignatureDetails digitalSignatureDetails = new DigitalSignatureDetails(
             certificateHolder,
-            new SignOptions(); { digitalSignatureDetails.setComments("Some comments"); digitalSignatureDetails.setSignTime(new Date()); });
+            new SignOptions(); { digitalSignatureDetails.setComments("Some comments"); digitalSignatureDetails.setSignTime(new Date); });
 
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
         saveOptions.setDigitalSignatureDetails(digitalSignatureDetails);
@@ -513,5 +512,28 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
 
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.DigitalSignature.docx", saveOptions);
         //ExEnd:DigitalSignature
+    }
+
+    @Test
+    public void updateAmbiguousTextFont() throws Exception
+    {
+        //ExStart:UpdateAmbiguousTextFont
+        //GistId:1a265b92fa0019b26277ecfef3c20330
+        //ExFor:SaveOptions.UpdateAmbiguousTextFont
+        //ExSummary:Shows how to update the font to match the character code being used.
+        Document doc = new Document(getMyDir() + "Special symbol.docx");
+        Run run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
+        System.out.println(run.getText()); // ฿
+        System.out.println(run.getFont().getName()); // Arial
+
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
+        saveOptions.setUpdateAmbiguousTextFont(true);
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.UpdateAmbiguousTextFont.docx", saveOptions);
+
+        doc = new Document(getArtifactsDir() + "OoxmlSaveOptions.UpdateAmbiguousTextFont.docx");
+        run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
+        System.out.println(run.getText()); // ฿
+        System.out.println(run.getFont().getName()); // Angsana New
+        //ExEnd:UpdateAmbiguousTextFont
     }
 }

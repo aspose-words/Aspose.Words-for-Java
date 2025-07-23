@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.XamlFlowSaveOptions;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.SaveFormat;
 import com.aspose.ms.System.IO.Directory;
 import com.aspose.ms.System.msConsole;
@@ -131,7 +132,7 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase
 
         IllegalStateException exception = Assert.<IllegalStateException>Throws(() =>
             doc.save(getArtifactsDir() + $"XamlFlowSaveOptions.ProgressCallback.{ext}", saveOptions));
-        Assert.True(exception?.Message.Contains("EstimatedProgress"));
+        Assert.That(exception?.Message.Contains("EstimatedProgress"), assertTrue();
     }
 
 	//JAVA-added data provider for test method
@@ -155,7 +156,7 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase
         /// </summary>
         public SavingProgressCallback()
         {
-            mSavingStartedAt = new Date();
+            mSavingStartedAt = new Date;
         }
 
         /// <summary>
@@ -164,7 +165,7 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase
         /// <param name="args">Saving arguments.</param>
         public void notify(DocumentSavingArgs args)
         {
-            DateTime canceledAt = new Date();
+            DateTime canceledAt = new Date;
             double ellapsedSeconds = (DateTime.subtract(canceledAt, mSavingStartedAt)).getTotalSeconds();
             if (ellapsedSeconds > MAX_DURATION)
                 throw new IllegalStateException($"EstimatedProgress = {args.EstimatedProgress}; CanceledAt = {canceledAt}");

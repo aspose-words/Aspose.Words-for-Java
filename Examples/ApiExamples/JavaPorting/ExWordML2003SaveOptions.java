@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -14,8 +14,10 @@ import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.WordML2003SaveOptions;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.SaveFormat;
 import com.aspose.ms.System.IO.File;
+import com.aspose.ms.System.Environment;
 import org.testng.annotations.DataProvider;
 
 
@@ -47,25 +49,25 @@ public class ExWordML2003SaveOptions extends ApiExampleBase
         doc.save(getArtifactsDir() + "WordML2003SaveOptions.PrettyFormat.xml", options);
 
         String fileContents = File.readAllText(getArtifactsDir() + "WordML2003SaveOptions.PrettyFormat.xml");
-
+        String newLine = Environment.getNewLine();
         if (prettyFormat)
             Assert.assertTrue(fileContents.contains(
-                "<o:DocumentProperties>\r\n\t\t" +
-                    "<o:Revision>1</o:Revision>\r\n\t\t" +
-                    "<o:TotalTime>0</o:TotalTime>\r\n\t\t" +
-                    "<o:Pages>1</o:Pages>\r\n\t\t" +
-                    "<o:Words>0</o:Words>\r\n\t\t" +
-                    "<o:Characters>0</o:Characters>\r\n\t\t" +
-                    "<o:Lines>1</o:Lines>\r\n\t\t" +
-                    "<o:Paragraphs>1</o:Paragraphs>\r\n\t\t" +
-                    "<o:CharactersWithSpaces>0</o:CharactersWithSpaces>\r\n\t\t" +
-                    "<o:Version>11.5606</o:Version>\r\n\t" +
-                "</o:DocumentProperties>"));
+                    $"<o:DocumentProperties>{newLine}\t\t" +
+                        $"<o:Revision>1</o:Revision>{newLine}\t\t" +
+                        $"<o:TotalTime>0</o:TotalTime>{newLine}\t\t" +
+                        $"<o:Pages>1</o:Pages>{newLine}\t\t" +
+                        $"<o:Words>0</o:Words>{newLine}\t\t" +
+                        $"<o:Characters>0</o:Characters>{newLine}\t\t" +
+                        $"<o:Lines>1</o:Lines>{newLine}\t\t" +
+                        $"<o:Paragraphs>1</o:Paragraphs>{newLine}\t\t" +
+                        $"<o:CharactersWithSpaces>0</o:CharactersWithSpaces>{newLine}\t\t" +
+                        $"<o:Version>11.5606</o:Version>{newLine}\t" +
+                    "</o:DocumentProperties>"));
         else
             Assert.assertTrue(fileContents.contains(
-                "<o:DocumentProperties><o:Revision>1</o:Revision><o:TotalTime>0</o:TotalTime><o:Pages>1</o:Pages>" +
-                "<o:Words>0</o:Words><o:Characters>0</o:Characters><o:Lines>1</o:Lines><o:Paragraphs>1</o:Paragraphs>" +
-                "<o:CharactersWithSpaces>0</o:CharactersWithSpaces><o:Version>11.5606</o:Version></o:DocumentProperties>"));
+                    "<o:DocumentProperties><o:Revision>1</o:Revision><o:TotalTime>0</o:TotalTime><o:Pages>1</o:Pages>" +
+                    "<o:Words>0</o:Words><o:Characters>0</o:Characters><o:Lines>1</o:Lines><o:Paragraphs>1</o:Paragraphs>" +
+                    "<o:CharactersWithSpaces>0</o:CharactersWithSpaces><o:Version>11.5606</o:Version></o:DocumentProperties>"));
         //ExEnd
     }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -23,6 +23,7 @@ import com.aspose.words.WrapType;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.ImageType;
 import com.aspose.words.MsWordVersion;
 
@@ -329,8 +330,8 @@ public class ExDocumentBuilderImages extends ApiExampleBase
 
         Shape imageShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        Assert.assertEquals(300.0d, imageShape.getHeight(), 0.1d);
-        Assert.assertEquals(300.0d, imageShape.getWidth(), 0.1d);
+        Assert.assertEquals(300.0d, 0.1d, imageShape.getHeight());
+        Assert.assertEquals(300.0d, 0.1d, imageShape.getWidth());
         Assert.assertEquals(0.0d, imageShape.getLeft());
         Assert.assertEquals(0.0d, imageShape.getTop());
 
@@ -339,8 +340,8 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, imageShape.getRelativeVerticalPosition());
 
         TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, imageShape);
-        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints(), 0.1d);
-        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints(), 0.1d);
+        Assert.assertEquals(300.0d, 0.1d, imageShape.getImageData().getImageSize().getHeightPoints());
+        Assert.assertEquals(300.0d, 0.1d, imageShape.getImageData().getImageSize().getWidthPoints());
 
         imageShape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
 
@@ -354,8 +355,8 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, imageShape.getRelativeVerticalPosition());
 
         TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, imageShape);
-        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints(), 0.1d);
-        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints(), 0.1d);
+        Assert.assertEquals(300.0d, 0.1d, imageShape.getImageData().getImageSize().getHeightPoints());
+        Assert.assertEquals(300.0d, 0.1d, imageShape.getImageData().getImageSize().getWidthPoints());
 
         imageShape = (Shape)doc.getChild(NodeType.SHAPE, 2, true);
 
@@ -369,8 +370,8 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         Assert.assertEquals(RelativeVerticalPosition.MARGIN, imageShape.getRelativeVerticalPosition());
 
         TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, imageShape);
-        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints(), 0.1d);
-        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints(), 0.1d);
+        Assert.assertEquals(300.0d, 0.1d, imageShape.getImageData().getImageSize().getHeightPoints());
+        Assert.assertEquals(300.0d, 0.1d, imageShape.getImageData().getImageSize().getWidthPoints());
     }
 
     @Test

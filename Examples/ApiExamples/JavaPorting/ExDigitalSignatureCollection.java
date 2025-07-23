@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -16,6 +16,7 @@ import java.util.Iterator;
 import com.aspose.words.DigitalSignature;
 import com.aspose.ms.System.msConsole;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.DigitalSignatureType;
 
 
@@ -58,16 +59,16 @@ public class ExDigitalSignatureCollection extends ApiExampleBase
         Assert.assertEquals(signature.getSubjectName(), signature.getCertificateHolder().getCertificateInternal().getSubjectName().Name);
 
         Assert.assertEquals("CN=VeriSign Class 3 Code Signing 2009-2 CA, " +
-            "OU=Terms of use at https://www.verisign.com/rpa (c)09, " +
-            "OU=VeriSign Trust Network, " +
-            "O=\"VeriSign, Inc.\", " +
-            "C=US", signature.getIssuerName());
+                "OU=Terms of use at https://www.verisign.com/rpa (c)09, " +
+                "OU=VeriSign Trust Network, " +
+                "O=\"VeriSign, Inc.\", " +
+                "C=US", signature.getIssuerName());
 
         Assert.assertEquals("CN=Aspose Pty Ltd, " +
-            "OU=Digital ID Class 3 - Microsoft Software Validation v2, " +
-            "O=Aspose Pty Ltd, " +
-            "L=Lane Cove, " +
-            "S=New South Wales, " +
-            "C=AU", signature.getSubjectName());
+                "OU=Digital ID Class 3 - Microsoft Software Validation v2, " +
+                "O=Aspose Pty Ltd, " +
+                "L=Lane Cove, " +
+                "S=New South Wales, " +
+                "C=AU", signature.getSubjectName());
     }
 }

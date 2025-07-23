@@ -58,6 +58,7 @@ class WorkingWithFonts extends DocsExamplesBase
     public void getFontLineSpacing() throws Exception
     {
         //ExStart:GetFontLineSpacing
+        //GistId:7cb86f131b74afcbebc153f0039e3947
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         
@@ -90,7 +91,8 @@ class WorkingWithFonts extends DocsExamplesBase
     @Test
     public void setFontFormatting() throws Exception
     {
-        //ExStart:DocumentBuilderSetFontFormatting
+        //ExStart:SetFontFormatting
+        //GistId:7cb86f131b74afcbebc153f0039e3947
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -106,13 +108,14 @@ class WorkingWithFonts extends DocsExamplesBase
         builder.writeln("I'm a very nice formatted string.");
         
         doc.save(getArtifactsDir() + "WorkingWithFonts.SetFontFormatting.docx");
-        //ExEnd:DocumentBuilderSetFontFormatting
+        //ExEnd:SetFontFormatting
     }
 
     @Test
     public void setFontEmphasisMark() throws Exception
     {
         //ExStart:SetFontEmphasisMark
+        //GistId:7cb86f131b74afcbebc153f0039e3947
         Document document = new Document();
         DocumentBuilder builder = new DocumentBuilder(document);
 

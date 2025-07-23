@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -19,6 +19,7 @@ import com.aspose.words.ChartTitle;
 import java.awt.Color;
 import com.aspose.words.NodeType;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.ShapeType;
 import com.aspose.words.ChartSeries;
 import com.aspose.words.ChartDataLabelCollection;
@@ -64,8 +65,8 @@ import com.aspose.ms.System.Globalization.msCultureInfo;
 import com.aspose.words.ShapeTextOrientation;
 import com.aspose.words.AxisTickLabels;
 import com.aspose.words.ChartDataLabelPosition;
-import java.text.MessageFormat;
 import com.aspose.words.ChartDataLabelLocationMode;
+import com.aspose.words.ChartStyle;
 import org.testng.annotations.DataProvider;
 
 
@@ -1006,7 +1007,7 @@ public class ExCharts extends ApiExampleBase
         // This will remove one of the three demo series that came with the chart.
         chartData.removeAt(2);
 
-        Assert.False(chartData.Any(s => s.Name == "Series 3"));
+        Assert.That(chartData.Any(s => s.Name == "Series 3"), assertFalse();
         Assert.assertEquals(3, chartData.getCount()); //ExSkip
         Assert.assertEquals("Series 4", chartData.get(2).getName()); //ExSkip
 
@@ -1728,7 +1729,7 @@ public class ExCharts extends ApiExampleBase
         seriesColl.clear();
 
         String[] categories = { "Word", null, "Excel", "GoogleDocs", "Note", null };
-        if (exception instanceof null)
+        if (exception == null)
             seriesColl.add("AW Series", categories, seriesValue);
         else
             Assert.Throws(exception, () => seriesColl.add("AW Series", categories, seriesValue));
@@ -2555,11 +2556,12 @@ public class ExCharts extends ApiExampleBase
         double totalValue = 0.0;
         String[] categories = new String[DATA_LENGTH];
         double[] values = new double[DATA_LENGTH];
+
         for (int i = 0; i < DATA_LENGTH; i++)
         {
-            categories[i] = MessageFormat.format("Category {0}", i);
+            categories[i] = $"Category {i}";
             values[i] = DATA_LENGTH - i;
-            totalValue += values[i];
+            totalValue = totalValue + values[i];
         }
 
         ChartSeries series = seriesColl.add("Series 1", categories, values);
@@ -2593,7 +2595,11 @@ public class ExCharts extends ApiExampleBase
             ChartDataLabel dataLabel = dataLabels.get(i);
 
             double value = series.getYValues().get(i).getDoubleValue();
-            double labelWidth = (value < 10) ? ONE_CHAR_LABEL_WIDTH : TWO_CHAR_LABEL_WIDTH;
+            double labelWidth;
+            if (value < 10)
+                labelWidth = ONE_CHAR_LABEL_WIDTH;
+            else
+                labelWidth = TWO_CHAR_LABEL_WIDTH;
             double labelSegmentAngle = value / totalValue * 2.0 * Math.PI;
             double labelAngle = labelSegmentAngle / 2.0 + totalAngle;
             double labelCenterX = LABEL_CIRCLE_RADIUS * Math.cos(labelAngle) + DOUGHNUT_CENTER_X;
@@ -2608,7 +2614,13 @@ public class ExCharts extends ApiExampleBase
             {
                 // Move right on the top, left on the bottom.
                 boolean isOnTop = (totalAngle < 0) || (totalAngle >= Math.PI);
-                labelLeft = previousLabel.getLeft() + labelWidth * (isOnTop ? 1 : -1) + LABEL_MARGIN;
+                int factor;
+                if (isOnTop)
+                    factor = 1;
+                else
+                    factor = -1;
+
+                labelLeft = previousLabel.getLeft() + labelWidth * factor + LABEL_MARGIN;
             }
 
             dataLabel.setLeft(labelLeft);
@@ -2616,7 +2628,7 @@ public class ExCharts extends ApiExampleBase
             dataLabel.setTop(labelTop);
             dataLabel.setTopMode(ChartDataLabelLocationMode.ABSOLUTE);
 
-            totalAngle += labelSegmentAngle;
+            totalAngle = totalAngle + labelSegmentAngle;
             previousLabel = dataLabel;
         }
 
@@ -2648,6 +2660,31 @@ public class ExCharts extends ApiExampleBase
         series1.insert(3, ChartXValue.fromDouble(3.0), ChartYValue.fromDouble(10.0), 10.0);
 
         doc.save(getArtifactsDir() + "Charts.PopulateChartWithData.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void setChartStyle() throws Exception
+    {
+        //ExStart
+        //ExFor:ChartStyle
+        //ExSummary:Shows how to set and get chart style.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a chart in the Black style.
+        builder.insertChart(ChartType.COLUMN, 400.0, 250.0, ChartStyle.BLACK);
+
+        doc.save(getArtifactsDir() + "Charts.SetChartStyle.docx");
+
+        doc = new Document(getArtifactsDir() + "Charts.SetChartStyle.docx");
+
+        // Get a chart to update.
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Chart chart = shape.getChart();
+
+        // Get the chart style.
+        Assert.assertEquals(ChartStyle.BLACK, chart.getStyle());
         //ExEnd
     }
 }

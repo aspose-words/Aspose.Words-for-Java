@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -14,7 +14,6 @@ import com.aspose.words.List;
 import com.aspose.words.Shape;
 import com.aspose.words.*;
 import com.aspose.words.shaping.harfbuzz.HarfBuzzTextShaperFactory;
-import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -24,7 +23,9 @@ import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Iterator;
@@ -1277,8 +1278,8 @@ public class ExDocument extends ApiExampleBase
         builder.getFont().setStyle(doc.getStyles().get("MyParagraphStyle1"));
         builder.writeln("Hello world!");
 
-        List list = doc.getLists().add(doc.getStyles().get("MyListStyle1"));
-        builder.getListFormat().setList(list);
+        List docList = doc.getLists().add(doc.getStyles().get("MyListStyle1"));
+        builder.getListFormat().setList(docList);
         builder.writeln("Item 1");
         builder.writeln("Item 2");
 
@@ -1352,7 +1353,7 @@ public class ExDocument extends ApiExampleBase
     public void useSubstitutions() throws Exception
     {
         //ExStart
-        //ExFor:FindReplaceOptions.#ctor
+        //ExFor:FindReplaceOptions.#ctor()
         //ExFor:FindReplaceOptions.UseSubstitutions
         //ExFor:FindReplaceOptions.LegacyMode
         //ExSummary:Shows how to recognize and use substitutions within replacement patterns.
@@ -1851,8 +1852,8 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Document.VbaProject
         //ExFor:VbaModuleCollection
         //ExFor:VbaModuleCollection.Count
-        //ExFor:VbaModuleCollection.Item(Int32)
-        //ExFor:VbaModuleCollection.Item(String)
+        //ExFor:VbaModuleCollection.Item(System.Int32)
+        //ExFor:VbaModuleCollection.Item(System.String)
         //ExFor:VbaModuleCollection.Remove
         //ExFor:VbaModule
         //ExFor:VbaModule.Name
@@ -1954,6 +1955,8 @@ public class ExDocument extends ApiExampleBase
         //ExFor:TaskPane.WebExtension
         //ExFor:TaskPane.Row
         //ExFor:WebExtension
+        //ExFor:WebExtension.Id
+        //ExFor:WebExtension.AlternateReferences
         //ExFor:WebExtension.Reference
         //ExFor:WebExtension.Properties
         //ExFor:WebExtension.Bindings
@@ -1966,11 +1969,14 @@ public class ExDocument extends ApiExampleBase
         //ExFor:WebExtensionPropertyCollection
         //ExFor:WebExtensionBindingCollection
         //ExFor:WebExtensionProperty.#ctor(String, String)
+        //ExFor:WebExtensionProperty.Name
+        //ExFor:WebExtensionProperty.Value
         //ExFor:WebExtensionBinding.#ctor(String, WebExtensionBindingType, String)
         //ExFor:WebExtensionStoreType
         //ExFor:WebExtensionBindingType
         //ExFor:TaskPaneDockState
         //ExFor:TaskPaneCollection
+        //ExFor:WebExtensionBinding.Id
         //ExFor:WebExtensionBinding.AppRef
         //ExFor:WebExtensionBinding.BindingType
         //ExSummary:Shows how to add a web extension to a document.
@@ -2009,22 +2015,24 @@ public class ExDocument extends ApiExampleBase
         doc.getWebExtensionTaskPanes().clear();
 
         Assert.assertEquals(0, doc.getWebExtensionTaskPanes().getCount());
-        //ExEnd
 
         doc = new Document(getArtifactsDir() + "Document.WebExtension.docx");
+        
         myScriptTaskPane = doc.getWebExtensionTaskPanes().get(0);
-
         Assert.assertEquals(TaskPaneDockState.RIGHT, myScriptTaskPane.getDockState());
         Assert.assertTrue(myScriptTaskPane.isVisible());
         Assert.assertEquals(300.0d, myScriptTaskPane.getWidth());
         Assert.assertTrue(myScriptTaskPane.isLocked());
         Assert.assertEquals(1, myScriptTaskPane.getRow());
+
         webExtension = myScriptTaskPane.getWebExtension();
+        Assert.assertEquals("", webExtension.getId());
 
         Assert.assertEquals("WA104380646", webExtension.getReference().getId());
         Assert.assertEquals("1.0.0.0", webExtension.getReference().getVersion());
         Assert.assertEquals(WebExtensionStoreType.OMEX, webExtension.getReference().getStoreType());
         Assert.assertEquals("English (United States)", webExtension.getReference().getStore());
+        Assert.assertEquals(0, webExtension.getAlternateReferences().getCount());
 
         Assert.assertEquals("MyScript", webExtension.getProperties().get(0).getName());
         Assert.assertEquals("MyScript Math Sample", webExtension.getProperties().get(0).getValue());
@@ -2034,6 +2042,7 @@ public class ExDocument extends ApiExampleBase
         Assert.assertEquals("104380646", webExtension.getBindings().get(0).getAppRef());
 
         Assert.assertFalse(webExtension.isFrozen());
+        //ExEnd
     }
 
     @Test
@@ -2131,12 +2140,12 @@ public class ExDocument extends ApiExampleBase
     @Test
     public void imageWatermark() throws Exception {
         //ExStart
+        //ExFor:Watermark.SetImage(Image)
         //ExFor:Watermark.SetImage(Image, ImageWatermarkOptions)
+        //ExFor:Watermark.SetImage(String, ImageWatermarkOptions)
         //ExFor:ImageWatermarkOptions
         //ExFor:ImageWatermarkOptions.Scale
         //ExFor:ImageWatermarkOptions.IsWashout
-        //ExFor:Watermark.SetImage(Image)
-        //ExFor:Watermark.SetImage(String, ImageWatermarkOptions)
         //ExSummary:Shows how to create a watermark from an image in the local file system.
         Document doc = new Document();
 
@@ -2146,7 +2155,12 @@ public class ExDocument extends ApiExampleBase
         imageWatermarkOptions.setScale(5.0);
         imageWatermarkOptions.isWashout(false);
 
+        // We have a different options to insert image:
         doc.getWatermark().setImage(ImageIO.read(new File(getImageDir() + "Logo.jpg")), imageWatermarkOptions);
+
+        doc.getWatermark().setImage(ImageIO.read(new File(getImageDir() + "Logo.jpg")));
+
+        doc.getWatermark().setImage(getImageDir() + "Logo.jpg", imageWatermarkOptions);
 
         doc.save(getArtifactsDir() + "Document.ImageWatermark.docx");
         //ExEnd
@@ -2156,8 +2170,34 @@ public class ExDocument extends ApiExampleBase
         Assert.assertEquals(WatermarkType.IMAGE, doc.getWatermark().getType());
     }
 
+    @Test
+    public void imageWatermarkStream() throws Exception
+    {
+        //ExStart:ImageWatermarkStream
+        //GistId:cc5f9f2033531562b29954d9f73776a5
+        //ExFor:Watermark.SetImage(Stream, ImageWatermarkOptions)
+        //ExSummary:Shows how to create a watermark from an image stream.
+        Document doc = new Document();
+
+        // Modify the image watermark's appearance with an ImageWatermarkOptions object,
+        // then pass it while creating a watermark from an image file.
+        ImageWatermarkOptions imageWatermarkOptions = new ImageWatermarkOptions();
+        imageWatermarkOptions.setScale(5.0);
+
+        try (FileInputStream imageStream = new FileInputStream(getImageDir() + "Logo.jpg")) {
+            doc.getWatermark().setImage(imageStream, imageWatermarkOptions);
+    	}
+
+        doc.save(getArtifactsDir() + "Document.ImageWatermarkStream.docx");
+        //ExEnd:ImageWatermarkStream
+
+        doc = new Document(getArtifactsDir() + "Document.ImageWatermarkStream.docx");
+        Assert.assertEquals(WatermarkType.IMAGE, doc.getWatermark().getType());
+    }
+
     @Test(dataProvider = "spellingAndGrammarErrorsDataProvider")
-    public void spellingAndGrammarErrors(boolean showErrors) throws Exception {
+    public void spellingAndGrammarErrors(boolean showErrors) throws Exception
+    {
         //ExStart
         //ExFor:Document.ShowGrammaticalErrors
         //ExFor:Document.ShowSpellingErrors
@@ -2306,6 +2346,7 @@ public class ExDocument extends ApiExampleBase
         // Document contains several frames with links to other documents.
         Document doc = new Document(getMyDir() + "Frameset.docx");
 
+        Assert.assertEquals(3, doc.getFrameset().getChildFramesets().getCount());
         // We can check the default URL (a web page URL or local document) or if the frame is an external resource.
         Assert.assertEquals("https://file-examples-com.github.io/uploads/2017/02/file-sample_100kB.docx",
                 doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).getFrameDefaultUrl());

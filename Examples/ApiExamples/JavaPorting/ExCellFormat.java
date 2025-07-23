@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -15,6 +15,7 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.words.CellMerge;
 import com.aspose.words.Table;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.msString;
 import com.aspose.words.Cell;
 
@@ -67,7 +68,7 @@ public class ExCellFormat extends ApiExampleBase
         Assert.assertEquals(CellMerge.FIRST, table.getRows().get(0).getCells().get(0).getCellFormat().getVerticalMerge());
         Assert.assertEquals(CellMerge.PREVIOUS, table.getRows().get(1).getCells().get(0).getCellFormat().getVerticalMerge());
         Assert.assertEquals("Text in merged cells.", msString.trim(table.getRows().get(0).getCells().get(0).getText(), '\u0007'));
-        Assert.assertNotEquals(table.getRows().get(0).getCells().get(0).getText(), table.getRows().get(1).getCells().get(0).getText());
+        Assert.Is.Not.EqualTo(table.getRows().get(0).getCells().get(0).getText())table.getRows().get(1).getCells().get(0).getText());
     }
 
     @Test

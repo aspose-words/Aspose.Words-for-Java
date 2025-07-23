@@ -13,9 +13,10 @@ import com.aspose.ms.System.msConsole;
 class WorkingWithTextboxes
 {
     @Test
-    public void createALink() throws Exception
+    public void createLink() throws Exception
     {
-        //ExStart:CreateALink
+        //ExStart:CreateLink
+        //GistId:68b6041746b3d6bf5137cff8e6385b5f
         Document doc = new Document();
 
         Shape shape1 = new Shape(doc, ShapeType.TEXT_BOX);
@@ -26,39 +27,35 @@ class WorkingWithTextboxes
 
         if (textBox1.isValidLinkTarget(textBox2))
             textBox1.setNext(textBox2);
-        //ExEnd:CreateALink
+        //ExEnd:CreateLink
     }
 
     @Test
     public void checkSequence() throws Exception
     {
         //ExStart:CheckSequence
+        //GistId:68b6041746b3d6bf5137cff8e6385b5f
         Document doc = new Document();
 
         Shape shape = new Shape(doc, ShapeType.TEXT_BOX);
         TextBox textBox = shape.getTextBox();
 
         if (textBox.getNext() != null && textBox.getPrevious() == null)
-        {
             System.out.println("The head of the sequence");
-        }
 
         if (textBox.getNext() != null && textBox.getPrevious() != null)
-        {
             System.out.println("The Middle of the sequence.");
-        }
 
         if (textBox.getNext() == null && textBox.getPrevious() != null)
-        {
             System.out.println("The Tail of the sequence.");
-        }
         //ExEnd:CheckSequence
     }
 
     @Test
-    public void breakALink() throws Exception
+    public void breakLink() throws Exception
     {
-        //ExStart:BreakALink
+        //ExStart:BreakLink
+        //GistId:68b6041746b3d6bf5137cff8e6385b5f
         Document doc = new Document();
 
         Shape shape = new Shape(doc, ShapeType.TEXT_BOX);
@@ -72,6 +69,6 @@ class WorkingWithTextboxes
 
         // Break a link, which leads to this textbox.
         textBox.getPrevious()?.BreakForwardLink();
-        //ExEnd:BreakALink
+        //ExEnd:BreakLink
     }
 }

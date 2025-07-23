@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -16,6 +16,7 @@ import com.aspose.words.ShapeType;
 import com.aspose.words.NodeType;
 import com.aspose.words.ImageType;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.NodeCollection;
 import com.aspose.ms.System.IO.Stream;
@@ -329,13 +330,13 @@ public class ExImage extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Images.docx");
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
 
-        Assert.AreEqual(9, shapes.<Shape>OfType().Count(s => s.HasImage));
+        Assert.That(shapes.<Shape>OfType().Count(s => s.HasImage), assertEquals(9, );
 
         for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
             if (shape.hasImage()) 
                 shape.remove();
 
-        Assert.AreEqual(0, shapes.<Shape>OfType().Count(s => s.HasImage));
+        Assert.That(shapes.<Shape>OfType().Count(s => s.HasImage), assertEquals(0, );
         //ExEnd
     }
 
@@ -348,8 +349,7 @@ public class ExImage extends ApiExampleBase
         //ExSummary:Shows how to traverse the document's node tree using the pre-order traversal algorithm, and delete any encountered shape with an image.
         Document doc = new Document(getMyDir() + "Images.docx");
 
-        Assert.AreEqual(9, 
-            doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().Count(s => s.HasImage));
+        Assert.That(doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().Count(s => s.HasImage), assertEquals(9, );
 
         Node curNode = doc;
         while (curNode != null)
@@ -365,8 +365,7 @@ public class ExImage extends ApiExampleBase
             curNode = nextNode;
         }
 
-        Assert.AreEqual(0,
-            doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().Count(s => s.HasImage));
+        Assert.That(doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().Count(s => s.HasImage), assertEquals(0, );
         //ExEnd
     }
 

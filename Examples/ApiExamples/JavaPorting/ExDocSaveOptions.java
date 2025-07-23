@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -17,6 +17,7 @@ import com.aspose.words.SaveFormat;
 import org.testng.Assert;
 import com.aspose.words.IncorrectPasswordException;
 import com.aspose.words.LoadOptions;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.IO.Directory;
 import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.IO.FileInfo;
@@ -95,7 +96,7 @@ public class ExDocSaveOptions extends ApiExampleBase
         //ExFor:DocSaveOptions.SavePictureBullet
         //ExSummary:Shows how to omit PictureBullet data from the document when saving.
         Document doc = new Document(getMyDir() + "Image bullet points.docx");
-        Assert.assertNotNull(doc.getLists().get(0).getListLevels().get(0).getImageData()); //ExSkip
+        Assert.Is.Not.Nulldoc.getLists().get(0).getListLevels().get(0).getImageData()); //ExSkip
 
         // Some word processors, such as Microsoft Word 97, are incompatible with PictureBullet data.
         // By setting a flag in the SaveOptions object,
@@ -136,7 +137,7 @@ public class ExDocSaveOptions extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "DocSaveOptions.UpdateLastPrintedProperty.doc");
 
         if (isUpdateLastPrintedProperty)
-            Assert.assertNotEquals(lastPrinted, doc.getBuiltInDocumentProperties().getLastPrintedInternal());
+            Assert.Is.Not.EqualTo(lastPrinted)doc.getBuiltInDocumentProperties().getLastPrintedInternal());
         else
             Assert.assertEquals(lastPrinted, doc.getBuiltInDocumentProperties().getLastPrintedInternal());
         //ExEnd
@@ -176,7 +177,7 @@ public class ExDocSaveOptions extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "DocSaveOptions.UpdateCreatedTimeProperty.docx");
 
         if (isUpdateCreatedTimeProperty)
-            Assert.assertNotEquals(createdTime, doc.getBuiltInDocumentProperties().getCreatedTimeInternal());
+            Assert.Is.Not.EqualTo(createdTime)doc.getBuiltInDocumentProperties().getCreatedTimeInternal());
         else
             Assert.assertEquals(createdTime, doc.getBuiltInDocumentProperties().getCreatedTimeInternal());
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -14,6 +14,7 @@ import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.StyleIdentifier;
 import org.testng.Assert;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.XpsSaveOptions;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.Section;
@@ -205,7 +206,7 @@ public class ExXpsSaveOptions extends ApiExampleBase
 
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
         SignOptions options = new SignOptions();
-        options.setSignTimeInternal(new Date());
+        options.setSignTimeInternal(new Date);
         options.setComments("Some comments");
 
         DigitalSignatureDetails digitalSignatureDetails = new DigitalSignatureDetails(certificateHolder, options);

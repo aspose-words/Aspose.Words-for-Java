@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -264,9 +264,9 @@ public class ExLists extends ApiExampleBase {
         // We can begin and end a list by using a document builder's "ListFormat" property. 
         // Each paragraph that we add between a list's start and the end will become an item in the list.
         // Create a list from a Microsoft Word template, and customize the first two of its list levels.
-        List list = doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
+        List docList = doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
 
-        ListLevel listLevel = list.getListLevels().get(0);
+        ListLevel listLevel = docList.getListLevels().get(0);
         listLevel.getFont().setColor(Color.RED);
         listLevel.getFont().setSize(24.0);
         listLevel.setNumberStyle(NumberStyle.ORDINAL_TEXT);
@@ -277,7 +277,7 @@ public class ExLists extends ApiExampleBase {
         listLevel.setTextPosition(144.0);
         listLevel.setTabPosition(144.0);
 
-        listLevel = list.getListLevels().get(1);
+        listLevel = docList.getListLevels().get(1);
         listLevel.setAlignment(ListLevelAlignment.RIGHT);
         listLevel.setNumberStyle(NumberStyle.BULLET);
         listLevel.getFont().setName("Wingdings");
@@ -292,7 +292,7 @@ public class ExLists extends ApiExampleBase {
         // Create paragraphs and apply both list levels of our custom list formatting to them.
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.getListFormat().setList(list);
+        builder.getListFormat().setList(docList);
         builder.writeln("The quick brown fox...");
         builder.writeln("The quick brown fox...");
 
@@ -563,10 +563,10 @@ public class ExLists extends ApiExampleBase {
         Assert.assertEquals(0, DocumentHelper.getListItemCount(paras));
 
         doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
-        List list = doc.getLists().get(0);
+        List docList = doc.getLists().get(0);
 
         for (Paragraph paragraph : doc.getFirstSection().getBody().getParagraphs()) {
-            paragraph.getListFormat().setList(list);
+            paragraph.getListFormat().setList(docList);
             paragraph.getListFormat().setListLevelNumber(2);
         }
 
@@ -623,30 +623,30 @@ public class ExLists extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        List list = doc.getLists().add(ListTemplate.OUTLINE_HEADINGS_ARTICLE_SECTION);
-        addOutlineHeadingParagraphs(builder, list, "Aspose.Words Outline - \"Article Section\"");
+        List docList = doc.getLists().add(ListTemplate.OUTLINE_HEADINGS_ARTICLE_SECTION);
+        addOutlineHeadingParagraphs(builder, docList, "Aspose.Words Outline - \"Article Section\"");
 
-        list = doc.getLists().add(ListTemplate.OUTLINE_HEADINGS_LEGAL);
-        addOutlineHeadingParagraphs(builder, list, "Aspose.Words Outline - \"Legal\"");
+        docList = doc.getLists().add(ListTemplate.OUTLINE_HEADINGS_LEGAL);
+        addOutlineHeadingParagraphs(builder, docList, "Aspose.Words Outline - \"Legal\"");
 
         builder.insertBreak(BreakType.PAGE_BREAK);
 
-        list = doc.getLists().add(ListTemplate.OUTLINE_HEADINGS_NUMBERS);
-        addOutlineHeadingParagraphs(builder, list, "Aspose.Words Outline - \"Numbers\"");
+        docList = doc.getLists().add(ListTemplate.OUTLINE_HEADINGS_NUMBERS);
+        addOutlineHeadingParagraphs(builder, docList, "Aspose.Words Outline - \"Numbers\"");
 
-        list = doc.getLists().add(ListTemplate.OUTLINE_HEADINGS_CHAPTER);
-        addOutlineHeadingParagraphs(builder, list, "Aspose.Words Outline - \"Chapters\"");
+        docList = doc.getLists().add(ListTemplate.OUTLINE_HEADINGS_CHAPTER);
+        addOutlineHeadingParagraphs(builder, docList, "Aspose.Words Outline - \"Chapters\"");
 
         doc.save(getArtifactsDir() + "Lists.OutlineHeadingTemplates.docx");
         testOutlineHeadingTemplates(new Document(getArtifactsDir() + "Lists.OutlineHeadingTemplates.docx")); //ExSkip
     }
 
-    private static void addOutlineHeadingParagraphs(final DocumentBuilder builder, final List list, final String title) {
+    private static void addOutlineHeadingParagraphs(final DocumentBuilder builder, final List docList, final String title) {
         builder.getParagraphFormat().clearFormatting();
         builder.writeln(title);
 
         for (int i = 0; i < 9; i++) {
-            builder.getListFormat().setList(list);
+            builder.getListFormat().setList(docList);
             builder.getListFormat().setListLevelNumber(i);
 
             String styleName = "Heading " + (i + 1);
@@ -659,53 +659,53 @@ public class ExLists extends ApiExampleBase {
     //ExEnd
 
     private void testOutlineHeadingTemplates(Document doc) {
-        List list = doc.getLists().get(0); // Article section list template.
+        List docList = doc.getLists().get(0); // Article section list template.
 
-        TestUtil.verifyListLevel("Article \u0000.", 0.0d, NumberStyle.UPPERCASE_ROMAN, list.getListLevels().get(0));
-        TestUtil.verifyListLevel("Section \u0000.\u0001", 0.0d, NumberStyle.LEADING_ZERO, list.getListLevels().get(1));
-        TestUtil.verifyListLevel("(\u0002)", 14.4d, NumberStyle.LOWERCASE_LETTER, list.getListLevels().get(2));
-        TestUtil.verifyListLevel("(\u0003)", 36.0d, NumberStyle.LOWERCASE_ROMAN, list.getListLevels().get(3));
-        TestUtil.verifyListLevel("\u0004)", 28.8d, NumberStyle.ARABIC, list.getListLevels().get(4));
-        TestUtil.verifyListLevel("\u0005)", 36.0d, NumberStyle.LOWERCASE_LETTER, list.getListLevels().get(5));
-        TestUtil.verifyListLevel("\u0006)", 50.4d, NumberStyle.LOWERCASE_ROMAN, list.getListLevels().get(6));
-        TestUtil.verifyListLevel("\u0007.", 50.4d, NumberStyle.LOWERCASE_LETTER, list.getListLevels().get(7));
-        TestUtil.verifyListLevel("\b.", 72.0d, NumberStyle.LOWERCASE_ROMAN, list.getListLevels().get(8));
+        TestUtil.verifyListLevel("Article \u0000.", 0.0d, NumberStyle.UPPERCASE_ROMAN, docList.getListLevels().get(0));
+        TestUtil.verifyListLevel("Section \u0000.\u0001", 0.0d, NumberStyle.LEADING_ZERO, docList.getListLevels().get(1));
+        TestUtil.verifyListLevel("(\u0002)", 14.4d, NumberStyle.LOWERCASE_LETTER, docList.getListLevels().get(2));
+        TestUtil.verifyListLevel("(\u0003)", 36.0d, NumberStyle.LOWERCASE_ROMAN, docList.getListLevels().get(3));
+        TestUtil.verifyListLevel("\u0004)", 28.8d, NumberStyle.ARABIC, docList.getListLevels().get(4));
+        TestUtil.verifyListLevel("\u0005)", 36.0d, NumberStyle.LOWERCASE_LETTER, docList.getListLevels().get(5));
+        TestUtil.verifyListLevel("\u0006)", 50.4d, NumberStyle.LOWERCASE_ROMAN, docList.getListLevels().get(6));
+        TestUtil.verifyListLevel("\u0007.", 50.4d, NumberStyle.LOWERCASE_LETTER, docList.getListLevels().get(7));
+        TestUtil.verifyListLevel("\b.", 72.0d, NumberStyle.LOWERCASE_ROMAN, docList.getListLevels().get(8));
 
-        list = doc.getLists().get(1); // Legal list template.
+        docList = doc.getLists().get(1); // Legal list template.
 
-        TestUtil.verifyListLevel("\u0000", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(0));
-        TestUtil.verifyListLevel("\u0000.\u0001", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(1));
-        TestUtil.verifyListLevel("\u0000.\u0001.\u0002", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(2));
-        TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(3));
-        TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003.\u0004", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(4));
-        TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003.\u0004.\u0005", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(5));
-        TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(6));
-        TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006.\u0007", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(7));
-        TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006.\u0007.\b", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(8));
+        TestUtil.verifyListLevel("\u0000", 0.0d, NumberStyle.ARABIC, docList.getListLevels().get(0));
+        TestUtil.verifyListLevel("\u0000.\u0001", 0.0d, NumberStyle.ARABIC, docList.getListLevels().get(1));
+        TestUtil.verifyListLevel("\u0000.\u0001.\u0002", 0.0d, NumberStyle.ARABIC, docList.getListLevels().get(2));
+        TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003", 0.0d, NumberStyle.ARABIC, docList.getListLevels().get(3));
+        TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003.\u0004", 0.0d, NumberStyle.ARABIC, docList.getListLevels().get(4));
+        TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003.\u0004.\u0005", 0.0d, NumberStyle.ARABIC, docList.getListLevels().get(5));
+        TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006", 0.0d, NumberStyle.ARABIC, docList.getListLevels().get(6));
+        TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006.\u0007", 0.0d, NumberStyle.ARABIC, docList.getListLevels().get(7));
+        TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006.\u0007.\b", 0.0d, NumberStyle.ARABIC, docList.getListLevels().get(8));
 
-        list = doc.getLists().get(2); // Numbered list template
+        docList = doc.getLists().get(2); // Numbered list template.
 
-        TestUtil.verifyListLevel("\u0000.", 0.0d, NumberStyle.UPPERCASE_ROMAN, list.getListLevels().get(0));
-        TestUtil.verifyListLevel("\u0001.", 36.0d, NumberStyle.UPPERCASE_LETTER, list.getListLevels().get(1));
-        TestUtil.verifyListLevel("\u0002.", 72.0d, NumberStyle.ARABIC, list.getListLevels().get(2));
-        TestUtil.verifyListLevel("\u0003)", 108.0d, NumberStyle.LOWERCASE_LETTER, list.getListLevels().get(3));
-        TestUtil.verifyListLevel("(\u0004)", 144.0d, NumberStyle.ARABIC, list.getListLevels().get(4));
-        TestUtil.verifyListLevel("(\u0005)", 180.0d, NumberStyle.LOWERCASE_LETTER, list.getListLevels().get(5));
-        TestUtil.verifyListLevel("(\u0006)", 216.0d, NumberStyle.LOWERCASE_ROMAN, list.getListLevels().get(6));
-        TestUtil.verifyListLevel("(\u0007)", 252.0d, NumberStyle.LOWERCASE_LETTER, list.getListLevels().get(7));
-        TestUtil.verifyListLevel("(\b)", 288.0d, NumberStyle.LOWERCASE_ROMAN, list.getListLevels().get(8));
+        TestUtil.verifyListLevel("\u0000.", 0.0d, NumberStyle.UPPERCASE_ROMAN, docList.getListLevels().get(0));
+        TestUtil.verifyListLevel("\u0001.", 36.0d, NumberStyle.UPPERCASE_LETTER, docList.getListLevels().get(1));
+        TestUtil.verifyListLevel("\u0002.", 72.0d, NumberStyle.ARABIC, docList.getListLevels().get(2));
+        TestUtil.verifyListLevel("\u0003)", 108.0d, NumberStyle.LOWERCASE_LETTER, docList.getListLevels().get(3));
+        TestUtil.verifyListLevel("(\u0004)", 144.0d, NumberStyle.ARABIC, docList.getListLevels().get(4));
+        TestUtil.verifyListLevel("(\u0005)", 180.0d, NumberStyle.LOWERCASE_LETTER, docList.getListLevels().get(5));
+        TestUtil.verifyListLevel("(\u0006)", 216.0d, NumberStyle.LOWERCASE_ROMAN, docList.getListLevels().get(6));
+        TestUtil.verifyListLevel("(\u0007)", 252.0d, NumberStyle.LOWERCASE_LETTER, docList.getListLevels().get(7));
+        TestUtil.verifyListLevel("(\b)", 288.0d, NumberStyle.LOWERCASE_ROMAN, docList.getListLevels().get(8));
 
-        list = doc.getLists().get(3); // Chapter list template
+        docList = doc.getLists().get(3); // Chapter list template.
 
-        TestUtil.verifyListLevel("Chapter \u0000", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(0));
-        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, list.getListLevels().get(1));
-        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, list.getListLevels().get(2));
-        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, list.getListLevels().get(3));
-        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, list.getListLevels().get(4));
-        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, list.getListLevels().get(5));
-        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, list.getListLevels().get(6));
-        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, list.getListLevels().get(7));
-        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, list.getListLevels().get(8));
+        TestUtil.verifyListLevel("Chapter \u0000", 0.0d, NumberStyle.ARABIC, docList.getListLevels().get(0));
+        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, docList.getListLevels().get(1));
+        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, docList.getListLevels().get(2));
+        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, docList.getListLevels().get(3));
+        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, docList.getListLevels().get(4));
+        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, docList.getListLevels().get(5));
+        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, docList.getListLevels().get(6));
+        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, docList.getListLevels().get(7));
+        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, docList.getListLevels().get(8));
     }
 
     //ExStart
@@ -729,10 +729,10 @@ public class ExLists extends ApiExampleBase {
         testPrintOutAllLists(srcDoc, new Document(getArtifactsDir() + "Lists.PrintOutAllLists.docx")); //ExSkip
     }
 
-    private static void addListSample(final DocumentBuilder builder, final List list) {
-        builder.writeln("Sample formatting of list with ListId:" + list.getListId());
-        builder.getListFormat().setList(list);
-        for (int i = 0; i < list.getListLevels().getCount(); i++) {
+    private static void addListSample(final DocumentBuilder builder, final List docList) {
+        builder.writeln("Sample formatting of list with ListId:" + docList.getListId());
+        builder.getListFormat().setList(docList);
+        for (int i = 0; i < docList.getListLevels().getCount(); i++) {
             builder.getListFormat().setListLevelNumber(i);
             builder.writeln("Level " + i);
         }
@@ -742,15 +742,15 @@ public class ExLists extends ApiExampleBase {
     //ExEnd		
 
     private void testPrintOutAllLists(Document listSourceDoc, Document outDoc) {
-        for (List list : outDoc.getLists()) {
-            for (int i = 0; i < list.getListLevels().getCount(); i++) {
+        for (List docList : outDoc.getLists()) {
+            for (int i = 0; i < docList.getListLevels().getCount(); i++) {
                 for (List sourceList : listSourceDoc.getLists()) {
-                    if (sourceList.getListId() == list.getListId()) {
+                    if (sourceList.getListId() == docList.getListId()) {
                         ListLevel expectedListLevel = sourceList.getListLevels().get(i);
 
-                        Assert.assertEquals(expectedListLevel.getNumberFormat(), list.getListLevels().get(i).getNumberFormat());
-                        Assert.assertEquals(expectedListLevel.getNumberPosition(), list.getListLevels().get(i).getNumberPosition());
-                        Assert.assertEquals(expectedListLevel.getNumberStyle(), list.getListLevels().get(i).getNumberStyle());
+                        Assert.assertEquals(expectedListLevel.getNumberFormat(), docList.getListLevels().get(i).getNumberFormat());
+                        Assert.assertEquals(expectedListLevel.getNumberPosition(), docList.getListLevels().get(i).getNumberPosition());
+                        Assert.assertEquals(expectedListLevel.getNumberStyle(), docList.getListLevels().get(i).getNumberStyle());
                     }
                 }
             }
@@ -773,14 +773,13 @@ public class ExLists extends ApiExampleBase {
 
         Assert.assertEquals(doc, lists.getDocument());
 
-        List list = lists.add(ListTemplate.BULLET_DEFAULT);
-
-        Assert.assertEquals(doc, list.getDocument());
+        List docList = lists.add(ListTemplate.BULLET_DEFAULT);
+        Assert.assertEquals(doc, docList.getDocument());
 
         System.out.println("Current list count: " + lists.getCount());
-        System.out.println("Is the first document list: " + (lists.get(0).equals(list)));
-        System.out.println("ListId: " + list.getListId());
-        System.out.println("List is the same by ListId: " + (lists.getListByListId(1).equals(list)));
+        System.out.println("Is the first document list: " + (lists.get(0).equals(docList)));
+        System.out.println("ListId: " + docList.getListId());
+        System.out.println("List is the same by ListId: " + (lists.getListByListId(1).equals(docList)));
         //ExEnd
 
         doc = DocumentHelper.saveOpen(doc);
@@ -800,7 +799,6 @@ public class ExLists extends ApiExampleBase {
         //ExFor:ListLevel.IsLegal
         //ExFor:ListLevel.RestartAfterLevel
         //ExFor:ListLevel.LinkedStyle
-        //ExFor:ListLevelCollection.GetEnumerator
         //ExSummary:Shows advances ways of customizing list labels.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -809,36 +807,36 @@ public class ExLists extends ApiExampleBase {
         // We can create nested lists by increasing the indent level. 
         // We can begin and end a list by using a document builder's "ListFormat" property. 
         // Each paragraph that we add between a list's start and the end will become an item in the list.
-        List list = doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
+        List docList = doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
 
         // Level 1 labels will be formatted according to the "Heading 1" paragraph style and will have a prefix.
         // These will look like "Appendix A", "Appendix B"...
-        list.getListLevels().get(0).setNumberFormat("Appendix \u0000");
-        list.getListLevels().get(0).setNumberStyle(NumberStyle.UPPERCASE_LETTER);
-        list.getListLevels().get(0).setLinkedStyle(doc.getStyles().get("Heading 1"));
+        docList.getListLevels().get(0).setNumberFormat("Appendix \u0000");
+        docList.getListLevels().get(0).setNumberStyle(NumberStyle.UPPERCASE_LETTER);
+        docList.getListLevels().get(0).setLinkedStyle(doc.getStyles().get("Heading 1"));
 
         // Level 2 labels will display the current numbers of the first and the second list levels and have leading zeroes.
         // If the first list level is at 1, then the list labels from these will look like "Section (1.01)", "Section (1.02)"...
-        list.getListLevels().get(1).setNumberFormat("Section (\u0000.\u0001)");
-        list.getListLevels().get(1).setNumberStyle(NumberStyle.LEADING_ZERO);
+        docList.getListLevels().get(1).setNumberFormat("Section (\u0000.\u0001)");
+        docList.getListLevels().get(1).setNumberStyle(NumberStyle.LEADING_ZERO);
 
         // Note that the higher-level uses UppercaseLetter numbering.
         // We can set the "IsLegal" property to use Arabic numbers for the higher list levels.
-        list.getListLevels().get(1).isLegal(true);
-        list.getListLevels().get(1).setRestartAfterLevel(0);
+        docList.getListLevels().get(1).isLegal(true);
+        docList.getListLevels().get(1).setRestartAfterLevel(0);
 
         // Level 3 labels will be upper case Roman numerals with a prefix and a suffix and will restart at each List level 1 item.
         // These list labels will look like "-I-", "-II-"...
-        list.getListLevels().get(2).setNumberFormat("-\u0002-");
-        list.getListLevels().get(2).setNumberStyle(NumberStyle.UPPERCASE_ROMAN);
-        list.getListLevels().get(2).setRestartAfterLevel(1);
+        docList.getListLevels().get(2).setNumberFormat("-\u0002-");
+        docList.getListLevels().get(2).setNumberStyle(NumberStyle.UPPERCASE_ROMAN);
+        docList.getListLevels().get(2).setRestartAfterLevel(1);
 
         // Make labels of all list levels bold.
-        for (ListLevel level : list.getListLevels())
+        for (ListLevel level : docList.getListLevels())
             level.getFont().setBold(true);
 
         // Apply list formatting to the current paragraph.
-        builder.getListFormat().setList(list);
+        builder.getListFormat().setList(docList);
 
         // Create list items that will display all three of our list levels.
         for (int n = 0; n < 2; n++) {
@@ -904,10 +902,10 @@ public class ExLists extends ApiExampleBase {
                 // Combine them together to include the list label with the text in the output.
                 System.out.println("\tList label combined with text: {label.LabelString} {paragraphText}");
             }
+            //ExEnd
 
-            Assert.assertEquals(10, DocumentHelper.getListItemCount(doc.getChildNodes(NodeType.PARAGRAPH, true))); //ExSkip
+            Assert.assertEquals(10, DocumentHelper.getListItemCount(doc.getChildNodes(NodeType.PARAGRAPH, true)));
         }
-        //ExEnd
     }
 
     @Test
@@ -918,26 +916,26 @@ public class ExLists extends ApiExampleBase {
         //ExSummary:Shows how to set a custom image icon for list item labels.
         Document doc = new Document();
 
-        List list = doc.getLists().add(ListTemplate.BULLET_CIRCLE);
+        List docList = doc.getLists().add(ListTemplate.BULLET_CIRCLE);
 
         // Create a picture bullet for the current list level, and set an image from a local file system
         // as the icon that the bullets for this list level will display.
-        list.getListLevels().get(0).createPictureBullet();
-        list.getListLevels().get(0).getImageData().setImage(getImageDir() + "Logo icon.ico");
+        docList.getListLevels().get(0).createPictureBullet();
+        docList.getListLevels().get(0).getImageData().setImage(getImageDir() + "Logo icon.ico");
 
-        Assert.assertTrue(list.getListLevels().get(0).getImageData().hasImage());
+        Assert.assertTrue(docList.getListLevels().get(0).getImageData().hasImage());
 
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.getListFormat().setList(list);
+        builder.getListFormat().setList(docList);
         builder.writeln("Hello world!");
         builder.write("Hello again!");
 
         doc.save(getArtifactsDir() + "Lists.CreatePictureBullet.docx");
 
-        list.getListLevels().get(0).deletePictureBullet();
+        docList.getListLevels().get(0).deletePictureBullet();
 
-        Assert.assertNull(list.getListLevels().get(0).getImageData());
+        Assert.assertNull(docList.getListLevels().get(0).getImageData());
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Lists.CreatePictureBullet.docx");
@@ -946,7 +944,7 @@ public class ExLists extends ApiExampleBase {
     }
 
     @Test
-    public void customNumberStyleFormat() throws Exception {
+    public void getCustomNumberStyleFormat() throws Exception {
         //ExStart
         //ExFor:ListLevel.CustomNumberStyleFormat
         //ExFor:ListLevel.GetEffectiveValue(Int32, NumberStyle, String)
@@ -1010,5 +1008,39 @@ public class ExLists extends ApiExampleBase {
         Assert.assertEquals("001.", paras.get(1).getListLabel().getLabelString());
         Assert.assertEquals("002.", paras.get(2).getListLabel().getLabelString());
         //ExEnd:SetCustomNumberStyleFormat
+    }
+
+    @Test
+    public void addSingleLevelList() throws Exception
+    {
+        //ExStart:AddSingleLevelList
+        //GistId:8c0f38c5965151e1cdf79c1c8f9e4640
+        //ExFor:ListCollection.AddSingleLevelList(ListTemplate)
+        //ExSummary:Shows how to create a new single level list based on the predefined template.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        ListCollection listCollection = doc.getLists();
+
+        // Creates the bulleted list from BulletCircle template.
+        List bulletedList = listCollection.addSingleLevelList(ListTemplate.BULLET_CIRCLE);
+
+        // Writes the bulleted list to the resulting document.
+        builder.writeln("Bulleted list starts below:");
+        builder.getListFormat().setList(bulletedList);
+        builder.writeln("Item 1");
+        builder.writeln("Item 2");
+        builder.getListFormat().removeNumbers();
+
+        // Creates the numbered list from NumberUppercaseLetterDot template.
+        List numberedList = listCollection.addSingleLevelList(ListTemplate.NUMBER_UPPERCASE_LETTER_DOT);
+
+        // Writes the numbered list to the resulting document.
+        builder.writeln("Numbered list starts below:");
+        builder.getListFormat().setList(numberedList);
+        builder.writeln("Item 1");
+        builder.writeln("Item 2");
+
+        doc.save(getArtifactsDir() + "Lists.AddSingleLevelList.docx");
+        //ExEnd:AddSingleLevelList
     }
 }

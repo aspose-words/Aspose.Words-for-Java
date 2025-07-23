@@ -21,51 +21,47 @@ import com.aspose.words.Table;
 class WorkingWithNode extends DocsExamplesBase
 {
     @Test
-    public void useNodeType() throws Exception
+    public void getNodeType() throws Exception
     {
-        //ExStart:UseNodeType            
+        //ExStart:GetNodeType
+        //GistId:3e9d92093b2f5995f984791bfc10c944
         Document doc = new Document();
-        
         /*NodeType*/int type = doc.getNodeType();
-        //ExEnd:UseNodeType
+        //ExEnd:GetNodeType
     }
 
     @Test
     public void getParentNode() throws Exception
     {
-        //ExStart:GetParentNode           
+        //ExStart:GetParentNode
+        //GistId:3e9d92093b2f5995f984791bfc10c944
         Document doc = new Document();
-
         // The section is the first child node of the document.
         Node section = doc.getFirstChild();
-
         // The section's parent node is the document.
         System.out.println("Section parent is the document: " + (doc == section.getParentNode()));
-        //ExEnd:GetParentNode           
+        //ExEnd:GetParentNode
     }
 
     @Test
     public void ownerDocument() throws Exception
     {
         //ExStart:OwnerDocument
+        //GistId:3e9d92093b2f5995f984791bfc10c944
         Document doc = new Document();
 
         // Creating a new node of any type requires a document passed into the constructor.
         Paragraph para = new Paragraph(doc);
-
         // The new paragraph node does not yet have a parent.
         System.out.println("Paragraph has no parent node: " + (para.getParentNode() == null));
-
         // But the paragraph node knows its document.
         System.out.println("Both nodes' documents are the same: " + (para.getDocument() == doc));
-
         // The fact that a node always belongs to a document allows us to access and modify
         // properties that reference the document-wide data, such as styles or lists.
         para.getParagraphFormat().setStyleName("Heading 1");
-
         // Now add the paragraph to the main text of the first section.
         doc.getFirstSection().getBody().appendChild(para);
-
+        
         // The paragraph node is now a child of the Body node.
         System.out.println("Paragraph has a parent node: " + (para.getParentNode() != null));
         //ExEnd:OwnerDocument
@@ -74,7 +70,8 @@ class WorkingWithNode extends DocsExamplesBase
     @Test
     public void enumerateChildNodes() throws Exception
     {
-        //ExStart:EnumerateChildNodes 
+        //ExStart:EnumerateChildNodes
+        //GistId:3e9d92093b2f5995f984791bfc10c944
         Document doc = new Document();
         Paragraph paragraph = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
@@ -93,10 +90,10 @@ class WorkingWithNode extends DocsExamplesBase
 
     @Test
     //ExStart:RecurseAllNodes
+    //GistId:3e9d92093b2f5995f984791bfc10c944
     public void recurseAllNodes() throws Exception
     {
         Document doc = new Document(getMyDir() + "Paragraphs.docx");
-
         // Invoke the recursive function that will walk the tree.
         traverseAllNodes(doc);
     }
@@ -123,19 +120,17 @@ class WorkingWithNode extends DocsExamplesBase
     public void typedAccess() throws Exception
     {
         //ExStart:TypedAccess
+        //GistId:3e9d92093b2f5995f984791bfc10c944
         Document doc = new Document();
 
         Section section = doc.getFirstSection();
         Body body = section.getBody();
-        
         // Quick typed access to all Table child nodes contained in the Body.
         TableCollection tables = body.getTables();
-
         for (Table table : (Iterable<Table>) tables)
         {
             // Quick typed access to the first row of the table.
             table.getFirstRow()?.Remove();
-
             // Quick typed access to the last row of the table.
             table.getLastRow()?.Remove();
         }
