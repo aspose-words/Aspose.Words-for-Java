@@ -645,7 +645,7 @@ public class WorkingWithFields extends DocsExamplesBase
     /// </summary>
     /// <param name="compositeNode">The node in which all descendants of the specified FieldType will be converted to static text.</param>
     /// <param name="targetFieldType">The FieldType of the field to convert to static text.</param>
-    public void convertFieldsToStaticText(CompositeNode compositeNode, int targetFieldType) throws Exception {
+    private static void convertFieldsToStaticText(CompositeNode compositeNode, int targetFieldType) throws Exception {
         // Get all fields in the composite node's range.
         FieldCollection fields = compositeNode.getRange().getFields();
 
@@ -665,7 +665,7 @@ public class WorkingWithFields extends DocsExamplesBase
         //GistId:79b46682fbfd7f02f64783b163ed95fc
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        FieldResultFormatter formatter = new FieldResultFormatter("${0}", "Date: {0}", "Item # {0}:");
+        FieldResultFormatter formatter = new FieldResultFormatter("$%d", "Date: %s", "Item # %s:");
         doc.getFieldOptions().setResultFormatter(formatter);
 
         // Our field result formatter applies a custom format to newly created fields of three types of formats.
@@ -718,7 +718,7 @@ public class WorkingWithFields extends DocsExamplesBase
                 return null;
             }
 
-            String newValue = String.format(mNumberFormat, value);
+            String newValue = String.format(mNumberFormat, (int)value);
             formatInvocations.add(new FormatInvocation(FormatInvocationType.NUMERIC, value, format, newValue));
             return newValue;
         }
@@ -749,7 +749,8 @@ public class WorkingWithFields extends DocsExamplesBase
                 return null;
             }
 
-            String newValue = String.format(mGeneralFormat, value);
+            double doubleValue = Double.parseDouble(value.toString());
+            String newValue = String.format(mGeneralFormat, (int)doubleValue);
             formatInvocations.add(new FormatInvocation(FormatInvocationType.GENERAL, value, String.valueOf(format), newValue));
             return newValue;
         }

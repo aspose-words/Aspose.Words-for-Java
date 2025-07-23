@@ -121,17 +121,6 @@ public class WorkingWithLoadOptions extends DocsExamplesBase {
     }
 
     @Test
-    public void skipPdfImages() throws Exception
-        {
-        //ExStart:SkipPdfImages
-        PdfLoadOptions loadOptions = new PdfLoadOptions();
-        loadOptions.setSkipPdfImages(true);
-
-        Document doc = new Document(getMyDir() + "Pdf Document.pdf", loadOptions);
-        //ExEnd:SkipPdfImages
-        }
-
-    @Test
     public void convertMetafilesToPng() throws Exception
     {
         //ExStart:ConvertMetafilesToPng

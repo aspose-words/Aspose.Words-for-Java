@@ -89,7 +89,7 @@ public class WorkingWithNode extends DocsExamplesBase
     /// A simple function that will walk through all children of a specified node recursively 
     /// and print the type of each node to the screen.
     /// </summary>
-    public void traverseAllNodes(CompositeNode parentNode)
+    private static void traverseAllNodes(CompositeNode parentNode)
     {
         // This is the most efficient way to loop through immediate children of a node.
         for (Node childNode = parentNode.getFirstChild(); childNode != null; childNode = childNode.getNextSibling())

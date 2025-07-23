@@ -199,7 +199,7 @@ public class DocumentFormatting extends DocsExamplesBase
     //GistId:4b5526c3c0d9cad73e05fb4b18d2c3d2
     public void getParagraphLines() throws Exception
     {
-        Document doc = new Document("Properties.docx");
+        Document doc = new Document(getMyDir() + "Properties.docx");
 
         LayoutCollector collector = new LayoutCollector(doc);
         LayoutEnumerator enumerator = new LayoutEnumerator(doc);
