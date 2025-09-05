@@ -36,7 +36,6 @@ import com.aspose.words.ShapeType;
 import com.aspose.words.Table;
 import com.aspose.ms.System.Diagnostics.Debug;
 import java.text.MessageFormat;
-using static DocsExamples.Programming_with_Documents.Working_with_Document.AddContentUsingDocumentBuilder;
 
 
 class FindAndReplace extends DocsExamplesBase

@@ -6,9 +6,8 @@ import DocsExamples.DocsExamplesBase;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.ms.System.Environment;
-import com.aspose.words.IAiModelText;
-import com.aspose.words.OpenAiModel;
 import com.aspose.words.AiModel;
+import com.aspose.words.OpenAiModel;
 import com.aspose.words.AiModelType;
 import com.aspose.words.SummarizeOptions;
 import com.aspose.words.SummaryLength;
@@ -29,7 +28,7 @@ public class Working_with_AI extends DocsExamplesBase
 
         String apiKey = System.getenv("API_KEY");
         // Use OpenAI or Google generative language models.
-        IAiModelText model = ((OpenAiModel)AiModel.create(AiModelType.GPT_4_O_MINI).withApiKey(apiKey)).withOrganization("Organization").withProject("Project");
+        AiModel model = ((OpenAiModel)AiModel.create(AiModelType.GPT_4_O_MINI).withApiKey(apiKey)).withOrganization("Organization").withProject("Project");
 
         SummarizeOptions options = new SummarizeOptions();
 
@@ -52,7 +51,7 @@ public class Working_with_AI extends DocsExamplesBase
 
         String apiKey = System.getenv("API_KEY");
         // Use Google generative language models.
-        IAiModelText model = (GoogleAiModel)AiModel.create(AiModelType.GEMINI_15_FLASH).withApiKey(apiKey);
+        AiModel model = (GoogleAiModel)AiModel.create(AiModelType.GEMINI_15_FLASH).withApiKey(apiKey);
 
         Document translatedDoc = model.translate(doc, Language.ARABIC);
         translatedDoc.save(getArtifactsDir() + "AI.AiTranslate.docx");
@@ -68,7 +67,7 @@ public class Working_with_AI extends DocsExamplesBase
 
         String apiKey = System.getenv("API_KEY");
         // Use OpenAI generative language models.
-        IAiModelText model = (IAiModelText)AiModel.create(AiModelType.GPT_4_O_MINI).withApiKey(apiKey);
+        AiModel model = AiModel.create(AiModelType.GPT_4_O_MINI).withApiKey(apiKey);
 
         CheckGrammarOptions grammarOptions = new CheckGrammarOptions();
         grammarOptions.setImproveStylistics(true);

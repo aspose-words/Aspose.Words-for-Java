@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <CsPorterReport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:///X:/Aspose/Aspose.CsPorter/CsPorter/CsPorterReport.xsd">
 	<Files>
-		<File project="DocsExamples" dir="AI-powered Features" name="Working with AI" status="NEW" isTest="false" />
+		<File project="DocsExamples" dir="AI-powered Features" name="Working with AI" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="" name="DocsExamplesBase" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="File Formats and Conversions" name="Base conversions" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="File Formats and Conversions\Complex examples and helpers" name="Working with document in database" status="AUTO" isTest="false" />
