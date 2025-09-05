@@ -39,7 +39,7 @@ public class WorkingWithAI extends DocsExamplesBase
 
         String apiKey = System.getenv("API_KEY");
         // Use Google generative language models.
-        AiModel model = AiModel.create(AiModelType.GEMINI_15_FLASH).withApiKey(apiKey);
+        AiModel model = (GoogleAiModel)AiModel.create(AiModelType.GEMINI_15_FLASH).withApiKey(apiKey);
 
         Document translatedDoc = model.translate(doc, Language.ARABIC);
         translatedDoc.save(getArtifactsDir() + "AI.AiTranslate.docx");

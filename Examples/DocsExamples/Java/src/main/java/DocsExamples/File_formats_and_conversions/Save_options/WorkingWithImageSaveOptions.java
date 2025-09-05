@@ -105,7 +105,7 @@ public class WorkingWithImageSaveOptions extends DocsExamplesBase {
     //ExEnd:PageSavingCallback
 
     @Test
-    public void HorizontalLayout() throws Exception {
+    public void horizontalLayout() throws Exception {
         //ExStart:HorizontalLayout
         //GistId:90715b6eecef1740f54f3eddb072b5d2
         Document doc = new Document(getMyDir() + "Rendering.docx");
@@ -118,7 +118,7 @@ public class WorkingWithImageSaveOptions extends DocsExamplesBase {
     }
 
     @Test
-    public void GridLayout() throws Exception {
+    public void gridLayout() throws Exception {
         //ExStart:GridLayout
         //GistId:90715b6eecef1740f54f3eddb072b5d2
         Document doc = new Document(getMyDir() + "Rendering.docx");
