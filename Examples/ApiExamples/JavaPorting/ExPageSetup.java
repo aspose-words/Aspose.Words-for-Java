@@ -47,6 +47,8 @@ import com.aspose.words.EndnotePosition;
 import com.aspose.words.MultiplePagesType;
 import com.aspose.words.TextOrientation;
 import com.aspose.words.Body;
+import com.aspose.words.AsposeWordsPrintDocument;
+import com.aspose.ms.System.msConsole;
 import org.testng.annotations.DataProvider;
 
 
@@ -1197,4 +1199,34 @@ public class ExPageSetup extends ApiExampleBase
         Assert.assertEquals(PaperSize.JIS_B_5, pageSetup.getPaperSize());
     }
 
+    @Test (enabled = false, description = "Run only when the printer driver is installed")
+    public void printPagesRemaining() throws Exception
+    {
+        //ExStart:PrintPagesRemaining
+        //GistId:571cc6e23284a2ec075d15d4c32e3bbf
+        //ExFor:AsposeWordsPrintDocument
+        //ExFor:AsposeWordsPrintDocument.PagesRemaining
+        //ExSummary: Shows how to monitor printing progress.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        // Initialize the printer settings.
+        PrinterSettings printerSettings = new PrinterSettings();
+        printerSettings.setPrinterName("Microsoft Print to PDF");
+        printerSettings.setPrintRange(PrintRange.AllPages);
+
+        // Create a special Aspose.Words implementation of the .NET PrintDocument class.
+        // Pass the printer settings from the print dialog to the print document.
+        AsposeWordsPrintDocument printDoc = new AsposeWordsPrintDocument(doc);
+        printDoc.setPrinterSettings(printerSettings);
+
+        // Initialize the custom printing tracker.
+        PrintTracker printTracker = new PrintTracker(printDoc);
+
+        printDoc.print();
+
+        // Write the event log.
+        for (String eventString : printTracker.getEventLog())
+            System.out.println(eventString);
+        //ExEnd:PrintPagesRemaining
+    }
 }

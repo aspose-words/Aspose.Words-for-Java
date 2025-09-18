@@ -8,6 +8,10 @@ import com.aspose.words.Document;
 import com.aspose.words.TextWatermarkOptions;
 import java.awt.Color;
 import com.aspose.words.WatermarkLayout;
+import com.aspose.words.ImageWatermarkOptions;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import com.aspose.words.WatermarkType;
 import com.aspose.words.Shape;
 import com.aspose.words.ShapeType;
 import com.aspose.ms.System.Drawing.msColor;
@@ -47,6 +51,55 @@ class WorkWithWatermark extends DocsExamplesBase
         //ExEnd:AddTextWatermark
     }
 
+    @Test
+    public void addImageWatermark() throws Exception
+    {
+        //ExStart:AddImageWatermark
+        //GistId:1f690a31c188a851d80d7aed4ff7e44c
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        ImageWatermarkOptions options = new ImageWatermarkOptions();
+        {
+            options.setScale(5.0);
+            options.isWashout(false);
+        }
+
+        doc.getWatermark().setImage(ImageIO.read(getImagesDir() + "Transparent background logo.png"), options);
+
+        doc.save(getArtifactsDir() + "WorkWithWatermark.AddImageWatermark.docx");
+        //ExEnd:AddImageWatermark
+    }
+
+    @Test
+    public void removeDocumentWatermark() throws Exception
+    {
+        //ExStart:RemoveDocumentWatermark
+        //GistId:1f690a31c188a851d80d7aed4ff7e44c
+        Document doc = new Document();
+
+        // Add a plain text watermark.
+        doc.getWatermark().setText("Aspose Watermark");
+
+        // If we wish to edit the text formatting using it as a watermark,
+        // we can do so by passing a TextWatermarkOptions object when creating the watermark.
+        TextWatermarkOptions textWatermarkOptions = new TextWatermarkOptions();
+        textWatermarkOptions.setFontFamily("Arial");
+        textWatermarkOptions.setFontSize(36f);
+        textWatermarkOptions.setColor(Color.BLACK);
+        textWatermarkOptions.setLayout(WatermarkLayout.DIAGONAL);
+        textWatermarkOptions.isSemitrasparent(false);
+
+        doc.getWatermark().setText("Aspose Watermark", textWatermarkOptions);
+
+        doc.save(getArtifactsDir() + "Document.TextWatermark.docx");
+
+        // We can remove a watermark from a document like this.
+        if (doc.getWatermark().getType() == WatermarkType.TEXT)
+            doc.getWatermark().remove();
+
+        doc.save(getArtifactsDir() + "WorkWithWatermark.RemoveDocumentWatermark.docx");
+        //ExEnd:RemoveDocumentWatermark
+    }
 
     //ExStart:AddDocumentWatermark
     //GistId:1f690a31c188a851d80d7aed4ff7e44c

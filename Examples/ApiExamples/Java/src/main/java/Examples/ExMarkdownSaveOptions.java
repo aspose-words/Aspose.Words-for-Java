@@ -421,5 +421,25 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
         DocumentHelper.findTextInFile(outputPath, "<table><tr><th rowspan=\"2\" valign=\"top\">Heading 1</th>");
         DocumentHelper.findTextInFile(outputPath, "|Heading 1|Heading 2|");
     }
+
+    @Test
+    public void exportOfficeMathAsLatex() throws Exception
+    {
+        //ExStart:ExportOfficeMathAsLatex
+        //GistId:045648ef22da6b384ebcf0344717bfb5
+        //ExFor:MarkdownSaveOptions.OfficeMathExportMode
+        //ExFor:MarkdownOfficeMathExportMode
+        //ExSummary:Shows how to export OfficeMath object as Latex.
+        Document doc = new Document(getMyDir() + "Office math.docx");
+
+        MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
+        saveOptions.setOfficeMathExportMode(MarkdownOfficeMathExportMode.LATEX);
+
+        doc.save(getArtifactsDir() + "MarkdownSaveOptions.ExportOfficeMathAsLatex.md", saveOptions);
+        //ExEnd:ExportOfficeMathAsLatex
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "MarkdownSaveOptions.ExportOfficeMathAsLatex.md",
+                getGoldsDir() + "MarkdownSaveOptions.ExportOfficeMathAsLatex.Gold.md"));
+    }
 }
 

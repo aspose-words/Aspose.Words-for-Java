@@ -26,6 +26,8 @@ import com.aspose.words.PhysicalFontInfo;
 import com.aspose.words.WarningSource;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.ms.System.Text.RegularExpressions.Match;
+import com.aspose.words.FontSubstitutionWarningInfo;
+import com.aspose.words.FontSubstitutionReason;
 import com.aspose.ms.System.Collections.msArrayList;
 import com.aspose.words.FolderFontSource;
 import com.aspose.words.FileFontSource;
@@ -355,6 +357,19 @@ public class ExFontSettings extends ApiExampleBase
     @Test (groups = "SkipMono")
     public void substitutionWarnings() throws Exception
     {
+        //ExStart:SubstitutionWarnings
+        //GistId:045648ef22da6b384ebcf0344717bfb5
+        //ExFor:FontSubstitutionWarningInfo
+        //ExFor:FontSubstitutionWarningInfo.Reason
+        //ExFor:FontSubstitutionWarningInfo.RequestedBold
+        //ExFor:FontSubstitutionWarningInfo.RequestedItalic
+        //ExFor:FontSubstitutionWarningInfo.RequestedFamilyName
+        //ExFor:WarningInfo.Source
+        //ExFor:WarningInfo.WarningType
+        //ExFor:WarningInfo.Description
+        //ExFor:WarningSource
+        //ExFor:FontSubstitutionReason
+        //ExSummary:Shows how to get additional information about font substitution.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         WarningInfoCollection callback = new WarningInfoCollection();
@@ -368,8 +383,15 @@ public class ExFontSettings extends ApiExampleBase
         doc.setFontSettings(fontSettings);
         doc.save(getArtifactsDir() + "FontSettings.SubstitutionWarnings.pdf");
 
-        Assert.assertEquals("Font \'Arial\' has not been found. Using \'Arvo\' font instead. Reason: table substitution.", callback.get(0).getDescription());
-        Assert.assertEquals("Font \'Times New Roman\' has not been found. Using \'M+ 2m\' font instead. Reason: font info substitution.", callback.get(1).getDescription());
+        FontSubstitutionWarningInfo warningInfo = (FontSubstitutionWarningInfo)callback.get(0);
+        Assert.assertEquals(WarningSource.LAYOUT, warningInfo.getSource());
+        Assert.assertEquals(WarningType.FONT_SUBSTITUTION, warningInfo.getWarningType());
+        Assert.assertEquals(FontSubstitutionReason.TABLE_SUBSTITUTION_RULE, warningInfo.getReason());
+        Assert.assertEquals("Font \'Arial\' has not been found. Using \'Arvo\' font instead. Reason: table substitution.", warningInfo.getDescription());
+        Assert.assertTrue(warningInfo.getRequestedBold());
+        Assert.assertFalse(warningInfo.getRequestedItalic());
+        Assert.assertEquals("Arial", warningInfo.getRequestedFamilyName());
+        //ExEnd:SubstitutionWarnings
     }
 
     @Test

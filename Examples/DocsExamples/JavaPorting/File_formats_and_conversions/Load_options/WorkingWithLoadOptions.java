@@ -14,6 +14,12 @@ import com.aspose.words.MsWordVersion;
 import com.aspose.words.IWarningCallback;
 import com.aspose.words.WarningInfo;
 import com.aspose.ms.System.msConsole;
+import com.aspose.words.IResourceLoadingCallback;
+import com.aspose.words.ResourceLoadingAction;
+import com.aspose.words.ResourceLoadingArgs;
+import com.aspose.words.ResourceType;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import com.aspose.ms.System.Text.Encoding;
 import com.aspose.words.PdfLoadOptions;
 
@@ -122,6 +128,62 @@ public class WorkingWithLoadOptions extends DocsExamplesBase
     }
     //ExEnd:IWarningCallback
 
+    @Test
+    public void resourceLoadingCallback() throws Exception
+    {
+        //ExStart:ResourceLoadingCallback
+        //GistId:40be8275fc43f78f5e5877212e4e1bf3
+        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setResourceLoadingCallback(new HtmlLinkedResourceLoadingCallback()); }
+
+        // When we open an Html document, external resources such as references to CSS stylesheet files
+        // and external images will be handled customarily by the loading callback as the document is loaded.
+        Document doc = new Document(getMyDir() + "Images.html", loadOptions);
+
+        doc.save(getArtifactsDir() + "WorkingWithLoadOptions.ResourceLoadingCallback.pdf");
+        //ExEnd:ResourceLoadingCallback
+    }
+
+    //ExStart:IResourceLoadingCallback
+    //GistId:40be8275fc43f78f5e5877212e4e1bf3
+    private static class HtmlLinkedResourceLoadingCallback implements IResourceLoadingCallback
+    {
+        public /*ResourceLoadingAction*/int resourceLoading(ResourceLoadingArgs args)
+        {
+            switch (args.getResourceType())
+            {
+                case ResourceType.CSS_STYLE_SHEET:
+                {
+                    System.out.println("External CSS Stylesheet found upon loading: {args.OriginalUri}");
+ 
+                    // CSS file will don't used in the document.
+                    return ResourceLoadingAction.SKIP;
+                }
+                case ResourceType.IMAGE:
+                {
+                    // Replaces all images with a substitute.
+                    BufferedImage newImage = ImageIO.read(getImagesDir() + "Logo.jpg");
+                    
+                    ImageConverter converter = new ImageConverter();
+                    byte[] imageBytes = (byte[])converter.ConvertTo(newImage, byte[].class);
+
+                    args.setData(imageBytes);
+ 
+                    // New images will be used instead of presented in the document.
+                    return ResourceLoadingAction.USER_PROVIDED;
+                }
+                case ResourceType.DOCUMENT:
+                {
+                    System.out.println("External document found upon loading: {args.OriginalUri}");
+ 
+                    // Will be used as usual.
+                    return ResourceLoadingAction.DEFAULT;
+                }
+                default:
+                    throw new IllegalStateException("Unexpected ResourceType value.");
+            }
+        }
+    }
+    //ExEnd:IResourceLoadingCallback
 
     @Test
     public void loadWithEncoding() throws Exception

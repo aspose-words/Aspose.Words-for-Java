@@ -400,5 +400,20 @@ public class ExLoadOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "LoadOptions.IgnoreOleData.docx");
         //ExEnd
     }
+
+    @Test
+    public void recoveryMode() throws Exception
+    {
+        //ExStart:RecoveryMode
+        //GistId:045648ef22da6b384ebcf0344717bfb5
+        //ExFor:LoadOptions.RecoveryMode
+        //ExFor:DocumentRecoveryMode
+        //ExSummary:Shows how to try to recover a document if errors occurred during loading.
+        LoadOptions loadOptions = new LoadOptions();
+        loadOptions.setRecoveryMode(DocumentRecoveryMode.TRY_RECOVER);
+
+        Document doc = new Document(getMyDir() + "Corrupted footnotes.docx", loadOptions);
+        //ExEnd:RecoveryMode
+    }
 }
 

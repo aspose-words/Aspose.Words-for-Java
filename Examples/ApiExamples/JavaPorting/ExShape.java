@@ -3670,5 +3670,25 @@ public class ExShape extends ApiExampleBase
         Assert.assertEquals("Button caption", button1.getCaption());
         //ExEnd:CommandButtonCaption
     }
+
+    @Test
+    public void shadowFormatTransparency() throws Exception
+    {
+        //ExStart:ShadowFormatTransparency
+        //GistId:045648ef22da6b384ebcf0344717bfb5
+        //ExFor:ShadowFormat.Color
+        //ExFor:ShadowFormat.Transparency
+        //ExSummary:Shows how to set a color with transparency.
+        Document doc = new Document(getMyDir() + "Shadow color.docx");
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        ShadowFormat shadowFormat = shape.getShadowFormat();
+        shadowFormat.setType(ShadowType.SHADOW_21);
+        shadowFormat.setColor(Color.RED);
+        shadowFormat.setTransparency(0.8);
+
+        doc.save(getArtifactsDir() + "Shape.ShadowFormatTransparency.docx");
+        //ExEnd:ShadowFormatTransparency
+    }
 }
 

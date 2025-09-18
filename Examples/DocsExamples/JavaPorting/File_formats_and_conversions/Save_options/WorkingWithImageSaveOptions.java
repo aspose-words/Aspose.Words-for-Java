@@ -16,6 +16,9 @@ import com.aspose.words.ImagePixelFormat;
 import com.aspose.words.IPageSavingCallback;
 import com.aspose.words.PageSavingArgs;
 import java.text.MessageFormat;
+import com.aspose.words.MultiPageLayout;
+import com.aspose.ms.System.Drawing.msColor;
+import java.awt.Color;
 
 
 public class WorkingWithImageSaveOptions extends DocsExamplesBase
@@ -127,4 +130,40 @@ public class WorkingWithImageSaveOptions extends DocsExamplesBase
         }
     }
     //ExEnd:PageSavingCallback
+
+    @Test
+    public void horizontalLayout() throws Exception
+    {
+        //ExStart:HorizontalLayout
+        //GistId:8eeaafcfcc55d78505f0f378ad8c6907
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        ImageSaveOptions options = new ImageSaveOptions(SaveFormat.JPEG);
+        options.setPageLayout(MultiPageLayout.horizontal(10f));
+
+        doc.save(getArtifactsDir() + "WorkingWithImageSaveOptions.HorizontalLayout.jpg", options);
+        //ExEnd:HorizontalLayout
+    }
+
+    @Test
+    public void gridLayout() throws Exception
+    {
+        //ExStart:GridLayout
+        //GistId:8eeaafcfcc55d78505f0f378ad8c6907
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        ImageSaveOptions options = new ImageSaveOptions(SaveFormat.JPEG);
+        // Set up a grid layout with:
+        // - 3 columns per row.
+        // - 10pts spacing between pages (horizontal and vertical).
+        options.setPageLayout(MultiPageLayout.grid(3, 10f, 10f));
+
+        // Customize the background and border.
+        options.getPageLayout().setBackColor(msColor.getLightGray());
+        options.getPageLayout().setBorderColor(Color.BLUE);
+        options.getPageLayout().setBorderWidth(2f);
+
+        doc.save(getArtifactsDir() + "ImageSaveOptions.GridLayout.jpg", options);
+        //ExEnd:GridLayout
+    }
 }

@@ -34,7 +34,7 @@ class ExOdtSaveOptions !Test class should be public in Java to run, please fix .
         //ExFor:OdtSaveOptions
         //ExFor:OdtSaveOptions.#ctor
         //ExFor:OdtSaveOptions.IsStrictSchema11
-        //ExFor:RevisionOptions.MeasurementUnit
+        //ExFor:OdtSaveOptions.MeasureUnit
         //ExFor:MeasurementUnits
         //ExSummary:Shows how to make a saved document conform to an older ODT schema.
         Document doc = new Document(getMyDir() + "Rendering.docx");
@@ -46,11 +46,10 @@ class ExOdtSaveOptions !Test class should be public in Java to run, please fix .
         }
 
         doc.save(getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt", saveOptions);
-        //ExEnd
 
         doc = new Document(getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt");
-
         Assert.assertEquals(com.aspose.words.MeasurementUnits.CENTIMETERS, doc.getLayoutOptions().getRevisionOptions().getMeasurementUnit());
+        //ExEnd
 
         if (exportToOdt11Specs)
         {
