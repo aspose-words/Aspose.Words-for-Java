@@ -53,7 +53,6 @@ class FindAndReplace extends DocsExamplesBase
 
         System.out.println("Document text after replace: " + doc.getRange().getText());
 
-        // Save the modified document
         doc.save(getArtifactsDir() + "FindAndReplace.SimpleFindReplace.docx");
     }
 

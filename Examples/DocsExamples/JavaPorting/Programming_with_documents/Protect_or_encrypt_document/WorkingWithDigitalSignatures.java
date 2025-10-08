@@ -27,7 +27,7 @@ import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.Convert;
 
 
-class WorkingWithDigitalSinatures extends DocsExamplesBase
+class WorkingWithDigitalSignatures extends DocsExamplesBase
 {
     @Test
     public void signDocument() throws Exception
@@ -101,9 +101,9 @@ class WorkingWithDigitalSinatures extends DocsExamplesBase
     }
 
     @Test
-    public void setSignatureProviderId() throws Exception
+    public void signatureProviderId() throws Exception
     {
-        //ExStart:SetSignatureProviderID
+        //ExStart:SignatureProviderId
         Document doc = new Document(getMyDir() + "Signature line.docx");
 
         SignatureLine signatureLine =
@@ -118,7 +118,7 @@ class WorkingWithDigitalSinatures extends DocsExamplesBase
 
         DigitalSignatureUtil.sign(getMyDir() + "Digitally signed.docx",
             getArtifactsDir() + "SignDocuments.SetSignatureProviderId.docx", certHolder, signOptions);
-        //ExEnd:SetSignatureProviderID
+        //ExEnd:SignatureProviderId
     }
 
     @Test

@@ -72,9 +72,9 @@ class WorkingWithFonts extends DocsExamplesBase
     }
 
     @Test
-    public void checkDMLTextEffect() throws Exception
+    public void checkDmlTextEffect() throws Exception
     {
-        //ExStart:CheckDMLTextEffect
+        //ExStart:CheckDmlTextEffect
         Document doc = new Document(getMyDir() + "DrawingML text effects.docx");
         
         RunCollection runs = doc.getFirstSection().getBody().getFirstParagraph().getRuns();
@@ -86,7 +86,7 @@ class WorkingWithFonts extends DocsExamplesBase
         msConsole.writeLine(runFont.hasDmlEffect(TextDmlEffect.REFLECTION));
         msConsole.writeLine(runFont.hasDmlEffect(TextDmlEffect.OUTLINE));
         msConsole.writeLine(runFont.hasDmlEffect(TextDmlEffect.FILL));
-        //ExEnd:CheckDMLTextEffect
+        //ExEnd:CheckDmlTextEffect
     }
 
     @Test

@@ -280,12 +280,12 @@ class ExtractContentHelper
     public static Document generateDocument(Document srcDoc, ArrayList<Node> nodes) throws Exception
     {
         Document dstDoc = new Document();
-        // Remove default section in the destination document.
-        dstDoc.getFirstSection().remove();
+        Section importedSection = nodes.Any(node => node.NodeType == NodeType.Section) ? null : dstDoc.getFirstSection();
+        if (importedSection == null)
+            dstDoc.getFirstSection().remove();
 
         // Import each node from the list into the new document. Keep the original formatting of the node.
         NodeImporter importer = new NodeImporter(srcDoc, dstDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
-        Section importedSection = null;
         for (Node node : nodes)
         {
             if (node.getNodeType() == NodeType.SECTION)

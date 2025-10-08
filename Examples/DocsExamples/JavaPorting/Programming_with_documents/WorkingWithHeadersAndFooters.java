@@ -77,13 +77,13 @@ class WorkingWithHeadersAndFooters extends DocsExamplesBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         
-        // Specify that we want different headers and footers for even and odd pages.            
+        // Specify that we want different headers and footers for even and odd pages.
         builder.getPageSetup().setOddAndEvenPagesHeaderFooter(true);
 
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_EVEN);
         builder.write("Header for even pages.");
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
-        builder.write("Header for odd pages.");            
+        builder.write("Header for odd pages.");
         builder.moveToHeaderFooter(HeaderFooterType.FOOTER_EVEN);
         builder.write("Footer for even pages.");
         builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
@@ -106,9 +106,9 @@ class WorkingWithHeadersAndFooters extends DocsExamplesBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);            
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
         builder.insertImage(getImagesDir() + "Logo.jpg", RelativeHorizontalPosition.RIGHT_MARGIN, 10.0,
-            RelativeVerticalPosition.PAGE, 10.0, 50.0, 50.0, WrapType.THROUGH);            
+            RelativeVerticalPosition.PAGE, 10.0, 50.0, 50.0, WrapType.THROUGH);
 
         doc.save(getArtifactsDir() + "WorkingWithHeadersAndFooters.InsertImage.docx");
         //ExEnd:InsertImage

@@ -834,31 +834,6 @@ class WorkingWithTables extends DocsExamplesBase
         //ExEnd:MergeCellRange
     }
 
-    @Test
-    public void printHorizontalAndVerticalMerged() throws Exception
-    {
-        //ExStart:PrintHorizontalAndVerticalMerged
-        //GistId:93de23a2f74a7f2e4971ed203874c983
-        Document doc = new Document(getMyDir() + "Table with merged cells.docx");
-
-        SpanVisitor visitor = new SpanVisitor(doc);
-        doc.accept(visitor);
-        //ExEnd:PrintHorizontalAndVerticalMerged
-    }
-
-    @Test
-    public void convertToHorizontallyMergedCells() throws Exception
-    {
-        //ExStart:ConvertToHorizontallyMergedCells
-        //GistId:93de23a2f74a7f2e4971ed203874c983
-        Document doc = new Document(getMyDir() + "Table with merged cells.docx");
-
-        Table table = doc.getFirstSection().getBody().getTables().get(0);
-        // Now merged cells have appropriate merge flags.
-        table.convertToHorizontallyMergedCells();
-        //ExEnd:ConvertToHorizontallyMergedCells
-    }
-
     //ExStart:MergeCells
     //GistId:93de23a2f74a7f2e4971ed203874c983
     void mergeCells(Cell startCell, Cell endCell)
@@ -893,6 +868,31 @@ class WorkingWithTables extends DocsExamplesBase
         }
     }
     //ExEnd:MergeCells
+
+    @Test
+    public void printHorizontalAndVerticalMerged() throws Exception
+    {
+        //ExStart:PrintHorizontalAndVerticalMerged
+        //GistId:93de23a2f74a7f2e4971ed203874c983
+        Document doc = new Document(getMyDir() + "Table with merged cells.docx");
+
+        SpanVisitor visitor = new SpanVisitor(doc);
+        doc.accept(visitor);
+        //ExEnd:PrintHorizontalAndVerticalMerged
+    }
+
+    @Test
+    public void convertToHorizontallyMergedCells() throws Exception
+    {
+        //ExStart:ConvertToHorizontallyMergedCells
+        //GistId:93de23a2f74a7f2e4971ed203874c983
+        Document doc = new Document(getMyDir() + "Table with merged cells.docx");
+
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
+        // Now merged cells have appropriate merge flags.
+        table.convertToHorizontallyMergedCells();
+        //ExEnd:ConvertToHorizontallyMergedCells
+    }
 
     //ExStart:HorizontalAndVerticalMergeHelperClasses
     //GistId:93de23a2f74a7f2e4971ed203874c983
@@ -1200,7 +1200,7 @@ class WorkingWithTables extends DocsExamplesBase
     @Test
     public void relativeHorizontalOrVerticalPosition() throws Exception
     {
-        //ExStart:RelativeHorizontalOrVerticalPosition            
+        //ExStart:RelativeHorizontalOrVerticalPosition
         Document doc = new Document(getMyDir() + "Table wrapped by text.docx");
 
         Table table = doc.getFirstSection().getBody().getTables().get(0);

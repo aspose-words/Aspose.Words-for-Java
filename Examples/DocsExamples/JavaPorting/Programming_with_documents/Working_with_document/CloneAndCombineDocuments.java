@@ -122,7 +122,7 @@ class CloneAndCombineDocuments extends DocsExamplesBase
     /// </summary>
     /// <param name="insertionDestination">Node in the destination document after which the content
     /// Should be inserted. This node should be a block level node (paragraph or table).</param>
-    /// <param name="docToInsert">The document to insert.</param>        
+    /// <param name="docToInsert">The document to insert.</param>
     private static void insertDocument(Node insertionDestination, Document docToInsert)
     {
         if (insertionDestination.getNodeType() == NodeType.PARAGRAPH || insertionDestination.getNodeType() == NodeType.TABLE)

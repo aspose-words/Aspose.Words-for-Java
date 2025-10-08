@@ -16,7 +16,7 @@ import com.aspose.words.ConvertUtil;
 import com.aspose.words.ControlChar;
 
 
-class DocumentPropertiesAndVariables extends DocsExamplesBase
+class WorkingWithDocumentProperties extends DocsExamplesBase
 {
     @Test
     public void getVariables() throws Exception

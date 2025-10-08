@@ -61,7 +61,7 @@ public class WorkingWithImages extends DocsExamplesBase
                 Paragraph paragraph = (Paragraph) enumerator.next();
                 if (layoutCollector.getStartPageIndex(paragraph) == page)
                 {
-                    addImageToPage(paragraph, page, getImagesDir());
+                    addImageToPage(paragraph, page);
                     break;
                 }
             }
@@ -78,7 +78,7 @@ public class WorkingWithImages extends DocsExamplesBase
     /// </summary>
     /// <param name="para">The paragraph to an an image to.</param>
     /// <param name="page">The page number the paragraph appears on.</param>
-    public void addImageToPage(Paragraph para, int page, String imagesDir) throws Exception
+    public void addImageToPage(Paragraph para, int page) throws Exception
     {
         Document doc = (Document) para.getDocument();
 

@@ -2,7 +2,6 @@ package DocsExamples.Programming_with_Documents.Contents_Management;
 
 // ********* THIS FILE IS AUTO PORTED *********
 
-import com.aspose.ms.System.ms;
 import DocsExamples.DocsExamplesBase;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
@@ -10,7 +9,6 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.words.StructuredDocumentTag;
 import com.aspose.words.SdtType;
 import com.aspose.words.MarkupLevel;
-import com.aspose.words.SaveFormat;
 import com.aspose.words.NodeType;
 import com.aspose.words.Paragraph;
 import com.aspose.words.Run;
@@ -43,7 +41,7 @@ class WorkingWithSdt extends DocsExamplesBase
         StructuredDocumentTag sdtCheckBox = new StructuredDocumentTag(doc, SdtType.CHECKBOX, MarkupLevel.INLINE);
         builder.insertNode(sdtCheckBox);
         
-        doc.save(getArtifactsDir() + "WorkingWithSdt.SdtCheckBox.docx", SaveFormat.DOCX);
+        doc.save(getArtifactsDir() + "WorkingWithSdt.SdtCheckBox.docx");
         //ExEnd:SdtCheckBox
     }
 
@@ -79,7 +77,7 @@ class WorkingWithSdt extends DocsExamplesBase
                 case SdtType.PLAIN_TEXT:
                 {
                     sdt.removeAllChildren();
-                    Paragraph para = ms.as(sdt.appendChild(new Paragraph(doc)), Paragraph.class);
+                    Paragraph para = sdt.appendChild(new Paragraph(doc));
                     Run run = new Run(doc, "new text goes here");
                     para.appendChild(run);
                     break;
@@ -259,14 +257,14 @@ class WorkingWithSdt extends DocsExamplesBase
     @Test
     public void multiSection() throws Exception
     {
-        //ExStart:MultiSectionSDT
+        //ExStart:MultiSection
         Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
 
         NodeCollection tags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, true);
 
         for (StructuredDocumentTagRangeStart tag : (Iterable<StructuredDocumentTagRangeStart>) tags)
             System.out.println(tag.getTitle());
-        //ExEnd:MultiSectionSDT
+        //ExEnd:MultiSection
     }
 
     @Test

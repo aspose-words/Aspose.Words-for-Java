@@ -401,7 +401,7 @@ class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     @Test
     public void setTableCellFormatting() throws Exception
     {
-        //ExStart:DocumentBuilderSetTableCellFormatting
+        //ExStart:SetTableCellFormatting
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -420,14 +420,14 @@ class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
         builder.endRow();
         builder.endTable();
 
-        doc.save(getArtifactsDir() + "WorkingWithTableStylesAndFormatting.DocumentBuilderSetTableCellFormatting.docx");
-        //ExEnd:DocumentBuilderSetTableCellFormatting
+        doc.save(getArtifactsDir() + "WorkingWithTableStylesAndFormatting.SetTableCellFormatting.docx");
+        //ExEnd:SetTableCellFormatting
     }
 
     @Test
     public void setTableRowFormatting() throws Exception
     {
-        //ExStart:DocumentBuilderSetTableRowFormatting
+        //ExStart:SetTableRowFormatting
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -449,7 +449,7 @@ class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
         builder.endRow();
         builder.endTable();
 
-        doc.save(getArtifactsDir() + "WorkingWithTableStylesAndFormatting.DocumentBuilderSetTableRowFormatting.docx");
-        //ExEnd:DocumentBuilderSetTableRowFormatting
+        doc.save(getArtifactsDir() + "WorkingWithTableStylesAndFormatting.SetTableRowFormatting.docx");
+        //ExEnd:SetTableRowFormatting
     }
 }

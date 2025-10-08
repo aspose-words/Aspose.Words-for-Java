@@ -30,7 +30,7 @@ class SplitIntoHtmlPages extends DocsExamplesBase
     @Test
     public void htmlPages() throws Exception
     {
-        String srcFileName = getMyDir() + "Footnotes and endnotes.docx";
+        String srcFileName = getMyDir() + "Big document.docx";
         String tocTemplate = getMyDir() + "Table of content template.docx";
 
         String outDir = Path.combine(getArtifactsDir(), "HtmlPages");
@@ -41,7 +41,7 @@ class SplitIntoHtmlPages extends DocsExamplesBase
     }
 }
 
-class WordToHtmlConverter
+class WordToHtmlConverter extends DocsExamplesBase
 {
     /// <summary>
     /// Performs the Word to HTML conversion.

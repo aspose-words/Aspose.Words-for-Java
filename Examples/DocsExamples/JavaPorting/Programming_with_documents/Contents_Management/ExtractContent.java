@@ -10,7 +10,6 @@ import com.aspose.words.NodeType;
 import com.aspose.words.Table;
 import java.util.ArrayList;
 import com.aspose.words.Node;
-import java.util.Collections;
 import com.aspose.words.Bookmark;
 import com.aspose.words.BookmarkStart;
 import com.aspose.words.BookmarkEnd;
@@ -45,15 +44,12 @@ public class ExtractContent extends DocsExamplesBase
 
         Paragraph startPara = (Paragraph) doc.getLastSection().getChild(NodeType.PARAGRAPH, 2, true);
         Table endTable = (Table) doc.getLastSection().getChild(NodeType.TABLE, 0, true);
+        
         // Extract the content between these nodes in the document. Include these markers in the extraction.
         ArrayList<Node> extractedNodes = ExtractContentHelper.extractContent(startPara, endTable, true, false);
+        Document dstDoc = ExtractContentHelper.generateDocument(doc, extractedNodes);
 
-        // Let's reverse the array to make inserting the content back into the document easier.
-        Collections.reverse(extractedNodes);
-        for (Node extractedNode : extractedNodes)
-            endTable.getParentNode().insertAfter(extractedNode, endTable);
-
-        doc.save(getArtifactsDir() + "ExtractContent.ExtractContentBetweenBlockLevelNodes.docx");
+        dstDoc.save(getArtifactsDir() + "ExtractContent.ExtractContentBetweenBlockLevelNodes.docx");
         //ExEnd:ExtractContentBetweenBlockLevelNodes
     }
 
