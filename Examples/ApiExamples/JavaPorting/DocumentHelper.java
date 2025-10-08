@@ -103,11 +103,9 @@ class DocumentHelper extends ApiExampleBase
                     System.out.println(line);
                     Assert.Pass();
                 }
-                else
-                {
-                    Assert.fail();
-                }
             }
+
+            Assert.fail();
         }
         finally { if (sr != null) sr.close(); }
     }

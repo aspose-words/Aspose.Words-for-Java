@@ -2690,11 +2690,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             mWarnings.Add(info);
         }
 
-         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!
-            mWarnings.Clear();
-        }
-
-        public int Count => private mWarnings.CountmWarnings;
+         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!private mWarnings.CountmWarnings;
 
         /// <summary>
         /// Returns true if a warning with the specified properties has been generated.
@@ -3265,6 +3261,22 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.RenderChoiceFormFieldBorder.pdf", saveOptions);
         //ExEnd:RenderChoiceFormFieldBorder
+    }
+
+    @Test
+    public void exportFloatingShapesAsInlineTag() throws Exception
+    {
+        //ExStart:ExportFloatingShapesAsInlineTag
+        //GistId:67ab3fcab43d41e5dc207060f8f5faba
+        //ExFor:PdfSaveOptions.ExportFloatingShapesAsInlineTag
+        //ExSummary:Shows how to export floating shapes as inline tags.
+        Document doc = new Document(getMyDir() + "Floating object.docx");
+
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setExportFloatingShapesAsInlineTag(true);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.ExportFloatingShapesAsInlineTag.pdf", saveOptions);
+        //ExEnd:ExportFloatingShapesAsInlineTag
     }
 }
 
