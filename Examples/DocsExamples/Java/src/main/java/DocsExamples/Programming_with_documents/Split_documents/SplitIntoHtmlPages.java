@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class SplitIntoHtmlPages extends DocsExamplesBase {
     @Test
     public void htmlPages() throws Exception {
-        String srcFileName = getMyDir() + "Footnotes and endnotes.docx";
+        String srcFileName = getMyDir() + "Big document.docx";
         String tocTemplate = getMyDir() + "Table of content template.docx";
 
         String outDir = getArtifactsDir() + "HtmlPages";

@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Test
-public class WorkingWithDigitalSinatures extends DocsExamplesBase {
+public class WorkingWithDigitalSignatures extends DocsExamplesBase {
     @Test
     public void signDocument() throws Exception {
         //ExStart:SignDocument
@@ -81,8 +81,8 @@ public class WorkingWithDigitalSinatures extends DocsExamplesBase {
     }
 
     @Test
-    public void setSignatureProviderId() throws Exception {
-        //ExStart:SetSignatureProviderID
+    public void signatureProviderId() throws Exception {
+        //ExStart:SignatureProviderId
         Document doc = new Document(getMyDir() + "Signature line.docx");
 
         SignatureLine signatureLine =
@@ -95,8 +95,8 @@ public class WorkingWithDigitalSinatures extends DocsExamplesBase {
         CertificateHolder certHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
         DigitalSignatureUtil.sign(getMyDir() + "Digitally signed.docx",
-                getArtifactsDir() + "SignDocuments.SetSignatureProviderId.docx", certHolder, signOptions);
-        //ExEnd:SetSignatureProviderID
+                getArtifactsDir() + "SignDocuments.SignatureProviderId.docx", certHolder, signOptions);
+        //ExEnd:SignatureProviderId
     }
 
     @Test

@@ -18,16 +18,12 @@ public class ExtractContent extends DocsExamplesBase {
 
         Paragraph startPara = (Paragraph) doc.getLastSection().getChild(NodeType.PARAGRAPH, 2, true);
         Table endTable = (Table) doc.getLastSection().getChild(NodeType.TABLE, 0, true);
+
         // Extract the content between these nodes in the document. Include these markers in the extraction.
         ArrayList<Node> extractedNodes = ExtractContentHelper.extractContent(startPara, endTable, true, false);
+        Document dstDoc = ExtractContentHelper.generateDocument(doc, extractedNodes);
 
-        // Let's reverse the array to make inserting the content back into the document easier.
-        Collections.reverse(extractedNodes);
-        for (Node extractedNode : extractedNodes)
-            // Insert the last node from the reversed list.
-            endTable.getParentNode().insertAfter(extractedNode, endTable);
-
-        doc.save(getArtifactsDir() + "ExtractContent.ExtractContentBetweenBlockLevelNodes.docx");
+        dstDoc.save(getArtifactsDir() + "ExtractContent.ExtractContentBetweenBlockLevelNodes.docx");
         //ExEnd:ExtractContentBetweenBlockLevelNodes
     }
 

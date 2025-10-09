@@ -183,15 +183,15 @@ public class JoinAndAppendDocuments extends DocsExamplesBase {
                     previousNode.getParentNode().insertBefore(previousNode, newField.getStart());
 
                     // Remove the original NUMPAGES field from the document.
-                    removeField(fieldStart);
+                    removeNumPageField(fieldStart);
                 }
             }
         }
     }
     //ExEnd:ConvertNumPageFieldsToPageRef
 
-    //ExStart:GetRemoveField
-    private void removeField(FieldStart fieldStart) {
+    //ExStart:RemoveNumPageField
+    private void removeNumPageField(FieldStart fieldStart) {
         boolean isRemoving = true;
 
         Node currentNode = fieldStart;
@@ -219,7 +219,7 @@ public class JoinAndAppendDocuments extends DocsExamplesBase {
 
         return builder.toString();
     }
-    //ExEnd:GetRemoveField
+    //ExEnd:RemoveNumPageField
 
     @Test
     public void differentPageSetup() throws Exception {
@@ -321,7 +321,7 @@ public class JoinAndAppendDocuments extends DocsExamplesBase {
     @Test
     public void listKeepSourceFormatting() throws Exception {
         //ExStart:ListKeepSourceFormatting
-        Document srcDoc = new Document(getMyDir() + "Document source.docx");
+        Document srcDoc = new Document(getMyDir() + "Document source with list.docx");
         Document dstDoc = new Document(getMyDir() + "Document destination with list.docx");
 
         // Append the content of the document so it flows continuously.
@@ -336,7 +336,7 @@ public class JoinAndAppendDocuments extends DocsExamplesBase {
     @Test
     public void listUseDestinationStyles() throws Exception {
         //ExStart:ListUseDestinationStyles
-        Document srcDoc = new Document(getMyDir() + "Document source.docx");
+        Document srcDoc = new Document(getMyDir() + "Document source with list.docx");
         Document dstDoc = new Document(getMyDir() + "Document destination with list.docx");
 
         // Set the source document to continue straight after the end of the destination document.

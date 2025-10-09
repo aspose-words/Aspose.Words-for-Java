@@ -431,4 +431,24 @@ public class ExTxtSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "TxtSaveOptions.MaxCharactersPerLine.txt", saveOptions);
         //ExEnd
     }
+
+    @Test
+    public void exportOfficeMathAsLatex() throws Exception
+    {
+        //ExStart:ExportOfficeMathAsLatexToText
+        //GistId:67ab3fcab43d41e5dc207060f8f5faba
+        //ExFor:TxtSaveOptions.OfficeMathExportMode
+        //ExFor:TxtOfficeMathExportMode
+        //ExSummary:Shows how to export OfficeMath object as Latex in TXT.
+        Document doc = new Document(getMyDir() + "Office math.docx");
+
+        TxtSaveOptions saveOptions = new TxtSaveOptions();
+        saveOptions.setOfficeMathExportMode(TxtOfficeMathExportMode.LATEX);
+
+        doc.save(getArtifactsDir() + "TxtSaveOptions.ExportOfficeMathAsLatexToText.txt", saveOptions);
+        //ExEnd:ExportOfficeMathAsLatexToText
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "TxtSaveOptions.ExportOfficeMathAsLatexToText.txt",
+                getGoldsDir() + "TxtSaveOptions.ExportOfficeMathAsLatexToText.Gold.txt"));
+    }
 }

@@ -164,7 +164,7 @@ public class DocumentFormatting extends DocsExamplesBase {
 
         par.getRuns().get(0).getFont().setSnapToGrid(true);
 
-        doc.save(getArtifactsDir() + "Paragraph.SnapToGrid.docx");
+        doc.save(getArtifactsDir() + "DocumentFormatting.SnapToGrid.docx");
         //ExEnd:SetSnapToGrid
     }
 

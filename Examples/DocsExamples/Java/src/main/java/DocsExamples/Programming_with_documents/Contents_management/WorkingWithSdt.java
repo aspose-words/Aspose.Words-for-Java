@@ -21,7 +21,7 @@ public class WorkingWithSdt extends DocsExamplesBase {
         StructuredDocumentTag sdtCheckBox = new StructuredDocumentTag(doc, SdtType.CHECKBOX, MarkupLevel.INLINE);
         builder.insertNode(sdtCheckBox);
 
-        doc.save(getArtifactsDir() + "WorkingWithSdt.SdtCheckBox.docx", SaveFormat.DOCX);
+        doc.save(getArtifactsDir() + "WorkingWithSdt.SdtCheckBox.docx");
         //ExEnd:SdtCheckBox
     }
 
@@ -221,14 +221,14 @@ public class WorkingWithSdt extends DocsExamplesBase {
 
     @Test
     public void multiSection() throws Exception {
-        //ExStart:MultiSectionSDT
+        //ExStart:MultiSection
         Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
 
         NodeCollection tags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, true);
 
         for (StructuredDocumentTagRangeStart tag : (Iterable<StructuredDocumentTagRangeStart>) tags)
             System.out.println(tag.getTitle());
-        //ExEnd:MultiSectionSDT
+        //ExEnd:MultiSection
     }
 
     @Test

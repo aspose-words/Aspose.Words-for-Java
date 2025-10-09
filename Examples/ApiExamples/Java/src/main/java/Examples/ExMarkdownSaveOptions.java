@@ -441,5 +441,37 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "MarkdownSaveOptions.ExportOfficeMathAsLatex.md",
                 getGoldsDir() + "MarkdownSaveOptions.ExportOfficeMathAsLatex.Gold.md"));
     }
+
+    @Test
+    //ExStart:MarkdownResourceSavingCallback
+    //GistId:67ab3fcab43d41e5dc207060f8f5faba
+    //ExFor:MarkdownSaveOptions.ResourceSavingCallback
+    //ExFor:IResourceSavingCallback
+    //ExSummary:Shows how to use a callback to change the resource URI.
+    public void resourceSavingCallback() throws Exception
+    {
+        String outputPath = getArtifactsDir() + "MarkdownSaveOptions.ResourceSavingCallback.md";
+
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
+        saveOptions.setResourceSavingCallback(new ChangeUriPath());
+
+        doc.save(outputPath, saveOptions);
+
+        DocumentHelper.findTextInFile(outputPath, "/uri/for/");
+    }
+
+    /// <summary>
+    /// Class implementing <see cref="IResourceSavingCallback"/>.
+    /// </summary>
+    private static class ChangeUriPath implements IResourceSavingCallback
+    {
+        public void resourceSaving(ResourceSavingArgs args)
+        {
+            args.setResourceFileUri(MessageFormat.format("/uri/for/{0}", args.getResourceFileName()));
+        }
+    }
+    //ExEnd:MarkdownResourceSavingCallback
 }
 

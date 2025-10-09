@@ -24,7 +24,6 @@ public class FindAndReplace extends DocsExamplesBase {
         doc.getRange().replace("_CustomerName_", "James Bond", new FindReplaceOptions(FindReplaceDirection.FORWARD));
         System.out.println("Document text after replace: " + doc.getRange().getText());
 
-        // Save the modified document
         doc.save(getArtifactsDir() + "FindAndReplace.SimpleFindReplace.docx");
     }
 
