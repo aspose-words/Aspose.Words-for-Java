@@ -53,8 +53,7 @@
 		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Working with table of content" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="Programming with Documents" name="Enable OpenType features" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="Programming with Documents\Protect or Encrypt Document" name="Document protection" status="AUTO" isTest="false" />
-		<File project="DocsExamples" dir="Programming with Documents\Protect or Encrypt Document" name="Working with DigitalSignatures" status="NEW" isTest="false" />
-		<File project="DocsExamples" dir="Programming with Documents\Protect or Encrypt Document" name="Working with DigitalSinatures" status="DELETED-IN-DOTNET" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Protect or Encrypt Document" name="Working with DigitalSignatures" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="Programming with Documents\Split Documents" name="Page splitter" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="Programming with Documents\Split Documents" name="Split document" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="Programming with Documents\Split Documents" name="Split into html pages" status="AUTO" isTest="false" />
