@@ -8,6 +8,7 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @Test
@@ -96,6 +97,7 @@ public class ExAI extends ApiExampleBase
     //ExStart:SelfHostedModel
     //GistId:2af5a850f2e0a83c3b114274a838c092
     //ExFor:OpenAiModel
+    //ExFor:AiModel.Url
     //ExSummary:Shows how to use self-hosted AI model based on OpenAiModel.
     @Test (enabled = false, description = "This test should be run manually when you are configuring your model") //ExSkip
     public void selfHostedModel() throws Exception
@@ -105,6 +107,7 @@ public class ExAI extends ApiExampleBase
         String apiKey = System.getenv("API_KEY");
         // Use OpenAI generative language models.
         AiModel model = new CustomAiModel().withApiKey(apiKey);
+        model.setUrl("https://my.a.com/");
 
         Document translatedDoc = model.translate(doc, Language.RUSSIAN);
         translatedDoc.save(getArtifactsDir() + "AI.SelfHostedModel.docx");
@@ -116,15 +119,42 @@ public class ExAI extends ApiExampleBase
     static class CustomAiModel extends OpenAiModel
     {
         /// <summary>
-        /// Gets custom URL of the model.
-        /// </summary>
-        protected /*override*/ String getUrl() { return "https://localhost/"; }
-
-        /// <summary>
         /// Gets model name.
         /// </summary>
         protected /*override*/ String getName() { return "my-model-24b"; }
     }
     //ExEnd:SelfHostedModel
+
+    @Test
+    public void changeDefaultUrl()
+    {
+        //ExStart:ChangeDefaultUrl
+        //GistId:bd7947d9ad5eb092f532604cb15f593b
+        //ExFor:AiModel.Url
+        //ExSummary:Shows how to change model default url.
+        String apiKey = System.getenv("API_KEY");
+        AiModel model = AiModel.create(AiModelType.GPT_4_O_MINI).withApiKey(apiKey);
+        // Default value "https://api.openai.com/".
+        model.setUrl("https://my.a.com/");
+        //ExEnd:ChangeDefaultUrl
+
+        Assert.assertEquals("https://my.a.com/", model.getUrl());
+    }
+
+    @Test
+    public void changeDefaultTimeout()
+    {
+        //ExStart:ChangeDefaultTimeout
+        //GistId:bd7947d9ad5eb092f532604cb15f593b
+        //ExFor:AiModel.Timeout
+        //ExSummary:Shows how to change model default timeout.
+        String apiKey = System.getenv("API_KEY");
+        AiModel model = AiModel.create(AiModelType.GPT_4_O_MINI).withApiKey(apiKey);
+        // Default value 100000ms.
+        model.setTimeout(250000);
+        //ExEnd:ChangeDefaultTimeout
+
+        Assert.assertEquals(250000, model.getTimeout());
+    }
 }
 

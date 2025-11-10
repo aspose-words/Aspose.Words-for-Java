@@ -473,5 +473,25 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
         }
     }
     //ExEnd:MarkdownResourceSavingCallback
+
+    @Test
+    public void exportOfficeMathAsMarkItDown() throws Exception
+    {
+        //ExStart:ExportOfficeMathAsMarkItDown
+        //GistId:bd7947d9ad5eb092f532604cb15f593b
+        //ExFor:MarkdownSaveOptions.OfficeMathExportMode
+        //ExFor:MarkdownOfficeMathExportMode
+        //ExSummary:Shows how to export OfficeMath object as MarkItDown.
+        Document doc = new Document(getMyDir() + "Office math.docx");
+
+        MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
+        saveOptions.setOfficeMathExportMode(MarkdownOfficeMathExportMode.MARK_IT_DOWN);
+
+        doc.save(getArtifactsDir() + "MarkdownSaveOptions.ExportOfficeMathAsMarkItDown.md", saveOptions);
+        //ExEnd:ExportOfficeMathAsMarkItDown
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "MarkdownSaveOptions.ExportOfficeMathAsMarkItDown.md",
+                getGoldsDir() + "MarkdownSaveOptions.ExportOfficeMathAsMarkItDown.Gold.md"));
+    }
 }
 

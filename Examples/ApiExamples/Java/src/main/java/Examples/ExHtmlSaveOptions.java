@@ -754,12 +754,12 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
             case HtmlVersion.HTML_5:
                 Assert.assertTrue(outDocContents.contains("<a id=\"_Toc76372689\"></a>"));
                 Assert.assertTrue(outDocContents.contains("<a id=\"_Toc76372689\"></a>"));
-                Assert.assertTrue(outDocContents.contains("<table style=\"padding:0pt; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
+                Assert.assertTrue(outDocContents.contains("<table style=\"padding:0pt; -aw-border:0.5pt single #000000; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
                 break;
             case HtmlVersion.XHTML:
                 Assert.assertTrue(outDocContents.contains("<a name=\"_Toc76372689\"></a>"));
                 Assert.assertTrue(outDocContents.contains("<ul type=\"disc\" style=\"margin:0pt; padding-left:0pt\">"));
-                Assert.assertTrue(outDocContents.contains("<table cellspacing=\"0\" cellpadding=\"0\" style=\"-aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
+                Assert.assertTrue(outDocContents.contains("<table cellspacing=\"0\" cellpadding=\"0\" style=\"-aw-border:0.5pt single #000000; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\""));
                 break;
         }
         //ExEnd
@@ -1461,8 +1461,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
             Assert.assertTrue(outDocContents.contains(
                     "td colspan=\"2\" style=\"width:210.6pt; border-style:solid; border-width:0.75pt 6pt 0.75pt 0.75pt; " +
-                    "padding-right:2.4pt; padding-left:5.03pt; vertical-align:top; -aw-border-bottom:0.5pt single #000000; " +
-                    "-aw-border-left:0.5pt single #000000; -aw-border-top:0.5pt single #000000\">"));
+                            "padding-right:2.4pt; padding-left:5.03pt; vertical-align:top; -aw-border-bottom:0.5pt single #000000; " +
+                            "-aw-border-left:0.5pt single #000000; -aw-border-right:6pt single #000000; -aw-border-top:0.5pt single #000000\">"));
 
             Assert.assertTrue(outDocContents.contains(
                     "<li style=\"margin-left:30.2pt; padding-left:5.8pt; -aw-font-family:'Courier New'; -aw-font-weight:normal; -aw-number-format:'o'\">"));
