@@ -1129,17 +1129,16 @@ public class ExPageSetup extends ApiExampleBase {
     //ExSummary: Shows how to filtering pages using a page number list.
     public void pageIndexFilter() throws Exception
     {
-        // Load the document
         Document doc = new Document("Rendering.docx");
 
-        // Configure printer settings and create print document
+        // Configure printer settings and create print document.
         PrinterJob printerJob = PrinterJob.getPrinterJob();
-        printerJob.setPrintService(printerJob.getPrintService()); // You can customize target printer
+        printerJob.setPrintService(printerJob.getPrintService());
 
-        // Create Aspose.Words print document
+        // Create Aspose.Words print document.
         AsposeWordsPrintDocument printDoc = new AsposeWordsPrintDocument(doc);
 
-        // Set the printer name
+        // Set the printer name.
         PrintService[] printServices = PrinterJob.lookupPrintServices();
         for (PrintService service : printServices) {
             if (service.getName().equalsIgnoreCase("Microsoft Print to PDF")) {
@@ -1148,21 +1147,17 @@ public class ExPageSetup extends ApiExampleBase {
             }
         }
 
-        // Set the page range to print all pages
-        int fromPage = 1;
-        int toPage = doc.getPageCount();
-
         // The test document has 5 pages. To skip pages 2, 4, and 5,
         // specify the zero-based indices of pages to exclude.
         HashSet<Integer> pagesToSkip = new HashSet<>(Arrays.asList(1, 3, 4));
 
-        // Apply the page filter to skip specified pages
+        // Apply the page filter to skip specified pages.
         printDoc.setPageIndexFilter(new PrintPagesFilter(pagesToSkip));
 
-        // Initialize custom printing tracker (optional)
+        // Initialize custom printing tracker (optional).
         PrintTracker printTracker = new PrintTracker(printDoc);
 
-        // Print the document (only pages 1 and 3 will be printed)
+        // Print the document (only pages 1 and 3 will be printed).
         printerJob.setPrintable(printDoc);
         printerJob.print();
     }
@@ -1227,10 +1222,10 @@ public class ExPageSetup extends ApiExampleBase {
     /// <returns>The number of pages actually printed.</returns>
     private int printPages(Document doc, String printerName, boolean colored) throws Exception
     {
-        // Configure printer settings
+        // Configure printer settings.
         PrinterJob printerJob = PrinterJob.getPrinterJob();
 
-        // Select target printer
+        // Select target printer.
         for (PrintService service : PrinterJob.lookupPrintServices()) {
             if (service.getName().equalsIgnoreCase(printerName)) {
                 printerJob.setPrintService(service);
@@ -1238,14 +1233,13 @@ public class ExPageSetup extends ApiExampleBase {
             }
         }
 
-        // Create print document with color mode set to Normal
+        // Create print document with color mode set to Normal.
         AsposeWordsPrintDocument printDoc = new AsposeWordsPrintDocument(doc);
         printDoc.setColorMode(ColorPrintMode.NORMAL);
 
-        // Filter pages: skip color pages when printing black and white, and vice versa
+        // Filter pages: skip color pages when printing black and white, and vice versa.
         printDoc.setPageIndexFilter(new ColorPagesFilter(doc, !colored));
 
-        // Print document
         printerJob.setPrintable(printDoc);
         printerJob.print();
 
