@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -1097,7 +1097,7 @@ public class ExPageSetup extends ApiExampleBase {
     @Test(enabled = false, description = "Run only when the printer driver is installed")
     public void PrintPagesRemaining() throws Exception {
         //ExStart:PrintPagesRemaining
-        //GistId:571cc6e23284a2ec075d15d4c32e3bbf
+        //GistId:c05450e3d327a4d75ab0491b754145ba
         //ExFor:AsposeWordsPrintDocument
         //ExFor:AsposeWordsPrintDocument.PagesRemaining
         //ExSummary: Shows how to monitor printing progress.
@@ -1124,7 +1124,7 @@ public class ExPageSetup extends ApiExampleBase {
 
     @Test (enabled = false, description = "Run only when the printer driver is installed")
     //ExStart:PageIndexFilter
-    //GistId:bd7947d9ad5eb092f532604cb15f593b
+    //GistId:03a1178c85962a915ed7dcc403d6e77c
     //ExFor:AsposeWordsPrintDocument.PageIndexFilter
     //ExSummary: Shows how to filtering pages using a page number list.
     public void pageIndexFilter() throws Exception
@@ -1189,7 +1189,7 @@ public class ExPageSetup extends ApiExampleBase {
 
     @Test (enabled = false, description = "Run only when the printer driver is installed")
     //ExStart:ColorMode
-    //GistId:bd7947d9ad5eb092f532604cb15f593b
+    //GistId:03a1178c85962a915ed7dcc403d6e77c
     //ExFor:PageInfo.Colored
     //ExFor:AsposeWordsPrintDocument.PageIndexFilter
     //ExFor:AsposeWordsPrintDocument.TotalPagesPrinted

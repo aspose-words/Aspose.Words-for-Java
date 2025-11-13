@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -898,7 +898,7 @@ public class ExRange extends ApiExampleBase {
     public void ignoreOfficeMath(boolean isIgnoreOfficeMath) throws Exception
     {
         //ExStart:IgnoreOfficeMath
-        //GistId:571cc6e23284a2ec075d15d4c32e3bbf
+        //GistId:c05450e3d327a4d75ab0491b754145ba
         //ExFor:FindReplaceOptions.IgnoreOfficeMath
         //ExSummary:Shows how to find and replace text within OfficeMath.
         Document doc = new Document(getMyDir() + "Office math.docx");

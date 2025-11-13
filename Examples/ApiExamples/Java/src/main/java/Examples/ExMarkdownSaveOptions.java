@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -356,7 +356,7 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
     public void emptyParagraphExportMode(int exportMode) throws Exception
     {
         //ExStart:EmptyParagraphExportMode
-        //GistId:ad73e0dd58a8c2ae742bb64f8561df35
+        //GistId:b62c3f2b553726aa85992f50f6d39aaa
         //ExFor:MarkdownEmptyParagraphExportMode
         //ExFor:MarkdownSaveOptions.EmptyParagraphExportMode
         //ExSummary:Shows how to export empty paragraphs.
@@ -403,7 +403,7 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
     public void nonCompatibleTables() throws Exception
     {
         //ExStart:NonCompatibleTables
-        //GistId:571cc6e23284a2ec075d15d4c32e3bbf
+        //GistId:c05450e3d327a4d75ab0491b754145ba
         //ExFor:MarkdownExportAsHtml
         //ExSummary:Shows how to export tables that cannot be correctly represented in pure Markdown as raw HTML.
         String outputPath = getArtifactsDir() + "MarkdownSaveOptions.NonCompatibleTables.md";
@@ -426,7 +426,7 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
     public void exportOfficeMathAsLatex() throws Exception
     {
         //ExStart:ExportOfficeMathAsLatex
-        //GistId:045648ef22da6b384ebcf0344717bfb5
+        //GistId:dc4330996b4f0cff009f0e6aed2c8643
         //ExFor:MarkdownSaveOptions.OfficeMathExportMode
         //ExFor:MarkdownOfficeMathExportMode
         //ExSummary:Shows how to export OfficeMath object as Latex.
@@ -444,7 +444,7 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
 
     @Test
     //ExStart:MarkdownResourceSavingCallback
-    //GistId:67ab3fcab43d41e5dc207060f8f5faba
+    //GistId:30bd3f6ca3ff3877bf46aa89a2140b49
     //ExFor:MarkdownSaveOptions.ResourceSavingCallback
     //ExFor:IResourceSavingCallback
     //ExSummary:Shows how to use a callback to change the resource URI.
@@ -478,7 +478,7 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
     public void exportOfficeMathAsMarkItDown() throws Exception
     {
         //ExStart:ExportOfficeMathAsMarkItDown
-        //GistId:bd7947d9ad5eb092f532604cb15f593b
+        //GistId:03a1178c85962a915ed7dcc403d6e77c
         //ExFor:MarkdownSaveOptions.OfficeMathExportMode
         //ExFor:MarkdownOfficeMathExportMode
         //ExSummary:Shows how to export OfficeMath object as MarkItDown.

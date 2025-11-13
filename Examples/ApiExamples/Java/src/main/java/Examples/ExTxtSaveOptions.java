@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -436,7 +436,7 @@ public class ExTxtSaveOptions extends ApiExampleBase {
     public void exportOfficeMathAsLatex() throws Exception
     {
         //ExStart:ExportOfficeMathAsLatexToText
-        //GistId:67ab3fcab43d41e5dc207060f8f5faba
+        //GistId:30bd3f6ca3ff3877bf46aa89a2140b49
         //ExFor:TxtSaveOptions.OfficeMathExportMode
         //ExFor:TxtOfficeMathExportMode
         //ExSummary:Shows how to export OfficeMath object as Latex in TXT.

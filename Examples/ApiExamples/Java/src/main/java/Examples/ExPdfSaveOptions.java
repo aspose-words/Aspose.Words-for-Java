@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -2559,7 +2559,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     public void exportFloatingShapesAsInlineTag() throws Exception
     {
         //ExStart:ExportFloatingShapesAsInlineTag
-        //GistId:67ab3fcab43d41e5dc207060f8f5faba
+        //GistId:30bd3f6ca3ff3877bf46aa89a2140b49
         //ExFor:PdfSaveOptions.ExportFloatingShapesAsInlineTag
         //ExSummary:Shows how to export floating shapes as inline tags.
         Document doc = new Document(getMyDir() + "Floating object.docx");

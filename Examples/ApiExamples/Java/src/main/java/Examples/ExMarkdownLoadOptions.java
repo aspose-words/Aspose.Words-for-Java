@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -66,7 +66,7 @@ class ExMarkdownLoadOptions extends ApiExampleBase
     public void softLineBreakCharacter() throws Exception
     {
         //ExStart:SoftLineBreakCharacter
-        //GistId:571cc6e23284a2ec075d15d4c32e3bbf
+        //GistId:c05450e3d327a4d75ab0491b754145ba
         //ExFor:MarkdownLoadOptions.SoftLineBreakCharacter
         //ExSummary:Shows how to set soft line break character.
         try (ByteArrayInputStream stream = new ByteArrayInputStream("line1\nline2".getBytes(StandardCharsets.UTF_8)))

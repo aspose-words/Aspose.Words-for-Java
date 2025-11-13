@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -316,7 +316,7 @@ public class ExFontSettings extends ApiExampleBase {
     public void substitutionWarnings() throws Exception
     {
         //ExStart:SubstitutionWarnings
-        //GistId:045648ef22da6b384ebcf0344717bfb5
+        //GistId:dc4330996b4f0cff009f0e6aed2c8643
         //ExFor:FontSubstitutionWarningInfo
         //ExFor:FontSubstitutionWarningInfo.Reason
         //ExFor:FontSubstitutionWarningInfo.RequestedBold

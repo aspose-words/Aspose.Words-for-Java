@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -3511,7 +3511,7 @@ public class ExShape extends ApiExampleBase {
     public void shadowFormatTransparency() throws Exception
     {
         //ExStart:ShadowFormatTransparency
-        //GistId:045648ef22da6b384ebcf0344717bfb5
+        //GistId:dc4330996b4f0cff009f0e6aed2c8643
         //ExFor:ShadowFormat.Color
         //ExFor:ShadowFormat.Transparency
         //ExSummary:Shows how to set a color with transparency.

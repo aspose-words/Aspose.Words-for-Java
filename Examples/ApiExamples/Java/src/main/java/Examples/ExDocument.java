@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -2631,7 +2631,7 @@ public class ExDocument extends ApiExampleBase
     public void extractPagesWithOptions() throws Exception
     {
         //ExStart:ExtractPagesWithOptions
-        //GistId:571cc6e23284a2ec075d15d4c32e3bbf
+        //GistId:c05450e3d327a4d75ab0491b754145ba
         //ExFor:Document.ExtractPages(int, int)
         //ExFor:PageExtractOptions
         //ExFor:PageExtractOptions.UpdatePageStartingNumber

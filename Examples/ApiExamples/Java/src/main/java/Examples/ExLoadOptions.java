@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -405,7 +405,7 @@ public class ExLoadOptions extends ApiExampleBase {
     public void recoveryMode() throws Exception
     {
         //ExStart:RecoveryMode
-        //GistId:045648ef22da6b384ebcf0344717bfb5
+        //GistId:dc4330996b4f0cff009f0e6aed2c8643
         //ExFor:LoadOptions.RecoveryMode
         //ExFor:DocumentRecoveryMode
         //ExSummary:Shows how to try to recover a document if errors occurred during loading.

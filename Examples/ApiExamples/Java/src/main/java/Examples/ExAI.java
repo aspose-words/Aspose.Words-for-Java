@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
@@ -129,7 +129,7 @@ public class ExAI extends ApiExampleBase
     public void changeDefaultUrl()
     {
         //ExStart:ChangeDefaultUrl
-        //GistId:bd7947d9ad5eb092f532604cb15f593b
+        //GistId:03a1178c85962a915ed7dcc403d6e77c
         //ExFor:AiModel.Url
         //ExSummary:Shows how to change model default url.
         String apiKey = System.getenv("API_KEY");
@@ -145,7 +145,7 @@ public class ExAI extends ApiExampleBase
     public void changeDefaultTimeout()
     {
         //ExStart:ChangeDefaultTimeout
-        //GistId:bd7947d9ad5eb092f532604cb15f593b
+        //GistId:03a1178c85962a915ed7dcc403d6e77c
         //ExFor:AiModel.Timeout
         //ExSummary:Shows how to change model default timeout.
         String apiKey = System.getenv("API_KEY");
