@@ -3235,8 +3235,8 @@ public class ExField extends ApiExampleBase
         {
             if (mImageFilenames.containsKey(args.getFieldValue().toString()))
             {
-                                args.setImage(ImageIO.read(mImageFilenames.get(args.getFieldValue().toString())));
-                                                }
+                args.setImage(ImageIO.read(mImageFilenames.get(args.getFieldValue().toString())));
+            }
             
             Assert.Is.Not.Nullargs.getImage());
         }

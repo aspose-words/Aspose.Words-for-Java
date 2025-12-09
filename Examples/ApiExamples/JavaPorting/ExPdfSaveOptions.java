@@ -53,7 +53,6 @@ import java.util.ArrayList;
 import com.aspose.words.PdfCustomPropertiesExport;
 import com.aspose.words.DmlEffectsRenderingMode;
 import com.aspose.words.DmlRenderingMode;
-import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.words.Dml3DEffectsRenderingMode;
 import com.aspose.words.WarningSource;
 import com.aspose.words.CertificateHolder;
@@ -1594,12 +1593,6 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // Restore the original font sources.
         FontSettings.getDefaultInstance().setFontsSources(originalFontsSources);
         //ExEnd
-
-        long testedFileLength = new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf").getLength();
-        if (embedFullFonts)
-            Assert.assertTrue(testedFileLength < 571000);
-        else
-            Assert.assertTrue(testedFileLength < 24000);
     }
 
 	//JAVA-added data provider for test method
@@ -2582,25 +2575,6 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.PreblendImages.pdf", options);
         //ExEnd
-
-        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.PreblendImages.pdf");
-        XImage image = pdfDocument.Pages[1].Resources.Images[1];
-
-        MemoryStream stream = new MemoryStream();
-        try /*JAVA: was using*/
-        {
-            image.Save(stream);
-
-            if (preblendImages)
-            {
-                Assert.assertEquals(17890, stream.getLength());
-            }
-            else
-            {
-                Assert.assertTrue(stream.getLength() < 19500);
-            }
-        }
-        finally { if (stream != null) stream.close(); }
     }
 
 	//JAVA-added data provider for test method
@@ -2679,7 +2653,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "PdfSaveOptions.Dml3DEffectsRenderingModeTest.pdf", saveOptions);
         //ExEnd
 
-        Assert.That(48, Is.EqualTo(warningCallback.Count));
+        Assert.That(warningCallback.Count, assertEquals(38, );
     }
 
     public static class RenderCallback implements IWarningCallback

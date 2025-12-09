@@ -90,7 +90,6 @@ public class ExAI extends ApiExampleBase
         //ExStart:AiGrammar
         //GistId:f86d49dc0e6781b93e576539a01e6ca2
         //ExFor:AiModel.CheckGrammar(Document, CheckGrammarOptions)
-        //ExFor:AiModel.Url
         //ExFor:CheckGrammarOptions
         //ExSummary:Shows how to check the grammar of a document.
         Document doc = new Document(getMyDir() + "Big document.docx");
@@ -110,6 +109,7 @@ public class ExAI extends ApiExampleBase
     //ExStart:SelfHostedModel
     //GistId:67c1d01ce69d189983b497fd497a7768
     //ExFor:OpenAiModel
+    //ExFor:AiModel.Url
     //ExSummary:Shows how to use self-hosted AI model based on OpenAiModel.
     @Test (enabled = false, description = "This test should be run manually when you are configuring your model") //ExSkip
     public void selfHostedModel() throws Exception

@@ -135,7 +135,7 @@ public class ExTable extends ApiExampleBase
         builder.write("Row 1, cell 2.");
         builder.endTable();
 
-        // For every cell in the table, set the distance between its contents and each of its borders. 
+        // For every cell in the table, set the distance between its contents and each of its borders.
         // This table will maintain the minimum padding distance by wrapping text.
         table.setLeftPadding(30.0);
         table.setRightPadding(60.0);

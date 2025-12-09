@@ -9,6 +9,7 @@ package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
 
+import com.aspose.ms.System.Environment;
 import com.aspose.ms.System.IO.Path;
 import com.aspose.ms.System.Drawing.Rectangle;
 import org.testng.Assert;
@@ -75,8 +76,10 @@ class TestUtil extends ApiExampleBase
     /// <param name="filename">Local file system filename of the image file.</param>
     static void verifyImage(int expectedWidth, int expectedHeight, String filename) throws Exception
     {
+        /*PlatformID*/int pid = Environment.getOSVersion().Platform;
+        boolean isWindows = (pid == PlatformID.Win32NT) || (pid == PlatformID.Win32S) ||
+                         (pid == PlatformID.Win32Windows) || (pid == PlatformID.WinCE);
         String ext = Path.getExtension(filename).toLowerCase();
-        boolean isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
         if (isWindows && (".emf".equals(ext) || ".wmf".equals(ext)))
         {
@@ -204,7 +207,17 @@ class TestUtil extends ApiExampleBase
         }
         finally { if (image != null) image.flush(); }
         Assert.fail($"The image from \"{filename}\" does not contain any transparency.");
-    }private VerifyWebResponseStatusCodeAsyncverifyWebResponseStatusCodeAsync(int expectedHttpStatusCode, String webAddress)
+    }
+
+    /// <summary>
+    /// Checks whether an HTTP request sent to the specified address produces an expected web response. 
+    /// </summary>
+    /// <remarks>
+    /// Serves as a notification of any URLs used in code examples becoming unusable in the future.
+    /// </remarks>
+    /// <param name="expectedHttpStatusCode">Expected result status code of a request HTTP "HEAD" method performed on the web address.</param>
+    /// <param name="webAddress">URL where the request will be sent.</param>
+     static async System.Threading.Tasks.Task private VerifyWebResponseStatusCodeAsyncverifyWebResponseStatusCodeAsync(int expectedHttpStatusCode, String webAddress)
     {
         var myClient = new System.Net.Http.HttpClient();
         var response = await myClient.GetAsync(webAddress);

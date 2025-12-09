@@ -465,10 +465,10 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
         String outputPath = getArtifactsDir() + "MarkdownSaveOptions.ResourceSavingCallback.md";
 
         Document doc = new Document(getMyDir() + "Rendering.docx");
-        
+
         MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
         saveOptions.setResourceSavingCallback(new ChangeUriPath());
-        
+
         doc.save(outputPath, saveOptions);
 
         DocumentHelper.findTextInFile(outputPath, "/uri/for/");

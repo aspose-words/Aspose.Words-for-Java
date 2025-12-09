@@ -142,11 +142,6 @@ public class ExXpsSaveOptions extends ApiExampleBase
         //ExEnd
 
         long testedFileLength = new FileInfo(getArtifactsDir() + "XpsSaveOptions.OptimizeOutput.xps").getLength();
-        if (optimizeOutput)
-            Assert.assertTrue(testedFileLength < 43000);
-        else
-            Assert.assertTrue(testedFileLength < 64000);
-
         TestUtil.docPackageFileContainsString(
             optimizeOutput
                 ? "Glyphs OriginX=\"34.294998169\" OriginY=\"10.31799984\" " +

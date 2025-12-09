@@ -34,6 +34,7 @@ import com.aspose.words.EditingLanguage;
 import com.aspose.words.IFieldUpdateCultureProvider;
 import com.aspose.ms.System.Globalization.msDateTimeFormatInfo;
 import com.aspose.words.BarcodeParameters;
+import java.awt.image.BufferedImage;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
 
@@ -451,9 +452,9 @@ public class ExFieldOptions extends ApiExampleBase
             barcodeParameters.setSymbolRotation("0");
         }
 
-        Image img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
+        BufferedImage img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
         img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.QR.jpg");
-        builder.InsertImage(img);
+        builder.insertImage(img);
 
         // 2 -  EAN13 barcode:
         barcodeParameters = new BarcodeParameters();
@@ -467,7 +468,7 @@ public class ExFieldOptions extends ApiExampleBase
 
         img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
         img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.EAN13.jpg");
-        builder.InsertImage(img);
+        builder.insertImage(img);
 
         // 3 -  CODE39 barcode:
         barcodeParameters = new BarcodeParameters();
@@ -479,7 +480,7 @@ public class ExFieldOptions extends ApiExampleBase
 
         img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
         img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.CODE39.jpg");
-        builder.InsertImage(img);
+        builder.insertImage(img);
 
         // 4 -  ITF14 barcode:
         barcodeParameters = new BarcodeParameters();
@@ -491,7 +492,7 @@ public class ExFieldOptions extends ApiExampleBase
 
         img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
         img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.ITF14.jpg");
-        builder.InsertImage(img);
+        builder.insertImage(img);
 
         doc.save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.docx");
         //ExEnd
