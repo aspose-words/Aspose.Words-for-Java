@@ -34,7 +34,9 @@ import com.aspose.words.EditingLanguage;
 import com.aspose.words.IFieldUpdateCultureProvider;
 import com.aspose.ms.System.Globalization.msDateTimeFormatInfo;
 import com.aspose.words.BarcodeParameters;
-import java.awt.image.BufferedImage;
+import com.aspose.ms.System.IO.Stream;
+import com.aspose.ms.System.IO.FileStream;
+import com.aspose.ms.System.IO.FileMode;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
 
@@ -452,9 +454,20 @@ public class ExFieldOptions extends ApiExampleBase
             barcodeParameters.setSymbolRotation("0");
         }
 
-        BufferedImage img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
-        img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.QR.jpg");
-        builder.insertImage(img);
+        Stream img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImageInternal(barcodeParameters);
+        try /*JAVA: was using*/
+        {
+            FileStream fs = new FileStream(getArtifactsDir() + "FieldOptions.BarcodeGenerator.QR.jpg", FileMode.CREATE);
+            try /*JAVA: was using*/
+            {
+                img.copyTo(fs);
+            }
+            finally { if (fs != null) fs.close(); }
+
+            img.setPosition(0);
+            builder.insertImageInternal(img);
+        }
+        finally { if (img != null) img.close(); }
 
         // 2 -  EAN13 barcode:
         barcodeParameters = new BarcodeParameters();
@@ -466,9 +479,20 @@ public class ExFieldOptions extends ApiExampleBase
             barcodeParameters.setFixCheckDigit(true);
         }
 
-        img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
-        img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.EAN13.jpg");
-        builder.insertImage(img);
+        Stream img1 = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImageInternal(barcodeParameters);
+        try /*JAVA: was using*/
+        {
+            FileStream fs = new FileStream(getArtifactsDir() + "FieldOptions.BarcodeGenerator.EAN13.jpg", FileMode.CREATE);
+            try /*JAVA: was using*/
+            {
+                img1.copyTo(fs);
+            }
+            finally { if (fs != null) fs.close(); }
+
+            img1.setPosition(0);
+            builder.insertImageInternal(img1);
+        }
+        finally { if (img1 != null) img1.close(); }
 
         // 3 -  CODE39 barcode:
         barcodeParameters = new BarcodeParameters();
@@ -478,9 +502,20 @@ public class ExFieldOptions extends ApiExampleBase
             barcodeParameters.setAddStartStopChar(true);
         }
 
-        img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
-        img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.CODE39.jpg");
-        builder.insertImage(img);
+        Stream img2 = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImageInternal(barcodeParameters);
+        try /*JAVA: was using*/
+        {
+            FileStream fs = new FileStream(getArtifactsDir() + "FieldOptions.BarcodeGenerator.CODE39.jpg", FileMode.CREATE);
+            try /*JAVA: was using*/
+            {
+                img2.copyTo(fs);
+            }
+            finally { if (fs != null) fs.close(); }
+
+            img2.setPosition(0);
+            builder.insertImageInternal(img2);
+        }
+        finally { if (img2 != null) img2.close(); }
 
         // 4 -  ITF14 barcode:
         barcodeParameters = new BarcodeParameters();
@@ -490,9 +525,20 @@ public class ExFieldOptions extends ApiExampleBase
             barcodeParameters.setCaseCodeStyle("STD");
         }
 
-        img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
-        img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.ITF14.jpg");
-        builder.insertImage(img);
+        Stream img3 = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImageInternal(barcodeParameters);
+        try /*JAVA: was using*/
+        {
+            FileStream fs = new FileStream(getArtifactsDir() + "FieldOptions.BarcodeGenerator.ITF14.jpg", FileMode.CREATE);
+            try /*JAVA: was using*/
+            {
+                img3.copyTo(fs);
+            }
+            finally { if (fs != null) fs.close(); }
+
+            img3.setPosition(0);
+            builder.insertImageInternal(img3);
+        }
+        finally { if (img3 != null) img3.close(); }
 
         doc.save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.docx");
         //ExEnd

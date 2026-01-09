@@ -121,7 +121,7 @@ public class ExMailMerge extends ApiExampleBase
         // in our local file system, open a connection, and set up an SQL query.
         String connectionString = "Provider = Microsoft.ACE.OLEDB.12.0; Data Source=" + getDatabaseDir() + "Northwind.accdb";
         String query =
-            "SELECT Products.ProductName, Suppliers.CompanyName, Products.QuantityPerUnit, Products.UnitPrice\n                FROM Products \n                INNER JOIN Suppliers \n                ON Products.SupplierID = Suppliers.SupplierID";
+            "SELECT Products.ProductName, Suppliers.CompanyName, Products.QuantityPerUnit, Products.UnitPrice\r\n                FROM Products \r\n                INNER JOIN Suppliers \r\n                ON Products.SupplierID = Suppliers.SupplierID";
 
         OleDbConnection connection = new OleDbConnection(connectionString);
         try /*JAVA: was using*/

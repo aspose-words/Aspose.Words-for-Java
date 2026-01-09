@@ -609,9 +609,9 @@ public class ExLowCode extends ApiExampleBase
             }
 
             stream.setPosition(0);
-            if (imagesStream.Count != 0)
+            if (imagesStream.getCount() != 0)
             {
-                for (int i = 0; i < imagesStream.Count; i++)
+                for (int i = 0; i < imagesStream.getCount(); i++)
                 {
                     FileStream resultDoc = new FileStream(getArtifactsDir() + $"PdfRenderer_{i}.{fileExt}", FileMode.CREATE);
                     try /*JAVA: was using*/
