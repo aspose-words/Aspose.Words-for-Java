@@ -22,6 +22,8 @@ import com.aspose.ms.System.Drawing.msFont;
 import java.awt.Font;
 import com.aspose.ms.System.Drawing.FontStyle;
 import com.aspose.ms.System.Drawing.Rectangle;
+import com.aspose.ms.System.IO.Stream;
+import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.words.IBarcodeGenerator;
 import com.aspose.words.BarcodeParameters;
 import com.aspose.ms.System.msMath;
@@ -236,9 +238,13 @@ class CustomBarcodeGeneratorUtils
         return bmp;
     }
 
-    public static BufferedImage convertImageToWord(BufferedImage bmp)
+    public static Stream convertImageToWord(BufferedImage bmp) throws Exception
     {
-        return bmp;
+        MemoryStream ms = new MemoryStream();
+        bmp.Save(ms, ImageFormat.Png);
+        ms.setPosition(0);
+
+        return ms;
     }
 
 	//JAVA-added for string switch emulation
@@ -269,7 +275,7 @@ class CustomBarcodeGeneratorUtils
 
 class CustomBarcodeGenerator implements IBarcodeGenerator
 {
-    public BufferedImage getBarcodeImage(BarcodeParameters parameters)
+    public Stream /*IBarcodeGenerator.*/getBarcodeImage(BarcodeParameters parameters) throws Exception
     {
         try
         {
@@ -321,7 +327,7 @@ class CustomBarcodeGenerator implements IBarcodeGenerator
         }
     }
 
-    public BufferedImage getOldBarcodeImage(BarcodeParameters parameters)
+    public Stream /*IBarcodeGenerator.*/getOldBarcodeImage(BarcodeParameters parameters)
     {
         throw new UnsupportedOperationException();
     }
