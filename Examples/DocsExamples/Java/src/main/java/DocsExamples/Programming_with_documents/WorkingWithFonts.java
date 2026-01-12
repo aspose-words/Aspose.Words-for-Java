@@ -1,4 +1,4 @@
-package DocsExamples.Programming_with_documents;
+﻿package DocsExamples.Programming_with_documents;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.Font;
@@ -37,7 +37,7 @@ public class WorkingWithFonts extends DocsExamplesBase {
     @Test
     public void getFontLineSpacing() throws Exception {
         //ExStart:GetFontLineSpacing
-        //GistId:7cb86f131b74afcbebc153f0039e3947
+        //GistId:28f3c389a64ddf0eb53893ec121575c2
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -50,8 +50,8 @@ public class WorkingWithFonts extends DocsExamplesBase {
     }
 
     @Test
-    public void checkDMLTextEffect() throws Exception {
-        //ExStart:CheckDMLTextEffect
+    public void checkDmlTextEffect() throws Exception {
+        //ExStart:CheckDmlTextEffect
         Document doc = new Document(getMyDir() + "DrawingML text effects.docx");
 
         RunCollection runs = doc.getFirstSection().getBody().getFirstParagraph().getRuns();
@@ -63,13 +63,13 @@ public class WorkingWithFonts extends DocsExamplesBase {
         System.out.println(runFont.hasDmlEffect(TextDmlEffect.REFLECTION));
         System.out.println(runFont.hasDmlEffect(TextDmlEffect.OUTLINE));
         System.out.println(runFont.hasDmlEffect(TextDmlEffect.FILL));
-        //ExEnd:CheckDMLTextEffect
+        //ExEnd:CheckDmlTextEffect
     }
 
     @Test
     public void setFontFormatting() throws Exception {
         //ExStart:SetFontFormatting
-        //GistId:7cb86f131b74afcbebc153f0039e3947
+        //GistId:28f3c389a64ddf0eb53893ec121575c2
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -91,7 +91,7 @@ public class WorkingWithFonts extends DocsExamplesBase {
     @Test
     public void setFontEmphasisMark() throws Exception {
         //ExStart:SetFontEmphasisMark
-        //GistId:7cb86f131b74afcbebc153f0039e3947
+        //GistId:28f3c389a64ddf0eb53893ec121575c2
         Document document = new Document();
         DocumentBuilder builder = new DocumentBuilder(document);
 
@@ -124,7 +124,7 @@ public class WorkingWithFonts extends DocsExamplesBase {
     @Test
     public void fontFallbackSettings() throws Exception {
         //ExStart:FontFallbackSettings
-        //GistId:a08698f540d47082b4e2dbb1cb67fc1b
+        //GistId:2ed86af96f590e819ced4060b5080c11
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         FontSettings fontSettings = new FontSettings();
@@ -139,7 +139,7 @@ public class WorkingWithFonts extends DocsExamplesBase {
     @Test
     public void notoFallbackSettings() throws Exception {
         //ExStart:NotoFallbackSettings
-        //GistId:a08698f540d47082b4e2dbb1cb67fc1b
+        //GistId:2ed86af96f590e819ced4060b5080c11
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         FontSettings fontSettings = new FontSettings();
@@ -154,7 +154,7 @@ public class WorkingWithFonts extends DocsExamplesBase {
     @Test
     public void defaultInstance() throws Exception {
         //ExStart:DefaultInstance
-        //GistId:7e64f6d40825be58a8c12f1307c12964
+        //GistId:35680f8755e7a5462dff1d441d05fd5e
         FontSettings.getDefaultInstance().setFontsFolder("C:\\MyFonts\\", true);
         //ExEnd:DefaultInstance
 
@@ -165,7 +165,7 @@ public class WorkingWithFonts extends DocsExamplesBase {
     @Test
     public void multipleFolders() throws Exception {
         //ExStart:MultipleFolders
-        //GistId:7e64f6d40825be58a8c12f1307c12964
+        //GistId:35680f8755e7a5462dff1d441d05fd5e
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         FontSettings fontSettings = new FontSettings();
@@ -209,7 +209,7 @@ public class WorkingWithFonts extends DocsExamplesBase {
     @Test
     public void fontsFoldersWithPriority() throws Exception {
         //ExStart:FontsFoldersWithPriority
-        //GistId:7e64f6d40825be58a8c12f1307c12964
+        //GistId:35680f8755e7a5462dff1d441d05fd5e
         FontSettings.getDefaultInstance().setFontsSources(new FontSourceBase[]
                 {
                         new SystemFontSource(), new FolderFontSource("C:\\MyFonts\\", true, 1)
@@ -223,7 +223,7 @@ public class WorkingWithFonts extends DocsExamplesBase {
     @Test
     public void trueTypeFontsFolder() throws Exception {
         //ExStart:TrueTypeFontsFolder
-        //GistId:7e64f6d40825be58a8c12f1307c12964
+        //GistId:35680f8755e7a5462dff1d441d05fd5e
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         FontSettings fontSettings = new FontSettings();
@@ -286,7 +286,7 @@ public class WorkingWithFonts extends DocsExamplesBase {
     @Test
     public void loadOptionFontSettings() throws Exception {
         //ExStart:LoadOptionFontSettings
-        //GistId:a08698f540d47082b4e2dbb1cb67fc1b
+        //GistId:2ed86af96f590e819ced4060b5080c11
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.setFontSettings(new FontSettings());
 
@@ -297,11 +297,11 @@ public class WorkingWithFonts extends DocsExamplesBase {
     @Test
     public void fontSettingsDefaultInstance() throws Exception {
         //ExStart:FontsFolders
-        //GistId:7e64f6d40825be58a8c12f1307c12964
+        //GistId:35680f8755e7a5462dff1d441d05fd5e
         //ExStart:FontSettingsFontSource
-        //GistId:a08698f540d47082b4e2dbb1cb67fc1b
+        //GistId:2ed86af96f590e819ced4060b5080c11
         //ExStart:FontSettingsDefaultInstance
-        //GistId:a08698f540d47082b4e2dbb1cb67fc1b
+        //GistId:2ed86af96f590e819ced4060b5080c11
         FontSettings fontSettings = FontSettings.getDefaultInstance();
         //ExEnd:FontSettingsDefaultInstance
         fontSettings.setFontsSources(new FontSourceBase[]
@@ -318,7 +318,7 @@ public class WorkingWithFonts extends DocsExamplesBase {
     @Test
     public void availableFonts() {
         //ExStart:AvailableFonts
-        //GistId:7e64f6d40825be58a8c12f1307c12964
+        //GistId:35680f8755e7a5462dff1d441d05fd5e
         List<FontSourceBase> fontSources = new ArrayList<>(Arrays.asList(FontSettings.getDefaultInstance().getFontsSources()));
 
         // Add a new folder source which will instruct Aspose.Words to search the following folder for fonts.
@@ -396,7 +396,7 @@ public class WorkingWithFonts extends DocsExamplesBase {
 
     @Test
     //ExStart:ResourceSteam
-    //GistId:7e64f6d40825be58a8c12f1307c12964
+    //GistId:35680f8755e7a5462dff1d441d05fd5e
     public void resourceSteam() throws Exception {
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
@@ -415,7 +415,7 @@ public class WorkingWithFonts extends DocsExamplesBase {
 
     @Test
     //ExStart:GetSubstitutionWithoutSuffixes
-    //GistId:a08698f540d47082b4e2dbb1cb67fc1b
+    //GistId:2ed86af96f590e819ced4060b5080c11
     public void getSubstitutionWithoutSuffixes() throws Exception {
         Document doc = new Document(getMyDir() + "Get substitution without suffixes.docx");
 

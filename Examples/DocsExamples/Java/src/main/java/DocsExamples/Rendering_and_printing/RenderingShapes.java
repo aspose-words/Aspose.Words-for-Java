@@ -1,4 +1,4 @@
-package DocsExamples.Rendering_and_printing;
+﻿package DocsExamples.Rendering_and_printing;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.Shape;
@@ -22,7 +22,7 @@ public class RenderingShapes extends DocsExamplesBase {
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         //ExStart:RenderShapeAsEmf
-        //GistId:7fc867ac8ef1b729b6f70580fbc5b3f9
+        //GistId:8a2843b58e5f1d7ad95d2ad0140b87eb
         ShapeRenderer render = shape.getShapeRenderer();
         ImageSaveOptions imageOptions = new ImageSaveOptions(SaveFormat.EMF);
         imageOptions.setScale(1.5f);
@@ -38,7 +38,7 @@ public class RenderingShapes extends DocsExamplesBase {
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         //ExStart:RenderShapeAsJpeg
-        //GistId:7fc867ac8ef1b729b6f70580fbc5b3f9
+        //GistId:8a2843b58e5f1d7ad95d2ad0140b87eb
         ShapeRenderer render = new ShapeRenderer(shape);
         ImageSaveOptions imageOptions = new ImageSaveOptions(SaveFormat.JPEG);
         // Output the image in gray scale
@@ -54,7 +54,7 @@ public class RenderingShapes extends DocsExamplesBase {
 
     @Test
     //ExStart:RenderShapeToGraphics
-    //GistId:7fc867ac8ef1b729b6f70580fbc5b3f9
+    //GistId:8a2843b58e5f1d7ad95d2ad0140b87eb
     public void renderShapeToGraphics() throws Exception {
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
@@ -141,7 +141,7 @@ public class RenderingShapes extends DocsExamplesBase {
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         //ExStart:FindShapeSizes
-        //GistId:7fc867ac8ef1b729b6f70580fbc5b3f9
+        //GistId:8a2843b58e5f1d7ad95d2ad0140b87eb
         Point2D.Float shapeSizeInDocument = shape.getShapeRenderer().getSizeInPoints();
         float width = shapeSizeInDocument.x; // The width of the shape.
         float height = shapeSizeInDocument.y; // The height of the shape.
@@ -166,7 +166,7 @@ public class RenderingShapes extends DocsExamplesBase {
 
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         //ExStart:RenderShapeImage
-        //GistId:7fc867ac8ef1b729b6f70580fbc5b3f9
+        //GistId:8a2843b58e5f1d7ad95d2ad0140b87eb
         shape.getShapeRenderer().save(getArtifactsDir() + "RenderShape.RenderShapeImage.jpg", new ImageSaveOptions(SaveFormat.JPEG));
         //ExEnd:RenderShapeImage
     }
