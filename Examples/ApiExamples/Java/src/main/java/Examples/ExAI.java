@@ -156,5 +156,23 @@ public class ExAI extends ApiExampleBase
 
         Assert.assertEquals(250000, model.getTimeout());
     }
+
+    @Test (enabled = false, description = "This test should be run manually to manage API requests amount")
+    public void gemini() throws Exception
+    {
+        //ExStart:Gemini
+        //GistId:0da8468118377c4860b28603bc95ffe6
+        //ExFor:GoogleAiModel
+        //ExFor:GoogleAiModel.#ctor(String)
+        //ExFor:GoogleAiModel.#ctor(String, String)
+        //ExSummary:Shows how to use google AI model.
+        String apiKey = System.getenv("API_KEY");
+        GoogleAiModel model = new GoogleAiModel("gemini-flash-latest", apiKey);
+
+        Document doc = new Document(getMyDir() + "Big document.docx");
+        SummarizeOptions summarizeOptions = new SummarizeOptions(); { summarizeOptions.setSummaryLength(SummaryLength.VERY_SHORT); }
+        Document summary = model.summarize(doc, summarizeOptions);
+        //ExEnd:Gemini
+    }
 }
 

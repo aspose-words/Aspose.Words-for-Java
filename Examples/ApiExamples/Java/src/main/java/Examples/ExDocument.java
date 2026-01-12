@@ -2662,4 +2662,44 @@ public class ExDocument extends ApiExampleBase
 
         Assert.assertEquals(2, extractedDoc2.getRange().getFields().getCount());
     }
+
+    @Test
+    public void appendDocumentWithNewPage() throws Exception
+    {
+        //ExStart:AppendDocumentWithNewPage
+        //GistId:0da8468118377c4860b28603bc95ffe6
+        //ExFor:ImportFormatOptions.AppendDocumentWithNewPage
+        //ExSummary:Shows how to preserve original section type.
+        Document dstDoc = new Document();
+        Document srcDoc = new Document();
+
+        srcDoc.getFirstSection().getPageSetup().setSectionStart(SectionStart.CONTINUOUS);
+
+        ImportFormatOptions options = new ImportFormatOptions(); { options.setAppendDocumentWithNewPage(false); }
+        dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, options);
+
+        Assert.assertEquals(SectionStart.CONTINUOUS, dstDoc.getSections().get(1).getPageSetup().getSectionStart());
+        //ExEnd:AppendDocumentWithNewPage
+    }
+
+    @Test
+    public void doclingJson() throws Exception
+    {
+        //ExStart:DoclingJson
+        //GistId:0da8468118377c4860b28603bc95ffe6
+        //ExFor:DoclingSaveOptions
+        //ExFor:DoclingSaveOptions.SaveFormat
+        //ExFor:DoclingSaveOptions.RenderNonImageShapes
+        //ExSummary:Shows how to save a document into a Docling JSON format.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        DoclingSaveOptions saveOptions = new DoclingSaveOptions();
+        saveOptions.setSaveFormat(SaveFormat.DOCLING);
+        // Set to true to render non-image shapes and include them in the output.
+        // Set to false (default) to exclude non-image shapes from the output.
+        saveOptions.setRenderNonImageShapes(true);
+
+        doc.save(getArtifactsDir() + "DoclingSaveOptions.DoclingJson.json", saveOptions);
+        //ExEnd:DoclingJson
+    }
 }
