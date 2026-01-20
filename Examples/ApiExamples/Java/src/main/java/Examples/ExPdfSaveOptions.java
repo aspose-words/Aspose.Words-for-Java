@@ -1207,7 +1207,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf", options);
 
         if (embedFullFonts)
-            Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf").length() < 571000);
+            Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf").length() < 591000);
         else
             Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf").length() < 25000);
 

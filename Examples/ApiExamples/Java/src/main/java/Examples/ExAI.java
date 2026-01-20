@@ -65,7 +65,7 @@ public class ExAI extends ApiExampleBase
 
         String apiKey = System.getenv("API_KEY");
         // Use Google generative language models.
-        AiModel model = AiModel.create(AiModelType.GEMINI_15_FLASH).withApiKey(apiKey);
+        AiModel model = AiModel.create(AiModelType.GEMINI_FLASH_LATEST).withApiKey(apiKey);
 
         Document translatedDoc = model.translate(doc, Language.ARABIC);
         translatedDoc.save(getArtifactsDir() + "AI.AiTranslate.docx");

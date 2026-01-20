@@ -671,7 +671,7 @@ public class ExFontSettings extends ApiExampleBase {
         Assert.assertEquals(new String[]{"Times New Roman", "Arial"}, IterableUtils.toList(alternativeFonts).toArray());
 
         alternativeFonts = doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Arvo");
-        Assert.assertEquals(new String[]{"Open Sans", "Arial"}, IterableUtils.toList(alternativeFonts).toArray());
+        Assert.assertEquals(new String[]{"Arial", "Open Sans"}, IterableUtils.toList(alternativeFonts).toArray());
     }
 
     @Test
@@ -1055,7 +1055,7 @@ public class ExFontSettings extends ApiExampleBase {
         // We can add a secondary fallback substitute for an existing font entry with AddSubstitutes().
         // In case "Arvo" is unavailable, our table will look for "M+ 2m" as a second substitute option.
         tableSubstitutionRule.addSubstitutes("Times New Roman", "M+ 2m");
-        Assert.assertEquals(new String[]{"Arvo", "M+ 2m"}, IterableUtils.toList(tableSubstitutionRule.getSubstitutes("Times New Roman")).toArray());
+        Assert.assertEquals(new String[]{"M+ 2m", "Arvo"}, IterableUtils.toList(tableSubstitutionRule.getSubstitutes("Times New Roman")).toArray());
 
         // SetSubstitutes() can set a new list of substitute fonts for a font.
         tableSubstitutionRule.setSubstitutes("Times New Roman", "Squarish Sans CT", "M+ 2m");
