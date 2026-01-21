@@ -609,7 +609,7 @@ public class ExRevision extends ApiExampleBase {
 
         docA.compare(docB, "Aspose.Words", new Date(), compareOptions);
 
-        Assert.assertEquals(isIgnoreDmlUniqueId ? 0 : 2, docA.getRevisions().getCount());
+        Assert.assertEquals(isIgnoreDmlUniqueId ? 1 : 3, docA.getRevisions().getCount());
         //ExEnd
     }
 

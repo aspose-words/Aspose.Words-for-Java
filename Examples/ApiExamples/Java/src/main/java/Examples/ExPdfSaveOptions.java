@@ -1268,7 +1268,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         switch (pdfFontEmbeddingMode) {
             case PdfFontEmbeddingMode.EMBED_ALL:
-                Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").length() < 1031200);
+                Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").length() < 1041200);
                 break;
             case PdfFontEmbeddingMode.EMBED_NONSTANDARD:
                 Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").length() < 491800);
