@@ -2667,7 +2667,7 @@ public class ExDocument extends ApiExampleBase
     public void appendDocumentWithNewPage() throws Exception
     {
         //ExStart:AppendDocumentWithNewPage
-        //GistId:0da8468118377c4860b28603bc95ffe6
+        //GistId:20cbce70e934203e8bce35950c4425f5
         //ExFor:ImportFormatOptions.AppendDocumentWithNewPage
         //ExSummary:Shows how to preserve original section type.
         Document dstDoc = new Document();
@@ -2687,7 +2687,7 @@ public class ExDocument extends ApiExampleBase
     public void doclingJson() throws Exception
     {
         //ExStart:DoclingJson
-        //GistId:0da8468118377c4860b28603bc95ffe6
+        //GistId:20cbce70e934203e8bce35950c4425f5
         //ExFor:DoclingSaveOptions
         //ExFor:DoclingSaveOptions.SaveFormat
         //ExFor:DoclingSaveOptions.RenderNonImageShapes

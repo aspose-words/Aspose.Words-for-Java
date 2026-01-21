@@ -161,7 +161,7 @@ public class ExAI extends ApiExampleBase
     public void gemini() throws Exception
     {
         //ExStart:Gemini
-        //GistId:0da8468118377c4860b28603bc95ffe6
+        //GistId:20cbce70e934203e8bce35950c4425f5
         //ExFor:GoogleAiModel
         //ExFor:GoogleAiModel.#ctor(String)
         //ExFor:GoogleAiModel.#ctor(String, String)
