@@ -1531,10 +1531,10 @@ public class ExFont extends ApiExampleBase
         //ExEnd
     }
 
-    @Test (groups = "SkipGitHub")
+    @Test (groups = "IgnoreOnJenkins")
     public void checkScanUserFontsFolder() throws Exception
     {
-        String userProfile = Environment.getFolderPath(Environment.SpecialFolder.USER_PROFILE);
+        String userProfile = System.getenv("USERPROFILE");
         String currentUserFontsFolder = Path.combine(userProfile, "AppData\\Local\\Microsoft\\Windows\\Fonts");
         String currentUserFonts = Directory.getFiles(currentUserFontsFolder, "*.ttf");
         if (currentUserFonts.length != 0)

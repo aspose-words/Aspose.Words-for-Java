@@ -660,7 +660,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
 
         docA.compareInternal(docB, "Aspose.Words", new Date, compareOptions);
 
-        Assert.assertEquals(isIgnoreDmlUniqueId ? 0 : 2, docA.getRevisions().getCount());
+        Assert.assertEquals(isIgnoreDmlUniqueId ? 1 : 3, docA.getRevisions().getCount());
         //ExEnd
     }
 

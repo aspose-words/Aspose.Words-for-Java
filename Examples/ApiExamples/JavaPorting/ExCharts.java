@@ -2687,5 +2687,43 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(ChartStyle.BLACK, chart.getStyle());
         //ExEnd
     }
+
+    @Test
+    public void titleOrientation() throws Exception
+    {
+        //ExStart:TitleOrientation
+        //GistId:358242737ad81fe9046ab090a4fbbf66
+        //ExFor:ChartTitle.Orientation
+        //ExFor:ChartTitle.Rotation
+        //ExFor:ChartAxisTitle.Orientation
+        //ExFor:ChartAxisTitle.Rotation
+        //ExSummary:Shows how to set orientation and rotation of chart and axis titles.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        Shape chartShape = builder.insertChart(ChartType.COLUMN, 400.0, 300.0);
+        Chart chart = chartShape.getChart();
+
+        chart.getTitle().setText("Sample Chart");
+        chart.getTitle().setOrientation(ShapeTextOrientation.HORIZONTAL);
+        chart.getTitle().setRotation(90);
+
+        // Before setting title properties, make sure that this title will be displayed.
+        chart.getAxisX().getTitle().setShow(true);
+        chart.getAxisX().getTitle().setText("X Axis");
+        chart.getAxisX().getTitle().setOrientation(ShapeTextOrientation.HORIZONTAL);
+        chart.getAxisX().getTitle().setRotation(-90);
+
+        doc.save(getArtifactsDir() + "Charts.TitleOrientation.docx");
+        //ExEnd:TitleOrientation
+
+        doc = new Document(getArtifactsDir() + "Charts.TitleOrientation.docx");
+        chartShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        chart = chartShape.getChart();
+
+        Assert.assertEquals(ShapeTextOrientation.HORIZONTAL, chart.getTitle().getOrientation());
+        Assert.assertEquals(90, chart.getTitle().getRotation());
+        Assert.assertEquals(ShapeTextOrientation.HORIZONTAL, chart.getAxisX().getTitle().getOrientation());
+        Assert.assertEquals(-90, chart.getAxisX().getTitle().getRotation());
+    }
 }
 
