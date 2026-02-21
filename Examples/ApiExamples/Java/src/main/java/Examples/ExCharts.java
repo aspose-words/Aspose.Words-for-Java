@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -2606,7 +2606,7 @@ public class ExCharts extends ApiExampleBase {
     public void titleOrientation() throws Exception
     {
         //ExStart:TitleOrientation
-        //GistId:358242737ad81fe9046ab090a4fbbf66
+        //GistId:13f69601357459d2b3e92fbc08c3db7f
         //ExFor:ChartTitle.Orientation
         //ExFor:ChartTitle.Rotation
         //ExFor:ChartAxisTitle.Orientation
