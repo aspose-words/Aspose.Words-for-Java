@@ -637,7 +637,7 @@ public class ExField extends ApiExampleBase
         return barcodeReader;
     }
 
-    @Test (groups = "IgnoreOnJenkins")
+    @Test
     public void fieldDatabase() throws Exception
     {
         //ExStart
@@ -661,21 +661,21 @@ public class ExField extends ApiExampleBase
 
         // This DATABASE field will run a query on a database, and display the result in a table.
         FieldDatabase field = (FieldDatabase)builder.insertField(FieldType.FIELD_DATABASE, true);
-        field.setFileName(getDatabaseDir() + "Northwind.accdb");
-        field.setConnection("Provider=Microsoft.ACE.OLEDB.12.0");
+        field.setFileName(getDatabaseDir() + "Northwind.db");
+        field.setConnection("DSN=Northwind");
         field.setQuery("SELECT * FROM [Products]");
 
         Assert.assertEquals(" DATABASE  \\d {DatabaseDir.Replace(", field.getFieldCode());
 
         // Insert another DATABASE field with a more complex query that sorts all products in descending order by gross sales.
         field = (FieldDatabase)builder.insertField(FieldType.FIELD_DATABASE, true);
-        field.setFileName(getDatabaseDir() + "Northwind.accdb");
-        field.setConnection("Provider=Microsoft.ACE.OLEDB.12.0");
-        field.setQuery("SELECT [Products].ProductName, FORMAT(SUM([Order Details].UnitPrice * (1 - [Order Details].Discount) * [Order Details].Quantity), 'Currency') AS GrossSales " +
-            "FROM([Products] " +
-            "LEFT JOIN[Order Details] ON[Products].[ProductID] = [Order Details].[ProductID]) " +
-            "GROUP BY[Products].ProductName " +
-            "ORDER BY SUM([Order Details].UnitPrice* (1 - [Order Details].Discount) * [Order Details].Quantity) DESC");
+        field.setFileName(getDatabaseDir() + "Northwind.db");
+        field.setConnection("DSN=Northwind");
+        field.setQuery("SELECT [Products].ProductName, printf('$%,.2f', SUM([Order Details].UnitPrice * (1 - [Order Details].Discount) * [Order Details].Quantity)) AS GrossSales " +
+            "FROM [Products] " +
+            "LEFT JOIN [Order Details] ON [Products].[ProductID] = [Order Details].[ProductID] " +
+            "GROUP BY [Products].ProductName " +
+            "ORDER BY SUM([Order Details].UnitPrice * (1 - [Order Details].Discount) * [Order Details].Quantity) DESC");
 
         // These properties have the same function as LIMIT and TOP clauses.
         // Configure them to display only rows 1 to 10 of the query result in the field's table.
@@ -694,7 +694,7 @@ public class ExField extends ApiExampleBase
         field.setInsertHeadings(true);
         field.setInsertOnceOnMailMerge(true);
 
-        doc.getFieldOptions().setFieldDatabaseProvider(new OleDbFieldDatabaseProvider());
+        doc.getFieldOptions().setFieldDatabaseProvider(new SqliteFieldDatabaseProvider());
         doc.updateFields();
 
         doc.save(getArtifactsDir() + "Field.DATABASE.docx");
@@ -713,7 +713,7 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(" DATABASE  \\d {DatabaseDir.Replace(", field.getFieldCode());
 
-        TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.accdb", field.getQuery());
+        TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.db", field.getQuery());
 
         table = (Table)doc.getChild(NodeType.TABLE, 1, true);
         field = (FieldDatabase)doc.getRange().getFields().get(1);
@@ -727,26 +727,33 @@ public class ExField extends ApiExampleBase
 
         table.getRows().get(0).remove();
 
-        TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.accdb", msString.insert(field.getQuery(), 7, " TOP 10 "));
+        TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.db",
+            field.getQuery() + " LIMIT 10");
     }
 
-    public static class OleDbFieldDatabaseProvider implements IFieldDatabaseProvider
+    public static class SqliteFieldDatabaseProvider implements IFieldDatabaseProvider
     {
         public FieldDatabaseDataTable /*IFieldDatabaseProvider.*/getQueryResult(String fileName, String connection, String query, FieldDatabase field)
         {
-            OleDbConnectionStringBuilder connectionStringBuilder = new OleDbConnectionStringBuilder(connection);
-            connectionStringBuilder.DataSource = fileName;
-
-            OleDbConnection oleDbConnection = new OleDbConnection(connectionStringBuilder.toString());
+            SqliteConnection sqliteConnection = new SqliteConnection($"Data Source={fileName}");
             try /*JAVA: was using*/
             {
-                OleDbDataAdapter oleDbDataAdapter = new OleDbDataAdapter(query, oleDbConnection);
-                DataTable dataTable = new DataTable();
-                oleDbDataAdapter.Fill(dataTable);
-
-                return FieldDatabaseDataTable.createFrom(dataTable);
+                sqliteConnection.Open();
+                SqliteCommand command = new SqliteCommand(query, sqliteConnection);
+                try /*JAVA: was using*/
+            	{
+                SqliteDataReader reader = command.ExecuteReader();
+                try /*JAVA: was using*/
+                {
+                    DataTable dataTable = new DataTable();
+                    dataTable.Load(reader);
+                    return FieldDatabaseDataTable.createFrom(dataTable);
+                }
+                finally { if (reader != null) reader.close(); }
+            	}
+                finally { if (command != null) command.close(); }
             }
-            finally { if (oleDbConnection != null) oleDbConnection.close(); }
+            finally { if (sqliteConnection != null) sqliteConnection.close(); }
         }
     }
 

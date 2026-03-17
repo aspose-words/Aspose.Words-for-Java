@@ -831,7 +831,7 @@ public class ExFontSettings extends ApiExampleBase
         doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().addSubstitutes("Kreon-Regular", new String[] {"Calibri"});
 
         Assert.That(doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular").Count(), assertEquals(1, );
-        Assert.That(doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular").ToArray(), Does.Contain("Calibri"));
+        Assert.That(doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular").ToArray(), areContainsSubstirng("Calibri", );
 
         // Alternatively, we could add a folder font source in which the corresponding folder contains the font.
         FolderFontSource folderFontSource = new FolderFontSource(getFontsDir(), false);

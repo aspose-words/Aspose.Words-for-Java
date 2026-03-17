@@ -366,23 +366,23 @@ public class ExMailMergeEvent extends ApiExampleBase
     //ExFor:IFieldMergingCallback.ImageFieldMerging
     //ExFor:ImageFieldMergingArgs.ImageStream
     //ExSummary:Shows how to insert images stored in a database BLOB field into a report.
-    @Test (groups = "IgnoreOnJenkins") //ExSkip
+    @Test //ExSkip
     public void imageFromBlob() throws Exception
     {
         Document doc = new Document(getMyDir() + "Mail merge destination - Northwind employees.docx");
 
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeImageFieldFromBlob());
 
-        String connString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={DatabaseDir + "Northwind.accdb"};";
+        String connString = $"Data Source={DatabaseDir + "Northwind.db"}";
         String query = "SELECT FirstName, LastName, Title, Address, City, Region, Country, PhotoBLOB FROM Employees";
 
-        OleDbConnection conn = new OleDbConnection(connString);
+        SqliteConnection conn = new SqliteConnection(connString);
         try /*JAVA: was using*/
         {
             conn.Open();
 
             // Open the data reader, which needs to be in a mode that reads all records at once.
-            OleDbCommand cmd = new OleDbCommand(query, conn);
+            SqliteCommand cmd = new SqliteCommand(query, conn);
             IDataReader dataReader = cmd.ExecuteReader();
 
             doc.getMailMerge().executeWithRegions(dataReader, "Employees");
@@ -390,7 +390,7 @@ public class ExMailMergeEvent extends ApiExampleBase
         finally { if (conn != null) conn.close(); }
 
         doc.save(getArtifactsDir() + "MailMergeEvent.ImageFromBlob.docx");
-        TestUtil.mailMergeMatchesQueryResult(getDatabaseDir() + "Northwind.accdb", query, new Document(getArtifactsDir() + "MailMergeEvent.ImageFromBlob.docx"), false); //ExSkip
+        TestUtil.mailMergeMatchesQueryResult(getDatabaseDir() + "Northwind.db", query, new Document(getArtifactsDir() + "MailMergeEvent.ImageFromBlob.docx"), false); //ExSkip
     }
 
     private static class HandleMergeImageFieldFromBlob implements IFieldMergingCallback

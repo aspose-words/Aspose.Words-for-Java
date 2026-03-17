@@ -292,9 +292,9 @@ class CustomBarcodeGenerator implements IBarcodeGenerator
                 gen.Parameters.Barcode.CodeTextParameters.Location = CodeLocation.Below;
 
             // Set QR Code error correction level.s
-            gen.Parameters.Barcode.QR.QrErrorLevel = QRErrorLevel.LevelH;
+            gen.Parameters.Barcode.QR.ErrorLevel = QRErrorLevel.LevelH;
             if (!msString.isNullOrEmpty(parameters.getErrorCorrectionLevel()))
-                gen.Parameters.Barcode.QR.QrErrorLevel = CustomBarcodeGeneratorUtils.GetQRCorrectionLevel(parameters.getErrorCorrectionLevel(), gen.Parameters.Barcode.QR.QrErrorLevel);
+                gen.Parameters.Barcode.QR.ErrorLevel = CustomBarcodeGeneratorUtils.GetQRCorrectionLevel(parameters.getErrorCorrectionLevel(), gen.Parameters.Barcode.QR.ErrorLevel);
 
             // Set rotation angle.
             if (!msString.isNullOrEmpty(parameters.getSymbolRotation()))

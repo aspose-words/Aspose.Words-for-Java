@@ -13,8 +13,6 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import org.testng.Assert;
-import com.aspose.words.ContentDisposition;
-import com.aspose.ms.System.msConsole;
 import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.net.System.Data.DataView;
 import com.aspose.words.net.System.Data.DataSet;
@@ -28,6 +26,7 @@ import com.aspose.words.FieldMergeField;
 import com.aspose.words.MappedDataFieldCollection;
 import java.util.Iterator;
 import java.util.Map;
+import com.aspose.ms.System.msConsole;
 import com.aspose.words.FieldAddressBlock;
 import com.aspose.words.FieldGreetingLine;
 import com.aspose.words.Field;
@@ -63,6 +62,60 @@ import org.testng.annotations.DataProvider;
 public class ExMailMerge extends ApiExampleBase
 {
     @Test
+    public void executeDataReader() throws Exception
+    {
+        //ExStart
+        //ExFor:MailMerge.Execute(IDataReader)
+        //ExSummary:Shows how to run a mail merge using data from a data reader.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Product:\t");
+        builder.insertField(" MERGEFIELD ProductName");
+        builder.write("\nSupplier:\t");
+        builder.insertField(" MERGEFIELD CompanyName");
+        builder.writeln();
+        builder.insertField(" MERGEFIELD QuantityPerUnit");
+        builder.write(" for $");
+        builder.insertField(" MERGEFIELD UnitPrice");
+
+        // Create a connection string that points to the "Northwind" database file
+        // in our local file system, open a connection, and set up an SQL query.
+        String connectionString = "Data Source=" + getDatabaseDir() + "Northwind.db";
+        String query =
+            "SELECT Products.ProductName, Suppliers.CompanyName, Products.QuantityPerUnit, Products.UnitPrice\r\n                FROM Products\r\n                INNER JOIN Suppliers\r\n                ON Products.SupplierID = Suppliers.SupplierID";
+
+        SqliteConnection connection = new SqliteConnection(connectionString);
+        try /*JAVA: was using*/
+        {
+            // Create an SQL command that will source data for our mail merge.
+            // The names of the table's columns that this SELECT statement will return
+            // will need to correspond to the merge fields we placed above.
+            connection.Open();
+            SqliteCommand command = new SqliteCommand(query, connection);
+            try /*JAVA: was using*/
+        	{
+            SqliteDataReader reader = command.ExecuteReader();
+            try /*JAVA: was using*/
+            {
+                // Take the data from the reader and use it in the mail merge.
+                doc.getMailMerge().Execute(reader);
+            }
+            finally { if (reader != null) reader.close(); }
+        	}
+            finally { if (command != null) command.close(); }
+        }
+        finally { if (connection != null) connection.close(); }
+
+        doc.save(getArtifactsDir() + "MailMerge.ExecuteDataReader.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "MailMerge.ExecuteDataReader.docx");
+
+        TestUtil.mailMergeMatchesQueryResult(getDatabaseDir() + "Northwind.db", query, doc, true);
+    }
+
+    @Test
     public void executeArray() throws Exception
     {
         HttpResponse response = null;
@@ -88,7 +141,7 @@ public class ExMailMerge extends ApiExampleBase
 
         // Send the document to the client browser.
         //Thrown because HttpResponse is null in the test.
-        Assert.<NullPointerException>Throws(() => doc.Save(response, "Artifacts/MailMerge.ExecuteArray.docx", ContentDisposition.INLINE, null));
+        Assert.<NullPointerException>Throws(() => doc.Save(response, "Artifacts/MailMerge.ExecuteArray.docx", ContentDisposition.Inline, null));
 
         // We will need to close this response manually to ensure that we do not add any superfluous content to the document after saving.
         Assert.<NullPointerException>Throws(() => response.End());
@@ -97,64 +150,6 @@ public class ExMailMerge extends ApiExampleBase
         doc = DocumentHelper.saveOpen(doc);
 
         TestUtil.mailMergeMatchesArray(new String[] { new String[] { "James Bond", "MI5 Headquarters", "Milbank", "London" } }, doc, true);
-    }
-
-    @Test (groups = "IgnoreOnJenkins")
-    public void executeDataReader() throws Exception
-    {
-        //ExStart
-        //ExFor:MailMerge.Execute(IDataReader)
-        //ExSummary:Shows how to run a mail merge using data from a data reader.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        builder.write("Product:\t");
-        builder.insertField(" MERGEFIELD ProductName");
-        builder.write("\nSupplier:\t");
-        builder.insertField(" MERGEFIELD CompanyName");
-        builder.writeln();
-        builder.insertField(" MERGEFIELD QuantityPerUnit");
-        builder.write(" for $");
-        builder.insertField(" MERGEFIELD UnitPrice");
-
-        // Create a connection string that points to the "Northwind" database file
-        // in our local file system, open a connection, and set up an SQL query.
-        String connectionString = "Provider = Microsoft.ACE.OLEDB.12.0; Data Source=" + getDatabaseDir() + "Northwind.accdb";
-        String query =
-            "SELECT Products.ProductName, Suppliers.CompanyName, Products.QuantityPerUnit, Products.UnitPrice\r\n                FROM Products \r\n                INNER JOIN Suppliers \r\n                ON Products.SupplierID = Suppliers.SupplierID";
-
-        OleDbConnection connection = new OleDbConnection(connectionString);
-        try /*JAVA: was using*/
-        {
-            // Create an SQL command that will source data for our mail merge.
-            // The names of the table's columns that this SELECT statement will return
-            // will need to correspond to the merge fields we placed above.
-            OleDbCommand command = new OleDbCommand(query, connection);
-            command.CommandText = query;
-            try
-            {
-                connection.Open();
-                OleDbDataReader reader = command.ExecuteReader();
-                try /*JAVA: was using*/
-                {
-                    // Take the data from the reader and use it in the mail merge.
-                    doc.getMailMerge().execute(reader);
-                }
-                finally { if (reader != null) reader.close(); }
-            }
-            catch (Exception ex)
-            {
-                System.out.println(ex.getMessage());
-            }
-        }
-        finally { if (connection != null) connection.close(); }
-
-        doc.save(getArtifactsDir() + "MailMerge.ExecuteDataReader.docx");
-        //ExEnd
-
-        doc = new Document(getArtifactsDir() + "MailMerge.ExecuteDataReader.docx");
-
-        TestUtil.mailMergeMatchesQueryResult(getDatabaseDir() + "Northwind.accdb", query, doc, true);
     }
 
     //ExStart
@@ -185,7 +180,7 @@ public class ExMailMerge extends ApiExampleBase
         // Execute the mail merge and save the document.
         doc.getMailMerge().ExecuteADO(recordset);
         doc.save(getArtifactsDir() + "MailMerge.ExecuteADO.docx");
-        TestUtil.mailMergeMatchesQueryResult(getDatabaseDir() + "Northwind.accdb", COMMAND, doc, true); //ExSkip
+        TestUtil.mailMergeMatchesQueryResult(getDatabaseDir() + "Northwind.db", COMMAND, doc, true); //ExSkip
     }
 
     /// <summary>
@@ -246,7 +241,7 @@ public class ExMailMerge extends ApiExampleBase
         
         doc.save(getArtifactsDir() + "MailMerge.ExecuteWithRegionsADO.docx");
 
-        TestUtil.mailMergeMatchesQueryResultMultiple(getDatabaseDir() + "Northwind.accdb", new String[] { "SELECT FirstName, LastName, City FROM Employees", "SELECT ContactName, Address, City FROM Customers" }, new Document(getArtifactsDir() + "MailMerge.ExecuteWithRegionsADO.docx"), false); //ExSkip
+        TestUtil.mailMergeMatchesQueryResultMultiple(getDatabaseDir() + "Northwind.db", new String[] { "SELECT FirstName, LastName, City FROM Employees", "SELECT ContactName, Address, City FROM Customers" }, new Document(getArtifactsDir() + "MailMerge.ExecuteWithRegionsADO.docx"), false); //ExSkip
     }
 
     /// <summary>

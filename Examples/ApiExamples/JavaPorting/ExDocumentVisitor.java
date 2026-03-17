@@ -1118,7 +1118,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         Assert.assertTrue(visitorText.contains("[OfficeMath start] Math object type: OMathPara"));
         Assert.assertTrue(visitorText.contains("[OfficeMath start] Math object type: OMath"));
         Assert.assertTrue(visitorText.contains("[OfficeMath start] Math object type: Argument"));
-        Assert.assertTrue(visitorText.contains("[OfficeMath start] Math object type: Supercript"));
+        Assert.assertTrue(visitorText.contains("[OfficeMath start] Math object type: Superscript"));
         Assert.assertTrue(visitorText.contains("[OfficeMath start] Math object type: SuperscriptPart"));
         Assert.assertTrue(visitorText.contains("[OfficeMath start] Math object type: Fraction"));
         Assert.assertTrue(visitorText.contains("[OfficeMath start] Math object type: Numerator"));

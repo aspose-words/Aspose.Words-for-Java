@@ -233,25 +233,30 @@ class TestUtil extends ApiExampleBase
     /// <param name="sqlQuery">Microsoft.Jet.OLEDB.4.0-compliant SQL query.</param>
     static void tableMatchesQueryResult(Table expectedResult, String dbFilename, String sqlQuery)
     {
-        OleDbConnection connection = new OleDbConnection();
+        SqliteConnection connection = new SqliteConnection($"Data Source={dbFilename}");
         try /*JAVA: was using*/
         {
-            connection.ConnectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={dbFilename};";
             connection.Open();
 
-            OleDbCommand command = connection.CreateCommand();
-            command.CommandText = sqlQuery;
-            OleDbDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+            SqliteCommand command = new SqliteCommand(sqlQuery, connection);
+            try /*JAVA: was using*/
+        	{
+            SqliteDataReader reader = command.ExecuteReader();
+            try /*JAVA: was using*/
+            {
+                DataTable myDataTable = new DataTable();
+                myDataTable.Load(reader);
 
-            DataTable myDataTable = new DataTable();
-            myDataTable.load(reader);
+                Assert.assertEquals(expectedResult.getRows().getCount(), myDataTable.getRows().getCount());
+                Assert.assertEquals(expectedResult.getRows().get(0).getCells().getCount(), myDataTable.getColumns().getCount());
 
-            Assert.assertEquals(expectedResult.getRows().getCount(), myDataTable.getRows().getCount());
-            Assert.assertEquals(expectedResult.getRows().get(0).getCells().getCount(), myDataTable.getColumns().getCount());
-
-            for (int i = 0; i < myDataTable.getRows().getCount(); i++)
-                for (int j = 0; j < myDataTable.getColumns().getCount(); j++)
-                    Assert.assertEquals(expectedResult.getRows().get(i).getCells().get(j).getText().replace(ControlChar.CELL, ""), myDataTable.getRows().get(i).get(j).toString());
+                for (int i = 0; i < myDataTable.getRows().getCount(); i++)
+                    for (int j = 0; j < myDataTable.getColumns().getCount(); j++)
+                        Assert.assertEquals(expectedResult.getRows().get(i).getCells().get(j).getText().replace(ControlChar.CELL, ""), myDataTable.getRows().get(i).get(j).toString());
+            }
+            finally { if (reader != null) reader.close(); }
+        	}
+            finally { if (command != null) command.close(); }
         }
         finally { if (connection != null) connection.close(); }
     }
@@ -284,48 +289,49 @@ class TestUtil extends ApiExampleBase
     /// <param name="onePagePerRow">True if the mail merge produced a document with one page per row in the data source.</param>
     static void mailMergeMatchesQueryResult(String dbFilename, String sqlQuery, Document doc, boolean onePagePerRow)
     {
-        ArrayList<String[]> expectedStrings = new ArrayList<String[]>(); 
-        String connectionString = "Provider = Microsoft.ACE.OLEDB.12.0; Data Source=" + dbFilename;
+        ArrayList<String[]> expectedStrings = new ArrayList<String[]>();
 
-        OleDbConnection connection = new OleDbConnection(connectionString);
+        SqliteConnection connection = new SqliteConnection($"Data Source={dbFilename}");
         try /*JAVA: was using*/
         {
-            OleDbCommand command = new OleDbCommand(sqlQuery, connection);
-            command.CommandText = sqlQuery;
-
-            try
+            connection.Open();
+            SqliteCommand command = new SqliteCommand(sqlQuery, connection);
+            try /*JAVA: was using*/
             {
-                connection.Open();
-                OleDbDataReader reader = command.ExecuteReader();
-                try /*JAVA: was using*/
+                try
                 {
-                    while (reader.read())
+                    SqliteDataReader reader = command.ExecuteReader();
+                    try /*JAVA: was using*/
                     {
-                        String[] row = new String[reader.getFieldCount()];
+                        while (reader.Read())
+                        {
+                            String[] row = new String[reader.FieldCount];
 
-                        for (int i = 0; i < reader.getFieldCount(); i++)
-                            switch (reader.(i))
-                            {
-                                case BigDecimal d:
-                                    row[i] = d.ToString("G29");
-                                    break;
-                                case String s:
-                                    row[i] = s.Trim().Replace("\n", String.Empty);
-                                    break;
-                                default:
-                                    row[i] = "";
-                                    break;
-                            }
+                            for (int i = 0; i < reader.FieldCount; i++)
+                                switch (reader[i])
+                                {
+                                    case BigDecimal d:
+                                        row[i] = d.ToString("G29");
+                                        break;
+                                    case String s:
+                                        row[i] = s.Trim().Replace("\n", String.Empty);
+                                        break;
+                                    default:
+                                        row[i] = "";
+                                        break;
+                                }
 
-                        expectedStrings.add(row);
+                            expectedStrings.add(row);
+                        }
                     }
+                    finally { if (reader != null) reader.close(); }
                 }
-                finally { if (reader != null) reader.close(); }
+                catch (Exception ex)
+                {
+                    System.out.println(ex.getMessage());
+                }
             }
-            catch (Exception ex)
-            {
-                System.out.println(ex.getMessage());
-            }
+            finally { if (command != null) command.close(); }
         }
         finally { if (connection != null) connection.close(); }
 
