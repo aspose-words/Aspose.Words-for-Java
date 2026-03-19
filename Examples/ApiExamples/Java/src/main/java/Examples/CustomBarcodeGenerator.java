@@ -222,10 +222,10 @@ class CustomBarcodeGenerator implements IBarcodeGenerator {
                 gen.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
 
             // Set QR Code error correction level.s
-            gen.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_H);
+            gen.getParameters().getBarcode().getQR().setErrorLevel(QRErrorLevel.LEVEL_H);
             String errorCorrectionLevel = parameters.getErrorCorrectionLevel();
             if (errorCorrectionLevel != null)
-                gen.getParameters().getBarcode().getQR().setQrErrorLevel(CustomBarcodeGeneratorUtils.getQRCorrectionLevel(errorCorrectionLevel, gen.getParameters().getBarcode().getQR().getQrErrorLevel()));
+                gen.getParameters().getBarcode().getQR().setErrorLevel(CustomBarcodeGeneratorUtils.getQRCorrectionLevel(errorCorrectionLevel, gen.getParameters().getBarcode().getQR().getQrErrorLevel()));
 
             // Set rotation angle.
             String symbolRotation = parameters.getSymbolRotation();

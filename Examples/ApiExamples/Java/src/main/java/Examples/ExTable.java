@@ -1259,7 +1259,6 @@ public class ExTable extends ApiExampleBase {
         //ExFor:Table.StyleName
         //ExFor:TableStyle
         //ExFor:TableStyle.AllowBreakAcrossPages
-        //ExFor:TableStyle.Bidi
         //ExFor:TableStyle.CellSpacing
         //ExFor:TableStyle.BottomPadding
         //ExFor:TableStyle.LeftPadding
@@ -1284,7 +1283,6 @@ public class ExTable extends ApiExampleBase {
 
         TableStyle tableStyle = (TableStyle) doc.getStyles().add(StyleType.TABLE, "MyTableStyle1");
         tableStyle.setAllowBreakAcrossPages(true);
-        tableStyle.setBidi(true);
         tableStyle.setCellSpacing(5.0);
         tableStyle.setBottomPadding(20.0);
         tableStyle.setLeftPadding(5.0);
@@ -1296,6 +1294,8 @@ public class ExTable extends ApiExampleBase {
         tableStyle.setVerticalAlignment(CellVerticalAlignment.CENTER);
 
         table.setStyle(tableStyle);
+        
+        table.setBidi(true);
 
         // Setting the style properties of a table may affect the properties of the table itself.
         Assert.assertTrue(table.getBidi());
@@ -1321,7 +1321,6 @@ public class ExTable extends ApiExampleBase {
         tableStyle = (TableStyle) doc.getStyles().get("MyTableStyle1");
 
         Assert.assertTrue(tableStyle.getAllowBreakAcrossPages());
-        Assert.assertTrue(tableStyle.getBidi());
         Assert.assertEquals(5.0d, tableStyle.getCellSpacing());
         Assert.assertEquals(20.0d, tableStyle.getBottomPadding());
         Assert.assertEquals(5.0d, tableStyle.getLeftPadding());

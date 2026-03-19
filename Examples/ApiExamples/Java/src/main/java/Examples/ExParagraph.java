@@ -620,4 +620,42 @@ public class ExParagraph extends ApiExampleBase {
         Assert.assertEquals("Run 4. ", para.getRuns().get(1).getText());
         //ExEnd
     }
+
+    @Test
+    public void joinRunsWithSameFormattingWithOptions() throws Exception
+    {
+        //ExStart:JoinRunsWithSameFormattingWithOptions
+        //GistId:8c640b84550c83678329a9a92f10bcdd
+        //ExFor:Paragraph.JoinRunsWithSameFormatting(JoinRunsOptions)
+        //ExFor:JoinRunsOptions
+        //ExSummary:Shows how to join runs with the same formatting while ignoring redundant and insignificant attributes.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Create runs with identical visible formatting but some internal differences.
+        builder.getFont().setName("Arial");
+        builder.getFont().setSize(12.0);
+        builder.write("Hello ");
+        builder.write("world");
+
+        // Verify runs before join.
+        Assert.assertEquals(2, doc.getFirstSection().getBody().getFirstParagraph().getRuns().getCount());
+        Assert.assertEquals("Hello ", doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getText());
+        Assert.assertEquals("world", doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(1).getText());
+
+        // Configure options to ignore redundant and insignificant attributes during join.
+        JoinRunsOptions options = new JoinRunsOptions();
+        options.setIgnoreRedundant(true); // Ignore redundant run properties that don't affect appearance.
+        options.setIgnoreInsignificant(true); // Ignore insignificant differences like whitespace-only runs.
+
+        // Join runs that have the same visible formatting using the extended options.
+        doc.getFirstSection().getBody().getFirstParagraph().joinRunsWithSameFormatting(options);
+
+        // Verify that runs were successfully joined.
+        Assert.assertEquals(1, doc.getFirstSection().getBody().getFirstParagraph().getRuns().getCount());
+        Assert.assertEquals("Hello world", doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getText());
+
+        doc.save(getArtifactsDir() + "Paragraph.JoinRunsWithSameFormattingWithOptions.docx");
+        //ExEnd:JoinRunsWithSameFormattingWithOptions
+    }
 }
