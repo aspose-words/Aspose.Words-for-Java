@@ -1522,7 +1522,7 @@ public class ExShape extends ApiExampleBase {
                 {
                         {0, MathObjectType.O_MATH_PARA},
                         {1, MathObjectType.O_MATH},
-                        {2, MathObjectType.SUPERCRIPT},
+                        {2, MathObjectType.SUPERSCRIPT},
                         {3, MathObjectType.ARGUMENT},
                         {4, MathObjectType.SUPERSCRIPT_PART}
                 };

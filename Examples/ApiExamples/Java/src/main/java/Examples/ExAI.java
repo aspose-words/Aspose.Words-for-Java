@@ -200,7 +200,7 @@ public class ExAI extends ApiExampleBase
         //ExEnd:OpenAiModelConstructor
 
         // Verify the summary was generated (non-empty content).
-        Assert.less(0, summary.getText().trim().length());
+        Assert.assertFalse(summary.getText().trim().isEmpty());
     }
 }
 
