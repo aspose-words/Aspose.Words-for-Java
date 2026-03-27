@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -625,7 +625,7 @@ public class ExParagraph extends ApiExampleBase {
     public void joinRunsWithSameFormattingWithOptions() throws Exception
     {
         //ExStart:JoinRunsWithSameFormattingWithOptions
-        //GistId:8c640b84550c83678329a9a92f10bcdd
+        //GistId:81b845f66244fc897768ea977b5f5ea9
         //ExFor:Paragraph.JoinRunsWithSameFormatting(JoinRunsOptions)
         //ExFor:JoinRunsOptions
         //ExSummary:Shows how to join runs with the same formatting while ignoring redundant and insignificant attributes.

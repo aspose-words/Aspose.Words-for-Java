@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
@@ -184,7 +184,7 @@ public class ExAI extends ApiExampleBase
     public void openAiModelConstructor() throws Exception
     {
         //ExStart:OpenAiModelConstructor
-        //GistId:8c640b84550c83678329a9a92f10bcdd
+        //GistId:81b845f66244fc897768ea977b5f5ea9
         //ExFor:OpenAiModel.#ctor(String,String)
         //ExSummary:Shows how to create an OpenAI model instance directly using an API key and model name.
         String apiKey = System.getenv("API_KEY");
