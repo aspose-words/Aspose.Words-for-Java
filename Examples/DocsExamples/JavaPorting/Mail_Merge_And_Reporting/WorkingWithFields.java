@@ -179,9 +179,7 @@ class WorkingWithFields extends DocsExamplesBase
 
         private static class DataSource implements IMailMergeDataSource
         {
-            private boolean next = true;
-
-            String IMailMergeDataSource.TableName => private TableNametableName();
+            private boolean next = true;private TableNametableName();
 
             private String tableName()
             {
@@ -247,17 +245,19 @@ class WorkingWithFields extends DocsExamplesBase
 
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeImageFieldFromBlob());
 
-        String connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + getDatabaseDir() + "Northwind.accdb";
-        OleDbConnection conn = new OleDbConnection(connString);
-        conn.Open();
+        String connString = "Data Source=" + getDatabaseDir() + "Northwind.db";
+        SqliteConnection conn = new SqliteConnection(connString);
+        try /*JAVA: was using*/
+        {
+            conn.Open();
 
-        OleDbCommand cmd = new OleDbCommand("SELECT * FROM Employees", conn);
-        IDataReader dataReader = cmd.ExecuteReader();
+            SqliteCommand cmd = new SqliteCommand("SELECT * FROM Employees", conn);
+            IDataReader dataReader = cmd.ExecuteReader();
 
-        doc.getMailMerge().executeWithRegions(dataReader, "Employees");
+            doc.getMailMerge().executeWithRegions(dataReader, "Employees");
+        }
+        finally { if (conn != null) conn.close(); }
 
-        conn.Close();
-        
         doc.save(getArtifactsDir() + "WorkingWithFields.MailMergeImageFromBlob.docx");
         //ExEnd:MailMergeImageFromBlob
     }
@@ -292,7 +292,7 @@ class WorkingWithFields extends DocsExamplesBase
 
         doc.getMailMerge().setFieldMergingCallback(new MailMergeSwitches());
 
-        final String HTML = "<html>\n                    <h1>Hello world!</h1>\n            </html>";
+        final String HTML = "<html>\r\n                    <h1>Hello world!</h1>\r\n            </html>";
 
         doc.getMailMerge().execute(new String[] { "htmlField1" }, new Object[] { HTML });
 

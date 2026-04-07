@@ -88,39 +88,53 @@ public class BaseOperations extends DocsExamplesBase
     {
         //ExStart:ExecuteWithRegionsDataTable
         //GistId:de5e13f5d5bb7d8cb88da900b4f9ed8b
-        Document doc = new Document(getMyDir() + "Mail merge destinations - Orders.docx");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Build a template with two mail merge regions: "Suppliers" and "Products".
+        builder.insertField(" MERGEFIELD TableStart:Suppliers");
+        builder.write("Company: ");
+        builder.insertField(" MERGEFIELD CompanyName");
+        builder.write(", Contact: ");
+        builder.insertField(" MERGEFIELD ContactName");
+        builder.insertField(" MERGEFIELD TableEnd:Suppliers");
+        builder.insertParagraph();
+        builder.insertField(" MERGEFIELD TableStart:Products");
+        builder.write("Product: ");
+        builder.insertField(" MERGEFIELD ProductName");
+        builder.write(", Price: ");
+        builder.insertField(" MERGEFIELD UnitPrice");
+        builder.insertField(" MERGEFIELD TableEnd:Products");
 
         // Use DataTable as a data source.
-        int orderId = 10444;
-        DataTable orderTable = getTestOrder(orderId);
-        doc.getMailMerge().executeWithRegions(orderTable);
+        DataTable suppliersTable = getTestSuppliers();
+        doc.getMailMerge().executeWithRegions(suppliersTable);
 
         // Instead of using DataTable, you can create a DataView for custom sort or filter and then mail merge.
-        DataView orderDetailsView = new DataView(getTestOrderDetails(orderId));
-        orderDetailsView.setSort("ExtendedPrice DESC");
+        DataView productsView = new DataView(getTestProducts());
+        productsView.setSort("UnitPrice DESC");
 
         // Execute the mail merge operation.
-        doc.getMailMerge().executeWithRegions(orderDetailsView);
+        doc.getMailMerge().executeWithRegions(productsView);
 
-        doc.save(getArtifactsDir() + "MailMerge.ExecuteWithRegions.docx");
+        doc.save(getArtifactsDir() + "BaseOperations.ExecuteWithRegions.docx");
         //ExEnd:ExecuteWithRegionsDataTable
     }
 
     //ExStart:ExecuteWithRegionsDataTableMethods
-    private DataTable getTestOrder(int orderId)
+    private DataTable getTestSuppliers()
     {
-        DataTable table = executeDataTable($"SELECT * FROM AsposeWordOrders WHERE OrderId = {orderId}");
-        table.setTableName("Orders");
-        
+        DataTable table = executeDataTable("SELECT CompanyName, ContactName FROM Suppliers");
+        table.setTableName("Suppliers");
+
         return table;
     }
 
-    private DataTable getTestOrderDetails(int orderId)
+    private DataTable getTestProducts()
     {
-        DataTable table = executeDataTable(
-            $"SELECT * FROM AsposeWordOrderDetails WHERE OrderId = {orderId} ORDER BY ProductID");
-        table.setTableName("OrderDetails");
-        
+        DataTable table = executeDataTable("SELECT ProductName, UnitPrice FROM Products ORDER BY ProductName");
+        table.setTableName("Products");
+
         return table;
     }
 
@@ -129,20 +143,26 @@ public class BaseOperations extends DocsExamplesBase
     /// </summary>
     private DataTable executeDataTable(String commandText)
     {
-        String connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + getDatabaseDir() + "Northwind.accdb";
+        String connString = "Data Source=" + getDatabaseDir() + "Northwind.db";
 
-        OleDbConnection conn = new OleDbConnection(connString);
-        conn.Open();
+        SqliteConnection conn = new SqliteConnection(connString);
+        try /*JAVA: was using*/
+        {
+            conn.Open();
 
-        OleDbCommand cmd = new OleDbCommand(commandText, conn);
-        OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+            SqliteCommand cmd = new SqliteCommand(commandText, conn);
 
-        DataTable table = new DataTable();
-        da.Fill(table);
+            DataTable table = new DataTable();
+            SqliteDataReader reader = cmd.ExecuteReader();
+            try /*JAVA: was using*/
+        	{
+                table.Load(reader);
+        	}
+            finally { if (reader != null) reader.close(); }
 
-        conn.Close();
-
-        return table;
+            return table;
+        }
+        finally { if (conn != null) conn.close(); }
     }
     //ExEnd:ExecuteWithRegionsDataTableMethods
 
@@ -151,18 +171,24 @@ public class BaseOperations extends DocsExamplesBase
     {
         //ExStart:ProduceMultipleDocuments
         //GistId:341b834e9b6a84ac6885e907e0ea4229
-        String connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + getDatabaseDir() + "Northwind.accdb";
+        String connString = "Data Source=" + getDatabaseDir() + "Northwind.db";
 
         Document doc = new Document(getMyDir() + "Mail merge destination - Suppliers.docx");
 
-        OleDbConnection conn = new OleDbConnection(connString);
-        conn.Open();
-        
-        OleDbCommand cmd = new OleDbCommand("SELECT * FROM Customers", conn);
-        OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-        
         DataTable data = new DataTable();
-        da.Fill(data);
+        SqliteConnection conn = new SqliteConnection(connString);
+        try /*JAVA: was using*/
+        {
+            conn.Open();
+            SqliteCommand cmd = new SqliteCommand("SELECT * FROM Customers", conn);
+            SqliteDataReader reader = cmd.ExecuteReader();
+            try /*JAVA: was using*/
+        	{
+                data.Load(reader);
+        	}
+            finally { if (reader != null) reader.close(); }
+        }
+        finally { if (conn != null) conn.close(); }
 
         // Perform a loop through each DataRow to iterate through the DataTable. Clone the template document
         // instead of loading it from disk for better speed performance before the mail merge operation.

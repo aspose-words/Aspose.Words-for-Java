@@ -19,16 +19,16 @@ public class WorkingWithDocumentInDatabase extends DocsExamplesBase
         Document doc = new Document(getMyDir() + "Document.docx");
         //ExStart:OpenDatabaseConnection
         //GistId:f8a622f8bc1cf3c2fa8a7a9be359faa2
-        String connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + getDatabaseDir() + "Northwind.accdb";
-        
-        OleDbConnection connection = new OleDbConnection(connString);
+        String connString = "Data Source=" + getDatabaseDir() + "Northwind.db";
+
+        SqliteConnection connection = new SqliteConnection(connString);
         connection.Open();
         //ExEnd:OpenDatabaseConnection
 
         //ExStart:OpenRetrieveAndDelete
         //GistId:f8a622f8bc1cf3c2fa8a7a9be359faa2
         storeToDatabase(doc, connection);
-        
+
         Document dbDoc = readFromDatabase("Document.docx", connection);
         dbDoc.save(getArtifactsDir() + "WorkingWithDocumentInDatabase.LoadAndSaveDocToDatabase.docx");
 
@@ -40,37 +40,48 @@ public class WorkingWithDocumentInDatabase extends DocsExamplesBase
 
     //ExStart:StoreToDatabase
     //GistId:f8a622f8bc1cf3c2fa8a7a9be359faa2
-    public void storeToDatabase(Document doc, OleDbConnection connection) throws Exception
+    public void storeToDatabase(Document doc, SqliteConnection connection) throws Exception
     {
+        // Ensure the Documents table exists.
+        SqliteCommand createTable = new SqliteCommand(
+            "CREATE TABLE IF NOT EXISTS Documents (Name TEXT NOT NULL, Data BLOB NOT NULL)", connection);
+        createTable.ExecuteNonQuery();
+
         MemoryStream stream = new MemoryStream();
         doc.save(stream, SaveFormat.DOCX);
 
         String fileName = Path.getFileName(doc.getOriginalFileName());
-        String commandString = "INSERT INTO Documents (Name, Data) VALUES('" + fileName + "', @Doc)";
-        
-        OleDbCommand command = new OleDbCommand(commandString, connection);
-        command.Parameters.AddWithValue("Doc", stream.toArray());
+        String commandString = "INSERT INTO Documents (Name, Data) VALUES(@Name, @Doc)";
+
+        SqliteCommand command = new SqliteCommand(commandString, connection);
+        command.Parameters.AddWithValue("@Name", fileName);
+        command.Parameters.AddWithValue("@Doc", stream.toArray());
         command.ExecuteNonQuery();
     }
     //ExEnd:StoreToDatabase
 
     //ExStart:ReadFromDatabase
     //GistId:f8a622f8bc1cf3c2fa8a7a9be359faa2
-    public Document readFromDatabase(String fileName, OleDbConnection connection) throws Exception
+    public Document readFromDatabase(String fileName, SqliteConnection connection) throws Exception
     {
-        String commandString = "SELECT * FROM Documents WHERE Name='" + fileName + "'";
-        
-        OleDbCommand command = new OleDbCommand(commandString, connection);
-        OleDbDataAdapter adapter = new OleDbDataAdapter(command);
+        String commandString = "SELECT * FROM Documents WHERE Name=@Name";
+
+        SqliteCommand command = new SqliteCommand(commandString, connection);
+        command.Parameters.AddWithValue("@Name", fileName);
 
         DataTable dataTable = new DataTable();
-        adapter.Fill(dataTable);
+        SqliteDataReader reader = command.ExecuteReader();
+        try /*JAVA: was using*/
+    	{
+            dataTable.Load(reader);
+    	}
+        finally { if (reader != null) reader.close(); }
 
         if (dataTable.getRows().getCount() == 0)
             throw new IllegalArgumentException(
                 $"Could not find any record matching the document \"{fileName}\" in the database.");
 
-        // The document is stored in byte form in the FileContent column.
+        // The document is stored in byte form in the Data column.
         // Retrieve these bytes of the first matching record to a new buffer.
         byte[] buffer = (byte[]) dataTable.getRows().get(0).get("Data");
 
@@ -84,11 +95,12 @@ public class WorkingWithDocumentInDatabase extends DocsExamplesBase
 
     //ExStart:DeleteFromDatabase
     //GistId:f8a622f8bc1cf3c2fa8a7a9be359faa2
-    public void deleteFromDatabase(String fileName, OleDbConnection connection)
+    public void deleteFromDatabase(String fileName, SqliteConnection connection)
     {
-        String commandString = "DELETE * FROM Documents WHERE Name='" + fileName + "'";
-        
-        OleDbCommand command = new OleDbCommand(commandString, connection);
+        String commandString = "DELETE FROM Documents WHERE Name=@Name";
+
+        SqliteCommand command = new SqliteCommand(commandString, connection);
+        command.Parameters.AddWithValue("@Name", fileName);
         command.ExecuteNonQuery();
     }
     //ExEnd:DeleteFromDatabase
