@@ -179,7 +179,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         }
 
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.JPEG);
-        saveOptions.GraphicsQualityOptions = qualityOptions;
+        saveOptions.setGraphicsQualityOptions(qualityOptions);
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.GraphicsQuality.jpg", saveOptions);
         //ExEnd

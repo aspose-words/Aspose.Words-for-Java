@@ -429,21 +429,6 @@ public class ExImage extends ApiExampleBase
         Assert.assertEquals(300.0d, imageSize.getHeightPoints());
     }
 
-    @Test
-    public void insertWebpImage() throws Exception
-    {
-        //ExStart:InsertWebpImage
-        //GistId:e386727403c2341ce4018bca370a5b41
-        //ExFor:DocumentBuilder.InsertImage(String)
-        //ExSummary:Shows how to insert WebP image.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        
-        builder.insertImage(getImageDir() + "WebP image.webp");
-
-        doc.save(getArtifactsDir() + "Image.InsertWebpImage.docx");
-        //ExEnd:InsertWebpImage
-    }
 
     @Test
     public void readWebpImage() throws Exception

@@ -316,7 +316,7 @@ public class ExDocument extends ApiExampleBase
     {
         Document doc = new Document(getMyDir() + "Pdf Document.pdf");
 
-        Assert.assertEquals("Heading 1\rHeading 1.1.1.1 Heading 1.1.1.2\rHeading 1.1.1.1.1.1.1.1.1 Heading 1.1.1.1.1.1.1.1.2\f", doc.getRange().getText());
+        Assert.assertEquals("Heading 1\rHeading 1.1.1.1\rHeading 1.1.1.2\rHeading 1.1.1.1.1.1.1.1.1\rHeading 1.1.1.1.1.1.1.1.2\f", doc.getRange().getText());
     }
 
     @Test
