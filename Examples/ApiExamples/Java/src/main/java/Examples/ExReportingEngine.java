@@ -34,6 +34,8 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
 
+import static org.testng.Assert.assertThrows;
+
 @Test
 public class ExReportingEngine extends ApiExampleBase {
     private final String mImage = getImageDir() + "Logo.jpg";
@@ -89,6 +91,8 @@ public class ExReportingEngine extends ApiExampleBase {
         buildReport(doc, Common.getContracts(), "Contracts", new Class[]{ContractTestClass.class});
 
         doc.save(getArtifactsDir() + "ReportingEngine.TestDataTable.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.TestDataTable.docx", getGoldsDir() + "ReportingEngine.TestDataTable Gold.docx"));
     }
 
     @Test
@@ -97,7 +101,9 @@ public class ExReportingEngine extends ApiExampleBase {
 
         buildReport(doc, Common.getContracts(), "Contracts", new Class[]{ContractTestClass.class});
 
-        doc.save(getArtifactsDir() + "ReportingEngine.Total.docx");
+        doc.save(getArtifactsDir() + "ReportingEngine.ProgressiveTotal.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.ProgressiveTotal.docx", getGoldsDir() + "ReportingEngine.Total Gold.docx"));
     }
 
     @Test
@@ -107,6 +113,8 @@ public class ExReportingEngine extends ApiExampleBase {
         buildReport(doc, Common.getManagers(), "Managers", new Class[]{ManagerTestClass.class, ContractTestClass.class});
 
         doc.save(getArtifactsDir() + "ReportingEngine.TestNestedDataTable.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.TestNestedDataTable.docx", getGoldsDir() + "ReportingEngine.TestNestedDataTable Gold.docx"));
     }
 
     @Test
@@ -157,6 +165,8 @@ public class ExReportingEngine extends ApiExampleBase {
         buildReport(doc, Common.getManagers(), "managers", new Class[]{ManagerTestClass.class});
 
         doc.save(getArtifactsDir() + "ReportingEngine.TestChart.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.TestChart.docx", getGoldsDir() + "ReportingEngine.TestChart Gold.docx"));
     }
 
     @Test
@@ -166,6 +176,8 @@ public class ExReportingEngine extends ApiExampleBase {
         buildReport(doc, Common.getManagers(), "managers", new Class[]{ManagerTestClass.class});
 
         doc.save(getArtifactsDir() + "ReportingEngine.TestBubbleChart.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.TestBubbleChart.docx", getGoldsDir() + "ReportingEngine.TestBubbleChart Gold.docx"));
     }
 
     @Test
@@ -175,6 +187,8 @@ public class ExReportingEngine extends ApiExampleBase {
         buildReport(doc, Common.getManagers(), "managers", new Class[]{ManagerTestClass.class});
 
         doc.save(getArtifactsDir() + "ReportingEngine.SetChartSeriesColorDynamically.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.SetChartSeriesColorDynamically.docx", getGoldsDir() + "ReportingEngine.SetChartSeriesColorDynamically Gold.docx"));
     }
 
     @Test
@@ -191,16 +205,34 @@ public class ExReportingEngine extends ApiExampleBase {
         buildReport(doc, colors, "colorItems", new Class[]{ColorItemTestClass.class});
 
         doc.save(getArtifactsDir() + "ReportingEngine.SetPointColorDynamically.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.SetPointColorDynamically.docx", getGoldsDir() + "ReportingEngine.SetPointColorDynamically Gold.docx"));
     }
 
-    @Test(enabled = false, description = "WORDSNET-20810")
-    public void conditionalExpressionRemoveChartSeries() throws Exception {
-        Document doc = new Document(getMyDir() + "Reporting engine template - Chart series (Java)");
+    @Test
+    public void conditionalExpressionForLeaveChartSeries() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Reporting engine template - Chart series (Java).docx");
+
+        int condition = 3;
+        buildReport(doc, new Object[] { Common.getManagers(), condition }, new String[] { "managers", "condition" }, new Class[]{ManagerTestClass.class});
+
+        doc.save(getArtifactsDir() + "ReportingEngine.TestLeaveChartSeries.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.TestLeaveChartSeries.docx", getGoldsDir() + "ReportingEngine.TestLeaveChartSeries Gold.docx"));
+    }
+
+    @Test
+    public void conditionalExpressionForRemoveChartSeries() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Reporting engine template - Chart series (Java).docx");
 
         int condition = 2;
         buildReport(doc, new Object[]{Common.getManagers(), condition}, new String[]{"managers", "condition"}, new Class[]{ManagerTestClass.class});
 
         doc.save(getArtifactsDir() + "ReportingEngine.TestRemoveChartSeries.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.TestRemoveChartSeries.docx", getGoldsDir() + "ReportingEngine.TestRemoveChartSeries Gold.docx"));
     }
 
     @Test
@@ -209,8 +241,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
         buildReport(doc, Common.getManagers(), "Managers", new Class[]{ManagerTestClass.class});
 
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc = DocumentHelper.saveOpen(doc);
 
         Assert.assertEquals("The names are: John Smith, Tony Anderson, July James\f", doc.getText());
     }
@@ -221,8 +252,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
         buildReport(doc, Common.getManagers(), "m", new Class[]{ManagerTestClass.class});
 
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc = DocumentHelper.saveOpen(doc);
 
         Assert.assertEquals("You have chosen 3 item(s).\f", doc.getText());
     }
@@ -233,8 +263,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
         buildReport(doc, Common.getEmptyManagers(), "m", new Class[]{ManagerTestClass.class});
 
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc = DocumentHelper.saveOpen(doc);
 
         Assert.assertEquals("You have chosen no items.\f", doc.getText());
     }
@@ -244,7 +273,10 @@ public class ExReportingEngine extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Reporting engine template - Extension methods (Java).docx");
 
         buildReport(doc, Common.getManagers(), "Managers", new Class[]{ManagerTestClass.class});
+
         doc.save(getArtifactsDir() + "ReportingEngine.ExtensionMethods.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.ExtensionMethods.docx", getGoldsDir() + "ReportingEngine.ExtensionMethods Gold.docx"));
     }
 
     @Test
@@ -254,7 +286,10 @@ public class ExReportingEngine extends ApiExampleBase {
         NumericTestClass testData = new NumericTestBuilder().withValuesAndLogical(1, 2.0, 3, null, true).build();
 
         buildReport(doc, testData, "ds", new Class[]{NumericTestBuilder.class});
+
         doc.save(getArtifactsDir() + "ReportingEngine.Operators.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.Operators.docx", getGoldsDir() + "ReportingEngine.Operators Gold.docx"));
     }
 
     @Test
@@ -276,6 +311,8 @@ public class ExReportingEngine extends ApiExampleBase {
         buildReport(doc, Common.getManagers(), "Managers", new Class[]{ManagerTestClass.class});
 
         doc.save(getArtifactsDir() + "ReportingEngine.ContextualObjectMemberAccess.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.ContextualObjectMemberAccess.docx", getGoldsDir() + "ReportingEngine.ContextualObjectMemberAccess Gold.docx"));
     }
 
     @Test
@@ -288,6 +325,10 @@ public class ExReportingEngine extends ApiExampleBase {
         buildReport(template, new Object[]{doc, Common.getContracts()}, new String[]{"src", "Contracts"}, new Class[]{ContractTestClass.class});
         template.save(
                 getArtifactsDir() + "ReportingEngine.InsertDocumentDynamicallyWithAdditionalTemplateChecking.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(
+                    getArtifactsDir() + "ReportingEngine.InsertDocumentDynamicallyWithAdditionalTemplateChecking.docx",
+                    getGoldsDir() + "ReportingEngine.InsertDocumentDynamicallyWithAdditionalTemplateChecking Gold.docx"));
     }
 
     @Test
@@ -301,8 +342,9 @@ public class ExReportingEngine extends ApiExampleBase {
         buildReport(template, doc, "src", new Class[]{DocumentTestClass.class}, ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
         template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
 
-        template = new Document(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
-        Assert.assertEquals(1, template.getFirstSection().getBody().getParagraphs().getCount());
+        Assert.assertTrue(DocumentHelper.compareDocs(
+                getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx",
+                getGoldsDir() + "ReportingEngine.InsertDocumentDynamically(stream,doc,bytes) Gold.docx"));
     }
 
     @Test
@@ -312,8 +354,11 @@ public class ExReportingEngine extends ApiExampleBase {
         DocumentTestClass doc = new DocumentTestBuilder()
                 .withDocument(new Document(mDocument)).build();
 
-        buildReport(template, doc, "src");
+        buildReport(template, doc, "src", ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
         template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
+
+        template = new Document(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
+        Assert.assertEquals(2, template.getFirstSection().getBody().getParagraphs().getCount());
     }
 
     @Test
@@ -336,7 +381,9 @@ public class ExReportingEngine extends ApiExampleBase {
         template.save(getArtifactsDir() + "ReportingEngine.SourseListNumbering.docx");
         //ExEnd:SourseListNumbering
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.SourseListNumbering.docx", getGoldsDir() + "ReportingEngine.SourseListNumbering Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(
+                getArtifactsDir() + "ReportingEngine.SourseListNumbering.docx",
+                getGoldsDir() + "ReportingEngine.SourseListNumbering Gold.docx"));
     }
 
     @Test
@@ -346,7 +393,7 @@ public class ExReportingEngine extends ApiExampleBase {
         DocumentTestClass docStream = new DocumentTestBuilder()
                 .withDocumentStream(new FileInputStream(mDocument)).build();
 
-        buildReport(template, docStream, "src");
+        buildReport(template, docStream, "src", ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
         template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
     }
 
@@ -455,15 +502,64 @@ public class ExReportingEngine extends ApiExampleBase {
                 };
     }
 
-    @Test(expectedExceptions = IllegalStateException.class)
-    public void withoutKnownType() throws Exception {
+    @Test
+    public void imageExifOrientation() throws Exception
+    {
+        Document template = new Document(getMyDir() + "Reporting engine template - Image exif orientation.docx");
+
+        byte[] image1Bytes = Files.readAllBytes(Paths.get(getImageDir() + "RightF.jpg"));
+        byte[] image2Bytes = Files.readAllBytes(Paths.get(getImageDir() + "WrongF.jpg"));
+
+        buildReport(
+                template,
+                new Object[]{ image1Bytes, image2Bytes },
+                new String[]{ "image1", "image2" },
+                ReportBuildOptions.RESPECT_JPEG_EXIF_ORIENTATION
+        );
+
+        template.save(getArtifactsDir() + "ReportingEngine.ImageExifOrientation.docx");
+    }
+
+    @Test
+    public void dynamicStretchingImageWithinTextBox() throws Exception
+    {
+        Document template = new Document(getMyDir() + "Reporting engine template - Dynamic stretching.docx");
+        
+        ImageTestClass image = new ImageTestBuilder().withImage(mImage).build();
+
+        buildReport(template, image, "src", new Class[]{ImageTestClass.class}, ReportBuildOptions.NONE);
+        template.save(getArtifactsDir() + "ReportingEngine.DynamicStretchingImageWithinTextBox.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.DynamicStretchingImageWithinTextBox.docx",
+                    getGoldsDir() + "ReportingEngine.DynamicStretchingImageWithinTextBox Gold.docx"));
+    }
+
+    @Test
+    public void insertBookmarksDynamically() throws Exception
+    {
+        Document doc =
+            DocumentHelper.createSimpleDocument(
+                "<<bookmark [bookmark_expression]>><<foreach [ContractTestClass c in Contracts]>><<[c.getClient().getName()]>><</foreach>><</bookmark>>");
+
+        buildReport(doc, new Object[] { "BookmarkOne", Common.getContracts() },
+            new String[] { "bookmark_expression", "Contracts" }, new Class[] {ContractTestClass.class});
+
+        doc.save(getArtifactsDir() + "ReportingEngine.InsertBookmarksDynamically.docx");
+    }
+
+    @Test
+    public void withoutKnownType() throws Exception
+    {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.writeln("<<[new Date()]:”dd.MM.yyyy”>>");
 
         ReportingEngine engine = new ReportingEngine();
-        engine.buildReport(doc, "");
+        assertThrows(
+                IllegalStateException.class,
+                () -> engine.buildReport(doc, "")
+        );
     }
 
     @Test
@@ -480,6 +576,18 @@ public class ExReportingEngine extends ApiExampleBase {
         buildReport(doc, "", new Class[]{GregorianCalendar.class, Calendar.class});
 
         doc.save(getArtifactsDir() + "ReportingEngine.KnownTypes.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.KnownTypes.docx", getGoldsDir() + "ReportingEngine.KnownTypes Gold.docx"));
+    }
+
+    @Test
+    public void workWithContentControls() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Reporting engine template - CheckBox Content Control (Java).docx");
+
+        buildReport(doc, Common.getManagers(), "Managers", new Class[] {ManagerTestClass.class});
+
+        doc.save(getArtifactsDir() + "ReportingEngine.WorkWithContentControls.docx");
     }
 
     @Test
@@ -755,6 +863,9 @@ public class ExReportingEngine extends ApiExampleBase {
         buildReport(doc, Common.getManagers(), "Managers", new Class[]{ManagerTestClass.class});
 
         doc.save(getArtifactsDir() + "ReportingEngine.DoNotRemoveEmptyParagraphs.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.DoNotRemoveEmptyParagraphs.docx",
+                getGoldsDir() + "ReportingEngine.DoNotRemoveEmptyParagraphs Gold.docx"));
     }
 
     @Test
@@ -764,6 +875,9 @@ public class ExReportingEngine extends ApiExampleBase {
         buildReport(doc, Common.getManagers(), "Managers", new Class[]{ManagerTestClass.class}, ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
 
         doc.save(getArtifactsDir() + "ReportingEngine.RemoveEmptyParagraphs.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.RemoveEmptyParagraphs.docx",
+                getGoldsDir() + "ReportingEngine.RemoveEmptyParagraphs Gold.docx"));
     }
 
     @Test(dataProvider = "mergingTableCellsDynamicallyDataProvider")
@@ -1223,6 +1337,14 @@ public class ExReportingEngine extends ApiExampleBase {
         for (Class knownType : knownTypes) {
             engine.getKnownTypes().add(knownType);
         }
+
+        engine.buildReport(document, dataSource, dataSourceName);
+    }
+
+    private static void buildReport(final Document document, final Object[] dataSource, final String[] dataSourceName,
+                                    final int reportBuildOptions) throws Exception {
+        ReportingEngine engine = new ReportingEngine();
+        engine.setOptions(reportBuildOptions);
 
         engine.buildReport(document, dataSource, dataSourceName);
     }

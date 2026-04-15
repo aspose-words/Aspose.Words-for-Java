@@ -186,7 +186,6 @@ public final class DocumentHelper {
         Document doc2 = new Document(filePathDoc2);
 
         return doc1.getText().equals(doc2.getText());
-
     }
 
     /**

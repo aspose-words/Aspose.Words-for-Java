@@ -54,13 +54,13 @@
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>26.2</version>
+            <version>26.3</version>
             <classifier>jdk17</classifier>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>26.2</version>
+            <version>26.3</version>
             <classifier>shaping-harfbuzz-plugin</classifier>
         </dependency>
         <dependency>
@@ -72,7 +72,7 @@
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-pdf</artifactId>
-            <version>26.2</version>
+            <version>26.3</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
