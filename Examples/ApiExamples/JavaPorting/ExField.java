@@ -116,7 +116,7 @@ import com.aspose.words.FieldMergingArgs;
 import com.aspose.words.ImageFieldMergingArgs;
 import com.aspose.words.MergeFieldImageDimension;
 import com.aspose.words.ImageType;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import com.aspose.ms.System.Collections.msDictionary;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -787,14 +787,14 @@ public class ExField extends ApiExampleBase
 
             if (preserveIncludePictureField)
             {
-                Assert.That(doc.getRange().getFields().Any(f => f.Type == FieldType.FieldIncludePicture), assertTrue();
+                Assert.assertTrue(doc.getRange().getFields().Any(f => f.getType() == FieldType.FIELD_INCLUDE_PICTURE));
 
                 doc.updateFields();
                 doc.save(getArtifactsDir() + "Field.PreserveIncludePicture.docx");
             }
             else
             {
-                Assert.That(doc.getRange().getFields().Any(f => f.Type == FieldType.FieldIncludePicture), assertFalse();
+                Assert.assertFalse(doc.getRange().getFields().Any(f => f.getType() == FieldType.FIELD_INCLUDE_PICTURE));
             }
         }
         finally { if (docStream != null) docStream.close(); }
@@ -957,9 +957,9 @@ public class ExField extends ApiExampleBase
 
         NodeCollection paragraphCollection = doc.getChildNodes(NodeType.PARAGRAPH, true);
 
-        for (Paragraph para : paragraphCollection.<Paragraph>OfType() !!Autoporter error: Undefined expression type )
+        for (Paragraph para : paragraphCollection.<Paragraph>OfType())
         {
-            for (Run run : para.getRuns().<Run>OfType() !!Autoporter error: Undefined expression type )
+            for (Run run : para.getRuns().<Run>OfType())
             {
                 if (run.getText().contains(ControlChar.PAGE_BREAK))
                 {
@@ -979,7 +979,7 @@ public class ExField extends ApiExampleBase
 
         NodeCollection fStart = doc.getChildNodes(NodeType.FIELD_START, true);
 
-        for (FieldStart field : fStart.<FieldStart>OfType() !!Autoporter error: Undefined expression type )
+        for (FieldStart field : fStart.<FieldStart>OfType())
         {
             /*FieldType*/int fType = field.getFieldType();
             if (fType == FieldType.FIELD_TOC)
@@ -1087,11 +1087,11 @@ public class ExField extends ApiExampleBase
     {
         doc = DocumentHelper.saveOpen(doc);
 
-        FieldRef fieldRef = (FieldRef)doc.getRange().getFields().First(f => f.Type == FieldType.FieldRef);
+        FieldRef fieldRef = (FieldRef)doc.getRange().getFields().First(f => f.getType() == FieldType.FIELD_REF);
         TestUtil.verifyField(FieldType.FIELD_REF, 
             " REF  MyAskField", "Response from MyPromptRespondent. Response from within the field.", fieldRef);
 
-        FieldAsk fieldAsk = (FieldAsk)doc.getRange().getFields().First(f => f.Type == FieldType.FieldAsk);
+        FieldAsk fieldAsk = (FieldAsk)doc.getRange().getFields().First(f => f.getType() == FieldType.FIELD_ASK);
         TestUtil.verifyField(FieldType.FIELD_ASK, 
             " ASK  MyAskField \"Please provide a response for this ASK field\" \\d \"Response from within the field.\" \\o", 
             "Response from MyPromptRespondent. Response from within the field.", fieldAsk);
@@ -1598,7 +1598,7 @@ public class ExField extends ApiExampleBase
         // has reset the count for this level so that this field will display "2.2.1.".
         insertNumberedClause(builder, "\tHeading 6", FILLER_TEXT, StyleIdentifier.HEADING_3);
 
-        for (FieldAutoNumLgl field : doc.getRange().getFields().Where(f => f.Type == FieldType.FieldAutoNumLegal).ToList() !!Autoporter error: Undefined expression type )
+        for (FieldAutoNumLgl field : (Iterable<FieldAutoNumLgl>) doc.getRange().getFields().Where(f => f.getType() == FieldType.FIELD_AUTO_NUM_LEGAL).ToList())
         {
             // The separator character, which appears in the field result immediately after the number,
             // is a full stop by default. If we leave this property null,
@@ -1637,7 +1637,7 @@ public class ExField extends ApiExampleBase
     {
         doc = DocumentHelper.saveOpen(doc);
 
-        for (FieldAutoNumLgl field : doc.getRange().getFields().Where(f => f.Type == FieldType.FieldAutoNumLegal).ToList() !!Autoporter error: Undefined expression type )
+        for (FieldAutoNumLgl field : (Iterable<FieldAutoNumLgl>) doc.getRange().getFields().Where(f => f.getType() == FieldType.FIELD_AUTO_NUM_LEGAL).ToList())
         {
             TestUtil.verifyField(FieldType.FIELD_AUTO_NUM_LEGAL, " AUTONUMLGL  \\s : \\e", "", field);
 
@@ -1668,7 +1668,7 @@ public class ExField extends ApiExampleBase
         builder.insertField(FieldType.FIELD_AUTO_NUM_OUTLINE, true);
         builder.writeln("\tParagraph 2.");
 
-        for (FieldAutoNumOut field : doc.getRange().getFields().Where(f => f.Type == FieldType.FieldAutoNumOutline).ToList() !!Autoporter error: Undefined expression type )
+        for (FieldAutoNumOut field : (Iterable<FieldAutoNumOut>) doc.getRange().getFields().Where(f => f.getType() == FieldType.FIELD_AUTO_NUM_OUTLINE).ToList())
             Assert.assertEquals(" AUTONUMOUT ", field.getFieldCode());
 
         doc.save(getArtifactsDir() + "Field.AUTONUMOUT.docx");
@@ -2574,7 +2574,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(8, doc.getRange().getFields().getCount());
 
         fieldToc = (FieldToc)doc.getRange().getFields().get(0);
-        String[] pageRefIds = msString.split(fieldToc.getResult(), ' ').Where(s => s.StartsWith("_Toc")).ToArray();
+        String[] pageRefIds = msString.split(fieldToc.getResult(), ' ').Where(s => s.startsWith("_Toc")).ToArray();
 
         Assert.assertEquals(FieldType.FIELD_TOC, fieldToc.getType());
         Assert.assertEquals("MySequence", fieldToc.getTableOfFiguresLabel());
@@ -3228,7 +3228,7 @@ public class ExField extends ApiExampleBase
     {
         public ImageFilenameCallback()
         {
-            mImageFilenames = new HashMap<String, String>();
+            mImageFilenames = new LinkedHashMap<String, String>();
             msDictionary.add(mImageFilenames, "Dark logo", getImageDir() + "Logo.jpg");
             msDictionary.add(mImageFilenames, "Transparent logo", getImageDir() + "Transparent background logo.png");
         }
@@ -3248,7 +3248,7 @@ public class ExField extends ApiExampleBase
             Assert.Is.Not.Nullargs.getImage());
         }
 
-        private /*final*/ HashMap<String, String> mImageFilenames;
+        private /*final*/ LinkedHashMap<String, String> mImageFilenames;
     }
     //ExEnd
 
@@ -3585,7 +3585,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("Cat\tMySequence at 1 on page 2, 3 on page 3\r" +
                             "Dog\tMySequence at 3 on page 4\r", index.getResult());
 
-        Assert.That(doc.getRange().getFields().Where(f => f.Type == FieldType.FieldSequence).Count(), assertEquals(3, );
+        Assert.assertEquals(3, doc.getRange().getFields().Where(f => f.getType() == FieldType.FIELD_SEQUENCE).Count());
     }
 
     @Test
@@ -4222,7 +4222,7 @@ public class ExField extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Field.MERGEBARCODE.QR.docx");
 
-        Assert.That(doc.getRange().getFields().Count(f => f.Type == FieldType.FieldMergeBarcode), assertEquals(0, );
+        Assert.assertEquals(0, doc.getRange().getFields().Count(f => f.getType() == FieldType.FIELD_MERGE_BARCODE));
 
         FieldDisplayBarcode barcode = (FieldDisplayBarcode)doc.getRange().getFields().get(0);
 
@@ -4288,7 +4288,7 @@ public class ExField extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Field.MERGEBARCODE.EAN13.docx");
 
-        Assert.That(doc.getRange().getFields().Count(f => f.Type == FieldType.FieldMergeBarcode), assertEquals(0, );
+        Assert.assertEquals(0, doc.getRange().getFields().Count(f => f.getType() == FieldType.FIELD_MERGE_BARCODE));
 
         FieldDisplayBarcode barcode = (FieldDisplayBarcode)doc.getRange().getFields().get(0);
 
@@ -4347,7 +4347,7 @@ public class ExField extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Field.MERGEBARCODE.CODE39.docx");
 
-        Assert.That(doc.getRange().getFields().Count(f => f.Type == FieldType.FieldMergeBarcode), assertEquals(0, );
+        Assert.assertEquals(0, doc.getRange().getFields().Count(f => f.getType() == FieldType.FIELD_MERGE_BARCODE));
 
         FieldDisplayBarcode barcode = (FieldDisplayBarcode)doc.getRange().getFields().get(0);
 
@@ -4403,7 +4403,7 @@ public class ExField extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Field.MERGEBARCODE.ITF14.docx");
 
-        Assert.That(doc.getRange().getFields().Count(f => f.Type == FieldType.FieldMergeBarcode), assertEquals(0, );
+        Assert.assertEquals(0, doc.getRange().getFields().Count(f => f.getType() == FieldType.FIELD_MERGE_BARCODE));
 
         FieldDisplayBarcode barcode = (FieldDisplayBarcode)doc.getRange().getFields().get(0);
 
@@ -7958,7 +7958,7 @@ public class ExField extends ApiExampleBase
         Source source = bibliography.getSources().FirstOrDefault();
         Assert.assertEquals("Book 0 (No LCID)", source.getTitle());
         Assert.assertEquals(SourceType.BOOK, source.getSourceType());
-        Assert.That(source.getContributors().Count(), assertEquals(3, );
+        Assert.assertEquals(3, source.getContributors().Count());
         Assert.assertNull(source.getAbbreviatedCaseNumber());
         Assert.assertNull(source.getAlbumTitle());
         Assert.assertNull(source.getBookTitle());
@@ -8030,10 +8030,10 @@ public class ExField extends ApiExampleBase
         Assert.assertNull(contributors.getWriter());
 
         Contributor editor  = contributors.getEditor();
-        Assert.That(((PersonCollection)editor).Count(), assertEquals(2, );
+        Assert.assertEquals(2, ((PersonCollection)editor).Count());
 
         PersonCollection authors = (PersonCollection)contributors.getAuthor();
-        Assert.That(authors.Count(), assertEquals(2, );
+        Assert.assertEquals(2, authors.Count());
 
         Person person = authors.get(0);
         Assert.assertEquals("Roxanne", person.getFirst());

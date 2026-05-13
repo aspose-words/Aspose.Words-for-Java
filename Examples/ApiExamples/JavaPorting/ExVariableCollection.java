@@ -72,7 +72,7 @@ public class ExVariableCollection extends ApiExampleBase
 
         // Verify that the document variables with a certain name or value exist.
         Assert.assertTrue(variables.contains("City"));
-        Assert.That(variables.Any(v => v.Value == "London"), assertTrue();
+        Assert.assertTrue(variables.Any(v => "London".equals(v.getValue())));
 
         // The collection of variables automatically sorts variables alphabetically by name.
         Assert.assertEquals(0, variables.indexOfKey("Bedrooms"));

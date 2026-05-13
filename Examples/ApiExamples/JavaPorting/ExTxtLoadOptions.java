@@ -16,11 +16,11 @@ import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.ms.System.Text.Encoding;
 import org.testng.Assert;
 import com.aspose.ms.NUnit.Framework.msAssert;
+import com.aspose.words.Paragraph;
 import com.aspose.words.TxtLeadingSpacesOptions;
 import com.aspose.words.TxtTrailingSpacesOptions;
 import com.aspose.words.ParagraphCollection;
 import com.aspose.words.DocumentDirection;
-import com.aspose.words.Paragraph;
 import com.aspose.words.NodeType;
 import com.aspose.ms.System.IO.Stream;
 import com.aspose.words.Field;
@@ -74,12 +74,12 @@ public class ExTxtLoadOptions extends ApiExampleBase
         if (detectNumberingWithWhitespaces)
         {
             Assert.assertEquals(4, doc.getLists().getCount());
-            Assert.That(doc.getFirstSection().getBody().getParagraphs().Any(p => p.GetText().Contains("Fourth list") && ((Paragraph)p).IsListItem), assertTrue();
+            Assert.assertTrue(doc.getFirstSection().getBody().getParagraphs().Any(p => p.getText().contains("Fourth list") && ((Paragraph)p).isListItem()));
         }
         else
         {
             Assert.assertEquals(3, doc.getLists().getCount());
-            Assert.That(doc.getFirstSection().getBody().getParagraphs().Any(p => p.GetText().Contains("Fourth list") && ((Paragraph)p).IsListItem), assertFalse();
+            Assert.assertFalse(doc.getFirstSection().getBody().getParagraphs().Any(p => p.getText().contains("Fourth list") && ((Paragraph)p).isListItem()));
         }
         //ExEnd
     }
@@ -142,14 +142,14 @@ public class ExTxtLoadOptions extends ApiExampleBase
                 Assert.assertTrue(paragraphs.get(2).getText().startsWith("Line 3"));
                 break;
             case TxtLeadingSpacesOptions.PRESERVE:
-                Assert.That(paragraphs.All(p => ((Paragraph)p).ParagraphFormat.FirstLineIndent == 0.0d), assertTrue();
+                Assert.assertTrue(paragraphs.All(p => ((Paragraph)p).getParagraphFormat().getFirstLineIndent() == 0.0d));
 
                 Assert.assertTrue(paragraphs.get(0).getText().startsWith("      Line 1"));
                 Assert.assertTrue(paragraphs.get(1).getText().startsWith("    Line 2"));
                 Assert.assertTrue(paragraphs.get(2).getText().startsWith(" Line 3"));
                 break;
             case TxtLeadingSpacesOptions.TRIM:
-                Assert.That(paragraphs.All(p => ((Paragraph)p).ParagraphFormat.FirstLineIndent == 0.0d), assertTrue();
+                Assert.assertTrue(paragraphs.All(p => ((Paragraph)p).getParagraphFormat().getFirstLineIndent() == 0.0d));
 
                 Assert.assertTrue(paragraphs.get(0).getText().startsWith("Line 1"));
                 Assert.assertTrue(paragraphs.get(1).getText().startsWith("Line 2"));

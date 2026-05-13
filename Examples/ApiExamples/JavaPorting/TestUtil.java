@@ -14,7 +14,7 @@ import com.aspose.ms.System.IO.Path;
 import com.aspose.ms.System.Drawing.Rectangle;
 import org.testng.Assert;
 import com.aspose.ms.NUnit.Framework.msAssert;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import com.aspose.ms.System.IO.FileStream;
@@ -94,13 +94,13 @@ class TestUtil extends ApiExampleBase
         }
         else if (".emf".equals(ext))
         {
-            HashMap<String, Integer> emfDimensions = getEmfDimensions(filename);
+            LinkedHashMap<String, Integer> emfDimensions = getEmfDimensions(filename);
             Assert.assertEquals(expectedWidth, 1, emfDimensions.get("width"));
             Assert.assertEquals(expectedHeight, 1, emfDimensions.get("height"));
         }
         else if (".wmf".equals(ext))
         {
-            HashMap<String, Integer> wmfDimensions = getWmfDimensions(filename);
+            LinkedHashMap<String, Integer> wmfDimensions = getWmfDimensions(filename);
             Assert.assertEquals(expectedWidth, 1, wmfDimensions.get("width"));
             Assert.assertEquals(expectedHeight, 1, wmfDimensions.get("height"));
         }
@@ -119,7 +119,7 @@ class TestUtil extends ApiExampleBase
         }
     }
 
-    static HashMap<String, Integer> getEmfDimensions(String filePath) throws Exception
+    static LinkedHashMap<String, Integer> getEmfDimensions(String filePath) throws Exception
     {
         FileStream stream = new FileInputStream(filePath);
         try /*JAVA: was using*/
@@ -136,7 +136,7 @@ class TestUtil extends ApiExampleBase
             int right = reader.readInt32();
             int bottom = reader.readInt32();
 
-            HashMap<String, Integer> emfDimensions = new HashMap<String, Integer>();
+            LinkedHashMap<String, Integer> emfDimensions = new LinkedHashMap<String, Integer>();
             msDictionary.add(emfDimensions, "width", right - left);
             msDictionary.add(emfDimensions, "height", bottom - top);
 
@@ -147,7 +147,7 @@ class TestUtil extends ApiExampleBase
         finally { if (stream != null) stream.close(); }
     }
 
-    static HashMap<String, Integer> getWmfDimensions(String filePath) throws Exception
+    static LinkedHashMap<String, Integer> getWmfDimensions(String filePath) throws Exception
     {
         FileStream stream = new FileInputStream(filePath);
         try /*JAVA: was using*/
@@ -170,7 +170,7 @@ class TestUtil extends ApiExampleBase
             int width = (int)((right - left) / UNITS_PER_INCH * 96.0);
             int height = (int)((bottom - top) / UNITS_PER_INCH * 96.0);
 
-            HashMap<String, Integer> wmfDimensions = new HashMap<String, Integer>();
+            LinkedHashMap<String, Integer> wmfDimensions = new LinkedHashMap<String, Integer>();
             msDictionary.add(wmfDimensions, "width", width);
             msDictionary.add(wmfDimensions, "height", height);
 

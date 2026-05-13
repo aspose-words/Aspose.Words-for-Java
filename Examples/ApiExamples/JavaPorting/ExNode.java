@@ -326,7 +326,7 @@ public class ExNode extends ApiExampleBase
         Assert.assertEquals(5, tables.get(0).getRows().getCount());
         Assert.assertEquals(4, tables.get(1).getRows().getCount());
 
-        for (Table table : tables.<Table>OfType() !!Autoporter error: Undefined expression type )
+        for (Table table : tables.<Table>OfType())
         {
             table.getFirstRow()?.Remove();
             table.getLastRow()?.Remove();
@@ -594,7 +594,7 @@ public class ExNode extends ApiExampleBase
 
     private void testNodeXPathNavigator(String navigatorResult, Document doc)
     {
-        for (Run run : doc.getChildNodes(NodeType.RUN, true).toArray().<Run>OfType() !!Autoporter error: Undefined expression type )
+        for (Run run : doc.getChildNodes(NodeType.RUN, true).toArray().<Run>OfType())
             Assert.assertTrue(navigatorResult.contains(run.getText().trim()));
     }
 
@@ -731,17 +731,17 @@ public class ExNode extends ApiExampleBase
         NodeList nodeList = doc.selectNodes("//Run");
 
         Assert.assertEquals(3, nodeList.getCount());
-        Assert.That(nodeList.Any(n => n.GetText().Trim() == "Hello world!"), assertTrue();
-        Assert.That(nodeList.Any(n => n.GetText().Trim() == "Cell 1"), assertTrue();
-        Assert.That(nodeList.Any(n => n.GetText().Trim() == "Cell 2"), assertTrue();
+        Assert.assertTrue(nodeList.Any(n => "Hello world!".equals(n.getText().trim())));
+        Assert.assertTrue(nodeList.Any(n => "Cell 1".equals(n.getText().trim())));
+        Assert.assertTrue(nodeList.Any(n => "Cell 2".equals(n.getText().trim())));
 
         // Use a double forward slash to select all Run nodes
         // that are indirect descendants of a Table node, which would be the runs inside the two cells we inserted.
         nodeList = doc.selectNodes("//Table//Run");
 
         Assert.assertEquals(2, nodeList.getCount());
-        Assert.That(nodeList.Any(n => n.GetText().Trim() == "Cell 1"), assertTrue();
-        Assert.That(nodeList.Any(n => n.GetText().Trim() == "Cell 2"), assertTrue();
+        Assert.assertTrue(nodeList.Any(n => "Cell 1".equals(n.getText().trim())));
+        Assert.assertTrue(nodeList.Any(n => "Cell 2".equals(n.getText().trim())));
 
         // Single forward slashes specify direct descendant relationships,
         // which we skipped when we used double slashes.

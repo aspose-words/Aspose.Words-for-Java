@@ -918,7 +918,7 @@ public class ExDocument extends ApiExampleBase
 
         // Append all unencrypted documents with the .doc extension
         // from our local file system directory to the base document.
-        ArrayList<String> docFiles = Directory.getFiles(getMyDir(), "*.doc").Where(item => item.EndsWith(".doc")).ToList();
+        ArrayList<String> docFiles = Directory.getFiles(getMyDir(), "*.doc").Where(item => item.endsWith(".doc")).ToList();
         for (String fileName : docFiles)
         {
             FileFormatInfo info = FileFormatUtil.detectFileFormat(fileName);
@@ -2083,7 +2083,7 @@ public class ExDocument extends ApiExampleBase
 
         VbaModuleCollection vbaModules = doc.getVbaProject().getModules();
 
-        Assert.That(3, Is.EqualTo(vbaModules.Count()));
+        Assert.assertEquals(vbaModules.Count(), 3);
 
         for (VbaModule module : vbaModules)
             System.out.println("Module name: {module.Name};\nModule code:\n{module.SourceCode}\n");
@@ -2097,7 +2097,7 @@ public class ExDocument extends ApiExampleBase
         //ExEnd
 
         Assert.assertEquals("AsposeVBAtest", vbaProject.getName());
-        Assert.That(vbaProject.getModules().Count(), assertEquals(2, );
+        Assert.assertEquals(2, vbaProject.getModules().Count());
         Assert.assertEquals(1251, vbaProject.getCodePage());
         Assert.assertFalse(vbaProject.isSigned());
 

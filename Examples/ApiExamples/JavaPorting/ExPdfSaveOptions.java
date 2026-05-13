@@ -1573,8 +1573,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         FontSettings.getDefaultInstance().setFontsSources(new FontSourceBase[] { originalFontsSources[0], folderFontSource });
 
         FontSourceBase[] fontSources = FontSettings.getDefaultInstance().getFontsSources();
-        Assert.That(fontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arial"), assertTrue();
-        Assert.That(fontSources[1].getAvailableFonts().Any(f => f.FullFontName == "Arvo"), assertTrue();
+        Assert.assertTrue(fontSources[0].getAvailableFonts().Any(f => "Arial".equals(f.getFullFontName())));
+        Assert.assertTrue(fontSources[1].getAvailableFonts().Any(f => "Arvo".equals(f.getFullFontName())));
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.

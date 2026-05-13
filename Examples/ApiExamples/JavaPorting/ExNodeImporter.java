@@ -144,7 +144,7 @@ public class ExNodeImporter extends ApiExampleBase
 
             // Loop through all block-level nodes in the section's body,
             // then clone and insert every node that is not the last empty paragraph of a section.
-            for (Section srcSection : docToInsert.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
+            for (Section srcSection : docToInsert.getSections().<Section>OfType())
                 for (Node srcNode : (Iterable<Node>) srcSection.getBody())
                 {
                     if (srcNode.getNodeType() == NodeType.PARAGRAPH)

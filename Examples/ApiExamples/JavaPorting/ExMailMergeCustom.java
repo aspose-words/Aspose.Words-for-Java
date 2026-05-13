@@ -18,7 +18,7 @@ import com.aspose.words.IMailMergeDataSource;
 import com.aspose.ms.System.Collections.msArrayList;
 import com.aspose.words.IMailMergeDataSourceRoot;
 import com.aspose.ms.System.Collections.msDictionary;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.ref.Ref;
 
@@ -256,7 +256,7 @@ public class ExMailMergeCustom extends ApiExampleBase
             msDictionary.add(mSources, sourceName, source);
         }
 
-        private /*final*/ HashMap<String, ExMailMergeCustom.EmployeeListMailMergeSource> mSources = new HashMap<String, ExMailMergeCustom.EmployeeListMailMergeSource>();
+        private /*final*/ LinkedHashMap<String, ExMailMergeCustom.EmployeeListMailMergeSource> mSources = new LinkedHashMap<String, ExMailMergeCustom.EmployeeListMailMergeSource>();
     }
 
     /// <summary>

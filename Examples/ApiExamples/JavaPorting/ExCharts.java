@@ -1007,7 +1007,7 @@ public class ExCharts extends ApiExampleBase
         // This will remove one of the three demo series that came with the chart.
         chartData.removeAt(2);
 
-        Assert.That(chartData.Any(s => s.Name == "Series 3"), assertFalse();
+        Assert.assertFalse(chartData.Any(s => "Series 3".equals(s.getName())));
         Assert.assertEquals(3, chartData.getCount()); //ExSkip
         Assert.assertEquals("Series 4", chartData.get(2).getName()); //ExSkip
 

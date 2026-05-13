@@ -123,12 +123,12 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
         // The ImageSaving() method of our callback will be run at this time.
         doc.save(getArtifactsDir() + "MarkdownSaveOptions.HandleDocument.md", saveOptions);
 
-        Assert.That(Directory.getFiles(getArtifactsDir())
-                .Where(s => s.StartsWith(ArtifactsDir + "MarkdownSaveOptions.HandleDocument.md shape"))
-                .Count(f => f.EndsWith(".jpeg")), assertEquals(1, );
-        Assert.That(Directory.getFiles(getArtifactsDir())
-                .Where(s => s.StartsWith(ArtifactsDir + "MarkdownSaveOptions.HandleDocument.md shape"))
-                .Count(f => f.EndsWith(".png")), assertEquals(8, );
+        Assert.assertEquals(1, Directory.getFiles(getArtifactsDir())
+                    .Where(s => s.startsWith(getArtifactsDir() + "MarkdownSaveOptions.HandleDocument.md shape"))
+                    .Count(f => f.endsWith(".jpeg")));
+        Assert.assertEquals(8, Directory.getFiles(getArtifactsDir())
+                    .Where(s => s.startsWith(getArtifactsDir() + "MarkdownSaveOptions.HandleDocument.md shape"))
+                    .Count(f => f.endsWith(".png")));
     }
 
     /// <summary>

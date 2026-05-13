@@ -25,7 +25,7 @@ import com.aspose.words.Section;
 import com.aspose.words.Run;
 import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.ms.System.msConsole;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import com.aspose.ms.System.Collections.msDictionary;
 
 
@@ -224,7 +224,7 @@ public class ExBuildingBlocks extends ApiExampleBase
     {
         public GlossaryDocVisitor()
         {
-            mBlocksByGuid = new HashMap<Guid, BuildingBlock>();
+            mBlocksByGuid = new LinkedHashMap<Guid, BuildingBlock>();
             mBuilder = new StringBuilder();
         }
 
@@ -233,7 +233,7 @@ public class ExBuildingBlocks extends ApiExampleBase
             return mBuilder.toString();
         }
 
-        public HashMap<Guid, BuildingBlock> getDictionary()
+        public LinkedHashMap<Guid, BuildingBlock> getDictionary()
         {
             return mBlocksByGuid;
         }
@@ -270,7 +270,7 @@ public class ExBuildingBlocks extends ApiExampleBase
             return VisitorAction.CONTINUE;
         }
 
-        private /*final*/ HashMap<Guid, BuildingBlock> mBlocksByGuid;
+        private /*final*/ LinkedHashMap<Guid, BuildingBlock> mBlocksByGuid;
         private /*final*/ StringBuilder mBuilder;
     }
     //ExEnd

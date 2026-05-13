@@ -640,16 +640,16 @@ public class ExLowCode extends ApiExampleBase
         {
             Regex reg = new Regex("PdfRenderer_*");
 
-            var images = Directory.getFiles(getArtifactsDir(), $"*.{fileExt}")
-                                 .Where(path => reg.IsMatch(path))
+            ArrayList<String> images = Directory.getFiles(getArtifactsDir(), $"*.{fileExt}")
+                                 .Where(path => reg.isMatch(path))
                                  .ToList();
 
             if ("png".equals(fileExt))
-                Assert.That(images.Count, assertEquals(2, );
+                Assert.assertEquals(2, images.size());
             else if ("tiff".equals(fileExt))
-                Assert.That(images.Count, assertEquals(1, );
+                Assert.assertEquals(1, images.size());
             else
-                Assert.That(images.Count, assertEquals(5, );
+                Assert.assertEquals(5, images.size());
         }
         else
         {

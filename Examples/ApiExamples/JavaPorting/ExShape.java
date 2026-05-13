@@ -1151,8 +1151,8 @@ public class ExShape extends ApiExampleBase
 
         Shape[] shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().ToArray();
 
-        Assert.That(shapes.Count(s => s.ShapeType == ShapeType.TextBox), assertEquals(3, );
-        Assert.That(shapes.Count(s => s.ShapeType == ShapeType.Image), assertEquals(1, );
+        Assert.assertEquals(3, shapes.Count(s => s.getShapeType() == ShapeType.TEXT_BOX));
+        Assert.assertEquals(1, shapes.Count(s => s.getShapeType() == ShapeType.IMAGE));
 
         for (Shape shape : shapes)
         {
@@ -1178,8 +1178,8 @@ public class ExShape extends ApiExampleBase
 
         shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().ToArray();
 
-        Assert.That(shapes.Count(s => s.ShapeType == ShapeType.TextBox), assertEquals(0, );
-        Assert.That(shapes.Count(s => s.ShapeType == ShapeType.Image), assertEquals(4, );
+        Assert.assertEquals(0, shapes.Count(s => s.getShapeType() == ShapeType.TEXT_BOX));
+        Assert.assertEquals(4, shapes.Count(s => s.getShapeType() == ShapeType.IMAGE));
 
         doc.save(getArtifactsDir() + "Shape.ReplaceTextboxesWithImages.docx");
         //ExEnd
@@ -1428,7 +1428,7 @@ public class ExShape extends ApiExampleBase
         Shape[] shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().ToArray();
 
         Assert.assertEquals(2, shapes.length);
-        Assert.That(shapes.Count(s => s.ShapeType == ShapeType.OleObject), assertEquals(2, );
+        Assert.assertEquals(2, shapes.Count(s => s.getShapeType() == ShapeType.OLE_OBJECT));
 
         // If a shape contains an OLE object, it will have a valid "OleFormat" property,
         // which we can use to verify some aspects of the shape.
@@ -1732,7 +1732,7 @@ public class ExShape extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertImage(getImageDir() + "Transparent background logo.png");
 
-        for (Shape shape : doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType() !!Autoporter error: Undefined expression type )
+        for (Shape shape : doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType())
         {
             Assert.assertEquals(shapeMarkupLanguage, shape.getMarkupLanguage());
         }
@@ -1902,7 +1902,7 @@ public class ExShape extends ApiExampleBase
         NodeCollection runs = doc.getChildNodes(NodeType.RUN, true);
         int num = 1;
 
-        for (Run run : runs.<Run>OfType() !!Autoporter error: Undefined expression type )
+        for (Run run : runs.<Run>OfType())
         {
             Shape watermark = new Shape(doc, ShapeType.TEXT_PLAIN_TEXT);
             {
@@ -2901,7 +2901,7 @@ public class ExShape extends ApiExampleBase
         // We will render every shape to an image file in the local file system
         // while ignoring the group shapes since they have no appearance.
         // This will produce 6 image files.
-        for (Shape shape : doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType() !!Autoporter error: Undefined expression type )
+        for (Shape shape : doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType())
         {
             ShapeRenderer renderer = shape.getShapeRenderer();
             ImageSaveOptions options = new ImageSaveOptions(SaveFormat.PNG);
@@ -2918,7 +2918,7 @@ public class ExShape extends ApiExampleBase
         //ExSummary:Shows how to count the number of shapes in a document with SmartArt objects.
         Document doc = new Document(getMyDir() + "SmartArt.docx");
 
-        int numberOfSmartArtShapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().Count(shape => shape.HasSmartArt);
+        int numberOfSmartArtShapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().Count(shape => shape.hasSmartArt());
 
         Assert.assertEquals(2, numberOfSmartArtShapes);
         //ExEnd

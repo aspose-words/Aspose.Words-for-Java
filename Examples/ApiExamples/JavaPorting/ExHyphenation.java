@@ -15,6 +15,7 @@ import org.testng.Assert;
 import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.Document;
 import com.aspose.words.Run;
+import com.aspose.ms.System.Globalization.msCultureInfo;
 import com.aspose.words.WarningInfoCollection;
 import com.aspose.ms.System.IO.Stream;
 import com.aspose.ms.System.IO.FileStream;
@@ -22,7 +23,7 @@ import com.aspose.ms.System.IO.FileMode;
 import com.aspose.words.WarningType;
 import com.aspose.words.WarningSource;
 import com.aspose.words.IHyphenationCallback;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import com.aspose.ms.System.msConsole;
 
 
@@ -51,8 +52,8 @@ public class ExHyphenation extends ApiExampleBase
         // and save it to a fixed-page save format. The text in that document will be hyphenated.
         Document doc = new Document(getMyDir() + "German text.docx");
 
-        Assert.That(doc.getFirstSection().getBody().getFirstParagraph().getRuns().<Run>OfType().All(
-            r => r.Font.LocaleId == new CultureInfo("de-CH").LCID), assertTrue();
+        Assert.assertTrue(doc.getFirstSection().getBody().getFirstParagraph().getRuns().<Run>OfType().All(
+                r => r.getFont().getLocaleId() == new msCultureInfo("de-CH").getLCID()));
 
         doc.save(getArtifactsDir() + "Hyphenation.Dictionary.Registered.pdf");
 
@@ -141,7 +142,7 @@ public class ExHyphenation extends ApiExampleBase
     {
         public CustomHyphenationDictionaryRegister()
         {
-            mHyphenationDictionaryFiles = new HashMap<String, String>();
+            mHyphenationDictionaryFiles = new LinkedHashMap<String, String>();
             {
                 mHyphenationDictionaryFiles.put( "en-US", getMyDir() + "hyph_en_US.dic");
                 mHyphenationDictionaryFiles.put( "de-CH", getMyDir() + "hyph_de_CH.dic");
@@ -168,7 +169,7 @@ public class ExHyphenation extends ApiExampleBase
             System.out.println(", no respective dictionary file known by this Callback.");
         }
 
-        private /*final*/ HashMap<String, String> mHyphenationDictionaryFiles;
+        private /*final*/ LinkedHashMap<String, String> mHyphenationDictionaryFiles;
     }
     //ExEnd
 }

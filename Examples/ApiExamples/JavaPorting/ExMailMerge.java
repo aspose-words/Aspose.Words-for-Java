@@ -19,8 +19,8 @@ import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.ms.NUnit.Framework.msAssert;
 import java.util.ArrayList;
 import com.aspose.words.MailMergeRegionInfo;
-import com.aspose.words.FieldQuote;
 import com.aspose.words.FieldType;
+import com.aspose.words.FieldQuote;
 import com.aspose.words.MailMergeCleanupOptions;
 import com.aspose.words.FieldMergeField;
 import com.aspose.words.MappedDataFieldCollection;
@@ -678,9 +678,9 @@ public class ExMailMerge extends ApiExampleBase
         Assert.assertEquals(doc.getText().contains("{{ Column2 }}"), preserveUnusedTags);
 
         if (preserveUnusedTags)
-            Assert.That(doc.getRange().getFields().Count(f => f.Type == FieldType.FieldMergeField), assertEquals(0, );
+            Assert.assertEquals(0, doc.getRange().getFields().Count(f => f.getType() == FieldType.FIELD_MERGE_FIELD));
         else
-            Assert.That(doc.getRange().getFields().Count(f => f.Type == FieldType.FieldMergeField), assertEquals(1, );
+            Assert.assertEquals(1, doc.getRange().getFields().Count(f => f.getType() == FieldType.FIELD_MERGE_FIELD));
         TestUtil.mailMergeMatchesDataTable(dataTable, doc, true); //ExSkip
     }
 

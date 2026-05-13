@@ -311,7 +311,7 @@ public class ExDrawing extends ApiExampleBase
 
         // Shapes with the "HasImage" flag set store and display all the document's images.
         Shape[] shapesWithImages = imgSourceDoc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast()
-            .Where(s => s.HasImage).ToArray();
+            .Where(s => s.hasImage()).ToArray();
 
         // Go through each shape and save its image.
         for (int shapeIndex = 0; shapeIndex < shapesWithImages.length; ++shapeIndex)
@@ -326,7 +326,7 @@ public class ExDrawing extends ApiExampleBase
         }
         //ExEnd
 
-        String[] imageFileNames = Directory.getFiles(getArtifactsDir()).Where(s => s.StartsWith(ArtifactsDir + "Drawing.SaveAllImages.")).OrderBy(s => s).ToArray();
+        String[] imageFileNames = Directory.getFiles(getArtifactsDir()).Where(s => s.startsWith(getArtifactsDir() + "Drawing.SaveAllImages.")).OrderBy(s => s).ToArray();
         ArrayList<FileInfo> fileInfos = imageFileNames.Select(s => new FileInfo(s)).ToList();
         
         TestUtil.verifyImage(2467, 1500, fileInfos.get(0).getFullName());

@@ -283,7 +283,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         //ExEnd
 
         ArrayList<String> imageFileNames = Directory.getFiles(getArtifactsDir(), "*.tiff")
-            .Where(item => item.Contains("ImageSaveOptions.PageByPage.") && item.EndsWith(".tiff")).ToList();
+            .Where(item => item.contains("ImageSaveOptions.PageByPage.") && item.endsWith(".tiff")).ToList();
         Assert.assertEquals(3, imageFileNames.size());
     }
 
@@ -486,7 +486,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         //ExEnd
 
         ArrayList<String> imageFileNames = Directory.getFiles(getArtifactsDir(), "*.tiff")
-            .Where(item => item.Contains("ImageSaveOptions.FloydSteinbergDithering.") && item.EndsWith(".tiff")).ToList();
+            .Where(item => item.contains("ImageSaveOptions.FloydSteinbergDithering.") && item.endsWith(".tiff")).ToList();
         Assert.assertEquals(1, imageFileNames.size());
     }
 

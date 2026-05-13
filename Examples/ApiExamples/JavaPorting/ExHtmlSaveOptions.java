@@ -51,8 +51,8 @@ import com.aspose.words.RelativeVerticalPosition;
 import com.aspose.words.WrapType;
 import com.aspose.words.PageSetup;
 import com.aspose.words.PaperSize;
-import com.aspose.words.FieldToc;
 import com.aspose.words.FieldType;
+import com.aspose.words.FieldToc;
 import com.aspose.ms.System.IO.FileInfo;
 import com.aspose.words.HtmlLoadOptions;
 import com.aspose.ms.System.IO.MemoryStream;
@@ -1674,7 +1674,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
                     "<span>1</span>" +
                     "<span style=\"-aw-field-end:true\"></span>"));
 
-            Assert.That(doc.getRange().getFields().Count(f => f.Type == FieldType.FieldPage), assertEquals(1, );
+            Assert.assertEquals(1, doc.getRange().getFields().Count(f => f.getType() == FieldType.FIELD_PAGE));
         }
         else
         {
@@ -1694,7 +1694,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
             Assert.assertTrue(outDocContents.contains(
                     "<span>Page number 1</span>"));
 
-            Assert.That(doc.getRange().getFields().Count(f => f.Type == FieldType.FieldPage), assertEquals(0, );
+            Assert.assertEquals(0, doc.getRange().getFields().Count(f => f.getType() == FieldType.FIELD_PAGE));
         }
         //ExEnd
     }
@@ -1818,7 +1818,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.FontSubsetting.html", options);
 
-        String[] fontFileNames = Directory.getFiles(fontsFolder).Where(s => s.EndsWith(".ttf")).ToArray();
+        String[] fontFileNames = Directory.getFiles(fontsFolder).Where(s => s.endsWith(".ttf")).ToArray();
 
         Assert.assertEquals(3, fontFileNames.length);
 

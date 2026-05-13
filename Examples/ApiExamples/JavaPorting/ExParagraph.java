@@ -28,9 +28,9 @@ import com.aspose.words.Run;
 import com.aspose.words.Field;
 import java.text.MessageFormat;
 import com.aspose.words.NodeType;
+import com.aspose.words.RevisionType;
 import com.aspose.words.ParagraphCollection;
 import com.aspose.words.Revision;
-import com.aspose.words.RevisionType;
 import com.aspose.words.HeightRule;
 import com.aspose.words.HorizontalAlignment;
 import com.aspose.words.VerticalAlignment;
@@ -380,7 +380,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         // This document contains "Move" revisions, which appear when we highlight text with the cursor,
         // and then drag it to move it to another location
         // while tracking revisions in Microsoft Word via "Review" -> "Track changes".
-        Assert.That(doc.getRevisions().Count(r => r.RevisionType == RevisionType.Moving), assertEquals(6, );
+        Assert.assertEquals(6, doc.getRevisions().Count(r => r.getRevisionType() == RevisionType.MOVING));
 
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
 
@@ -457,7 +457,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         //ExSummary:Shows how to get information about formatting properties of paragraphs that are frames.
         Document doc = new Document(getMyDir() + "Paragraph frame.docx");
 
-        Paragraph paragraphFrame = doc.getFirstSection().getBody().getParagraphs().<Paragraph>OfType().First(p => p.FrameFormat.IsFrame);
+        Paragraph paragraphFrame = doc.getFirstSection().getBody().getParagraphs().<Paragraph>OfType().First(p => p.getFrameFormat().isFrame());
 
         Assert.assertEquals(233.3d, paragraphFrame.getFrameFormat().getWidth());
         Assert.assertEquals(138.8d, paragraphFrame.getFrameFormat().getHeight());

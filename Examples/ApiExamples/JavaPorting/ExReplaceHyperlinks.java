@@ -39,7 +39,7 @@ public class ExReplaceHyperlinks extends ApiExampleBase
         // Use the "SelectNodes" method to find all the fields in the document via an XPath.
         NodeList fieldStarts = doc.selectNodes("//FieldStart");
 
-        for (FieldStart fieldStart : fieldStarts.<FieldStart>OfType() !!Autoporter error: Undefined expression type )
+        for (FieldStart fieldStart : fieldStarts.<FieldStart>OfType())
         {
             if (fieldStart.getFieldType() == FieldType.FIELD_HYPERLINK)
             {

@@ -98,7 +98,7 @@ public class ExImage extends ApiExampleBase
 
         Assert.assertEquals(2, shapes.getCount());
         TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, (Shape)shapes.get(0));
-        TestUtil.verifyImageInShape(272, 92, ImageType.PNG, (Shape)shapes.get(1));
+        TestUtil.verifyImageInShape(100, 100, ImageType.PNG, (Shape)shapes.get(1));
     }
 
     @Test
@@ -330,13 +330,13 @@ public class ExImage extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Images.docx");
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
 
-        Assert.That(shapes.<Shape>OfType().Count(s => s.HasImage), assertEquals(9, );
+        Assert.assertEquals(9, shapes.<Shape>OfType().Count(s => s.hasImage()));
 
-        for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
+        for (Shape shape : shapes.<Shape>OfType())
             if (shape.hasImage()) 
                 shape.remove();
 
-        Assert.That(shapes.<Shape>OfType().Count(s => s.HasImage), assertEquals(0, );
+        Assert.assertEquals(0, shapes.<Shape>OfType().Count(s => s.hasImage()));
         //ExEnd
     }
 
@@ -349,7 +349,7 @@ public class ExImage extends ApiExampleBase
         //ExSummary:Shows how to traverse the document's node tree using the pre-order traversal algorithm, and delete any encountered shape with an image.
         Document doc = new Document(getMyDir() + "Images.docx");
 
-        Assert.That(doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().Count(s => s.HasImage), assertEquals(9, );
+        Assert.assertEquals(9, doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().Count(s => s.hasImage()));
 
         Node curNode = doc;
         while (curNode != null)
@@ -365,7 +365,7 @@ public class ExImage extends ApiExampleBase
             curNode = nextNode;
         }
 
-        Assert.That(doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().Count(s => s.HasImage), assertEquals(0, );
+        Assert.assertEquals(0, doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().Count(s => s.hasImage()));
         //ExEnd
     }
 

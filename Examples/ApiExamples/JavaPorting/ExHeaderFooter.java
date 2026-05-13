@@ -140,15 +140,15 @@ public class ExHeaderFooter extends ApiExampleBase
 
         // The first section's header/footers cannot link themselves to anything because there is no previous section.
         Assert.assertEquals(2, doc.getSections().get(0).getHeadersFooters().getCount());
-        Assert.That(doc.getSections().get(0).getHeadersFooters().Count(hf => !((HeaderFooter)hf).IsLinkedToPrevious), assertEquals(2, );
+        Assert.assertEquals(2, doc.getSections().get(0).getHeadersFooters().Count(hf => !((HeaderFooter)hf).isLinkedToPrevious()));
         
         // All the second section's header/footers are linked to the first section's headers/footers.
         Assert.assertEquals(6, doc.getSections().get(1).getHeadersFooters().getCount());
-        Assert.That(doc.getSections().get(1).getHeadersFooters().Count(hf => ((HeaderFooter)hf).IsLinkedToPrevious), assertEquals(6, );
+        Assert.assertEquals(6, doc.getSections().get(1).getHeadersFooters().Count(hf => ((HeaderFooter)hf).isLinkedToPrevious()));
 
         // In the third section, only the footer is linked to the first section's footer via the second section.
         Assert.assertEquals(6, doc.getSections().get(2).getHeadersFooters().getCount());
-        Assert.That(doc.getSections().get(2).getHeadersFooters().Count(hf => !((HeaderFooter)hf).IsLinkedToPrevious), assertEquals(5, );
+        Assert.assertEquals(5, doc.getSections().get(2).getHeadersFooters().Count(hf => !((HeaderFooter)hf).isLinkedToPrevious()));
         Assert.assertTrue(doc.getSections().get(2).getHeadersFooters().get(3).isLinkedToPrevious());
 
         doc.save(getArtifactsDir() + "HeaderFooter.Link.docx");
@@ -157,13 +157,13 @@ public class ExHeaderFooter extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "HeaderFooter.Link.docx");
 
         Assert.assertEquals(2, doc.getSections().get(0).getHeadersFooters().getCount());
-        Assert.That(doc.getSections().get(0).getHeadersFooters().Count(hf => !((HeaderFooter)hf).IsLinkedToPrevious), assertEquals(2, );
+        Assert.assertEquals(2, doc.getSections().get(0).getHeadersFooters().Count(hf => !((HeaderFooter)hf).isLinkedToPrevious()));
 
         Assert.assertEquals(0, doc.getSections().get(1).getHeadersFooters().getCount());
-        Assert.That(doc.getSections().get(1).getHeadersFooters().Count(hf => ((HeaderFooter)hf).IsLinkedToPrevious), assertEquals(0, );
+        Assert.assertEquals(0, doc.getSections().get(1).getHeadersFooters().Count(hf => ((HeaderFooter)hf).isLinkedToPrevious()));
 
         Assert.assertEquals(5, doc.getSections().get(2).getHeadersFooters().getCount());
-        Assert.That(doc.getSections().get(2).getHeadersFooters().Count(hf => !((HeaderFooter)hf).IsLinkedToPrevious), assertEquals(5, );
+        Assert.assertEquals(5, doc.getSections().get(2).getHeadersFooters().Count(hf => !((HeaderFooter)hf).isLinkedToPrevious()));
     }
 
     @Test
@@ -178,7 +178,7 @@ public class ExHeaderFooter extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Header and footer types.docx");
 
         // Iterate through each section and remove footers of every kind.
-        for (Section section : doc.<Section>OfType() !!Autoporter error: Undefined expression type )
+        for (Section section : doc.<Section>OfType())
         {
             // There are three kinds of footer and header types.
             // 1 -  The "First" header/footer, which only appears on the first page of a section.
@@ -193,7 +193,7 @@ public class ExHeaderFooter extends ApiExampleBase
             footer = section.getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_EVEN);
             footer?.Remove();
 
-            Assert.That(section.getHeadersFooters().Count(hf => !((HeaderFooter)hf).IsHeader), assertEquals(0, );
+            Assert.assertEquals(0, section.getHeadersFooters().Count(hf => !((HeaderFooter)hf).isHeader()));
         }
 
         doc.save(getArtifactsDir() + "HeaderFooter.RemoveFooters.docx");
@@ -202,8 +202,8 @@ public class ExHeaderFooter extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "HeaderFooter.RemoveFooters.docx");
 
         Assert.assertEquals(1, doc.getSections().getCount());
-        Assert.That(doc.getFirstSection().getHeadersFooters().Count(hf => !((HeaderFooter)hf).IsHeader), assertEquals(0, );
-        Assert.That(doc.getFirstSection().getHeadersFooters().Count(hf => ((HeaderFooter)hf).IsHeader), assertEquals(3, );
+        Assert.assertEquals(0, doc.getFirstSection().getHeadersFooters().Count(hf => !((HeaderFooter)hf).isHeader()));
+        Assert.assertEquals(3, doc.getFirstSection().getHeadersFooters().Count(hf => ((HeaderFooter)hf).isHeader()));
     }
 
     @Test

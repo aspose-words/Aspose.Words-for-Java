@@ -1077,7 +1077,7 @@ public class ExFont extends ApiExampleBase
         }
         //ExEnd
 
-        Assert.That(Directory.enumerateFiles(getFontsDir(), "*.*", SearchOption.ALL_DIRECTORIES).Count(f => f.EndsWith(".ttf") || f.EndsWith(".otf")) + 5, assertEquals(folderFontSource[0].getAvailableFonts().size(), );
+        Assert.assertEquals(folderFontSource[0].getAvailableFonts().size(), Directory.enumerateFiles(getFontsDir(), "*.*", SearchOption.ALL_DIRECTORIES).Count(f => f.endsWith(".ttf") || f.endsWith(".otf")) + 5);
     }
 
     @Test
@@ -1542,8 +1542,8 @@ public class ExFont extends ApiExampleBase
             // On Windows 10 fonts may be installed either into system folder "%windir%\fonts" for all users
             // or into user folder "%userprofile%\AppData\Local\Microsoft\Windows\Fonts" for current user.
             SystemFontSource systemFontSource = new SystemFontSource();
-            Assert.That(systemFontSource.getAvailableFonts()
-                    .FirstOrDefault(x => x.FilePath.Contains("\\AppData\\Local\\Microsoft\\Windows\\Fonts")), Is.Not.Null, "Fonts did not install to the user font folder");
+            Assert.Is.Not.NullsystemFontSource.getAvailableFonts()
+                        .FirstOrDefault(x => x.getFilePath().contains("\\AppData\\Local\\Microsoft\\Windows\\Fonts")), "Fonts did not install to the user font folder");
         }
     }
 

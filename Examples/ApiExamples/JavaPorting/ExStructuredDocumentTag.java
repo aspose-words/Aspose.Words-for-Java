@@ -332,7 +332,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         doc = new Document(getArtifactsDir() + "StructuredDocumentTag.IsTemporary.docx");
 
-        Assert.That(doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).Count(sdt => ((StructuredDocumentTag)sdt).IsTemporary == isTemporary), assertEquals(2, );
+        Assert.assertEquals(2, doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).Count(sdt => ((StructuredDocumentTag)sdt).isTemporary() == isTemporary));
     }
 
 	//JAVA-added data provider for test method
@@ -1386,7 +1386,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         
         // This collection provides a unified interface for accessing ranged and non-ranged structured tags. 
         Iterable<IStructuredDocumentTag> sdts = doc.getRange().getStructuredDocumentTags().ToList();
-        Assert.That(sdts.Count(), assertEquals(5, );
+        Assert.assertEquals(5, sdts.Count());
 
         // Here we can get child nodes from the common interface of ranged and non-ranged structured tags.
         for (IStructuredDocumentTag sdt : sdts)
@@ -1394,7 +1394,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
                 sdt.removeSelfOnly();
         
         sdts = doc.getRange().getStructuredDocumentTags().ToList();
-        Assert.That(sdts.Count(), assertEquals(0, );
+        Assert.assertEquals(0, sdts.Count());
         //ExEnd:RemoveSelfOnly
     }
 

@@ -49,6 +49,7 @@ import com.aspose.words.TextOrientation;
 import com.aspose.words.Body;
 import com.aspose.words.AsposeWordsPrintDocument;
 import com.aspose.ms.System.msConsole;
+import java.util.HashSet;
 import com.aspose.words.IIndexFilter;
 import com.aspose.ms.System.ms;
 import com.aspose.words.ColorPrintMode;
@@ -366,14 +367,14 @@ public class ExPageSetup extends ApiExampleBase
         // The paper tray value stored in documents is printer specific.
         // This means the code below resets all page tray values to use the current printers default tray.
         // You can enumerate PrinterSettings.PaperSources to find the other valid paper tray values of the selected printer.
-        for (Section section : doc.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
+        for (Section section : doc.getSections().<Section>OfType())
         {
             section.getPageSetup().setFirstPageTray(settings.getDefaultPageSettings().PaperSource.RawKind);
             section.getPageSetup().setOtherPagesTray(settings.getDefaultPageSettings().PaperSource.RawKind);
         }
         //ExEnd
 
-        for (Section section : DocumentHelper.saveOpen(doc).getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
+        for (Section section : DocumentHelper.saveOpen(doc).getSections().<Section>OfType())
         {
             Assert.assertEquals(settings.getDefaultPageSettings().PaperSource.RawKind, section.getPageSetup().getFirstPageTray());
             Assert.assertEquals(settings.getDefaultPageSettings().PaperSource.RawKind, section.getPageSetup().getOtherPagesTray());
@@ -401,7 +402,7 @@ public class ExPageSetup extends ApiExampleBase
 
         // Modify the PageSettings object of this section to get Microsoft Word to instruct the printer
         // to use one of the trays we identified above, depending on this section's paper size.
-        for (Section section : doc.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
+        for (Section section : doc.getSections().<Section>OfType())
         {
             if (section.getPageSetup().getPaperSize() == com.aspose.words.PaperSize.LETTER)
             {
@@ -416,7 +417,7 @@ public class ExPageSetup extends ApiExampleBase
         }
         //ExEnd
 
-        for (Section section : DocumentHelper.saveOpen(doc).getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
+        for (Section section : DocumentHelper.saveOpen(doc).getSections().<Section>OfType())
         {
             if (section.getPageSetup().getPaperSize() == com.aspose.words.PaperSize.LETTER)
             {
@@ -1256,7 +1257,7 @@ public class ExPageSetup extends ApiExampleBase
 
         // The test document has 5 pages. To skip pages 2, 4, and 5,
         // specify the zero-based indices of pages to exclude.
-        HashSet<int> pagesToSkip = new HashSet<int>(); { pagesToSkip.add(1); pagesToSkip.add(3); pagesToSkip.add(4); }
+        HashSet<Integer> pagesToSkip = new HashSet<Integer>(); { pagesToSkip.add(1); pagesToSkip.add(3); pagesToSkip.add(4); }
 
         // Apply the page filter to skip specified pages.
         printDoc.setPageIndexFilter(new PrintPagesFilter(pagesToSkip));
@@ -1273,14 +1274,14 @@ public class ExPageSetup extends ApiExampleBase
     /// </summary>
     final static class PrintPagesFilter implements IIndexFilter
     {
-        private /*final*/ HashSet<int> _pagesToSkip;
+        private /*final*/ HashSet<Integer> _pagesToSkip;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PrintPagesFilter"/> class.
         /// </summary>
         /// <param name="pagesToSkip">The collection of page indices to skip.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="pagesToSkip"/> is null.</exception>
-        public PrintPagesFilter(HashSet<int> pagesToSkip)
+        public PrintPagesFilter(HashSet<Integer> pagesToSkip)
         {
             if (pagesToSkip == null)
                 throw new NullPointerException(ms.nameof("pagesToSkip"));
@@ -1293,7 +1294,7 @@ public class ExPageSetup extends ApiExampleBase
             if (index < 0)
                 throw new IllegalArgumentException(ms.nameof("index"), "Index cannot be negative.");
 
-            return _pagesToSkip.Contains(index);
+            return _pagesToSkip.contains(index);
         }
     }
     //ExEnd:PageIndexFilter

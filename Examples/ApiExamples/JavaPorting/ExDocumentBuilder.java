@@ -695,10 +695,10 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(TextFormFieldType.REGULAR, formField.getTextInputType());
         Assert.assertEquals("-- Select your favorite footwear --", formField.getResult());
         Assert.assertEquals(0, formField.getDropDownSelectedIndex());
-        Assert.That(formField.getDropDownItems().ToArray(), assertEquals(new String[]
+        Assert.assertEquals(new String[]
             {
                 "-- Select your favorite footwear --", "Sneakers", "Oxfords", "Flip-flops", "Other"
-            }, );
+            }, formField.getDropDownItems().ToArray());
     }
 
     @Test
@@ -1578,7 +1578,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         TestUtil.verifyField(FieldType.FIELD_HYPERLINK, " HYPERLINK \\l \"Bookmark1\" \\o \"Hyperlink Tip\" ", "Link to Bookmark1", hyperlink);
         Assert.assertEquals("Bookmark1", hyperlink.getSubAddress());
         Assert.assertEquals("Hyperlink Tip", hyperlink.getScreenTip());
-        Assert.That(doc.getRange().getBookmarks().Any(b => b.Name == "Bookmark1"), assertTrue();
+        Assert.assertTrue(doc.getRange().getBookmarks().Any(b => "Bookmark1".equals(b.getName())));
     }
 
     @Test
@@ -1885,7 +1885,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         image = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImageInShape(272, 92, ImageType.PNG, image);
+        TestUtil.verifyImageInShape(100, 100, ImageType.PNG, image);
         Assert.assertEquals(100.0d, image.getLeft());
         Assert.assertEquals(250.0d, image.getTop());
         Assert.assertEquals(200.0d, image.getWidth());
@@ -2859,7 +2859,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         {
             if (formatInvocationType == FormatInvocationType.ALL)
                 return getFormatInvocations().size();
-            return getFormatInvocations().Count(f => f.FormatInvocationType == formatInvocationType);
+            return getFormatInvocations().Count(f => f.getFormatInvocationType() == formatInvocationType);
         }
 
         public void printFormatInvocations()

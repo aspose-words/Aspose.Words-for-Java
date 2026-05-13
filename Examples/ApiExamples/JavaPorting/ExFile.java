@@ -32,6 +32,7 @@ import com.aspose.words.NodeCollection;
 import com.aspose.words.NodeType;
 import com.aspose.words.Shape;
 import com.aspose.ms.System.IO.Directory;
+import com.aspose.ms.System.Text.RegularExpressions.Regex;
 
 
 @Test
@@ -261,10 +262,10 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         // and save the image data of every shape with an image as a file to the local file system.
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
 
-        Assert.That(shapes.Count(s => ((Shape)s).HasImage), assertEquals(9, );
+        Assert.assertEquals(9, shapes.Count(s => ((Shape)s).hasImage()));
 
         int imageIndex = 0;
-        for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
+        for (Shape shape : shapes.<Shape>OfType())
         {
             if (shape.hasImage())
             {
@@ -278,7 +279,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         }
         //ExEnd
 
-        Assert.That(Directory.getFiles(getArtifactsDir()).
-            Count(s => Regex.IsMatch(s, "^.+\\.(jpeg|png|emf|wmf)$") && s.StartsWith(ArtifactsDir + "File.ExtractImages")), assertEquals(9, );
+        Assert.assertEquals(9, Directory.getFiles(getArtifactsDir()).
+                Count(s => Regex.isMatch(s, "^.+\\.(jpeg|png|emf|wmf)$") && s.startsWith(getArtifactsDir() + "File.ExtractImages")));
     }
 }

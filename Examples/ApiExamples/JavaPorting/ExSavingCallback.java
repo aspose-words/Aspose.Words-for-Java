@@ -101,7 +101,7 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "SavingCallback.PageFileNames.html", htmlFixedSaveOptions);
 
         String[] filePaths = Directory.getFiles(getArtifactsDir()).Where(
-            s => s.StartsWith(ArtifactsDir + "SavingCallback.PageFileNames.Page_")).OrderBy(s => s).ToArray();
+            s => s.startsWith(getArtifactsDir() + "SavingCallback.PageFileNames.Page_")).OrderBy(s => s).ToArray();
 
         Assert.assertEquals(3, filePaths.length);
     }

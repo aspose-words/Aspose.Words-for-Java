@@ -48,7 +48,7 @@ public class ExRenameMergeFields extends ApiExampleBase
 
         // Select all field start nodes so we can find the MERGEFIELDs.
         NodeCollection fieldStarts = doc.getChildNodes(NodeType.FIELD_START, true);
-        for (FieldStart fieldStart : fieldStarts.<FieldStart>OfType() !!Autoporter error: Undefined expression type )
+        for (FieldStart fieldStart : fieldStarts.<FieldStart>OfType())
         {
             if (fieldStart.getFieldType() == FieldType.FIELD_MERGE_FIELD)
             {

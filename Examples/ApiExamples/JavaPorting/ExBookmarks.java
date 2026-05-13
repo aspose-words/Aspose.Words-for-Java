@@ -244,23 +244,23 @@ public class ExBookmarks extends ApiExampleBase
         // 1 -  Calling the bookmark's Remove method:
         bookmarks.get("MyBookmark_1").remove();
 
-        Assert.That(bookmarks.Any(b => b.Name == "MyBookmark_1"), assertFalse();
+        Assert.assertFalse(bookmarks.Any(b => "MyBookmark_1".equals(b.getName())));
 
         // 2 -  Passing the bookmark to the collection's Remove method:
         Bookmark bookmark = doc.getRange().getBookmarks().get(0);
         doc.getRange().getBookmarks().remove(bookmark);
 
-        Assert.That(bookmarks.Any(b => b.Name == "MyBookmark_2"), assertFalse();
+        Assert.assertFalse(bookmarks.Any(b => "MyBookmark_2".equals(b.getName())));
         
         // 3 -  Removing a bookmark from the collection by name:
         doc.getRange().getBookmarks().remove("MyBookmark_3");
 
-        Assert.That(bookmarks.Any(b => b.Name == "MyBookmark_3"), assertFalse();
+        Assert.assertFalse(bookmarks.Any(b => "MyBookmark_3".equals(b.getName())));
 
         // 4 -  Removing a bookmark at an index in the bookmark collection:
         doc.getRange().getBookmarks().removeAt(0);
 
-        Assert.That(bookmarks.Any(b => b.Name == "MyBookmark_4"), assertFalse();
+        Assert.assertFalse(bookmarks.Any(b => "MyBookmark_4".equals(b.getName())));
 
         // We can clear the entire bookmark collection.
         bookmarks.clear();

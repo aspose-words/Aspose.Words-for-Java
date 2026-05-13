@@ -152,13 +152,13 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         {
             Assert.assertTrue(Regex.match(outDocContents,
                     "@font-face { font-family:'Arial'; font-style:normal; font-weight:normal; src:local[(]'☺'[)], url[(].+[)] format[(]'woff'[)]; }").getSuccess());
-            Assert.That(Directory.getFiles(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedFonts").Count(f => f.EndsWith(".woff")), assertEquals(0, );
+            Assert.assertEquals(0, Directory.getFiles(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedFonts").Count(f => f.endsWith(".woff")));
         }
         else
         {
             Assert.assertTrue(Regex.match(outDocContents,
                     "@font-face { font-family:'Arial'; font-style:normal; font-weight:normal; src:local[(]'☺'[)], url[(]'font001[.]woff'[)] format[(]'woff'[)]; }").getSuccess());
-            Assert.That(Directory.getFiles(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedFonts").Count(f => f.EndsWith(".woff")), assertEquals(2, );
+            Assert.assertEquals(2, Directory.getFiles(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedFonts").Count(f => f.endsWith(".woff")));
         }
         //ExEnd
     }
@@ -597,7 +597,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         String[] resourceFiles = Directory.getFiles(getArtifactsDir() + "HtmlFixedResourceFolderAlias");
 
         Assert.assertFalse(Directory.exists(getArtifactsDir() + "HtmlFixedResourceFolder"));
-        Assert.That(resourceFiles.Count(f => f.EndsWith(".jpeg") || f.EndsWith(".png") || f.EndsWith(".css")), assertEquals(6, );
+        Assert.assertEquals(6, resourceFiles.Count(f => f.endsWith(".jpeg") || f.endsWith(".png") || f.endsWith(".css")));
         testHtmlFixedResourceFolder(callback); //ExSkip
     }
 

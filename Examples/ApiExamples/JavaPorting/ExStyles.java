@@ -107,7 +107,7 @@ public class ExStyles extends ApiExampleBase
         firstParagraphStyle = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getStyle();
 
         // Any text that used a removed style reverts to the default formatting.
-        Assert.That(doc.getStyles().Any(s => s.Name == "MyStyle"), assertFalse();
+        Assert.assertFalse(doc.getStyles().Any(s => "MyStyle".equals(s.getName())));
         Assert.assertEquals("Times New Roman", firstParagraphStyle.getFont().getName());
         Assert.assertEquals(12.0d, firstParagraphStyle.getFont().getSize());
         Assert.assertEquals(msColor.Empty.getRGB(), firstParagraphStyle.getFont().getColor().getRGB());

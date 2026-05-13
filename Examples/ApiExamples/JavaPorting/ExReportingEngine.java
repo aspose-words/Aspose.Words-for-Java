@@ -789,7 +789,7 @@ public class ExReportingEngine extends ApiExampleBase
 
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
 
-        for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
+        for (Shape shape : shapes.<Shape>OfType())
         {
             // Assert that the image is really insert in textbox.
             Assert.Is.Not.Nullshape.getFill().getImageBytes());
@@ -815,7 +815,7 @@ public class ExReportingEngine extends ApiExampleBase
 
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
 
-        for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
+        for (Shape shape : shapes.<Shape>OfType())
         {
             Assert.Is.Not.Nullshape.getFill().getImageBytes());
 
@@ -840,7 +840,7 @@ public class ExReportingEngine extends ApiExampleBase
 
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
 
-        for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
+        for (Shape shape : shapes.<Shape>OfType())
         {
             Assert.Is.Not.Nullshape.getFill().getImageBytes());
             
@@ -865,7 +865,7 @@ public class ExReportingEngine extends ApiExampleBase
 
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
 
-        for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
+        for (Shape shape : shapes.<Shape>OfType())
         {
             Assert.Is.Not.Nullshape.getFill().getImageBytes());
 

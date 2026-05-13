@@ -47,7 +47,7 @@ public class ExTabStop extends ApiExampleBase
             TabLeader.DASHES);
 
         // Add tab stops at 5 cm to all paragraphs.
-        for (Paragraph para : doc.getChildNodes(NodeType.PARAGRAPH, true).<Paragraph>OfType() !!Autoporter error: Undefined expression type )
+        for (Paragraph para : doc.getChildNodes(NodeType.PARAGRAPH, true).<Paragraph>OfType())
         {
             para.getParagraphFormat().getTabStops().add(ConvertUtil.millimeterToPoint(50.0), TabAlignment.LEFT,
                 TabLeader.DASHES);

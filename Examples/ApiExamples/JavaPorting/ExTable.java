@@ -776,7 +776,7 @@ public class ExTable extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Table.AllowBreakAcrossPages.docx");
         table = doc.getFirstSection().getBody().getTables().get(0);
 
-        Assert.That(table.getRows().Count(r => ((Row)r).RowFormat.AllowBreakAcrossPages == allowBreakAcrossPages), assertEquals(3, );
+        Assert.assertEquals(3, table.getRows().Count(r => ((Row)r).getRowFormat().getAllowBreakAcrossPages() == allowBreakAcrossPages));
     }
 
 	//JAVA-added data provider for test method
@@ -1429,7 +1429,7 @@ public class ExTable extends ApiExampleBase
         Assert.assertEquals(5.0d, tableStyle.getLeftPadding());
         Assert.assertEquals(10.0d, tableStyle.getRightPadding());
         Assert.assertEquals(20.0d, tableStyle.getTopPadding());
-        Assert.That(table.getFirstRow().getRowFormat().getBorders().Count(b => b.Color.ToArgb() == Color.Blue.ToArgb()), assertEquals(6, );
+        Assert.assertEquals(6, table.getFirstRow().getRowFormat().getBorders().Count(b => b.getColor().getRGB() == Color.BLUE.getRGB()));
         Assert.assertEquals(CellVerticalAlignment.CENTER, tableStyle.getVerticalAlignment());
 
         tableStyle = (TableStyle)doc.getStyles().get("MyTableStyle1");
@@ -1657,7 +1657,7 @@ public class ExTable extends ApiExampleBase
         // 2 -  Clear the conditional styles for the entire table:
         tableStyle.getConditionalStyles().clearFormatting();
 
-        Assert.That(tableStyle.getConditionalStyles().All(s => s.Borders.Color == Color.Empty), assertTrue();
+        Assert.assertTrue(tableStyle.getConditionalStyles().All(s => s.getBorders().getColor() == msColor.Empty));
         //ExEnd
     }
 
@@ -1745,7 +1745,7 @@ public class ExTable extends ApiExampleBase
         Row row = table.getRows().get(0);
 
         Assert.assertEquals(5, row.getCells().getCount());
-        Assert.That(row.getCells().All(c => ((Cell)c).CellFormat.HorizontalMerge == CellMerge.None), assertTrue();
+        Assert.assertTrue(row.getCells().All(c => ((Cell)c).getCellFormat().getHorizontalMerge() == CellMerge.NONE));
 
         // Use the "ConvertToHorizontallyMergedCells" method to convert cells horizontally merged
         // by its width to the cell horizontally merged by flags.

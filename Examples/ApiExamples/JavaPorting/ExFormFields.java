@@ -26,6 +26,7 @@ import java.util.Iterator;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.DocumentVisitor;
 import com.aspose.words.VisitorAction;
+import com.aspose.ms.System.msString;
 import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.words.FieldCollection;
 import com.aspose.words.DropDownItemCollection;
@@ -290,7 +291,7 @@ public class ExFormFields extends ApiExampleBase
             {
                 case FieldType.FIELD_FORM_DROP_DOWN:
                     appendLine("\tDrop-down items count: " + formField.getDropDownItems().getCount() + ", default selected item index: " + formField.getDropDownSelectedIndex());
-                    AppendLine("\tDrop-down items: " + String.Join(", ", formField.getDropDownItems().ToArray()));
+                    appendLine("\tDrop-down items: " + msString.join(", ", formField.getDropDownItems().ToArray()));
                     break;
                 case FieldType.FIELD_FORM_CHECK_BOX:
                     appendLine("\tCheckbox size: " + formField.getCheckBoxSize());

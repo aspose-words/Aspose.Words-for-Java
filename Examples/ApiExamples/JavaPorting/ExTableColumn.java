@@ -115,7 +115,7 @@ public class ExTableColumn extends ApiExampleBase
         {
             ArrayList<Cell> columnCells = new ArrayList<Cell>();
 
-            for (Row row : mTable.getRows().<Row>OfType() !!Autoporter error: Undefined expression type )
+            for (Row row : mTable.getRows().<Row>OfType())
             {
                 Cell cell = row.getCells().get(mColumnIndex);
                 if (cell != null)

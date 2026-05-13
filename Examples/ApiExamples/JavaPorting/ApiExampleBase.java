@@ -246,7 +246,7 @@ public class ApiExampleBase
         	mImageDir = new msUri(new msUri(getCodeBaseDir()), "Data/Images/").getLocalPath();
         	mDatabaseDir = new msUri(new msUri(getCodeBaseDir()), "Data/Database/").getLocalPath();
         	mFontsDir = new msUri(new msUri(getCodeBaseDir()), "Data/MyFonts/").getLocalPath();
-        	mImageUrl = new msUri("https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png").getAbsoluteUri();
+        	mImageUrl = new msUri("https://httpbin.org/image/png").getAbsoluteUri();
     	}
     	catch (Exception e)
     	{

@@ -537,7 +537,7 @@ public class ExLists extends ApiExampleBase
 
         NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
 
-        for (Paragraph para : paras.<Paragraph>OfType().Where(p => p.ListFormat.IsListItem).ToList() !!Autoporter error: Undefined expression type )
+        for (Paragraph para : paras.<Paragraph>OfType().Where(p => p.getListFormat().isListItem()).ToList())
         { 
             System.out.println("This paragraph belongs to list ID# {para.ListFormat.List.ListId}, number style \"{para.ListFormat.ListLevel.NumberStyle}\"");
             System.out.println("\t\"{para.GetText().Trim()}\"");
@@ -547,7 +547,7 @@ public class ExLists extends ApiExampleBase
         doc = DocumentHelper.saveOpen(doc);
         paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
 
-        Assert.That(paras.Count(n => ((Paragraph)n).ListFormat.IsListItem), assertEquals(6, );
+        Assert.assertEquals(6, paras.Count(n => ((Paragraph)n).getListFormat().isListItem()));
     }
 
     @Test
@@ -566,12 +566,12 @@ public class ExLists extends ApiExampleBase
         builder.getListFormat().removeNumbers();
 
         NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
-        Assert.That(paras.Count(n => ((Paragraph)n).ListFormat.IsListItem), assertEquals(3, );
+        Assert.assertEquals(3, paras.Count(n => ((Paragraph)n).getListFormat().isListItem()));
 
         for (Paragraph paragraph : (Iterable<Paragraph>) paras)
             paragraph.getListFormat().removeNumbers();
 
-        Assert.That(paras.Count(n => ((Paragraph)n).ListFormat.IsListItem), assertEquals(0, );
+        Assert.assertEquals(0, paras.Count(n => ((Paragraph)n).getListFormat().isListItem()));
         //ExEnd
     }
 
@@ -590,25 +590,25 @@ public class ExLists extends ApiExampleBase
 
         NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
 
-        Assert.That(paras.Count(n => ((Paragraph)n).ListFormat.IsListItem), assertEquals(0, );
+        Assert.assertEquals(0, paras.Count(n => ((Paragraph)n).getListFormat().isListItem()));
 
         doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
         List docList = doc.getLists().get(0);
 
-        for (Paragraph paragraph : paras.<Paragraph>OfType() !!Autoporter error: Undefined expression type )
+        for (Paragraph paragraph : paras.<Paragraph>OfType())
         {
             paragraph.getListFormat().setList(docList);
             paragraph.getListFormat().setListLevelNumber(2);
         }
 
-        Assert.That(paras.Count(n => ((Paragraph)n).ListFormat.IsListItem), assertEquals(3, );
+        Assert.assertEquals(3, paras.Count(n => ((Paragraph)n).getListFormat().isListItem()));
         //ExEnd
 
         doc = DocumentHelper.saveOpen(doc);
         paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
 
-        Assert.That(paras.Count(n => ((Paragraph)n).ListFormat.IsListItem), assertEquals(3, );
-        Assert.That(paras.Count(n => ((Paragraph)n).ListFormat.ListLevelNumber == 2), assertEquals(3, );
+        Assert.assertEquals(3, paras.Count(n => ((Paragraph)n).getListFormat().isListItem()));
+        Assert.assertEquals(3, paras.Count(n => ((Paragraph)n).getListFormat().getListLevelNumber() == 2));
     }
 
     @Test
@@ -626,24 +626,24 @@ public class ExLists extends ApiExampleBase
 
         NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
 
-        Assert.That(paras.Count(n => ((Paragraph)n).ListFormat.IsListItem), assertEquals(0, );
+        Assert.assertEquals(0, paras.Count(n => ((Paragraph)n).getListFormat().isListItem()));
 
         List docList = doc.getLists().add(ListTemplate.NUMBER_UPPERCASE_LETTER_DOT);
 
-        for (Paragraph paragraph : paras.<Paragraph>OfType() !!Autoporter error: Undefined expression type )
+        for (Paragraph paragraph : paras.<Paragraph>OfType())
         {
             paragraph.getListFormat().setList(docList);
             paragraph.getListFormat().setListLevelNumber(1);
         }
 
-        Assert.That(paras.Count(n => ((Paragraph)n).ListFormat.IsListItem), assertEquals(3, );
+        Assert.assertEquals(3, paras.Count(n => ((Paragraph)n).getListFormat().isListItem()));
         //ExEnd
 
         doc = DocumentHelper.saveOpen(doc);
         paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
 
-        Assert.That(paras.Count(n => ((Paragraph)n).ListFormat.IsListItem), assertEquals(3, );
-        Assert.That(paras.Count(n => ((Paragraph)n).ListFormat.ListLevelNumber == 1), assertEquals(3, );
+        Assert.assertEquals(3, paras.Count(n => ((Paragraph)n).getListFormat().isListItem()));
+        Assert.assertEquals(3, paras.Count(n => ((Paragraph)n).getListFormat().getListLevelNumber() == 1));
     }
 
     //ExStart
@@ -785,7 +785,7 @@ public class ExLists extends ApiExampleBase
         for (List docList : outDoc.getLists())
             for (int i = 0; i < docList.getListLevels().getCount(); i++)
             {
-                ListLevel expectedListLevel = listSourceDoc.getLists().First(l => l.ListId == docList.ListId).ListLevels[i];
+                ListLevel expectedListLevel = listSourceDoc.getLists().First(l => l.getListId() == docList.getListId()).getListLevels().get(i);
                 Assert.assertEquals(expectedListLevel.getNumberFormat(), docList.getListLevels().get(i).getNumberFormat());
                 Assert.assertEquals(expectedListLevel.getNumberPosition(), docList.getListLevels().get(i).getNumberPosition());
                 Assert.assertEquals(expectedListLevel.getNumberStyle(), docList.getListLevels().get(i).getNumberStyle());
@@ -924,7 +924,7 @@ public class ExLists extends ApiExampleBase
 
         // Find if we have the paragraph list. In our document, our list uses plain Arabic numbers,
         // which start at three and ends at six.
-        for (Paragraph paragraph : paras.<Paragraph>OfType().Where(p => p.ListFormat.IsListItem).ToList() !!Autoporter error: Undefined expression type )
+        for (Paragraph paragraph : paras.<Paragraph>OfType().Where(p => p.getListFormat().isListItem()).ToList())
         {
             System.out.println("List item paragraph #{paras.IndexOf(paragraph)}");
 
@@ -944,7 +944,7 @@ public class ExLists extends ApiExampleBase
         }
         //ExEnd
 
-        Assert.That(paras.<Paragraph>OfType().Count(p => p.ListFormat.IsListItem), assertEquals(10, );
+        Assert.assertEquals(10, paras.<Paragraph>OfType().Count(p => p.getListFormat().isListItem()));
     }
 
     @Test (groups = "IgnoreOnJenkins")

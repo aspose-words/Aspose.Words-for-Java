@@ -538,8 +538,8 @@ public class ExRange extends ApiExampleBase
         Assert.assertEquals(4, replacementCount);
         Assert.assertEquals("Numbers that the find-and-replace operation will convert to hexadecimal and highlight:\r" +
                             "0x7B, 0x1C8, 0x315 and 0x43E3.", doc.getText().trim());
-        Assert.That(doc.getChildNodes(NodeType.RUN, true).<Run>OfType()
-                .Count(r => r.Font.HighlightColor.ToArgb() == Color.LightGray.ToArgb()), assertEquals(4, );
+        Assert.assertEquals(4, doc.getChildNodes(NodeType.RUN, true).<Run>OfType()
+                    .Count(r => r.getFont().getHighlightColor().getRGB() == msColor.getLightGray().getRGB()));
     }
 
     /// <summary>
@@ -822,7 +822,7 @@ public class ExRange extends ApiExampleBase
             NodeImporter importer =
                 new NodeImporter(docToInsert, insertionDestination.getDocument(), ImportFormatMode.KEEP_SOURCE_FORMATTING);
 
-            for (Section srcSection : docToInsert.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
+            for (Section srcSection : docToInsert.getSections().<Section>OfType())
                 for (Node srcNode : (Iterable<Node>) srcSection.getBody())
                 {
                     // Skip the node if it is the last empty paragraph in a section.
