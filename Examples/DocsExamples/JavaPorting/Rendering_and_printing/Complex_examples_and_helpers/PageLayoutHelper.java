@@ -15,7 +15,7 @@ import com.aspose.words.NodeType;
 import java.util.ArrayList;
 import com.aspose.words.Row;
 import com.aspose.ms.System.Collections.msDictionary;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.ms.System.Collections.msArrayList;
 import com.aspose.ms.System.Drawing.RectangleF;
@@ -204,8 +204,8 @@ public class RenderedDocument extends LayoutEntity
     private /*final*/ LayoutCollector mLayoutCollector;
     private /*final*/ LayoutEnumerator mEnumerator;
 
-    private /*final*/ HashMap<Object, Node> mLayoutToNodeLookup =
-        new HashMap<Object, Node>();
+    private /*final*/ LinkedHashMap<Object, Node> mLayoutToNodeLookup =
+        new LinkedHashMap<Object, Node>();
 }
 
 /// <summary>
@@ -346,7 +346,7 @@ public abstract class LayoutEntity
     protected <T extends LayoutEntity> LayoutCollection<T> getChildNodes()
     {
         T obj = new T();
-        ArrayList<T> childList = mChildEntities.Where(entity => entity.GetType() == obj.GetType()).<T>Cast().ToList();
+        ArrayList<T> childList = mChildEntities.Where(entity => entity.getClass() == obj.getClass()).<T>Cast().ToList();
 
         return new LayoutCollection<T>(childList);
     }

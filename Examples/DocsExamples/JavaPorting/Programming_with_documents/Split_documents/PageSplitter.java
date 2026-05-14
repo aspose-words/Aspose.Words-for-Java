@@ -13,7 +13,7 @@ import com.aspose.ms.System.IO.SearchOption;
 import com.aspose.words.Node;
 import com.aspose.words.NodeType;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import com.aspose.words.LayoutCollector;
 import com.aspose.words.Paragraph;
 import com.aspose.ms.System.Collections.msDictionary;
@@ -67,7 +67,7 @@ class PageSplitter extends DocsExamplesBase
     public void splitAllDocumentsToPages(String folderName) throws Exception
     {
         ArrayList<String> fileNames = Directory.getFiles(folderName, "*.doc", SearchOption.TOP_DIRECTORY_ONLY)
-            .Where(item => item.EndsWith(".doc")).ToList();
+            .Where(item => item.endsWith(".doc")).ToList();
 
         for (String fileName : fileNames)
         {
@@ -145,8 +145,8 @@ public class PageNumberFinder
 {
     // Maps node to a start/end page numbers.
     // This is used to override baseline page numbers provided by the collector when the document is split.
-    private /*final*/ Map<Node, Integer> nodeStartPageLookup = new HashMap<Node, Integer>();
-    private /*final*/ Map<Node, Integer> nodeEndPageLookup = new HashMap<Node, Integer>();
+    private /*final*/ Map<Node, Integer> nodeStartPageLookup = new LinkedHashMap<Node, Integer>();
+    private /*final*/ Map<Node, Integer> nodeEndPageLookup = new LinkedHashMap<Node, Integer>();
     private /*final*/ LayoutCollector collector;
 
     // Maps page number to a list of nodes found on that page.
@@ -321,7 +321,7 @@ public class PageNumberFinder
             return;
         }
 
-        reversePageLookup = new HashMap<Integer, ArrayList<Node>>();
+        reversePageLookup = new LinkedHashMap<Integer, ArrayList<Node>>();
 
         // Add each node to a list that represent the nodes found on each page.
         for (Node node : (Iterable<Node>) Document.getChildNodes(NodeType.ANY, true))

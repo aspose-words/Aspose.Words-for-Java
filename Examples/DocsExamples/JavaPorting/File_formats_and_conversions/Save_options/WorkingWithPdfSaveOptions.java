@@ -24,6 +24,7 @@ import com.aspose.words.PdfCompliance;
 import com.aspose.words.PdfCustomPropertiesExport;
 import com.aspose.words.PdfImageCompression;
 import com.aspose.words.Dml3DEffectsRenderingMode;
+import com.aspose.words.FieldType;
 import com.aspose.words.FieldHyperlink;
 
 
@@ -400,12 +401,12 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
         //GistId:8b0ab362f95040ada1255a0473acefe2
         Document doc = new Document(getMyDir() + "Table of contents.docx");
 
-        var tocHyperLinks = doc.getRange().getFields()
-            .Where(f => f.Type == FieldType.FieldHyperlink)
+        Iterable<FieldHyperlink> tocHyperLinks = doc.getRange().getFields()
+            .Where(f => f.getType() == FieldType.FIELD_HYPERLINK)
             .<FieldHyperlink>Cast()
-            .Where(f => f.SubAddress.StartsWith("#_Toc"));
+            .Where(f => f.getSubAddress().startsWith("#_Toc"));
 
-        for (FieldHyperlink link : (Iterable<FieldHyperlink>) tocHyperLinks)
+        for (FieldHyperlink link : tocHyperLinks)
             link.setScreenTip(link.getDisplayResult());
 
         PdfSaveOptions saveOptions = new PdfSaveOptions();

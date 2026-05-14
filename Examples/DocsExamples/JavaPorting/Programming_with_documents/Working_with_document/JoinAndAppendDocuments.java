@@ -17,7 +17,7 @@ import com.aspose.words.Field;
 import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.words.SectionStart;
 import com.aspose.words.Paragraph;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import com.aspose.words.List;
 import com.aspose.ms.System.Collections.msDictionary;
 import com.aspose.words.Style;
@@ -392,7 +392,7 @@ class JoinAndAppendDocuments extends DocsExamplesBase
         srcDoc.getFirstSection().getPageSetup().setSectionStart(SectionStart.CONTINUOUS);
 
         // Keep track of the lists that are created.
-        HashMap<Integer, List> newLists = new HashMap<Integer, List>();
+        LinkedHashMap<Integer, List> newLists = new LinkedHashMap<Integer, List>();
 
         for (Paragraph para : (Iterable<Paragraph>) srcDoc.getChildNodes(NodeType.PARAGRAPH, true))
         {

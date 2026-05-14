@@ -37,7 +37,7 @@ public class WorkingWithFileFormat extends DocsExamplesBase
 
         //ExStart:GetFiles
         //GistId:7fe3fc4004f081628a63608db70332b3
-        Iterable<String> fileList = Directory.getFiles(getMyDir()).Where(name => !name.EndsWith("Corrupted document.docx"));
+        Iterable<String> fileList = Directory.getFiles(getMyDir()).Where(name => !name.endsWith("Corrupted document.docx"));
         //ExEnd:GetFiles
         for (String fileName : fileList)
         {

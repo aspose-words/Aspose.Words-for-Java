@@ -595,8 +595,8 @@ class WorkingWithFields extends DocsExamplesBase
 
         // Pass the appropriate parameters to convert all IF fields to text that are encountered only in the last 
         // paragraph of the document.
-        doc.getFirstSection().getBody().getLastParagraph().getRange().getFields().Where(f => f.Type == FieldType.FieldIf).ToList()
-            .ForEach(f => f.Unlink());
+        doc.getFirstSection().getBody().getLastParagraph().getRange().getFields().Where(f => f.getType() == FieldType.FIELD_IF).ToList()
+            .ForEach(f => f.unlink());
 
         doc.save(getArtifactsDir() + "WorkingWithFields.UnlinkFieldsInParagraph.docx");
         //ExEnd:UnlinkFieldsInParagraph
@@ -610,7 +610,7 @@ class WorkingWithFields extends DocsExamplesBase
         Document doc = new Document(getMyDir() + "Linked fields.docx");
 
         // Pass the appropriate parameters to convert all IF fields encountered in the document (including headers and footers) to text.
-        doc.getRange().getFields().Where(f => f.Type == FieldType.FieldIf).ToList().ForEach(f => f.Unlink());
+        doc.getRange().getFields().Where(f => f.getType() == FieldType.FIELD_IF).ToList().ForEach(f => f.unlink());
 
         // Save the document with fields transformed to disk
         doc.save(getArtifactsDir() + "WorkingWithFields.UnlinkFieldsInDocument.docx");
@@ -625,7 +625,7 @@ class WorkingWithFields extends DocsExamplesBase
         Document doc = new Document(getMyDir() + "Linked fields.docx");
 
         // Pass the appropriate parameters to convert PAGE fields encountered to text only in the body of the first section.
-        doc.getFirstSection().getBody().getRange().getFields().Where(f => f.Type == FieldType.FieldPage).ToList().ForEach(f => f.Unlink());
+        doc.getFirstSection().getBody().getRange().getFields().Where(f => f.getType() == FieldType.FIELD_PAGE).ToList().ForEach(f => f.unlink());
 
         doc.save(getArtifactsDir() + "WorkingWithFields.UnlinkFieldsInBody.docx");
         //ExEnd:UnlinkFieldsInBody
@@ -663,7 +663,7 @@ class WorkingWithFields extends DocsExamplesBase
     /// <param name="targetFieldType">The FieldType of the field to convert to static text.</param>
     private void convertFieldsToStaticText(CompositeNode compositeNode, /*FieldType*/int targetFieldType) throws Exception
     {
-        compositeNode.getRange().getFields().<Field>Cast().Where(f => f.Type == targetFieldType).ToList().ForEach(f => f.Unlink());
+        compositeNode.getRange().getFields().<Field>Cast().Where(f => f.getType() == targetFieldType).ToList().ForEach(f => f.unlink());
     }
     //ExEnd:ConvertFieldsToStaticText
 
@@ -761,7 +761,7 @@ class WorkingWithFields extends DocsExamplesBase
         {
             if (formatInvocationType == FormatInvocationType.ALL)
                 return getFormatInvocations().size();
-            return getFormatInvocations().Count(f => f.FormatInvocationType == formatInvocationType);
+            return getFormatInvocations().Count(f => f.getFormatInvocationType() == formatInvocationType);
         }
 
         public void printFormatInvocations()

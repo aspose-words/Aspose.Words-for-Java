@@ -213,7 +213,7 @@ class WorkingWithShapes extends DocsExamplesBase
         //GistId:ad463bf5f128fe6e6c1485df3c046a4c
         Document doc = new Document(getMyDir() + "SmartArt.docx");
 
-        int count = doc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().Count(shape => shape.HasSmartArt);
+        int count = doc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().Count(shape => shape.hasSmartArt());
 
         System.out.println("The document has {0} shapes with SmartArt.",count);
         //ExEnd:DetectSmartArtShape

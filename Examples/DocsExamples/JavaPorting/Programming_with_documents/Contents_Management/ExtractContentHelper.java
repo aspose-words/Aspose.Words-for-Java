@@ -57,7 +57,7 @@ class ExtractContentHelper
             if (copySection)
             {
                 Node section = currNode.getAncestor(NodeType.SECTION);
-                if (!nodes.Any(o => o.Range.Text.Equals(section.Range.Text)))
+                if (!nodes.Any(o => o.getRange().getText().equals(section.getRange().getText())))
                     nodes.add(section.deepClone(true));
             }
 
@@ -280,7 +280,7 @@ class ExtractContentHelper
     public static Document generateDocument(Document srcDoc, ArrayList<Node> nodes) throws Exception
     {
         Document dstDoc = new Document();
-        Section importedSection = nodes.Any(node => node.NodeType == NodeType.Section) ? null : dstDoc.getFirstSection();
+        Section importedSection = nodes.Any(node => node.getNodeType() == NodeType.SECTION) ? null : dstDoc.getFirstSection();
         if (importedSection == null)
             dstDoc.getFirstSection().remove();
 
