@@ -1,4 +1,4 @@
-package DocsExamples.Programming_with_documents.Working_with_graphic_elements;
+﻿package DocsExamples.Programming_with_documents.Working_with_graphic_elements;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.Shape;
@@ -13,7 +13,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void formatNumberOfDataLabel() throws Exception {
         //ExStart:FormatNumberOfDataLabel
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -46,7 +46,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void createChartUsingShape() throws Exception {
         //ExStart:CreateChartUsingShape
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -68,7 +68,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void insertSimpleColumnChart() throws Exception {
         //ExStart:InsertSimpleColumnChart
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -77,7 +77,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
 
         Chart chart = shape.getChart();
         //ExStart:ChartSeriesCollection
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         ChartSeriesCollection seriesColl = chart.getSeries();
 
         System.out.println(seriesColl.getCount());
@@ -103,7 +103,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void insertColumnChart() throws Exception {
         //ExStart:InsertColumnChart
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -119,7 +119,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void insertAreaChart() throws Exception {
         //ExStart:InsertAreaChart
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -143,7 +143,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void insertBubbleChart() throws Exception {
         //ExStart:InsertBubbleChart
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -160,7 +160,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void insertScatterChart() throws Exception {
         //ExStart:InsertScatterChart
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -176,7 +176,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void defineAxisProperties() throws Exception {
         //ExStart:DefineAxisProperties
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -221,7 +221,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void dateTimeValuesToAxis() throws Exception {
         //ExStart:DateTimeValuesToAxis
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -255,7 +255,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void numberFormatForAxis() throws Exception {
         //ExStart:NumberFormatForAxis
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -275,7 +275,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void boundsOfAxis() throws Exception {
         //ExStart:BoundsOfAxis
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -296,7 +296,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void intervalUnitBetweenLabelsOnAxis() throws Exception {
         //ExStart:IntervalUnitBetweenLabelsOnAxis
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -316,7 +316,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void hideChartAxis() throws Exception {
         //ExStart:HideChartAxis
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -336,7 +336,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void tickMultiLineLabelAlignment() throws Exception {
         //ExStart:TickMultiLineLabelAlignment
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -353,7 +353,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void chartDataLabel() throws Exception {
         //ExStart:WorkWithChartDataLabel
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -381,7 +381,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void defaultOptionsForDataLabels() throws Exception {
         //ExStart:DefaultOptionsForDataLabels
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -406,7 +406,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void singleChartDataPoint() throws Exception {
         //ExStart:WorkWithSingleChartDataPoint
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -445,7 +445,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
         Chart chart = shape.getChart();
 
         //ExStart:WorkWithSingleChartSeries
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         ChartSeries series0 = chart.getSeries().get(0);
         ChartSeries series1 = chart.getSeries().get(1);
 
@@ -458,7 +458,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
         //ExEnd:WorkWithSingleChartSeries
 
         //ExStart:ChartDataPoint
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         // Specifies whether by default the parent element shall inverts its colors if the value is negative.
         series0.setInvertIfNegative(true);
 
@@ -475,7 +475,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void fillFormatting() throws Exception {
         //ExStart:FillFormatting
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -506,7 +506,7 @@ public class WorkingWithCharts extends DocsExamplesBase {
     @Test
     public void strokeFormatting() throws Exception {
         //ExStart:StrokeFormatting
-        //GistId:23d39c0b874655d7e7354f1ecc122e39
+        //GistId:f87662b501bdf23f24f7c2412bda746f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 

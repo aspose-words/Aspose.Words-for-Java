@@ -1,4 +1,4 @@
-package DocsExamples.Programming_with_documents;
+﻿package DocsExamples.Programming_with_documents;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.*;
@@ -14,7 +14,7 @@ public class WorkingWithComments extends DocsExamplesBase {
     @Test
     public void addComments() throws Exception {
         //ExStart:AddComments
-        //GistId:70902b20df8b1f6b0459f676e21623bb
+        //GistId:7e28ba7cc4edc360df780e7e9747e14c
         //ExStart:CreateSimpleDocumentUsingDocumentBuilder
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -34,7 +34,7 @@ public class WorkingWithComments extends DocsExamplesBase {
     @Test
     public void anchorComment() throws Exception {
         //ExStart:AnchorComment
-        //GistId:70902b20df8b1f6b0459f676e21623bb
+        //GistId:7e28ba7cc4edc360df780e7e9747e14c
         Document doc = new Document();
 
         Paragraph para1 = new Paragraph(doc);
@@ -69,7 +69,7 @@ public class WorkingWithComments extends DocsExamplesBase {
     @Test
     public void addRemoveCommentReply() throws Exception {
         //ExStart:AddRemoveCommentReply
-        //GistId:70902b20df8b1f6b0459f676e21623bb
+        //GistId:7e28ba7cc4edc360df780e7e9747e14c
         Document doc = new Document(getMyDir() + "Comments.docx");
 
         Comment comment = (Comment) doc.getChild(NodeType.COMMENT, 0, true);
@@ -89,7 +89,7 @@ public class WorkingWithComments extends DocsExamplesBase {
     @Test
     public void processComments() throws Exception {
         //ExStart:ProcessComments
-        //GistId:70902b20df8b1f6b0459f676e21623bb
+        //GistId:7e28ba7cc4edc360df780e7e9747e14c
         Document doc = new Document(getMyDir() + "Comments.docx");
 
         // Extract the information about the comments of all the authors.
@@ -116,7 +116,7 @@ public class WorkingWithComments extends DocsExamplesBase {
     }
 
     //ExStart:ExtractComments
-    //GistId:70902b20df8b1f6b0459f676e21623bb
+    //GistId:7e28ba7cc4edc360df780e7e9747e14c
     private ArrayList<String> extractComments(Document doc) throws Exception {
         ArrayList<String> collectedComments = new ArrayList<String>();
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
@@ -131,7 +131,7 @@ public class WorkingWithComments extends DocsExamplesBase {
     //ExEnd:ExtractComments
 
     //ExStart:ExtractCommentsByAuthor
-    //GistId:70902b20df8b1f6b0459f676e21623bb
+    //GistId:7e28ba7cc4edc360df780e7e9747e14c
     private ArrayList<String> extractComments(Document doc, String authorName) throws Exception {
         ArrayList<String> collectedComments = new ArrayList<String>();
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
@@ -147,7 +147,7 @@ public class WorkingWithComments extends DocsExamplesBase {
     //ExEnd:ExtractCommentsByAuthor
 
     //ExStart:RemoveComments
-    //GistId:70902b20df8b1f6b0459f676e21623bb
+    //GistId:7e28ba7cc4edc360df780e7e9747e14c
     private void removeComments(Document doc) {
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
         comments.clear();
@@ -155,7 +155,7 @@ public class WorkingWithComments extends DocsExamplesBase {
     //ExEnd:RemoveComments
 
     //ExStart:RemoveCommentsByAuthor
-    //GistId:70902b20df8b1f6b0459f676e21623bb
+    //GistId:7e28ba7cc4edc360df780e7e9747e14c
     private void removeComments(Document doc, String authorName) {
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
 
@@ -169,7 +169,7 @@ public class WorkingWithComments extends DocsExamplesBase {
     //ExEnd:RemoveCommentsByAuthor
 
     //ExStart:CommentResolvedAndReplies
-    //GistId:70902b20df8b1f6b0459f676e21623bb
+    //GistId:7e28ba7cc4edc360df780e7e9747e14c
     private void commentResolvedAndReplies(Document doc) {
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
 
@@ -188,7 +188,7 @@ public class WorkingWithComments extends DocsExamplesBase {
     @Test
     public void removeRangeText() throws Exception {
         //ExStart:RemoveRangeText
-        //GistId:70902b20df8b1f6b0459f676e21623bb
+        //GistId:7e28ba7cc4edc360df780e7e9747e14c
         Document doc = new Document(getMyDir() + "Comments.docx");
 
         CommentRangeStart commentStart = (CommentRangeStart) doc.getChild(NodeType.COMMENT_RANGE_START, 0, true);

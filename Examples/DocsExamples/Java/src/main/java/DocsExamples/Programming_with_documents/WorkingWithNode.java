@@ -1,4 +1,4 @@
-package DocsExamples.Programming_with_documents;
+﻿package DocsExamples.Programming_with_documents;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.*;
@@ -9,7 +9,7 @@ public class WorkingWithNode extends DocsExamplesBase {
     @Test
     public void getNodeType() throws Exception {
         //ExStart:GetNodeType
-        //GistId:3e9d92093b2f5995f984791bfc10c944
+        //GistId:16d12cc95cfd7e9005840677f303fd48
         Document doc = new Document();
         int type = doc.getNodeType();
         //ExEnd:GetNodeType
@@ -18,7 +18,7 @@ public class WorkingWithNode extends DocsExamplesBase {
     @Test
     public void getParentNode() throws Exception {
         //ExStart:GetParentNode
-        //GistId:3e9d92093b2f5995f984791bfc10c944
+        //GistId:16d12cc95cfd7e9005840677f303fd48
         Document doc = new Document();
         // The section is the first child node of the document.
         Node section = doc.getFirstChild();
@@ -30,7 +30,7 @@ public class WorkingWithNode extends DocsExamplesBase {
     @Test
     public void ownerDocument() throws Exception {
         //ExStart:OwnerDocument
-        //GistId:3e9d92093b2f5995f984791bfc10c944
+        //GistId:16d12cc95cfd7e9005840677f303fd48
         Document doc = new Document();
 
         // Creating a new node of any type requires a document passed into the constructor.
@@ -53,7 +53,7 @@ public class WorkingWithNode extends DocsExamplesBase {
     @Test
     public void enumerateChildNodes() throws Exception {
         //ExStart:EnumerateChildNodes
-        //GistId:3e9d92093b2f5995f984791bfc10c944
+        //GistId:16d12cc95cfd7e9005840677f303fd48
         Document doc = new Document();
         Paragraph paragraph = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
@@ -70,7 +70,7 @@ public class WorkingWithNode extends DocsExamplesBase {
 
     @Test
     //ExStart:RecurseAllNodes
-    //GistId:3e9d92093b2f5995f984791bfc10c944
+    //GistId:16d12cc95cfd7e9005840677f303fd48
     public void recurseAllNodes() throws Exception {
         Document doc = new Document(getMyDir() + "Paragraphs.docx");
         // Invoke the recursive function that will walk the tree.
@@ -96,7 +96,7 @@ public class WorkingWithNode extends DocsExamplesBase {
     @Test
     public void typedAccess() throws Exception {
         //ExStart:TypedAccess
-        //GistId:3e9d92093b2f5995f984791bfc10c944
+        //GistId:16d12cc95cfd7e9005840677f303fd48
         Document doc = new Document();
 
         Section section = doc.getFirstSection();

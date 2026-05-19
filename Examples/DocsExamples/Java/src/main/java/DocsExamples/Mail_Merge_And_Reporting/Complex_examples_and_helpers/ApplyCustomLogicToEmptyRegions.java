@@ -1,4 +1,4 @@
-package DocsExamples.Mail_Merge_And_Reporting.Complex_examples_and_helpers;
+﻿package DocsExamples.Mail_Merge_And_Reporting.Complex_examples_and_helpers;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.*;
@@ -274,7 +274,7 @@ public class ApplyCustomLogicToEmptyRegions extends DocsExamplesBase {
 
     private void disableForeignKeyConstraints(DataSet dataSet) {
         //ExStart:DisableForeignKeyConstraints
-        //GistId:c68048adceb3bda6a1511c7d6f5ebf7b
+        //GistId:6ad68bd56dfc60c2162398d02d2fc1a5
         dataSet.getRelations().add(new DataRelation("OrderToItem", orderTable.getColumns().get("Order_Id"),
                 itemTable.getColumns().get("Order_Id"), false));
         //ExEnd:DisableForeignKeyConstraints

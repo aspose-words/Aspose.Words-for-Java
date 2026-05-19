@@ -1,4 +1,4 @@
-package DocsExamples.Mail_Merge_And_Reporting.Complex_examples_and_helpers;
+﻿package DocsExamples.Mail_Merge_And_Reporting.Complex_examples_and_helpers;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.Document;
@@ -172,7 +172,7 @@ public class NestedMailMergeCustom extends DocsExamplesBase {
         }
 
         //ExStart:GetChildDataSource
-        //GistId:c68048adceb3bda6a1511c7d6f5ebf7b
+        //GistId:6ad68bd56dfc60c2162398d02d2fc1a5
         public IMailMergeDataSource getChildDataSource(String tableName) {
             switch (tableName) {
                 // Get the child collection to merge it with the region provided with tableName variable.

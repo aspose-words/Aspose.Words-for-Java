@@ -1,4 +1,4 @@
-package DocsExamples.Mail_Merge_And_Reporting;
+﻿package DocsExamples.Mail_Merge_And_Reporting;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.Document;
@@ -21,7 +21,7 @@ public class BaseOperations extends DocsExamplesBase {
     @Test
     public void simpleMailMerge() throws Exception {
         //ExStart:ExecuteSimpleMailMerge
-        //GistId:341b834e9b6a84ac6885e907e0ea4229
+        //GistId:c1173266e34062134a6f4178cd531c15
         // Include the code for our template.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -44,7 +44,7 @@ public class BaseOperations extends DocsExamplesBase {
     @Test
     public void useIfElseMustache() throws Exception {
         //ExStart:UseIfElseMustache
-        //GistId:544788f602e697802e313a641cedb9b8
+        //GistId:c0c6109b3d172b64370a9684b6330fe4
         Document doc = new Document(getMyDir() + "Mail merge destinations - Mustache syntax.docx");
 
         doc.getMailMerge().setUseNonMergeFields(true);
@@ -57,7 +57,7 @@ public class BaseOperations extends DocsExamplesBase {
     @Test
     public void mustacheSyntaxUsingDataTable() throws Exception {
         //ExStart:MustacheSyntaxUsingDataTable
-        //GistId:544788f602e697802e313a641cedb9b8
+        //GistId:c0c6109b3d172b64370a9684b6330fe4
         Document doc = new Document(getMyDir() + "Mail merge destinations - Vendor.docx");
 
         // Loop through each row and fill it with data.
@@ -81,7 +81,7 @@ public class BaseOperations extends DocsExamplesBase {
     @Test
     public void executeWithRegionsDataTable() throws Exception {
         //ExStart:ExecuteWithRegionsDataTable
-        //GistId:de5e13f5d5bb7d8cb88da900b4f9ed8b
+        //GistId:cb1cd45863a6c54154294f1778b4f991
         Document doc = new Document(getMyDir() + "Mail merge destinations - Orders.docx");
 
         // Use custom data source implementation
@@ -127,7 +127,7 @@ public class BaseOperations extends DocsExamplesBase {
     @Test
     public void produceMultipleDocuments() throws Exception {
         //ExStart:ProduceMultipleDocuments
-        //GistId:341b834e9b6a84ac6885e907e0ea4229
+        //GistId:c1173266e34062134a6f4178cd531c15
         Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
         String connString = "jdbc:ucanaccess://" + getDatabaseDir() + "Northwind.accdb";
 
@@ -160,7 +160,7 @@ public class BaseOperations extends DocsExamplesBase {
     @Test
     public void mailMergeWithRegions() throws Exception {
         //ExStart:MailMergeWithRegions
-        //GistId:341b834e9b6a84ac6885e907e0ea4229
+        //GistId:c1173266e34062134a6f4178cd531c15
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -202,7 +202,7 @@ public class BaseOperations extends DocsExamplesBase {
     }
 
     //ExStart:CreateDataSet
-    //GistId:341b834e9b6a84ac6885e907e0ea4229
+    //GistId:c1173266e34062134a6f4178cd531c15
     private DataSet createDataSet() {
         // Create the customers table.
         DataTable tableCustomers = new DataTable("Customers");
@@ -235,11 +235,11 @@ public class BaseOperations extends DocsExamplesBase {
     @Test
     public void getRegionsByName() throws Exception {
         //ExStart:GetRegionsByName
-        //GistId:b4bab1bf22437a86d8062e91cf154494
+        //GistId:7d267f5905ac7f3d5144e8d4126a0d6d
         Document doc = new Document(getMyDir() + "Mail merge regions.docx");
 
         //ExStart:GetRegionsHierarchy
-        //GistId:b4bab1bf22437a86d8062e91cf154494
+        //GistId:7d267f5905ac7f3d5144e8d4126a0d6d
         MailMergeRegionInfo regionInfo = doc.getMailMerge().getRegionsHierarchy();
         //ExEnd:GetRegionsHierarchy
 

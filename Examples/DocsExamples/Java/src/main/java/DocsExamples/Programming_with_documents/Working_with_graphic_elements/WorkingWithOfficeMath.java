@@ -1,4 +1,4 @@
-package DocsExamples.Programming_with_documents.Working_with_graphic_elements;
+﻿package DocsExamples.Programming_with_documents.Working_with_graphic_elements;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.*;
@@ -9,7 +9,7 @@ public class WorkingWithOfficeMath extends DocsExamplesBase {
     @Test
     public void mathEquations() throws Exception {
         //ExStart:MathEquations
-        //GistId:e19d5874b376b07466fd7a397d554648
+        //GistId:ea25b1ac2d275721b68dcd70a2a821cb
         Document doc = new Document(getMyDir() + "Office math.docx");
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
 

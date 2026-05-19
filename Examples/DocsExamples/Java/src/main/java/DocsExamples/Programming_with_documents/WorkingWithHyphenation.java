@@ -1,4 +1,4 @@
-package DocsExamples.Programming_with_documents;
+﻿package DocsExamples.Programming_with_documents;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.Document;
@@ -15,7 +15,7 @@ public class WorkingWithHyphenation extends DocsExamplesBase {
     @Test
     public void hyphenateWords() throws Exception {
         //ExStart:HyphenateWords
-        //GistId:a52aacf87a36f7881ba29d25de92fb83
+        //GistId:b927514236cd586d70faf9fb0476ba23
         Document doc = new Document(getMyDir() + "German text.docx");
 
         Hyphenation.registerDictionary("en-US", getMyDir() + "hyph_en_US.dic");
@@ -28,7 +28,7 @@ public class WorkingWithHyphenation extends DocsExamplesBase {
     @Test
     public void loadHyphenationDictionary() throws Exception {
         //ExStart:LoadHyphenationDictionary
-        //GistId:a52aacf87a36f7881ba29d25de92fb83
+        //GistId:b927514236cd586d70faf9fb0476ba23
         Document doc = new Document(getMyDir() + "German text.docx");
 
         FileInputStream stream = new FileInputStream(getMyDir() + "hyph_de_CH.dic");
@@ -40,7 +40,7 @@ public class WorkingWithHyphenation extends DocsExamplesBase {
 
     @Test
     //ExStart:CustomHyphenation
-    //GistId:a52aacf87a36f7881ba29d25de92fb83
+    //GistId:b927514236cd586d70faf9fb0476ba23
     public void hyphenationCallback() throws Exception {
         try {
             // Register hyphenation callback.

@@ -1,4 +1,4 @@
-package DocsExamples.Programming_with_documents.Protect_or_encrypt_document;
+﻿package DocsExamples.Programming_with_documents.Protect_or_encrypt_document;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.*;
@@ -10,7 +10,7 @@ public class DocumentProtection extends DocsExamplesBase {
     @Test
     public void passwordProtection() throws Exception {
         //ExStart:PasswordProtection
-        //GistId:856ba85fa704fa728b0ec20aafddd16b
+        //GistId:d0b170eaed36360c47a6522c22d7e568
         Document doc = new Document();
 
         // Apply document protection.
@@ -23,7 +23,7 @@ public class DocumentProtection extends DocsExamplesBase {
     @Test
     public void allowOnlyFormFieldsProtect() throws Exception {
         //ExStart:AllowOnlyFormFieldsProtect
-        //GistId:856ba85fa704fa728b0ec20aafddd16b
+        //GistId:d0b170eaed36360c47a6522c22d7e568
         // Insert two sections with some text.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -40,7 +40,7 @@ public class DocumentProtection extends DocsExamplesBase {
     @Test
     public void removeDocumentProtection() throws Exception {
         //ExStart:RemoveDocumentProtection
-        //GistId:856ba85fa704fa728b0ec20aafddd16b
+        //GistId:d0b170eaed36360c47a6522c22d7e568
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -58,7 +58,7 @@ public class DocumentProtection extends DocsExamplesBase {
     @Test
     public void unrestrictedEditableRegions() throws Exception {
         //ExStart:UnrestrictedEditableRegions
-        //GistId:856ba85fa704fa728b0ec20aafddd16b
+        //GistId:d0b170eaed36360c47a6522c22d7e568
         // Upload a document and make it as read-only.
         Document doc = new Document(getMyDir() + "Document.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -87,7 +87,7 @@ public class DocumentProtection extends DocsExamplesBase {
     @Test
     public void unrestrictedSection() throws Exception {
         //ExStart:UnrestrictedSection
-        //GistId:856ba85fa704fa728b0ec20aafddd16b
+        //GistId:d0b170eaed36360c47a6522c22d7e568
         // Insert two sections with some text.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -120,7 +120,7 @@ public class DocumentProtection extends DocsExamplesBase {
     @Test
     public void readOnlyProtection() throws Exception {
         //ExStart:ReadOnlyProtection
-        //GistId:7cf6735e83804ba8942663695b22ee42
+        //GistId:577227450ada581e16ca7c050112e36d
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -141,7 +141,7 @@ public class DocumentProtection extends DocsExamplesBase {
     @Test
     public void removeReadOnlyRestriction() throws Exception {
         //ExStart:RemoveReadOnlyRestriction
-        //GistId:7cf6735e83804ba8942663695b22ee42
+        //GistId:577227450ada581e16ca7c050112e36d
         Document doc = new Document();
 
         // Enter a password that's up to 15 characters long.

@@ -1,4 +1,4 @@
-package DocsExamples.Programming_with_documents;
+﻿package DocsExamples.Programming_with_documents;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.List;
@@ -12,7 +12,7 @@ public class WorkingWithList extends DocsExamplesBase {
     @Test
     public void restartListAtEachSection() throws Exception {
         //ExStart:RestartListAtEachSection
-        //GistId:a1dfeba1e0480d5b277a61742c8921af
+        //GistId:bcc8db50f6937463ef0f1acd71da30a8
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 

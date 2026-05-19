@@ -1,4 +1,4 @@
-package DocsExamples.Programming_with_documents.Working_with_graphic_elements;
+﻿package DocsExamples.Programming_with_documents.Working_with_graphic_elements;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.Shape;
@@ -13,7 +13,7 @@ public class WorkingWithWatermark extends DocsExamplesBase {
     @Test
     public void addTextWatermark() throws Exception {
         //ExStart:AddTextWatermark
-        //GistId:1f690a31c188a851d80d7aed4ff7e44c
+        //GistId:45164877cf7053ae51abc84d2e3bc172
         Document doc = new Document(getMyDir() + "Document.docx");
 
         TextWatermarkOptions options = new TextWatermarkOptions();
@@ -33,7 +33,7 @@ public class WorkingWithWatermark extends DocsExamplesBase {
     public void addImageWatermark() throws Exception
     {
         //ExStart:AddImageWatermark
-        //GistId:1f690a31c188a851d80d7aed4ff7e44c
+        //GistId:45164877cf7053ae51abc84d2e3bc172
         Document doc = new Document(getMyDir() + "Document.docx");
 
         ImageWatermarkOptions options = new ImageWatermarkOptions();
@@ -52,7 +52,7 @@ public class WorkingWithWatermark extends DocsExamplesBase {
     public void removeDocumentWatermark() throws Exception
     {
         //ExStart:RemoveDocumentWatermark
-        //GistId:1f690a31c188a851d80d7aed4ff7e44c
+        //GistId:45164877cf7053ae51abc84d2e3bc172
         Document doc = new Document();
 
         // Add a plain text watermark.
@@ -80,7 +80,7 @@ public class WorkingWithWatermark extends DocsExamplesBase {
     }
 
     //ExStart:AddDocumentWatermark
-    //GistId:1f690a31c188a851d80d7aed4ff7e44c
+    //GistId:45164877cf7053ae51abc84d2e3bc172
     @Test
     public void addAndRemoveWatermark() throws Exception {
         Document doc = new Document(getMyDir() + "Document.docx");
@@ -99,7 +99,7 @@ public class WorkingWithWatermark extends DocsExamplesBase {
     /// <param name="watermarkText">Text of the watermark.</param>
     private void insertWatermarkText(Document doc, String watermarkText) throws Exception {
         //ExStart:SetShapeName
-        //GistId:1f690a31c188a851d80d7aed4ff7e44c
+        //GistId:45164877cf7053ae51abc84d2e3bc172
         // Create a watermark shape, this will be a WordArt shape.
         Shape watermark = new Shape(doc, ShapeType.TEXT_PLAIN_TEXT);
         watermark.setName("Watermark");
@@ -153,7 +153,7 @@ public class WorkingWithWatermark extends DocsExamplesBase {
     //ExEnd:AddDocumentWatermark
 
     //ExStart:RemoveWatermarkShape
-    //GistId:1f690a31c188a851d80d7aed4ff7e44c
+    //GistId:45164877cf7053ae51abc84d2e3bc172
     private void removeWatermarkShape(Document doc) {
         for (HeaderFooter hf : (Iterable<HeaderFooter>) doc.getChildNodes(NodeType.HEADER_FOOTER, true)) {
             for (Shape shape : (Iterable<Shape>) hf.getChildNodes(NodeType.SHAPE, true)) {

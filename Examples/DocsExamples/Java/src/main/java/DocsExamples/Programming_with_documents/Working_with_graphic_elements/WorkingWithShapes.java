@@ -1,4 +1,4 @@
-package DocsExamples.Programming_with_documents.Working_with_graphic_elements;
+﻿package DocsExamples.Programming_with_documents.Working_with_graphic_elements;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.Shape;
@@ -15,7 +15,7 @@ public class WorkingWithShapes extends DocsExamplesBase {
     @Test
     public void addGroupShape() throws Exception {
         //ExStart:AddGroupShape
-        //GistId:072edc4bbb0dd0eebf1f61f610bd8d36
+        //GistId:810aad86a7a440f9a364db09322bce53
         Document doc = new Document();
         doc.ensureMinimum();
 
@@ -47,7 +47,7 @@ public class WorkingWithShapes extends DocsExamplesBase {
     @Test
     public void insertShape() throws Exception {
         //ExStart:InsertShape
-        //GistId:ad463bf5f128fe6e6c1485df3c046a4c
+        //GistId:ae9835338c044aaa3ac54592b7062db8
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -70,7 +70,7 @@ public class WorkingWithShapes extends DocsExamplesBase {
     @Test
     public void aspectRatioLocked() throws Exception {
         //ExStart:AspectRatioLocked
-        //GistId:ad463bf5f128fe6e6c1485df3c046a4c
+        //GistId:ae9835338c044aaa3ac54592b7062db8
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -84,7 +84,7 @@ public class WorkingWithShapes extends DocsExamplesBase {
     @Test
     public void layoutInCell() throws Exception {
         //ExStart:LayoutInCell
-        //GistId:ad463bf5f128fe6e6c1485df3c046a4c
+        //GistId:ae9835338c044aaa3ac54592b7062db8
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -132,7 +132,7 @@ public class WorkingWithShapes extends DocsExamplesBase {
     @Test
     public void addCornersSnipped() throws Exception {
         //ExStart:AddCornersSnipped
-        //GistId:ad463bf5f128fe6e6c1485df3c046a4c
+        //GistId:ae9835338c044aaa3ac54592b7062db8
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -148,7 +148,7 @@ public class WorkingWithShapes extends DocsExamplesBase {
     @Test
     public void getActualShapeBoundsPoints() throws Exception {
         //ExStart:GetActualShapeBoundsPoints
-        //GistId:ad463bf5f128fe6e6c1485df3c046a4c
+        //GistId:ae9835338c044aaa3ac54592b7062db8
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -163,7 +163,7 @@ public class WorkingWithShapes extends DocsExamplesBase {
     @Test
     public void verticalAnchor() throws Exception {
         //ExStart:VerticalAnchor
-        //GistId:ad463bf5f128fe6e6c1485df3c046a4c
+        //GistId:ae9835338c044aaa3ac54592b7062db8
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -180,7 +180,7 @@ public class WorkingWithShapes extends DocsExamplesBase {
     @Test
     public void detectSmartArtShape() throws Exception {
         //ExStart:DetectSmartArtShape
-        //GistId:ad463bf5f128fe6e6c1485df3c046a4c
+        //GistId:ae9835338c044aaa3ac54592b7062db8
         Document doc = new Document(getMyDir() + "SmartArt.docx");
 
         List<Shape> shapes = IterableUtils.toList(doc.getChildNodes(NodeType.SHAPE, true));
@@ -195,7 +195,7 @@ public class WorkingWithShapes extends DocsExamplesBase {
         Document doc = new Document(getMyDir() + "SmartArt.docx");
 
         //ExStart:UpdateSmartArtDrawing
-        //GistId:683cdbe52b97598d9d4ee4695b4f83c9
+        //GistId:69fffe75454d325c814eefbe9a99e8d7
         for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true))
             if (shape.hasSmartArt())
                 shape.updateSmartArtDrawing();
