@@ -163,8 +163,8 @@ public class ApiExampleBase {
      *
      * @return url with aspose logo image
      */
-    static URI getAsposelogoUri() {
-        return G_ASPOSELOGO_URI;
+    static URI getImageUri() {
+        return G_IMAGE_URI;
     }
 
     private static final String G_ASSEMBLY_DIR;
@@ -176,7 +176,7 @@ public class ApiExampleBase {
     private static final String G_IMAGE_DIR;
     private static final String G_DATABASE_DIR;
     private static final String G_FONTS_DIR;
-    private static final URI G_ASPOSELOGO_URI;
+    private static final URI G_IMAGE_URI;
 
     static {
         try {
@@ -189,7 +189,7 @@ public class ApiExampleBase {
             G_IMAGE_DIR = G_CODE_BASE_DIR + "Data" + File.separator + "Images" + File.separator;
             G_DATABASE_DIR = G_CODE_BASE_DIR + "Data" + File.separator + "Database" + File.separator;
             G_FONTS_DIR = G_CODE_BASE_DIR + "Data" + File.separator + "MyFonts" + File.separator;
-            G_ASPOSELOGO_URI = new URI("https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
+            G_IMAGE_URI = new URI("https://httpbin.org/image/png");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

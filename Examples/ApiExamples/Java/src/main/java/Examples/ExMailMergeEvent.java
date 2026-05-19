@@ -285,7 +285,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
         builder.insertField("MERGEFIELD  Image:Logo ");
 
         // Pass a URL which points to the image to merge into the document
-        doc.getMailMerge().execute(new String[]{"Logo"}, new Object[]{DocumentHelper.getBytesFromStream(getAsposelogoUri().toURL().openStream())});
+        doc.getMailMerge().execute(new String[]{"Logo"}, new Object[]{DocumentHelper.getBytesFromStream(getImageUri().toURL().openStream())});
 
         doc.save(getArtifactsDir() + "MailMergeEvent.ImageFromUrl.doc");
         //ExEnd

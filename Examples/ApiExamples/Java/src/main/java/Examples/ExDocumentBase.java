@@ -227,13 +227,13 @@ public class ExDocumentBase extends ApiExampleBase {
                 // If this callback encounters one of the image shorthands while loading an image,
                 // it will apply unique logic for each defined shorthand instead of treating it as a URI.
                 if ("Google logo".equals(args.getOriginalUri())) {
-                    args.setData(DocumentHelper.getBytesFromStream(new URI("http://www.google.com/images/logos/ps_logo2.png").toURL().openStream()));
+                    args.setData(DocumentHelper.getBytesFromStream(getImageUri().toURL().openStream()));
 
                     return ResourceLoadingAction.USER_PROVIDED;
                 }
 
                 if ("Aspose logo".equals(args.getOriginalUri())) {
-                    args.setData(DocumentHelper.getBytesFromStream(getAsposelogoUri().toURL().openStream()));
+                    args.setData(DocumentHelper.getBytesFromStream(getImageUri().toURL().openStream()));
 
                     return ResourceLoadingAction.USER_PROVIDED;
                 }
@@ -257,6 +257,37 @@ public class ExDocumentBase extends ApiExampleBase {
             Assert.assertNotEquals(shape.getImageData().getImageBytes(), new byte[0]);
         }
 
-        TestUtil.verifyWebResponseStatusCode(200, new URL("http://www.google.com/images/logos/ps_logo2.png"));
+        TestUtil.verifyWebResponseStatusCode(200, getImageUri().toURL());
     }
+
+//    @Test
+//    public void importNodeWithResolveThemeColors() throws Exception
+//    {
+//        //ExStart:ImportNodeWithResolveThemeColors
+//        //GistId:0c1fc06a3be66ff29f2a4483a931c1eb
+//        //ExFor:DocumentBase.ImportNode(Node, Boolean, ImportFormatMode, ImportFormatOptions)
+//        //ExFor:ImportFormatOptions.ResolveThemeColors
+//        //ExSummary:Shows how to import a node with resolving source theme colors of shapes.
+//        Document srcDoc = new Document();
+//        DocumentBuilder builder = new DocumentBuilder(srcDoc);
+//
+//        // Move to the primary footer and insert a shape that uses theme colors.
+//        builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
+//        Shape shape = builder.insertShape(ShapeType.RECTANGLE, 100.0, 50.0);
+//        shape.getStroke().setForeThemeColor(ThemeColor.DARK_1);
+//
+//        Document dstDoc = new Document();
+//        // Import the source footer into the destination document with theme colors resolved,
+//        // so the shape preserves its actual color from the source document.
+//        HeaderFooter footer = srcDoc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY);
+//
+//        ImportFormatOptions options = new ImportFormatOptions();
+//        options.setResolveThemeColors(true);
+//        HeaderFooter importedFooter = (HeaderFooter)dstDoc.importNode(footer, true, ImportFormatMode.KEEP_SOURCE_FORMATTING, options);
+//
+//        dstDoc.getFirstSection().getHeadersFooters().add(importedFooter);
+//
+//        dstDoc.save(getArtifactsDir() + "DocumentBase.ImportNodeWithResolveThemeColors.docx");
+//        //ExEnd:ImportNodeWithResolveThemeColors
+//    }
 }

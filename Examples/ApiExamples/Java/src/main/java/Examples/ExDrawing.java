@@ -104,7 +104,7 @@ public class ExDrawing extends ApiExampleBase {
         filledInArrowImg.setTop(160.0);
         filledInArrowImg.setFlipOrientation(FlipOrientation.BOTH);
 
-        BufferedImage image = ImageIO.read(getAsposelogoUri().toURL().openStream());
+        BufferedImage image = ImageIO.read(getImageUri().toURL().openStream());
         Graphics2D graphics2D = image.createGraphics();
 
         // When we flip the orientation of our arrow, we also flip the image that the arrow contains.
@@ -175,7 +175,7 @@ public class ExDrawing extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        BufferedImage image = ImageIO.read(getAsposelogoUri().toURL().openStream());
+        BufferedImage image = ImageIO.read(getImageUri().toURL().openStream());
 
         // The image in the URL is a .gif. Inserting it into a document converts it into a .png.
         Shape imgShape = builder.insertImage(image);

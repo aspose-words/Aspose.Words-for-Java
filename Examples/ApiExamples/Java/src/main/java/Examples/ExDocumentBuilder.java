@@ -1738,7 +1738,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
                 RelativeVerticalPosition.MARGIN, 0.0, 200.0, 200.0, WrapType.SQUARE);
 
         // 2 -  From a URL:
-        builder.insertImage(getAsposelogoUri().toString(), RelativeHorizontalPosition.MARGIN, 100.0,
+        builder.insertImage(getImageUri().toString(), RelativeHorizontalPosition.MARGIN, 100.0,
                 RelativeVerticalPosition.MARGIN, 250.0, 200.0, 200.0, WrapType.SQUARE);
 
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertFloatingImage.docx");
@@ -1758,7 +1758,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         image = (Shape) doc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImageInShape(272, 92, ImageType.PNG, image);
+        TestUtil.verifyImageInShape(100, 100, ImageType.PNG, image);
         Assert.assertEquals(100.0d, image.getLeft());
         Assert.assertEquals(250.0d, image.getTop());
         Assert.assertEquals(200.0d, image.getWidth());
@@ -3452,7 +3452,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         String videoEmbedCode = "<iframe src=\"https://player.vimeo.com/video/52477838\" width=\"640\" height=\"360\" frameborder=\"0\" " +
                 "title=\"Aspose\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
 
-        byte[] thumbnailImageBytes = IOUtils.toByteArray(getAsposelogoUri().toURL().openStream());
+        byte[] thumbnailImageBytes = IOUtils.toByteArray(getImageUri().toURL().openStream());
 
         BufferedImage image = ImageIO.read(new ByteArrayInputStream(thumbnailImageBytes));
 
@@ -3477,9 +3477,9 @@ public class ExDocumentBuilder extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertOnlineVideoCustomThumbnail.docx");
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImageInShape(272, 92, ImageType.PNG, shape);
-        Assert.assertEquals(272.0d, shape.getWidth());
-        Assert.assertEquals(92.0d, shape.getHeight());
+        TestUtil.verifyImageInShape(100, 100, ImageType.PNG, shape);
+        Assert.assertEquals(100.0d, shape.getWidth());
+        Assert.assertEquals(100.0d, shape.getHeight());
         Assert.assertEquals(0.0d, shape.getLeft());
         Assert.assertEquals(0.0d, shape.getTop());
         Assert.assertEquals(WrapType.INLINE, shape.getWrapType());
@@ -3490,11 +3490,11 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         shape = (Shape) doc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImageInShape(272, 92, ImageType.PNG, shape);
-        Assert.assertEquals(272, shape.getWidth());
-        Assert.assertEquals(92.0d, shape.getHeight());
-        Assert.assertEquals(-200.0d, shape.getLeft());
-        Assert.assertEquals(-20.0d, shape.getTop());
+        TestUtil.verifyImageInShape(100, 100, ImageType.PNG, shape);
+        Assert.assertEquals(100, shape.getWidth());
+        Assert.assertEquals(100, shape.getHeight());
+        Assert.assertEquals(-28.0d, shape.getLeft());
+        Assert.assertEquals(-28.0d, shape.getTop());
         Assert.assertEquals(WrapType.SQUARE, shape.getWrapType());
         Assert.assertEquals(RelativeVerticalPosition.BOTTOM_MARGIN, shape.getRelativeVerticalPosition());
         Assert.assertEquals(RelativeHorizontalPosition.RIGHT_MARGIN, shape.getRelativeHorizontalPosition());

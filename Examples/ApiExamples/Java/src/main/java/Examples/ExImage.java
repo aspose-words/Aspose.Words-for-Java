@@ -69,7 +69,7 @@ public class ExImage extends ApiExampleBase {
 
         // 2 -  Pass a URL which points to an image.
         builder.write("Image from a URL: ");
-        builder.insertImage(getAsposelogoUri().toURL().openStream());
+        builder.insertImage(getImageUri().toURL().openStream());
         builder.writeln();
 
         doc.save(getArtifactsDir() + "Image.FromUrl.docx");
@@ -80,7 +80,7 @@ public class ExImage extends ApiExampleBase {
 
         Assert.assertEquals(2, shapes.getCount());
         TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, (Shape) shapes.get(0));
-        TestUtil.verifyImageInShape(272, 92, ImageType.PNG, (Shape) shapes.get(1));
+        TestUtil.verifyImageInShape(100, 100, ImageType.PNG, (Shape) shapes.get(1));
     }
 
     @Test
