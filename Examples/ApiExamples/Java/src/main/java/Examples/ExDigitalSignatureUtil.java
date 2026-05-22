@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -16,6 +16,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Date;
 
 public class ExDigitalSignatureUtil extends ApiExampleBase {
@@ -247,44 +249,44 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         //ExEnd:XmlDsig
     }
 
-//    @Test
-//    public void signDocumentWithOptions() throws Exception
-//    {
-//        //ExStart:SignDocumentWithOptions
-//        //GistId:0c1fc06a3be66ff29f2a4483a931c1eb
-//        //ExFor:SignOptions.WindowsVersion
-//        //ExFor:SignOptions.ApplicationVersion
-//        //ExFor:SignOptions.OfficeVersion
-//        //ExFor:SignOptions.HorizontalResolution
-//        //ExFor:SignOptions.VerticalResolution
-//        //ExFor:SignOptions.ColorDepth
-//        //ExFor:DigitalSignatureUtil.Sign(String,String,CertificateHolder,SignOptions)
-//        //ExSummary:Shows how to sign a document with additional signing options.
-//        SignOptions signOptions = new SignOptions();
-//        {
-//            signOptions.setWindowsVersion("10.0");
-//            signOptions.setApplicationVersion("16.0.19127");
-//            signOptions.setOfficeVersion("16.0.19127/27");
-//            signOptions.setHorizontalResolution(1024);
-//            signOptions.setVerticalResolution(768);
-//            signOptions.setColorDepth(24);
-//        }
-//
-//        byte[] certBytes = File.readAllBytes(getMyDir() + "morzal.pfx");
-//        CertificateHolder cert = CertificateHolder.create(certBytes, "aw");
-//        DigitalSignatureUtil.sign(getMyDir() + "Digitally signed.docx", getArtifactsDir() + "DigitalSignatureUtil.docx", cert, signOptions);
-//
-//        Document signedDoc = new Document(getArtifactsDir() + "DigitalSignatureUtil.docx");
-//
-//        DigitalSignature signature = signedDoc.getDigitalSignatures().get(0);
-//        Assert.assertEquals(1, signedDoc.getDigitalSignatures().getCount());
-//        Assert.assertTrue(signature.isValid());
-//        Assert.assertEquals("10.0", signature.getWindowsVersion());
-//        Assert.assertEquals("16.0.19127", signature.getApplicationVersion());
-//        Assert.assertEquals("16.0.19127/27", signature.getOfficeVersion());
-//        Assert.assertEquals(1024, signature.getHorizontalResolution());
-//        Assert.assertEquals(768, signature.getVerticalResolution());
-//        Assert.assertEquals(24, signature.getColorDepth());
-//        //ExEnd:SignDocumentWithOptions
-//    }
+    @Test
+    public void signDocumentWithOptions() throws Exception
+    {
+        //ExStart:SignDocumentWithOptions
+        //GistId:0c1fc06a3be66ff29f2a4483a931c1eb
+        //ExFor:SignOptions.WindowsVersion
+        //ExFor:SignOptions.ApplicationVersion
+        //ExFor:SignOptions.OfficeVersion
+        //ExFor:SignOptions.HorizontalResolution
+        //ExFor:SignOptions.VerticalResolution
+        //ExFor:SignOptions.ColorDepth
+        //ExFor:DigitalSignatureUtil.Sign(String,String,CertificateHolder,SignOptions)
+        //ExSummary:Shows how to sign a document with additional signing options.
+        SignOptions signOptions = new SignOptions();
+        {
+            signOptions.setWindowsVersion("10.0");
+            signOptions.setApplicationVersion("16.0.19127");
+            signOptions.setOfficeVersion("16.0.19127/27");
+            signOptions.setHorizontalResolution(1024);
+            signOptions.setVerticalResolution(768);
+            signOptions.setColorDepth(24);
+        }
+
+        byte[] certBytes = Files.readAllBytes(Paths.get(getMyDir() + "morzal.pfx"));
+        CertificateHolder cert = CertificateHolder.create(certBytes, "aw");
+        DigitalSignatureUtil.sign(getMyDir() + "Digitally signed.docx", getArtifactsDir() + "DigitalSignatureUtil.docx", cert, signOptions);
+
+        Document signedDoc = new Document(getArtifactsDir() + "DigitalSignatureUtil.docx");
+
+        DigitalSignature signature = signedDoc.getDigitalSignatures().get(0);
+        Assert.assertEquals(1, signedDoc.getDigitalSignatures().getCount());
+        Assert.assertTrue(signature.isValid());
+        Assert.assertEquals("10.0", signature.getWindowsVersion());
+        Assert.assertEquals("16.0.19127", signature.getApplicationVersion());
+        Assert.assertEquals("16.0.19127/27", signature.getOfficeVersion());
+        Assert.assertEquals(1024, signature.getHorizontalResolution());
+        Assert.assertEquals(768, signature.getVerticalResolution());
+        Assert.assertEquals(24, signature.getColorDepth());
+        //ExEnd:SignDocumentWithOptions
+    }
 }
