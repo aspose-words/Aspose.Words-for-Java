@@ -1099,13 +1099,13 @@ public class ExPageSetup extends ApiExampleBase
         Assert.assertEquals(TextOrientation.UPWARD, pageSetup.getTextOrientation());
     }
 
-    //ExStart
-    //ExFor:PageSetup.SuppressEndnotes
-    //ExFor:Body.ParentSection
-    //ExSummary:Shows how to store endnotes at the end of each section, and modify their positions.
-    @Test //ExSkip
+    @Test
     public void suppressEndnotes() throws Exception
     {
+        //ExStart
+        //ExFor:PageSetup.SuppressEndnotes
+        //ExFor:Body.ParentSection
+        //ExSummary:Shows how to store endnotes at the end of each section, and modify their positions.
         Document doc = new Document();
         doc.removeAllChildren();
 
@@ -1128,8 +1128,13 @@ public class ExPageSetup extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "PageSetup.SuppressEndnotes.docx");
         testSuppressEndnotes(new Document(getArtifactsDir() + "PageSetup.SuppressEndnotes.docx")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:PageSetup.SuppressEndnotes
+    //ExFor:Body.ParentSection
+    //ExSummary:Shows how to store endnotes at the end of each section, and modify their positions (InsertSectionWithEndnote).
     /// <summary>
     /// Append a section with text and an endnote to a document.
     /// </summary>
@@ -1399,3 +1404,4 @@ public class ExPageSetup extends ApiExampleBase
     }
     //ExEnd:ColorMode
 }
+

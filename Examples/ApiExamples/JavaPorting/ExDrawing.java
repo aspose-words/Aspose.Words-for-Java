@@ -372,22 +372,22 @@ public class ExDrawing extends ApiExampleBase
         TestUtil.verifyImage(8, 8, getArtifactsDir() + "Drawing.StrokePattern.png");
     }
 
-    //ExStart
-    //ExFor:DocumentVisitor.VisitShapeEnd(Shape)
-    //ExFor:DocumentVisitor.VisitShapeStart(Shape)
-    //ExFor:DocumentVisitor.VisitGroupShapeEnd(GroupShape)
-    //ExFor:DocumentVisitor.VisitGroupShapeStart(GroupShape)
-    //ExFor:GroupShape
-    //ExFor:GroupShape.#ctor(DocumentBase)
-    //ExFor:GroupShape.Accept(DocumentVisitor)
-    //ExFor:GroupShape.AcceptStart(DocumentVisitor)
-    //ExFor:GroupShape.AcceptEnd(DocumentVisitor)
-    //ExFor:ShapeBase.IsGroup
-    //ExFor:ShapeBase.ShapeType
-    //ExSummary:Shows how to create a group of shapes, and print its contents using a document visitor.
-    @Test //ExSkip
+    @Test
     public void groupOfShapes() throws Exception
     {
+        //ExStart
+        //ExFor:DocumentVisitor.VisitShapeEnd(Shape)
+        //ExFor:DocumentVisitor.VisitShapeStart(Shape)
+        //ExFor:DocumentVisitor.VisitGroupShapeEnd(GroupShape)
+        //ExFor:DocumentVisitor.VisitGroupShapeStart(GroupShape)
+        //ExFor:GroupShape
+        //ExFor:GroupShape.#ctor(DocumentBase)
+        //ExFor:GroupShape.Accept(DocumentVisitor)
+        //ExFor:GroupShape.AcceptStart(DocumentVisitor)
+        //ExFor:GroupShape.AcceptEnd(DocumentVisitor)
+        //ExFor:ShapeBase.IsGroup
+        //ExFor:ShapeBase.ShapeType
+        //ExSummary:Shows how to create a group of shapes, and print its contents using a document visitor.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         
@@ -421,8 +421,22 @@ public class ExDrawing extends ApiExampleBase
 
         System.out.println(printer.getText());
         testGroupShapes(doc); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:DocumentVisitor.VisitShapeEnd(Shape)
+    //ExFor:DocumentVisitor.VisitShapeStart(Shape)
+    //ExFor:DocumentVisitor.VisitGroupShapeEnd(GroupShape)
+    //ExFor:DocumentVisitor.VisitGroupShapeStart(GroupShape)
+    //ExFor:GroupShape
+    //ExFor:GroupShape.#ctor(DocumentBase)
+    //ExFor:GroupShape.Accept(DocumentVisitor)
+    //ExFor:GroupShape.AcceptStart(DocumentVisitor)
+    //ExFor:GroupShape.AcceptEnd(DocumentVisitor)
+    //ExFor:ShapeBase.IsGroup
+    //ExFor:ShapeBase.ShapeType
+    //ExSummary:Shows how to create a group of shapes, and print its contents using a document visitor (ShapeGroupPrinter).
     /// <summary>
     /// Prints the contents of a visited shape group to the console.
     /// </summary>
@@ -709,3 +723,4 @@ public class ExDrawing extends ApiExampleBase
         Assert.assertEquals(95.98d, DELTA, imageSize.getVerticalResolution());
     }
 }
+

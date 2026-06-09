@@ -1162,15 +1162,15 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExEnd
     }
 
-    //ExStart
-    //ExFor:StructuredDocumentTagRangeStart.#ctor(DocumentBase, SdtType)
-    //ExFor:StructuredDocumentTagRangeEnd.#ctor(DocumentBase, int)
-    //ExFor:StructuredDocumentTagRangeStart.RemoveSelfOnly
-    //ExFor:StructuredDocumentTagRangeStart.RemoveAllChildren
-    //ExSummary:Shows how to create/remove structured document tag and its content.
-    @Test //ExSkip
+    @Test
     public void sdtRangeExtendedMethods() throws Exception
     {
+        //ExStart
+        //ExFor:StructuredDocumentTagRangeStart.#ctor(DocumentBase, SdtType)
+        //ExFor:StructuredDocumentTagRangeEnd.#ctor(DocumentBase, int)
+        //ExFor:StructuredDocumentTagRangeStart.RemoveSelfOnly
+        //ExFor:StructuredDocumentTagRangeStart.RemoveAllChildren
+        //ExSummary:Shows how to create/remove structured document tag and its content.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1201,8 +1201,15 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         paragraphNode = rangeStart.LastOrDefault();
         Assert.That(paragraphNode?.GetText(), assertEquals(null, );
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:StructuredDocumentTagRangeStart.#ctor(DocumentBase, SdtType)
+    //ExFor:StructuredDocumentTagRangeEnd.#ctor(DocumentBase, int)
+    //ExFor:StructuredDocumentTagRangeStart.RemoveSelfOnly
+    //ExFor:StructuredDocumentTagRangeStart.RemoveAllChildren
+    //ExSummary:Shows how to create/remove structured document tag and its content (InsertStructuredDocumentTagRanges).
     @Test (enabled = false)
     public StructuredDocumentTagRangeStart insertStructuredDocumentTagRanges(Document doc)
     {

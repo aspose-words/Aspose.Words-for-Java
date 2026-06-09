@@ -26,18 +26,18 @@ import java.util.ArrayList;
 @Test
 public class ExSignDocumentCustom extends ApiExampleBase
 {
-    //ExStart
-    //ExFor:CertificateHolder
-    //ExFor:SignatureLineOptions.Signer
-    //ExFor:SignatureLineOptions.SignerTitle
-    //ExFor:SignatureLine.Id
-    //ExFor:SignOptions.SignatureLineId
-    //ExFor:SignOptions.SignatureLineImage
-    //ExFor:DigitalSignatureUtil.Sign(String, String, CertificateHolder, SignOptions)
-    //ExSummary:Shows how to add a signature line to a document, and then sign it using a digital certificate.
-    @Test (description = "WORDSNET-16868") //ExSkip
+    @Test (description = "WORDSNET-16868")
     public static void sign() throws Exception
     {
+        //ExStart
+        //ExFor:CertificateHolder
+        //ExFor:SignatureLineOptions.Signer
+        //ExFor:SignatureLineOptions.SignerTitle
+        //ExFor:SignatureLine.Id
+        //ExFor:SignOptions.SignatureLineId
+        //ExFor:SignOptions.SignatureLineImage
+        //ExFor:DigitalSignatureUtil.Sign(String, String, CertificateHolder, SignOptions)
+        //ExSummary:Shows how to add a signature line to a document, and then sign it using a digital certificate.
         String signeeName = "Ron Williams";
         String srcDocumentPath = getMyDir() + "Document.docx";
         String dstDocumentPath = getArtifactsDir() + "SignDocumentCustom.Sign.docx";
@@ -52,8 +52,18 @@ public class ExSignDocumentCustom extends ApiExampleBase
             signDocument(srcDocumentPath, dstDocumentPath, signeeInfo, certificatePath, certificatePassword);
         else
             Assert.fail("Signee does not exist.");
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:CertificateHolder
+    //ExFor:SignatureLineOptions.Signer
+    //ExFor:SignatureLineOptions.SignerTitle
+    //ExFor:SignatureLine.Id
+    //ExFor:SignOptions.SignatureLineId
+    //ExFor:SignOptions.SignatureLineImage
+    //ExFor:DigitalSignatureUtil.Sign(String, String, CertificateHolder, SignOptions)
+    //ExSummary:Shows how to add a signature line to a document, and then sign it using a digital certificate (SignDocument).
     /// <summary>
     /// Creates a copy of a source document signed using provided signee information and X509 certificate.
     /// </summary>
@@ -126,3 +136,4 @@ public class ExSignDocumentCustom extends ApiExampleBase
     private static ArrayList<ExSignDocumentCustom.Signee> mSignees;
     //ExEnd
 }
+

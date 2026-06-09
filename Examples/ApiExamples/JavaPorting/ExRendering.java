@@ -38,15 +38,15 @@ import com.aspose.ms.System.Drawing.msSizeF;
 @Test
 public class ExRendering extends ApiExampleBase
 {
-    //ExStart
-    //ExFor:NodeRendererBase.RenderToScale(Graphics, Single, Single, Single)
-    //ExFor:NodeRendererBase.RenderToSize(Graphics, Single, Single, Single, Single)
-    //ExFor:ShapeRenderer
-    //ExFor:ShapeRenderer.#ctor(ShapeBase)
-    //ExSummary:Shows how to render a shape with a Graphics object and display it using a Windows Form.
-    @Test (groups = "IgnoreOnJenkins") //ExSkip
+    @Test (groups = "IgnoreOnJenkins")
     public void renderShapesOnForm() throws Exception
     {
+        //ExStart
+        //ExFor:NodeRendererBase.RenderToScale(Graphics, Single, Single, Single)
+        //ExFor:NodeRendererBase.RenderToSize(Graphics, Single, Single, Single, Single)
+        //ExFor:ShapeRenderer
+        //ExFor:ShapeRenderer.#ctor(ShapeBase)
+        //ExSummary:Shows how to render a shape with a Graphics object and display it using a Windows Form.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -91,8 +91,15 @@ public class ExRendering extends ApiExampleBase
         shapeForm.addShapeToRenderToSize(groupShape, 880f, 680f, 100f, 100f);
 
         shapeForm.ShowDialog();
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:NodeRendererBase.RenderToScale(Graphics, Single, Single, Single)
+    //ExFor:NodeRendererBase.RenderToSize(Graphics, Single, Single, Single, Single)
+    //ExFor:ShapeRenderer
+    //ExFor:ShapeRenderer.#ctor(ShapeBase)
+    //ExSummary:Shows how to render a shape with a Graphics object and display it using a Windows Form (ShapeForm).
     /// <summary>
     /// Renders and displays a list of shapes.
     /// </summary>
@@ -273,3 +280,4 @@ public class ExRendering extends ApiExampleBase
         //ExEnd
     }
 }
+

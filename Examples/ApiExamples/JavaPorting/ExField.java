@@ -1019,19 +1019,19 @@ public class ExField extends ApiExampleBase
         }
     }
     
-    //ExStart
-    //ExFor:FieldAsk
-    //ExFor:FieldAsk.BookmarkName
-    //ExFor:FieldAsk.DefaultResponse
-    //ExFor:FieldAsk.PromptOnceOnMailMerge
-    //ExFor:FieldAsk.PromptText
-    //ExFor:FieldOptions.UserPromptRespondent
-    //ExFor:IFieldUserPromptRespondent
-    //ExFor:IFieldUserPromptRespondent.Respond(String,String)
-    //ExSummary:Shows how to create an ASK field, and set its properties.
-    @Test//ExSkip
+    @Test
     public void fieldAsk() throws Exception
     {
+        //ExStart
+        //ExFor:FieldAsk
+        //ExFor:FieldAsk.BookmarkName
+        //ExFor:FieldAsk.DefaultResponse
+        //ExFor:FieldAsk.PromptOnceOnMailMerge
+        //ExFor:FieldAsk.PromptText
+        //ExFor:FieldOptions.UserPromptRespondent
+        //ExFor:IFieldUserPromptRespondent
+        //ExFor:IFieldUserPromptRespondent.Respond(String,String)
+        //ExSummary:Shows how to create an ASK field, and set its properties.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1069,8 +1069,19 @@ public class ExField extends ApiExampleBase
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.ASK.docx");
         testFieldAsk(table, doc); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldAsk
+    //ExFor:FieldAsk.BookmarkName
+    //ExFor:FieldAsk.DefaultResponse
+    //ExFor:FieldAsk.PromptOnceOnMailMerge
+    //ExFor:FieldAsk.PromptText
+    //ExFor:FieldOptions.UserPromptRespondent
+    //ExFor:IFieldUserPromptRespondent
+    //ExFor:IFieldUserPromptRespondent.Respond(String,String)
+    //ExSummary:Shows how to create an ASK field, and set its properties (MyPromptRespondent).
     /// <summary>
     /// Prepends text to the default response of an ASK field during a mail merge.
     /// </summary>
@@ -1220,24 +1231,24 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("1033", field.getLanguageId());
     }
 
-    //ExStart
-    //ExFor:FieldCollection
-    //ExFor:FieldCollection.Count
-    //ExFor:FieldCollection.GetEnumerator
-    //ExFor:FieldStart
-    //ExFor:FieldStart.Accept(DocumentVisitor)
-    //ExFor:FieldSeparator
-    //ExFor:FieldSeparator.Accept(DocumentVisitor)
-    //ExFor:FieldEnd
-    //ExFor:FieldEnd.Accept(DocumentVisitor)
-    //ExFor:FieldEnd.HasSeparator
-    //ExFor:Field.End
-    //ExFor:Field.Separator
-    //ExFor:Field.Start
-    //ExSummary:Shows how to work with a collection of fields.
-    @Test //ExSkip
+    @Test
     public void fieldCollection() throws Exception
     {
+        //ExStart
+        //ExFor:FieldCollection
+        //ExFor:FieldCollection.Count
+        //ExFor:FieldCollection.GetEnumerator
+        //ExFor:FieldStart
+        //ExFor:FieldStart.Accept(DocumentVisitor)
+        //ExFor:FieldSeparator
+        //ExFor:FieldSeparator.Accept(DocumentVisitor)
+        //ExFor:FieldEnd
+        //ExFor:FieldEnd.Accept(DocumentVisitor)
+        //ExFor:FieldEnd.HasSeparator
+        //ExFor:Field.End
+        //ExFor:Field.Separator
+        //ExFor:Field.Start
+        //ExSummary:Shows how to work with a collection of fields.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1278,8 +1289,24 @@ public class ExField extends ApiExampleBase
 
         System.out.println(fieldVisitor.getText());
         testFieldCollection(fieldVisitor.getText()); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldCollection
+    //ExFor:FieldCollection.Count
+    //ExFor:FieldCollection.GetEnumerator
+    //ExFor:FieldStart
+    //ExFor:FieldStart.Accept(DocumentVisitor)
+    //ExFor:FieldSeparator
+    //ExFor:FieldSeparator.Accept(DocumentVisitor)
+    //ExFor:FieldEnd
+    //ExFor:FieldEnd.Accept(DocumentVisitor)
+    //ExFor:FieldEnd.HasSeparator
+    //ExFor:Field.End
+    //ExFor:Field.Separator
+    //ExFor:Field.Start
+    //ExSummary:Shows how to work with a collection of fields (FieldVisitor).
     /// <summary>
     /// Document visitor implementation that prints field info.
     /// </summary>
@@ -1558,14 +1585,14 @@ public class ExField extends ApiExampleBase
         TestUtil.verifyField(FieldType.FIELD_AUTO_NUM, " AUTONUM  \\s :", "", doc.getRange().getFields().get(1));
     }
 
-    //ExStart
-    //ExFor:FieldAutoNumLgl
-    //ExFor:FieldAutoNumLgl.RemoveTrailingPeriod
-    //ExFor:FieldAutoNumLgl.SeparatorCharacter
-    //ExSummary:Shows how to organize a document using AUTONUMLGL fields.
-    @Test //ExSkip
+    @Test
     public void fieldAutoNumLgl() throws Exception
     {
+        //ExStart
+        //ExFor:FieldAutoNumLgl
+        //ExFor:FieldAutoNumLgl.RemoveTrailingPeriod
+        //ExFor:FieldAutoNumLgl.SeparatorCharacter
+        //ExSummary:Shows how to organize a document using AUTONUMLGL fields.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1615,8 +1642,14 @@ public class ExField extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Field.AUTONUMLGL.docx");
         testFieldAutoNumLgl(doc); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldAutoNumLgl
+    //ExFor:FieldAutoNumLgl.RemoveTrailingPeriod
+    //ExFor:FieldAutoNumLgl.SeparatorCharacter
+    //ExSummary:Shows how to organize a document using AUTONUMLGL fields (InsertNumberedClause).
     /// <summary>
     /// Uses a document builder to insert a clause numbered by an AUTONUMLGL field.
     /// </summary>
@@ -1747,15 +1780,15 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("MyBlock", fieldGlossary.getEntryName());
     }
 
-    //ExStart
-    //ExFor:FieldAutoTextList
-    //ExFor:FieldAutoTextList.EntryName
-    //ExFor:FieldAutoTextList.ListStyle
-    //ExFor:FieldAutoTextList.ScreenTip
-    //ExSummary:Shows how to use an AUTOTEXTLIST field to select from a list of AutoText entries.
-    @Test //ExSkip
+    @Test
     public void fieldAutoTextList() throws Exception
     {
+        //ExStart
+        //ExFor:FieldAutoTextList
+        //ExFor:FieldAutoTextList.EntryName
+        //ExFor:FieldAutoTextList.ListStyle
+        //ExFor:FieldAutoTextList.ScreenTip
+        //ExSummary:Shows how to use an AUTOTEXTLIST field to select from a list of AutoText entries.
         Document doc = new Document();
 
         // Create a glossary document and populate it with auto text entries.
@@ -1780,8 +1813,15 @@ public class ExField extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Field.AUTOTEXTLIST.dotx");
         testFieldAutoTextList(doc); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldAutoTextList
+    //ExFor:FieldAutoTextList.EntryName
+    //ExFor:FieldAutoTextList.ListStyle
+    //ExFor:FieldAutoTextList.ScreenTip
+    //ExSummary:Shows how to use an AUTOTEXTLIST field to select from a list of AutoText entries (AppendAutoTextEntry).
     /// <summary>
     /// Create an AutoText-type building block and add it to a glossary document.
     /// </summary>
@@ -2048,24 +2088,24 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(0, doc.getRange().getFields().getCount());
     }
 
-    //ExStart
-    //ExFor:FieldToc
-    //ExFor:FieldToc.BookmarkName
-    //ExFor:FieldToc.CustomStyles
-    //ExFor:FieldToc.EntrySeparator
-    //ExFor:FieldToc.HeadingLevelRange
-    //ExFor:FieldToc.HideInWebLayout
-    //ExFor:FieldToc.InsertHyperlinks
-    //ExFor:FieldToc.PageNumberOmittingLevelRange
-    //ExFor:FieldToc.PreserveLineBreaks
-    //ExFor:FieldToc.PreserveTabs
-    //ExFor:FieldToc.UpdatePageNumbers
-    //ExFor:FieldToc.UseParagraphOutlineLevel
-    //ExFor:FieldOptions.CustomTocStyleSeparator
-    //ExSummary:Shows how to insert a TOC, and populate it with entries based on heading styles.
-    @Test //ExSkip
+    @Test
     public void fieldToc() throws Exception
     {
+        //ExStart
+        //ExFor:FieldToc
+        //ExFor:FieldToc.BookmarkName
+        //ExFor:FieldToc.CustomStyles
+        //ExFor:FieldToc.EntrySeparator
+        //ExFor:FieldToc.HeadingLevelRange
+        //ExFor:FieldToc.HideInWebLayout
+        //ExFor:FieldToc.InsertHyperlinks
+        //ExFor:FieldToc.PageNumberOmittingLevelRange
+        //ExFor:FieldToc.PreserveLineBreaks
+        //ExFor:FieldToc.PreserveTabs
+        //ExFor:FieldToc.UpdatePageNumbers
+        //ExFor:FieldToc.UseParagraphOutlineLevel
+        //ExFor:FieldOptions.CustomTocStyleSeparator
+        //ExSummary:Shows how to insert a TOC, and populate it with entries based on heading styles.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -2127,8 +2167,24 @@ public class ExField extends ApiExampleBase
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.TOC.docx");
         testFieldToc(doc); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldToc
+    //ExFor:FieldToc.BookmarkName
+    //ExFor:FieldToc.CustomStyles
+    //ExFor:FieldToc.EntrySeparator
+    //ExFor:FieldToc.HeadingLevelRange
+    //ExFor:FieldToc.HideInWebLayout
+    //ExFor:FieldToc.InsertHyperlinks
+    //ExFor:FieldToc.PageNumberOmittingLevelRange
+    //ExFor:FieldToc.PreserveLineBreaks
+    //ExFor:FieldToc.PreserveTabs
+    //ExFor:FieldToc.UpdatePageNumbers
+    //ExFor:FieldToc.UseParagraphOutlineLevel
+    //ExFor:FieldOptions.CustomTocStyleSeparator
+    //ExSummary:Shows how to insert a TOC, and populate it with entries based on heading styles (InsertNewPageWithHeading).
     /// <summary>
     /// Start a new page and insert a paragraph of a specified style.
     /// </summary>
@@ -2168,18 +2224,18 @@ public class ExField extends ApiExampleBase
                             "\u0013 HYPERLINK \\l \"_Toc256000006\" \u0014Sixth entry\u0015\r", field.getResult());
     }
 
-    //ExStart
-    //ExFor:FieldToc.EntryIdentifier
-    //ExFor:FieldToc.EntryLevelRange
-    //ExFor:FieldTC
-    //ExFor:FieldTC.OmitPageNumber
-    //ExFor:FieldTC.Text
-    //ExFor:FieldTC.TypeIdentifier
-    //ExFor:FieldTC.EntryLevel
-    //ExSummary:Shows how to insert a TOC field, and filter which TC fields end up as entries.
-    @Test //ExSkip
+    @Test
     public void fieldTocEntryIdentifier() throws Exception
     {
+        //ExStart
+        //ExFor:FieldToc.EntryIdentifier
+        //ExFor:FieldToc.EntryLevelRange
+        //ExFor:FieldTC
+        //ExFor:FieldTC.OmitPageNumber
+        //ExFor:FieldTC.Text
+        //ExFor:FieldTC.TypeIdentifier
+        //ExFor:FieldTC.EntryLevel
+        //ExSummary:Shows how to insert a TOC field, and filter which TC fields end up as entries.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -2208,8 +2264,18 @@ public class ExField extends ApiExampleBase
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.TC.docx");
         testFieldTocEntryIdentifier(doc); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldToc.EntryIdentifier
+    //ExFor:FieldToc.EntryLevelRange
+    //ExFor:FieldTC
+    //ExFor:FieldTC.OmitPageNumber
+    //ExFor:FieldTC.Text
+    //ExFor:FieldTC.TypeIdentifier
+    //ExFor:FieldTC.EntryLevel
+    //ExSummary:Shows how to insert a TOC field, and filter which TC fields end up as entries (InsertTocEntry).
     /// <summary>
     /// Use a document builder to insert a TC field.
     /// </summary>
@@ -2742,15 +2808,15 @@ public class ExField extends ApiExampleBase
         CurrentThread.setCurrentCulture(oldCulture);
     }
 
-    //ExStart
-    //ExFor:Bibliography.BibliographyStyle
-    //ExFor:IBibliographyStylesProvider
-    //ExFor:IBibliographyStylesProvider.GetStyle(String)
-    //ExFor:FieldOptions.BibliographyStylesProvider
-    //ExSummary:Shows how to override built-in styles or provide custom one.
-    @Test //ExSkip
+    @Test
     public void changeBibliographyStyles() throws Exception
     {
+        //ExStart
+        //ExFor:Bibliography.BibliographyStyle
+        //ExFor:IBibliographyStylesProvider
+        //ExFor:IBibliographyStylesProvider.GetStyle(String)
+        //ExFor:FieldOptions.BibliographyStylesProvider
+        //ExSummary:Shows how to override built-in styles or provide custom one.
         msCultureInfo oldCulture = CurrentThread.getCurrentCulture(); //ExSkip
         CurrentThread.setCurrentCulture(new msCultureInfo("en-nz", false)); //ExSkip
 
@@ -2765,8 +2831,15 @@ public class ExField extends ApiExampleBase
         doc.save(getArtifactsDir() + "Field.ChangeBibliographyStyles.docx");
 
         CurrentThread.setCurrentCulture(oldCulture); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:Bibliography.BibliographyStyle
+    //ExFor:IBibliographyStylesProvider
+    //ExFor:IBibliographyStylesProvider.GetStyle(String)
+    //ExFor:FieldOptions.BibliographyStylesProvider
+    //ExSummary:Shows how to override built-in styles or provide custom one (BibliographyStylesProvider).
     public static class BibliographyStylesProvider implements IBibliographyStylesProvider
     {
         public Stream /*IBibliographyStylesProvider.*/getStyle(String styleFileName) throws Exception
@@ -2904,21 +2977,21 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(getImageDir() + "Transparent background logo.png", image.getImageData().getSourceFullName().replace("%20", " "));
     }
 
-    //ExStart
-    //ExFor:FieldIncludeText
-    //ExFor:FieldIncludeText.BookmarkName
-    //ExFor:FieldIncludeText.Encoding
-    //ExFor:FieldIncludeText.LockFields
-    //ExFor:FieldIncludeText.MimeType
-    //ExFor:FieldIncludeText.NamespaceMappings
-    //ExFor:FieldIncludeText.SourceFullName
-    //ExFor:FieldIncludeText.TextConverter
-    //ExFor:FieldIncludeText.XPath
-    //ExFor:FieldIncludeText.XslTransformation
-    //ExSummary:Shows how to create an INCLUDETEXT field, and set its properties.
-    @Test //ExSkip
+    @Test
     public void fieldIncludeText() throws Exception
     {
+        //ExStart
+        //ExFor:FieldIncludeText
+        //ExFor:FieldIncludeText.BookmarkName
+        //ExFor:FieldIncludeText.Encoding
+        //ExFor:FieldIncludeText.LockFields
+        //ExFor:FieldIncludeText.MimeType
+        //ExFor:FieldIncludeText.NamespaceMappings
+        //ExFor:FieldIncludeText.SourceFullName
+        //ExFor:FieldIncludeText.TextConverter
+        //ExFor:FieldIncludeText.XPath
+        //ExFor:FieldIncludeText.XslTransformation
+        //ExSummary:Shows how to create an INCLUDETEXT field, and set its properties.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -2937,8 +3010,21 @@ public class ExField extends ApiExampleBase
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.INCLUDETEXT.docx");
         testFieldIncludeText(new Document(getArtifactsDir() + "Field.INCLUDETEXT.docx")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldIncludeText
+    //ExFor:FieldIncludeText.BookmarkName
+    //ExFor:FieldIncludeText.Encoding
+    //ExFor:FieldIncludeText.LockFields
+    //ExFor:FieldIncludeText.MimeType
+    //ExFor:FieldIncludeText.NamespaceMappings
+    //ExFor:FieldIncludeText.SourceFullName
+    //ExFor:FieldIncludeText.TextConverter
+    //ExFor:FieldIncludeText.XPath
+    //ExFor:FieldIncludeText.XslTransformation
+    //ExSummary:Shows how to create an INCLUDETEXT field, and set its properties (CreateFieldIncludeText).
     /// <summary>
     /// Use a document builder to insert an INCLUDETEXT field with custom properties.
     /// </summary>
@@ -3082,22 +3168,22 @@ public class ExField extends ApiExampleBase
         Assert.assertFalse(field.isImageMap());
     }
 
-    //ExStart
-    //ExFor:MergeFieldImageDimension
-    //ExFor:MergeFieldImageDimension.#ctor(Double)
-    //ExFor:MergeFieldImageDimension.#ctor(Double,MergeFieldImageDimensionUnit)
-    //ExFor:MergeFieldImageDimension.Unit
-    //ExFor:MergeFieldImageDimension.Value
-    //ExFor:MergeFieldImageDimensionUnit
-    //ExFor:ImageFieldMergingArgs
-    //ExFor:ImageFieldMergingArgs.ImageFileName
-    //ExFor:ImageFieldMergingArgs.ImageWidth
-    //ExFor:ImageFieldMergingArgs.ImageHeight
-    //ExFor:ImageFieldMergingArgs.Shape
-    //ExSummary:Shows how to set the dimensions of images as MERGEFIELDS accepts them during a mail merge.
-    @Test //ExSkip
+    @Test
     public void mergeFieldImageDimension() throws Exception
     {
+        //ExStart
+        //ExFor:MergeFieldImageDimension
+        //ExFor:MergeFieldImageDimension.#ctor(Double)
+        //ExFor:MergeFieldImageDimension.#ctor(Double,MergeFieldImageDimensionUnit)
+        //ExFor:MergeFieldImageDimension.Unit
+        //ExFor:MergeFieldImageDimension.Value
+        //ExFor:MergeFieldImageDimensionUnit
+        //ExFor:ImageFieldMergingArgs
+        //ExFor:ImageFieldMergingArgs.ImageFileName
+        //ExFor:ImageFieldMergingArgs.ImageWidth
+        //ExFor:ImageFieldMergingArgs.ImageHeight
+        //ExFor:ImageFieldMergingArgs.Shape
+        //ExSummary:Shows how to set the dimensions of images as MERGEFIELDS accepts them during a mail merge.
         Document doc = new Document();
 
         // Insert a MERGEFIELD that will accept images from a source during a mail merge. Use the field code to reference
@@ -3122,8 +3208,22 @@ public class ExField extends ApiExampleBase
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.MERGEFIELD.ImageDimension.docx");
         testMergeFieldImageDimension(doc); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:MergeFieldImageDimension
+    //ExFor:MergeFieldImageDimension.#ctor(Double)
+    //ExFor:MergeFieldImageDimension.#ctor(Double,MergeFieldImageDimensionUnit)
+    //ExFor:MergeFieldImageDimension.Unit
+    //ExFor:MergeFieldImageDimension.Value
+    //ExFor:MergeFieldImageDimensionUnit
+    //ExFor:ImageFieldMergingArgs
+    //ExFor:ImageFieldMergingArgs.ImageFileName
+    //ExFor:ImageFieldMergingArgs.ImageWidth
+    //ExFor:ImageFieldMergingArgs.ImageHeight
+    //ExFor:ImageFieldMergingArgs.Shape
+    //ExSummary:Shows how to set the dimensions of images as MERGEFIELDS accepts them during a mail merge (MergedImageResizer).
     /// <summary>
     /// Sets the size of all mail merged images to one defined width and height.
     /// </summary>
@@ -3186,12 +3286,12 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(200.0d, shape.getHeight());
     }
 
-    //ExStart
-    //ExFor:ImageFieldMergingArgs.Image
-    //ExSummary:Shows how to use a callback to customize image merging logic.
-    @Test //ExSkip
+    @Test
     public void mergeFieldImages() throws Exception
     {
+        //ExStart
+        //ExFor:ImageFieldMergingArgs.Image
+        //ExSummary:Shows how to use a callback to customize image merging logic.
         Document doc = new Document();
 
         // Insert a MERGEFIELD that will accept images from a source during a mail merge. Use the field code to reference
@@ -3217,8 +3317,12 @@ public class ExField extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Field.MERGEFIELD.Images.docx");
         testMergeFieldImages(new Document(getArtifactsDir() + "Field.MERGEFIELD.Images.docx")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:ImageFieldMergingArgs.Image
+    //ExSummary:Shows how to use a callback to customize image merging logic (ImageFilenameCallback).
     /// <summary>
     /// Contains a dictionary that maps names of images to local system filenames that contain these images.
     /// If a mail merge data source uses one of the dictionary's names to refer to an image,
@@ -4418,6 +4522,83 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("ITF14", barcode.getBarcodeType());
     }
 
+    @Test (enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsTextDataProvider")
+    public void fieldLinkedObjectsAsText(/*InsertLinkedObjectAs*/int insertLinkedObjectAs) throws Exception
+    {
+        //ExStart
+        //ExFor:FieldLink
+        //ExFor:FieldLink.AutoUpdate
+        //ExFor:FieldLink.FormatUpdateType
+        //ExFor:FieldLink.InsertAsBitmap
+        //ExFor:FieldLink.InsertAsHtml
+        //ExFor:FieldLink.InsertAsPicture
+        //ExFor:FieldLink.InsertAsRtf
+        //ExFor:FieldLink.InsertAsText
+        //ExFor:FieldLink.InsertAsUnicode
+        //ExFor:FieldLink.IsLinked
+        //ExFor:FieldLink.ProgId
+        //ExFor:FieldLink.SourceFullName
+        //ExFor:FieldLink.SourceItem
+        //ExFor:FieldDde
+        //ExFor:FieldDde.AutoUpdate
+        //ExFor:FieldDde.InsertAsBitmap
+        //ExFor:FieldDde.InsertAsHtml
+        //ExFor:FieldDde.InsertAsPicture
+        //ExFor:FieldDde.InsertAsRtf
+        //ExFor:FieldDde.InsertAsText
+        //ExFor:FieldDde.InsertAsUnicode
+        //ExFor:FieldDde.IsLinked
+        //ExFor:FieldDde.ProgId
+        //ExFor:FieldDde.SourceFullName
+        //ExFor:FieldDde.SourceItem
+        //ExFor:FieldDdeAuto
+        //ExFor:FieldDdeAuto.InsertAsBitmap
+        //ExFor:FieldDdeAuto.InsertAsHtml
+        //ExFor:FieldDdeAuto.InsertAsPicture
+        //ExFor:FieldDdeAuto.InsertAsRtf
+        //ExFor:FieldDdeAuto.InsertAsText
+        //ExFor:FieldDdeAuto.InsertAsUnicode
+        //ExFor:FieldDdeAuto.IsLinked
+        //ExFor:FieldDdeAuto.ProgId
+        //ExFor:FieldDdeAuto.SourceFullName
+        //ExFor:FieldDdeAuto.SourceItem
+        //ExSummary:Shows how to use various field types to link to other documents in the local file system, and display their contents.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Below are three types of fields we can use to display contents from a linked document in the form of text.
+        // 1 -  A LINK field:
+        builder.writeln("FieldLink:\n");
+        insertFieldLink(builder, insertLinkedObjectAs, "Word.Document.8", getMyDir() + "Document.docx", null, true);
+
+        // 2 -  A DDE field:
+        builder.writeln("FieldDde:\n");
+        insertFieldDde(builder, insertLinkedObjectAs, "Excel.Sheet", getMyDir() + "Spreadsheet.xlsx",
+            "Sheet1!R1C1", true, true);
+
+        // 3 -  A DDEAUTO field:
+        builder.writeln("FieldDdeAuto:\n");
+        insertFieldDdeAuto(builder, insertLinkedObjectAs, "Excel.Sheet", getMyDir() + "Spreadsheet.xlsx",
+            "Sheet1!R1C1", true);
+
+        doc.updateFields();
+        doc.save(getArtifactsDir() + "Field.LINK.DDE.DDEAUTO.docx");
+        //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "fieldLinkedObjectsAsTextDataProvider")
+	public static Object[][] fieldLinkedObjectsAsTextDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{InsertLinkedObjectAs.TEXT},
+			{InsertLinkedObjectAs.UNICODE},
+			{InsertLinkedObjectAs.HTML},
+			{InsertLinkedObjectAs.RTF},
+		};
+	}
+
     //ExStart
     //ExFor:FieldLink
     //ExFor:FieldLink.AutoUpdate
@@ -4455,45 +4636,7 @@ public class ExField extends ApiExampleBase
     //ExFor:FieldDdeAuto.ProgId
     //ExFor:FieldDdeAuto.SourceFullName
     //ExFor:FieldDdeAuto.SourceItem
-    //ExSummary:Shows how to use various field types to link to other documents in the local file system, and display their contents.
-    @Test (enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsTextDataProvider") //ExSkip
-    public void fieldLinkedObjectsAsText(/*InsertLinkedObjectAs*/int insertLinkedObjectAs) throws Exception
-    {
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // Below are three types of fields we can use to display contents from a linked document in the form of text.
-        // 1 -  A LINK field:
-        builder.writeln("FieldLink:\n");
-        insertFieldLink(builder, insertLinkedObjectAs, "Word.Document.8", getMyDir() + "Document.docx", null, true);
-
-        // 2 -  A DDE field:
-        builder.writeln("FieldDde:\n");
-        insertFieldDde(builder, insertLinkedObjectAs, "Excel.Sheet", getMyDir() + "Spreadsheet.xlsx",
-            "Sheet1!R1C1", true, true);
-
-        // 3 -  A DDEAUTO field:
-        builder.writeln("FieldDdeAuto:\n");
-        insertFieldDdeAuto(builder, insertLinkedObjectAs, "Excel.Sheet", getMyDir() + "Spreadsheet.xlsx",
-            "Sheet1!R1C1", true);
-
-        doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.LINK.DDE.DDEAUTO.docx");
-    }
-
-	//JAVA-added data provider for test method
-	@DataProvider(name = "fieldLinkedObjectsAsTextDataProvider")
-	public static Object[][] fieldLinkedObjectsAsTextDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{InsertLinkedObjectAs.TEXT},
-			{InsertLinkedObjectAs.UNICODE},
-			{InsertLinkedObjectAs.HTML},
-			{InsertLinkedObjectAs.RTF},
-		};
-	}
-
+    //ExSummary:Shows how to use various field types to link to other documents in the local file system, and display their contents (FieldLinkedObjectsAsImage).
     @Test (enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsImageDataProvider") //ExSkip
     public void fieldLinkedObjectsAsImage(/*InsertLinkedObjectAs*/int insertLinkedObjectAs) throws Exception
     {
@@ -5026,7 +5169,7 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(new DateTime(2017, 12, 5, 9, 56, 0), doc.getBuiltInDocumentProperties().getCreatedTimeInternal());
 
-        DateTime expectedDate = doc.getBuiltInDocumentProperties().getCreatedTimeInternal().addHours(CurrentThread.getTimeZone().getUtcOffset(DateTime.getUtcNow()).getHours());
+        DateTime expectedDate = doc.getBuiltInDocumentProperties().getCreatedTimeInternal().addHours(CurrentThread.getUtcOffsetFromCurrentTimeZone(DateTime.getUtcNow()).getHours());
         field = (FieldCreateDate)doc.getRange().getFields().get(0);
         Calendar umAlQuraCalendar = new UmAlQuraCalendar();
 
@@ -5556,14 +5699,14 @@ public class ExField extends ApiExampleBase
     }
 
     @Test
-    //ExStart
-    //ExFor:FieldFillIn
-    //ExFor:FieldFillIn.DefaultResponse
-    //ExFor:FieldFillIn.PromptOnceOnMailMerge
-    //ExFor:FieldFillIn.PromptText
-    //ExSummary:Shows how to use the FILLIN field to prompt the user for a response.
     public void fieldFillIn() throws Exception
     {
+        //ExStart
+        //ExFor:FieldFillIn
+        //ExFor:FieldFillIn.DefaultResponse
+        //ExFor:FieldFillIn.PromptOnceOnMailMerge
+        //ExFor:FieldFillIn.PromptText
+        //ExSummary:Shows how to use the FILLIN field to prompt the user for a response.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -5590,8 +5733,15 @@ public class ExField extends ApiExampleBase
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.FILLIN.docx");
         testFieldFillIn(new Document(getArtifactsDir() + "Field.FILLIN.docx")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldFillIn
+    //ExFor:FieldFillIn.DefaultResponse
+    //ExFor:FieldFillIn.PromptOnceOnMailMerge
+    //ExFor:FieldFillIn.PromptText
+    //ExSummary:Shows how to use the FILLIN field to prompt the user for a response (PromptRespondent).
     /// <summary>
     /// Prepends a line to the default response of every FILLIN field during a mail merge.
     /// </summary>
@@ -5946,16 +6096,16 @@ public class ExField extends ApiExampleBase
 
     }
 
-    //ExStart
-    //ExFor:FieldNext
-    //ExFor:FieldNextIf
-    //ExFor:FieldNextIf.ComparisonOperator
-    //ExFor:FieldNextIf.LeftExpression
-    //ExFor:FieldNextIf.RightExpression
-    //ExSummary:Shows how to use NEXT/NEXTIF fields to merge multiple rows into one page during a mail merge.
-    @Test //ExSkip
+    @Test
     public void fieldNext() throws Exception
     {
+        //ExStart
+        //ExFor:FieldNext
+        //ExFor:FieldNextIf
+        //ExFor:FieldNextIf.ComparisonOperator
+        //ExFor:FieldNextIf.LeftExpression
+        //ExFor:FieldNextIf.RightExpression
+        //ExSummary:Shows how to use NEXT/NEXTIF fields to merge multiple rows into one page during a mail merge.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -6004,8 +6154,16 @@ public class ExField extends ApiExampleBase
         // Our output document will have 1 page with data from all 3 rows.
         doc.save(getArtifactsDir() + "Field.NEXT.NEXTIF.docx");
         testFieldNext(doc); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldNext
+    //ExFor:FieldNextIf
+    //ExFor:FieldNextIf.ComparisonOperator
+    //ExFor:FieldNextIf.LeftExpression
+    //ExFor:FieldNextIf.RightExpression
+    //ExSummary:Shows how to use NEXT/NEXTIF fields to merge multiple rows into one page during a mail merge (InsertMergeFields).
     /// <summary>
     /// Uses a document builder to insert MERGEFIELDs for a data source that contains columns named "Courtesy Title", "First Name" and "Last Name".
     /// </summary>
@@ -6041,16 +6199,16 @@ public class ExField extends ApiExampleBase
                             "Third row: Mr. Joe Bloggs\r\f", doc.getText());
     }
 
-    //ExStart
-    //ExFor:FieldNoteRef
-    //ExFor:FieldNoteRef.BookmarkName
-    //ExFor:FieldNoteRef.InsertHyperlink
-    //ExFor:FieldNoteRef.InsertReferenceMark
-    //ExFor:FieldNoteRef.InsertRelativePosition
-    //ExSummary:Shows to insert NOTEREF fields, and modify their appearance.
-    @Test //ExSkip
+    @Test
     public void fieldNoteRef() throws Exception
     {
+        //ExStart
+        //ExFor:FieldNoteRef
+        //ExFor:FieldNoteRef.BookmarkName
+        //ExFor:FieldNoteRef.InsertHyperlink
+        //ExFor:FieldNoteRef.InsertReferenceMark
+        //ExFor:FieldNoteRef.InsertRelativePosition
+        //ExSummary:Shows to insert NOTEREF fields, and modify their appearance.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -6076,8 +6234,16 @@ public class ExField extends ApiExampleBase
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.NOTEREF.docx");
         testNoteRef(new Document(getArtifactsDir() + "Field.NOTEREF.docx")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldNoteRef
+    //ExFor:FieldNoteRef.BookmarkName
+    //ExFor:FieldNoteRef.InsertHyperlink
+    //ExFor:FieldNoteRef.InsertReferenceMark
+    //ExFor:FieldNoteRef.InsertRelativePosition
+    //ExSummary:Shows to insert NOTEREF fields, and modify their appearance (InsertFieldNoteRef).
     /// <summary>
     /// Uses a document builder to insert a NOTEREF field with specified properties.
     /// </summary>
@@ -6173,15 +6339,15 @@ public class ExField extends ApiExampleBase
             (Footnote)doc.getChild(NodeType.FOOTNOTE, 0, true));
     }
 
-    //ExStart
-    //ExFor:FieldPageRef
-    //ExFor:FieldPageRef.BookmarkName
-    //ExFor:FieldPageRef.InsertHyperlink
-    //ExFor:FieldPageRef.InsertRelativePosition
-    //ExSummary:Shows to insert PAGEREF fields to display the relative location of bookmarks.
-    @Test //ExSkip
+    @Test
     public void fieldPageRef() throws Exception
     {
+        //ExStart
+        //ExFor:FieldPageRef
+        //ExFor:FieldPageRef.BookmarkName
+        //ExFor:FieldPageRef.InsertHyperlink
+        //ExFor:FieldPageRef.InsertRelativePosition
+        //ExSummary:Shows to insert PAGEREF fields to display the relative location of bookmarks.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -6210,8 +6376,15 @@ public class ExField extends ApiExampleBase
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.PAGEREF.docx");
         testPageRef(new Document(getArtifactsDir() + "Field.PAGEREF.docx")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldPageRef
+    //ExFor:FieldPageRef.BookmarkName
+    //ExFor:FieldPageRef.InsertHyperlink
+    //ExFor:FieldPageRef.InsertRelativePosition
+    //ExSummary:Shows to insert PAGEREF fields to display the relative location of bookmarks (InsertFieldPageRef).
     /// <summary>
     /// Uses a document builder to insert a PAGEREF field and sets its properties.
     /// </summary>
@@ -6270,21 +6443,21 @@ public class ExField extends ApiExampleBase
         Assert.assertTrue(field.getInsertRelativePosition());
     }
 
-    //ExStart
-    //ExFor:FieldRef
-    //ExFor:FieldRef.BookmarkName
-    //ExFor:FieldRef.IncludeNoteOrComment
-    //ExFor:FieldRef.InsertHyperlink
-    //ExFor:FieldRef.InsertParagraphNumber
-    //ExFor:FieldRef.InsertParagraphNumberInFullContext
-    //ExFor:FieldRef.InsertParagraphNumberInRelativeContext
-    //ExFor:FieldRef.InsertRelativePosition
-    //ExFor:FieldRef.NumberSeparator
-    //ExFor:FieldRef.SuppressNonDelimiters
-    //ExSummary:Shows how to insert REF fields to reference bookmarks.
-    @Test //ExSkip
+    @Test
     public void fieldRef() throws Exception
     {
+        //ExStart
+        //ExFor:FieldRef
+        //ExFor:FieldRef.BookmarkName
+        //ExFor:FieldRef.IncludeNoteOrComment
+        //ExFor:FieldRef.InsertHyperlink
+        //ExFor:FieldRef.InsertParagraphNumber
+        //ExFor:FieldRef.InsertParagraphNumberInFullContext
+        //ExFor:FieldRef.InsertParagraphNumberInRelativeContext
+        //ExFor:FieldRef.InsertRelativePosition
+        //ExFor:FieldRef.NumberSeparator
+        //ExFor:FieldRef.SuppressNonDelimiters
+        //ExSummary:Shows how to insert REF fields to reference bookmarks.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -6351,8 +6524,21 @@ public class ExField extends ApiExampleBase
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.REF.docx");
         testFieldRef(new Document(getArtifactsDir() + "Field.REF.docx")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldRef
+    //ExFor:FieldRef.BookmarkName
+    //ExFor:FieldRef.IncludeNoteOrComment
+    //ExFor:FieldRef.InsertHyperlink
+    //ExFor:FieldRef.InsertParagraphNumber
+    //ExFor:FieldRef.InsertParagraphNumberInFullContext
+    //ExFor:FieldRef.InsertParagraphNumberInRelativeContext
+    //ExFor:FieldRef.InsertRelativePosition
+    //ExFor:FieldRef.NumberSeparator
+    //ExFor:FieldRef.SuppressNonDelimiters
+    //ExSummary:Shows how to insert REF fields to reference bookmarks (InsertFieldRef).
     /// <summary>
     /// Get the document builder to insert a REF field, reference a bookmark with it, and add text before and after it.
     /// </summary>
@@ -6747,29 +6933,29 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("My New Title", field.getText());
     }
 
-    //ExStart
-    //ExFor:FieldToa
-    //ExFor:FieldToa.BookmarkName
-    //ExFor:FieldToa.EntryCategory
-    //ExFor:FieldToa.EntrySeparator
-    //ExFor:FieldToa.PageNumberListSeparator
-    //ExFor:FieldToa.PageRangeSeparator
-    //ExFor:FieldToa.RemoveEntryFormatting
-    //ExFor:FieldToa.SequenceName
-    //ExFor:FieldToa.SequenceSeparator
-    //ExFor:FieldToa.UseHeading
-    //ExFor:FieldToa.UsePassim
-    //ExFor:FieldTA
-    //ExFor:FieldTA.EntryCategory
-    //ExFor:FieldTA.IsBold
-    //ExFor:FieldTA.IsItalic
-    //ExFor:FieldTA.LongCitation
-    //ExFor:FieldTA.PageRangeBookmarkName
-    //ExFor:FieldTA.ShortCitation
-    //ExSummary:Shows how to build and customize a table of authorities using TOA and TA fields.
-    @Test //ExSkip
+    @Test
     public void fieldTOA() throws Exception
     {
+        //ExStart
+        //ExFor:FieldToa
+        //ExFor:FieldToa.BookmarkName
+        //ExFor:FieldToa.EntryCategory
+        //ExFor:FieldToa.EntrySeparator
+        //ExFor:FieldToa.PageNumberListSeparator
+        //ExFor:FieldToa.PageRangeSeparator
+        //ExFor:FieldToa.RemoveEntryFormatting
+        //ExFor:FieldToa.SequenceName
+        //ExFor:FieldToa.SequenceSeparator
+        //ExFor:FieldToa.UseHeading
+        //ExFor:FieldToa.UsePassim
+        //ExFor:FieldTA
+        //ExFor:FieldTA.EntryCategory
+        //ExFor:FieldTA.IsBold
+        //ExFor:FieldTA.IsItalic
+        //ExFor:FieldTA.LongCitation
+        //ExFor:FieldTA.PageRangeBookmarkName
+        //ExFor:FieldTA.ShortCitation
+        //ExSummary:Shows how to build and customize a table of authorities using TOA and TA fields.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -6870,8 +7056,29 @@ public class ExField extends ApiExampleBase
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.TOA.TA.docx");
         testFieldTOA(new Document(getArtifactsDir() + "Field.TOA.TA.docx")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldToa
+    //ExFor:FieldToa.BookmarkName
+    //ExFor:FieldToa.EntryCategory
+    //ExFor:FieldToa.EntrySeparator
+    //ExFor:FieldToa.PageNumberListSeparator
+    //ExFor:FieldToa.PageRangeSeparator
+    //ExFor:FieldToa.RemoveEntryFormatting
+    //ExFor:FieldToa.SequenceName
+    //ExFor:FieldToa.SequenceSeparator
+    //ExFor:FieldToa.UseHeading
+    //ExFor:FieldToa.UsePassim
+    //ExFor:FieldTA
+    //ExFor:FieldTA.EntryCategory
+    //ExFor:FieldTA.IsBold
+    //ExFor:FieldTA.IsItalic
+    //ExFor:FieldTA.LongCitation
+    //ExFor:FieldTA.PageRangeBookmarkName
+    //ExFor:FieldTA.ShortCitation
+    //ExSummary:Shows how to build and customize a table of authorities using TOA and TA fields (InsertToaEntry).
     private static FieldTA insertToaEntry(DocumentBuilder builder, String entryCategory, String longCitation) throws Exception
     {
         FieldTA field = (FieldTA)builder.insertField(FieldType.FIELD_TOA_ENTRY, false);
@@ -7002,12 +7209,12 @@ public class ExField extends ApiExampleBase
         TestUtil.verifyField(FieldType.FIELD_EDIT_TIME, " EDITTIME ", "10", doc.getRange().getFields().get(0));
     }
 
-    //ExStart
-    //ExFor:FieldEQ
-    //ExSummary:Shows how to use the EQ field to display a variety of mathematical equations.
-    @Test //ExSkip
+    @Test
     public void fieldEQ() throws Exception
     {
+        //ExStart
+        //ExFor:FieldEQ
+        //ExSummary:Shows how to use the EQ field to display a variety of mathematical equations.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -7065,8 +7272,12 @@ public class ExField extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Field.EQ.docx");
         testFieldEQ(new Document(getArtifactsDir() + "Field.EQ.docx")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldEQ
+    //ExSummary:Shows how to use the EQ field to display a variety of mathematical equations (InsertFieldEQ).
     /// <summary>
     /// Use a document builder to insert an EQ field, set its arguments and start a new paragraph.
     /// </summary>
@@ -7284,13 +7495,13 @@ public class ExField extends ApiExampleBase
         TestUtil.verifyField(FieldType.FIELD_OCX, " OCX ", "", field);
     }
 
-    //ExStart
-    //ExFor:Field.Remove
-    //ExFor:FieldPrivate
-    //ExSummary:Shows how to process PRIVATE fields.
-    @Test //ExSkip
+    @Test
     public void fieldPrivate() throws Exception
     {
+        //ExStart
+        //ExFor:Field.Remove
+        //ExFor:FieldPrivate
+        //ExSummary:Shows how to process PRIVATE fields.
         // Open a Corel WordPerfect document which we have converted to .docx format.
         Document doc = new Document(getMyDir() + "Field sample - PRIVATE.docx");
 
@@ -7316,8 +7527,13 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(2, remover.getFieldsRemovedCount());
         Assert.assertEquals(0, doc.getRange().getFields().getCount());
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:Field.Remove
+    //ExFor:FieldPrivate
+    //ExSummary:Shows how to process PRIVATE fields (FieldPrivateRemover).
     /// <summary>
     /// Removes all encountered PRIVATE fields.
     /// </summary>
@@ -7410,12 +7626,12 @@ public class ExField extends ApiExampleBase
         TestUtil.verifyField(FieldType.FIELD_SECTION_PAGES, " SECTIONPAGES ", "2", doc.getRange().getFields().get(2));
     }
 
-    //ExStart
-    //ExFor:FieldTime
-    //ExSummary:Shows how to display the current time using the TIME field.
-    @Test //ExSkip
+    @Test
     public void fieldTime() throws Exception
     {
+        //ExStart
+        //ExFor:FieldTime
+        //ExSummary:Shows how to display the current time using the TIME field.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -7436,8 +7652,12 @@ public class ExField extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Field.TIME.docx");
         testFieldTime(new Document(getArtifactsDir() + "Field.TIME.docx")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldTime
+    //ExSummary:Shows how to display the current time using the TIME field (InsertFieldTime).
     /// <summary>
     /// Use a document builder to insert a TIME field, insert a new paragraph and return the field.
     /// </summary>
@@ -7582,24 +7802,23 @@ public class ExField extends ApiExampleBase
         //ExEnd
     }
 
-    //ExStart
-    //ExFor:ComparisonEvaluationResult.#ctor(bool)
-    //ExFor:ComparisonEvaluationResult.#ctor(string)
-    //ExFor:ComparisonEvaluationResult
-    //ExFor:ComparisonEvaluationResult.ErrorMessage
-    //ExFor:ComparisonEvaluationResult.Result
-    //ExFor:ComparisonExpression
-    //ExFor:ComparisonExpression.LeftExpression
-    //ExFor:ComparisonExpression.ComparisonOperator
-    //ExFor:ComparisonExpression.RightExpression
-    //ExFor:FieldOptions.ComparisonExpressionEvaluator
-    //ExFor:IComparisonExpressionEvaluator
-    //ExFor:IComparisonExpressionEvaluator.Evaluate(Field,ComparisonExpression)
-    //ExSummary:Shows how to implement custom evaluation for the IF and COMPARE fields.
-    @Test (dataProvider = "conditionEvaluationExtensionPointDataProvider") //ExSkip
-    public void conditionEvaluationExtensionPoint(String fieldCode, byte comparisonResult, String comparisonError,
-        String expectedResult) throws Exception
+    @Test (dataProvider = "conditionEvaluationExtensionPointDataProvider")
+    public void conditionEvaluationExtensionPoint(String fieldCode, byte comparisonResult, String comparisonError, String expectedResult) throws Exception
     {
+        //ExStart
+        //ExFor:ComparisonEvaluationResult.#ctor(bool)
+        //ExFor:ComparisonEvaluationResult.#ctor(string)
+        //ExFor:ComparisonEvaluationResult
+        //ExFor:ComparisonEvaluationResult.ErrorMessage
+        //ExFor:ComparisonEvaluationResult.Result
+        //ExFor:ComparisonExpression
+        //ExFor:ComparisonExpression.LeftExpression
+        //ExFor:ComparisonExpression.ComparisonOperator
+        //ExFor:ComparisonExpression.RightExpression
+        //ExFor:FieldOptions.ComparisonExpressionEvaluator
+        //ExFor:IComparisonExpressionEvaluator
+        //ExFor:IComparisonExpressionEvaluator.Evaluate(Field,ComparisonExpression)
+        //ExSummary:Shows how to implement custom evaluation for the IF and COMPARE fields.
         final String LEFT = "\"left expression\"";
         final String _OPERATOR = "<>";
         final String RIGHT = "\"right expression\"";
@@ -7623,6 +7842,7 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(expectedResult, field.getResult());
         evaluator.assertInvocationsCount(1).assertInvocationArguments(0, LEFT, _OPERATOR, RIGHT);
+        //ExEnd
     }
 
 	//JAVA-added data provider for test method
@@ -7642,6 +7862,20 @@ public class ExField extends ApiExampleBase
 		};
 	}
 
+    //ExStart
+    //ExFor:ComparisonEvaluationResult.#ctor(bool)
+    //ExFor:ComparisonEvaluationResult.#ctor(string)
+    //ExFor:ComparisonEvaluationResult
+    //ExFor:ComparisonEvaluationResult.ErrorMessage
+    //ExFor:ComparisonEvaluationResult.Result
+    //ExFor:ComparisonExpression
+    //ExFor:ComparisonExpression.LeftExpression
+    //ExFor:ComparisonExpression.ComparisonOperator
+    //ExFor:ComparisonExpression.RightExpression
+    //ExFor:FieldOptions.ComparisonExpressionEvaluator
+    //ExFor:IComparisonExpressionEvaluator
+    //ExFor:IComparisonExpressionEvaluator.Evaluate(Field,ComparisonExpression)
+    //ExSummary:Shows how to implement custom evaluation for the IF and COMPARE fields (ComparisonExpressionEvaluator).
     /// <summary>
     /// Comparison expressions evaluation for the FieldIf and FieldCompare.
     /// </summary>
@@ -7782,22 +8016,22 @@ public class ExField extends ApiExampleBase
             .assertInvocationArguments(2, "3", "=", "3");
     }
 
-    //ExStart
-    //ExFor:FieldOptions.FieldUpdatingCallback
-    //ExFor:FieldOptions.FieldUpdatingProgressCallback
-    //ExFor:IFieldUpdatingCallback
-    //ExFor:IFieldUpdatingProgressCallback
-    //ExFor:IFieldUpdatingProgressCallback.Notify(FieldUpdatingProgressArgs)
-    //ExFor:FieldUpdatingProgressArgs
-    //ExFor:FieldUpdatingProgressArgs.UpdateCompleted
-    //ExFor:FieldUpdatingProgressArgs.TotalFieldsCount
-    //ExFor:FieldUpdatingProgressArgs.UpdatedFieldsCount
-    //ExFor:IFieldUpdatingCallback.FieldUpdating(Field)
-    //ExFor:IFieldUpdatingCallback.FieldUpdated(Field)
-    //ExSummary:Shows how to use callback methods during a field update.
-    @Test //ExSkip
+    @Test
     public void fieldUpdatingCallbackTest() throws Exception
     {
+        //ExStart
+        //ExFor:FieldOptions.FieldUpdatingCallback
+        //ExFor:FieldOptions.FieldUpdatingProgressCallback
+        //ExFor:IFieldUpdatingCallback
+        //ExFor:IFieldUpdatingProgressCallback
+        //ExFor:IFieldUpdatingProgressCallback.Notify(FieldUpdatingProgressArgs)
+        //ExFor:FieldUpdatingProgressArgs
+        //ExFor:FieldUpdatingProgressArgs.UpdateCompleted
+        //ExFor:FieldUpdatingProgressArgs.TotalFieldsCount
+        //ExFor:FieldUpdatingProgressArgs.UpdatedFieldsCount
+        //ExFor:IFieldUpdatingCallback.FieldUpdating(Field)
+        //ExFor:IFieldUpdatingCallback.FieldUpdated(Field)
+        //ExSummary:Shows how to use callback methods during a field update.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -7814,8 +8048,22 @@ public class ExField extends ApiExampleBase
         doc.updateFields();
 
         Assert.assertTrue(callback.getFieldUpdatedCalls().contains("Updating John Doe"));
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldOptions.FieldUpdatingCallback
+    //ExFor:FieldOptions.FieldUpdatingProgressCallback
+    //ExFor:IFieldUpdatingCallback
+    //ExFor:IFieldUpdatingProgressCallback
+    //ExFor:IFieldUpdatingProgressCallback.Notify(FieldUpdatingProgressArgs)
+    //ExFor:FieldUpdatingProgressArgs
+    //ExFor:FieldUpdatingProgressArgs.UpdateCompleted
+    //ExFor:FieldUpdatingProgressArgs.TotalFieldsCount
+    //ExFor:FieldUpdatingProgressArgs.UpdatedFieldsCount
+    //ExFor:IFieldUpdatingCallback.FieldUpdating(Field)
+    //ExFor:IFieldUpdatingCallback.FieldUpdated(Field)
+    //ExSummary:Shows how to use callback methods during a field update (FieldUpdatingCallback).
     /// <summary>
     /// Implement this interface if you want to have your own custom methods called during a field update.
     /// </summary>

@@ -183,6 +183,50 @@ public class ExNode extends ApiExampleBase
         Assert.assertEquals("Hello world! Hello again!", doc.getText().trim());
     }
 
+    @Test
+    public void recurseChildren() throws Exception
+    {
+        //ExStart
+        //ExFor:Node.NextSibling
+        //ExFor:CompositeNode.FirstChild
+        //ExFor:Node.IsComposite
+        //ExFor:CompositeNode.IsComposite
+        //ExFor:Node.NodeTypeToString
+        //ExFor:Paragraph.NodeType
+        //ExFor:Table.NodeType
+        //ExFor:Node.NodeType
+        //ExFor:Footnote.NodeType
+        //ExFor:FormField.NodeType
+        //ExFor:SmartTag.NodeType
+        //ExFor:Cell.NodeType
+        //ExFor:Row.NodeType
+        //ExFor:Document.NodeType
+        //ExFor:Comment.NodeType
+        //ExFor:Run.NodeType
+        //ExFor:Section.NodeType
+        //ExFor:SpecialChar.NodeType
+        //ExFor:Shape.NodeType
+        //ExFor:FieldEnd.NodeType
+        //ExFor:FieldSeparator.NodeType
+        //ExFor:FieldStart.NodeType
+        //ExFor:BookmarkStart.NodeType
+        //ExFor:CommentRangeEnd.NodeType
+        //ExFor:BuildingBlock.NodeType
+        //ExFor:GlossaryDocument.NodeType
+        //ExFor:BookmarkEnd.NodeType
+        //ExFor:GroupShape.NodeType
+        //ExFor:CommentRangeStart.NodeType
+        //ExSummary:Shows how to traverse a composite node's tree of child nodes.
+        Document doc = new Document(getMyDir() + "Paragraphs.docx");
+
+        // Any node that can contain child nodes, such as the document itself, is composite.
+        Assert.assertTrue(doc.isComposite());
+
+        // Invoke the recursive function that will go through and print all the child nodes of a composite node.
+        traverseAllNodes(doc, 0);
+        //ExEnd
+    }
+
     //ExStart
     //ExFor:Node.NextSibling
     //ExFor:CompositeNode.FirstChild
@@ -213,19 +257,7 @@ public class ExNode extends ApiExampleBase
     //ExFor:BookmarkEnd.NodeType
     //ExFor:GroupShape.NodeType
     //ExFor:CommentRangeStart.NodeType
-    //ExSummary:Shows how to traverse a composite node's tree of child nodes.
-    @Test //ExSkip
-    public void recurseChildren() throws Exception
-    {
-        Document doc = new Document(getMyDir() + "Paragraphs.docx");
-
-        // Any node that can contain child nodes, such as the document itself, is composite.
-        Assert.assertTrue(doc.isComposite());
-
-        // Invoke the recursive function that will go through and print all the child nodes of a composite node.
-        traverseAllNodes(doc, 0);
-    }
-
+    //ExSummary:Shows how to traverse a composite node's tree of child nodes (TraverseAllNodes).
     /// <summary>
     /// Recursively traverses a node tree while printing the type of each node
     /// with an indent depending on depth as well as the contents of all inline nodes.
@@ -529,12 +561,12 @@ public class ExNode extends ApiExampleBase
         //ExEnd
     }
 
-    //ExStart
-    //ExFor:CompositeNode.CreateNavigator
-    //ExSummary:Shows how to create an XPathNavigator, and then use it to traverse and read nodes.
-    @Test //ExSkip
+    @Test
     public void nodeXPathNavigator() throws Exception
     {
+        //ExStart
+        //ExFor:CompositeNode.CreateNavigator
+        //ExSummary:Shows how to create an XPathNavigator, and then use it to traverse and read nodes.
         Document doc = new Document();
         XPathNavigator navigator = doc.CreateNavigator();
 
@@ -561,8 +593,12 @@ public class ExNode extends ApiExampleBase
             msConsole.write(stringBuilder.toString());
             testNodeXPathNavigator(stringBuilder.toString(), doc); //ExSkip
         }
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:CompositeNode.CreateNavigator
+    //ExSummary:Shows how to create an XPathNavigator, and then use it to traverse and read nodes (MapDocument).
     /// <summary>
     /// Traverses all children of a composite node and map the structure in the style of a directory tree.
     /// The amount of space indentation indicates depth relative to the initial node.
@@ -598,15 +634,15 @@ public class ExNode extends ApiExampleBase
             Assert.assertTrue(navigatorResult.contains(run.getText().trim()));
     }
 
-    //ExStart
-    //ExFor:NodeChangingAction
-    //ExFor:NodeChangingArgs.Action
-    //ExFor:NodeChangingArgs.NewParent
-    //ExFor:NodeChangingArgs.OldParent
-    //ExSummary:Shows how to use a NodeChangingCallback to monitor changes to the document tree in real-time as we edit it.
-    @Test //ExSkip
+    @Test
     public void nodeChangingCallback() throws Exception
     {
+        //ExStart
+        //ExFor:NodeChangingAction
+        //ExFor:NodeChangingArgs.Action
+        //ExFor:NodeChangingArgs.NewParent
+        //ExFor:NodeChangingArgs.OldParent
+        //ExSummary:Shows how to use a NodeChangingCallback to monitor changes to the document tree in real-time as we edit it.
         Document doc = new Document();
         doc.setNodeChangingCallback(new NodeChangingPrinter());
 
@@ -622,8 +658,15 @@ public class ExNode extends ApiExampleBase
         builder.insertImage(getImageDir() + "Logo.jpg");
 
         builder.getCurrentParagraph().getParentNode().removeAllChildren();
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:NodeChangingAction
+    //ExFor:NodeChangingArgs.Action
+    //ExFor:NodeChangingArgs.NewParent
+    //ExFor:NodeChangingArgs.OldParent
+    //ExSummary:Shows how to use a NodeChangingCallback to monitor changes to the document tree in real-time as we edit it (NodeChangingPrinter).
     /// <summary>
     /// Prints every node insertion/removal as it takes place in the document.
     /// </summary>

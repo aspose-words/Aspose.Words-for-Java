@@ -267,17 +267,17 @@ public class ExTable extends ApiExampleBase
         //ExEnd
     }
 
-    //ExStart
-    //ExFor:Node.GetAncestor(NodeType)
-    //ExFor:Node.GetAncestor(Type)
-    //ExFor:Table.NodeType
-    //ExFor:Cell.Tables
-    //ExFor:TableCollection
-    //ExFor:NodeCollection.Count
-    //ExSummary:Shows how to find out if a tables are nested.
-    @Test //ExSkip
+    @Test
     public void calculateDepthOfNestedTables() throws Exception
     {
+        //ExStart
+        //ExFor:Node.GetAncestor(NodeType)
+        //ExFor:Node.GetAncestor(Type)
+        //ExFor:Table.NodeType
+        //ExFor:Cell.Tables
+        //ExFor:TableCollection
+        //ExFor:NodeCollection.Count
+        //ExSummary:Shows how to find out if a tables are nested.
         Document doc = new Document(getMyDir() + "Nested tables.docx");
         NodeCollection tables = doc.getChildNodes(NodeType.TABLE, true);
         Assert.assertEquals(5, tables.getCount()); //ExSkip
@@ -298,8 +298,17 @@ public class ExTable extends ApiExampleBase
             else
                 System.out.println("Table #{0} is a non nested table (is not a child of another table)",i);
         }
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:Node.GetAncestor(NodeType)
+    //ExFor:Node.GetAncestor(Type)
+    //ExFor:Table.NodeType
+    //ExFor:Cell.Tables
+    //ExFor:TableCollection
+    //ExFor:NodeCollection.Count
+    //ExSummary:Shows how to find out if a tables are nested (GetNestedDepthOfTable).
     /// <summary>
     /// Calculates what level a table is nested inside other tables.
     /// </summary>
@@ -998,20 +1007,20 @@ public class ExTable extends ApiExampleBase
 		};
 	}
 
-    //ExStart
-    //ExFor:Table
-    //ExFor:Row
-    //ExFor:Cell
-    //ExFor:Table.#ctor(DocumentBase)
-    //ExFor:Table.Title
-    //ExFor:Table.Description
-    //ExFor:Row.#ctor(DocumentBase)
-    //ExFor:Cell.#ctor(DocumentBase)
-    //ExFor:Cell.FirstParagraph
-    //ExSummary:Shows how to build a nested table without using a document builder.
-    @Test //ExSkip
+    @Test
     public void createNestedTable() throws Exception
     {
+        //ExStart
+        //ExFor:Table
+        //ExFor:Row
+        //ExFor:Cell
+        //ExFor:Table.#ctor(DocumentBase)
+        //ExFor:Table.Title
+        //ExFor:Table.Description
+        //ExFor:Row.#ctor(DocumentBase)
+        //ExFor:Cell.#ctor(DocumentBase)
+        //ExFor:Cell.FirstParagraph
+        //ExSummary:Shows how to build a nested table without using a document builder.
         Document doc = new Document();
 
         // Create the outer table with three rows and four columns, and then add it to the document.
@@ -1024,8 +1033,20 @@ public class ExTable extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Table.CreateNestedTable.docx");
         testCreateNestedTable(new Document(getArtifactsDir() + "Table.CreateNestedTable.docx")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:Table
+    //ExFor:Row
+    //ExFor:Cell
+    //ExFor:Table.#ctor(DocumentBase)
+    //ExFor:Table.Title
+    //ExFor:Table.Description
+    //ExFor:Row.#ctor(DocumentBase)
+    //ExFor:Cell.#ctor(DocumentBase)
+    //ExFor:Cell.FirstParagraph
+    //ExSummary:Shows how to build a nested table without using a document builder (CreateTable).
     /// <summary>
     /// Creates a new table in the document with the given dimensions and text in each cell.
     /// </summary>
@@ -1072,14 +1093,14 @@ public class ExTable extends ApiExampleBase
         Assert.assertEquals("Aspose table description", innerTable.getDescription());
     }
 
-    //ExStart
-    //ExFor:CellFormat.HorizontalMerge
-    //ExFor:CellFormat.VerticalMerge
-    //ExFor:CellMerge
-    //ExSummary:Prints the horizontal and vertical merge type of a cell.
-    @Test //ExSkip
+    @Test
     public void checkCellsMerged() throws Exception
     {
+        //ExStart
+        //ExFor:CellFormat.HorizontalMerge
+        //ExFor:CellFormat.VerticalMerge
+        //ExFor:CellMerge
+        //ExSummary:Prints the horizontal and vertical merge type of a cell.
         Document doc = new Document(getMyDir() + "Table with merged cells.docx");
         Table table = doc.getFirstSection().getBody().getTables().get(0);
 
@@ -1087,8 +1108,14 @@ public class ExTable extends ApiExampleBase
             for (Cell cell : (Iterable<Cell>) row.getCells())
                 System.out.println(printCellMergeType(cell));
         Assert.assertEquals("The cell at R1, C1 is vertically merged", printCellMergeType(table.getFirstRow().getFirstCell())); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:CellFormat.HorizontalMerge
+    //ExFor:CellFormat.VerticalMerge
+    //ExFor:CellMerge
+    //ExSummary:Prints the horizontal and vertical merge type of a cell (PrintCellMergeType).
     @Test (enabled = false)
     public String printCellMergeType(Cell cell)
     {
@@ -2084,3 +2111,4 @@ public class ExTable extends ApiExampleBase
         //ExEnd:HiddenRow
     }
 }
+

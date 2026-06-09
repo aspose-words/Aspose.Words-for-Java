@@ -447,17 +447,17 @@ public class ExRange extends ApiExampleBase
         //ExEnd
     }
 
-    //ExStart
-    //ExFor:FindReplaceOptions.ReplacingCallback
-    //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
-    //ExFor:ReplacingArgs.Replacement
-    //ExFor:IReplacingCallback
-    //ExFor:IReplacingCallback.Replacing
-    //ExFor:ReplacingArgs
-    //ExSummary:Shows how to replace all occurrences of a regular expression pattern with another string, while tracking all such replacements.
-    @Test //ExSkip
+    @Test
     public void replaceWithCallback() throws Exception
     {
+        //ExStart
+        //ExFor:FindReplaceOptions.ReplacingCallback
+        //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
+        //ExFor:ReplacingArgs.Replacement
+        //ExFor:IReplacingCallback
+        //ExFor:IReplacingCallback.Replacing
+        //ExFor:ReplacingArgs
+        //ExSummary:Shows how to replace all occurrences of a regular expression pattern with another string, while tracking all such replacements.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -478,8 +478,17 @@ public class ExRange extends ApiExampleBase
 
         Assert.assertEquals("\"New York City\" converted to \"Washington\" 20 characters into a Run node.\r\n" +
                             "\"NYC\" converted to \"Washington\" 42 characters into a Run node.", logger.getLog().trim());
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FindReplaceOptions.ReplacingCallback
+    //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
+    //ExFor:ReplacingArgs.Replacement
+    //ExFor:IReplacingCallback
+    //ExFor:IReplacingCallback.Replacing
+    //ExFor:ReplacingArgs
+    //ExSummary:Shows how to replace all occurrences of a regular expression pattern with another string, while tracking all such replacements (TextFindAndReplacementLogger).
     /// <summary>
     /// Maintains a log of every text replacement done by a find-and-replace operation
     /// and notes the original matched text's value.
@@ -504,17 +513,17 @@ public class ExRange extends ApiExampleBase
     }
     //ExEnd
 
-    //ExStart
-    //ExFor:FindReplaceOptions.ApplyFont
-    //ExFor:FindReplaceOptions.ReplacingCallback
-    //ExFor:ReplacingArgs.GroupIndex
-    //ExFor:ReplacingArgs.GroupName
-    //ExFor:ReplacingArgs.Match
-    //ExFor:ReplacingArgs.MatchOffset
-    //ExSummary:Shows how to apply a different font to new content via FindReplaceOptions.
-    @Test //ExSkip
+    @Test
     public void convertNumbersToHexadecimal() throws Exception
     {
+        //ExStart
+        //ExFor:FindReplaceOptions.ApplyFont
+        //ExFor:FindReplaceOptions.ReplacingCallback
+        //ExFor:ReplacingArgs.GroupIndex
+        //ExFor:ReplacingArgs.GroupName
+        //ExFor:ReplacingArgs.Match
+        //ExFor:ReplacingArgs.MatchOffset
+        //ExSummary:Shows how to apply a different font to new content via FindReplaceOptions.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -540,8 +549,17 @@ public class ExRange extends ApiExampleBase
                             "0x7B, 0x1C8, 0x315 and 0x43E3.", doc.getText().trim());
         Assert.assertEquals(4, doc.getChildNodes(NodeType.RUN, true).<Run>OfType()
                     .Count(r => r.getFont().getHighlightColor().getRGB() == msColor.getLightGray().getRGB()));
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FindReplaceOptions.ApplyFont
+    //ExFor:FindReplaceOptions.ReplacingCallback
+    //ExFor:ReplacingArgs.GroupIndex
+    //ExFor:ReplacingArgs.GroupName
+    //ExFor:ReplacingArgs.Match
+    //ExFor:ReplacingArgs.MatchOffset
+    //ExSummary:Shows how to apply a different font to new content via FindReplaceOptions (NumberHexer).
     /// <summary>
     /// Replaces numeric find-and-replacement matches with their hexadecimal equivalents.
     /// Maintains a log of every replacement.
@@ -660,12 +678,12 @@ public class ExRange extends ApiExampleBase
         //ExEnd
     }
 
-    //ExStart
-    //ExFor:FindReplaceOptions.UseLegacyOrder
-    //ExSummary:Shows how to change the searching order of nodes when performing a find-and-replace text operation.
-    @Test (dataProvider = "useLegacyOrderDataProvider") //ExSkip
+    @Test (dataProvider = "useLegacyOrderDataProvider")
     public void useLegacyOrder(boolean useLegacyOrder) throws Exception
     {
+        //ExStart
+        //ExFor:FindReplaceOptions.UseLegacyOrder
+        //ExSummary:Shows how to change the searching order of nodes when performing a find-and-replace text operation.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -700,6 +718,7 @@ public class ExRange extends ApiExampleBase
             expected = new ArrayList<String>(); { expected.add("[tag 1]"); expected.add("[tag 2]"); expected.add("[tag 3]"); }
         Assert.assertEquals(expected, callback.getMatches());
 
+        //ExEnd
     }
 
 	//JAVA-added data provider for test method
@@ -713,6 +732,9 @@ public class ExRange extends ApiExampleBase
 		};
 	}
 
+    //ExStart
+    //ExFor:FindReplaceOptions.UseLegacyOrder
+    //ExSummary:Shows how to change the searching order of nodes when performing a find-and-replace text operation (TextReplacementTracker).
     /// <summary>
     /// Records the order of all matches that occur during a find-and-replace operation.
     /// </summary>
@@ -770,17 +792,17 @@ public class ExRange extends ApiExampleBase
 		};
 	}
 
-    //ExStart
-    //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
-    //ExFor:IReplacingCallback
-    //ExFor:ReplaceAction
-    //ExFor:IReplacingCallback.Replacing
-    //ExFor:ReplacingArgs
-    //ExFor:ReplacingArgs.MatchNode
-    //ExSummary:Shows how to insert an entire document's contents as a replacement of a match in a find-and-replace operation.
-    @Test //ExSkip
+    @Test
     public void insertDocumentAtReplace() throws Exception
     {
+        //ExStart
+        //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
+        //ExFor:IReplacingCallback
+        //ExFor:ReplaceAction
+        //ExFor:IReplacingCallback.Replacing
+        //ExFor:ReplacingArgs
+        //ExFor:ReplacingArgs.MatchNode
+        //ExSummary:Shows how to insert an entire document's contents as a replacement of a match in a find-and-replace operation.
         Document mainDoc = new Document(getMyDir() + "Document insertion destination.docx");
 
         // We can use a "FindReplaceOptions" object to modify the find-and-replace process.
@@ -791,8 +813,17 @@ public class ExRange extends ApiExampleBase
         mainDoc.save(getArtifactsDir() + "InsertDocument.InsertDocumentAtReplace.docx");
 
         testInsertDocumentAtReplace(new Document(getArtifactsDir() + "InsertDocument.InsertDocumentAtReplace.docx")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
+    //ExFor:IReplacingCallback
+    //ExFor:ReplaceAction
+    //ExFor:IReplacingCallback.Replacing
+    //ExFor:ReplacingArgs
+    //ExFor:ReplacingArgs.MatchNode
+    //ExSummary:Shows how to insert an entire document's contents as a replacement of a match in a find-and-replace operation (InsertDocumentAtReplaceHandler).
     private static class InsertDocumentAtReplaceHandler implements IReplacingCallback
     {
         public /*ReplaceAction*/int /*IReplacingCallback.*/replacing(ReplacingArgs args) throws Exception
@@ -853,13 +884,13 @@ public class ExRange extends ApiExampleBase
                             "3) At a bookmark:", doc.getFirstSection().getBody().getText().trim());
     }
 
-    //ExStart
-    //ExFor:FindReplaceOptions.Direction
-    //ExFor:FindReplaceDirection
-    //ExSummary:Shows how to determine which direction a find-and-replace operation traverses the document in.
-    @Test (dataProvider = "directionDataProvider") //ExSkip
+    @Test (dataProvider = "directionDataProvider")
     public void direction(/*FindReplaceDirection*/int findReplaceDirection) throws Exception
     {
+        //ExStart
+        //ExFor:FindReplaceOptions.Direction
+        //ExFor:FindReplaceDirection
+        //ExSummary:Shows how to determine which direction a find-and-replace operation traverses the document in.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -899,6 +930,7 @@ public class ExRange extends ApiExampleBase
                 Assert.assertEquals(new String[] { "Match 4", "Match 3", "Match 2", "Match 1" }, callback.getMatches());
                 break;
         }
+        //ExEnd
     }
 
 	//JAVA-added data provider for test method
@@ -912,6 +944,10 @@ public class ExRange extends ApiExampleBase
 		};
 	}
 
+    //ExStart
+    //ExFor:FindReplaceOptions.Direction
+    //ExFor:FindReplaceDirection
+    //ExSummary:Shows how to determine which direction a find-and-replace operation traverses the document in (TextReplacementRecorder).
     /// <summary>
     /// Records all matches that occur during a find-and-replace operation in the order that they take place.
     /// </summary>
@@ -1007,3 +1043,4 @@ public class ExRange extends ApiExampleBase
 		};
 	}
 }
+

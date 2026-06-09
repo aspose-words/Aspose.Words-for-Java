@@ -22,12 +22,12 @@ import com.aspose.words.ref.Ref;
 @Test
 public class ExMailMergeCustomNested extends ApiExampleBase
 {
-    //ExStart
-    //ExFor:MailMerge.ExecuteWithRegions(IMailMergeDataSource)
-    //ExSummary:Shows how to use mail merge regions to execute a nested mail merge.
-    @Test //ExSkip
+    @Test
     public void customDataSource() throws Exception
     {
+        //ExStart
+        //ExFor:MailMerge.ExecuteWithRegions(IMailMergeDataSource)
+        //ExSummary:Shows how to use mail merge regions to execute a nested mail merge.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -73,8 +73,12 @@ public class ExMailMergeCustomNested extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "NestedMailMergeCustom.CustomDataSource.docx");
         testCustomDataSource(customers, new Document(getArtifactsDir() + "NestedMailMergeCustom.CustomDataSource.docx")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:MailMerge.ExecuteWithRegions(IMailMergeDataSource)
+    //ExSummary:Shows how to use mail merge regions to execute a nested mail merge (Customer).
     /// <summary>
     /// An example of a "data entity" class in your application.
     /// </summary>
@@ -286,3 +290,4 @@ public class ExMailMergeCustomNested extends ApiExampleBase
 	);
 
 }
+

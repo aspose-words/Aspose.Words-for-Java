@@ -604,37 +604,37 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals("; ", dataLabels.getSeparator());
     }
 
-    //ExStart
-    //ExFor:ChartSeries
-    //ExFor:ChartSeries.DataLabels
-    //ExFor:ChartSeries.DataPoints
-    //ExFor:ChartSeries.Name
-    //ExFor:ChartSeries.Explosion
-    //ExFor:ChartDataLabel
-    //ExFor:ChartDataLabel.Index
-    //ExFor:ChartDataLabel.IsVisible
-    //ExFor:ChartDataLabel.NumberFormat
-    //ExFor:ChartDataLabel.Separator
-    //ExFor:ChartDataLabel.ShowCategoryName
-    //ExFor:ChartDataLabel.ShowDataLabelsRange
-    //ExFor:ChartDataLabel.ShowLeaderLines
-    //ExFor:ChartDataLabel.ShowLegendKey
-    //ExFor:ChartDataLabel.ShowPercentage
-    //ExFor:ChartDataLabel.ShowSeriesName
-    //ExFor:ChartDataLabel.ShowValue
-    //ExFor:ChartDataLabel.IsHidden
-    //ExFor:ChartDataLabel.Format
-    //ExFor:ChartDataLabel.ClearFormat
-    //ExFor:ChartDataLabelCollection
-    //ExFor:ChartDataLabelCollection.ShowDataLabelsRange
-    //ExFor:ChartDataLabelCollection.ClearFormat
-    //ExFor:ChartDataLabelCollection.Count
-    //ExFor:ChartDataLabelCollection.GetEnumerator
-    //ExFor:ChartDataLabelCollection.Item(Int32)
-    //ExSummary:Shows how to apply labels to data points in a line chart.
-    @Test //ExSkip
+    @Test
     public void dataLabels() throws Exception
     {
+        //ExStart
+        //ExFor:ChartSeries
+        //ExFor:ChartSeries.DataLabels
+        //ExFor:ChartSeries.DataPoints
+        //ExFor:ChartSeries.Name
+        //ExFor:ChartSeries.Explosion
+        //ExFor:ChartDataLabel
+        //ExFor:ChartDataLabel.Index
+        //ExFor:ChartDataLabel.IsVisible
+        //ExFor:ChartDataLabel.NumberFormat
+        //ExFor:ChartDataLabel.Separator
+        //ExFor:ChartDataLabel.ShowCategoryName
+        //ExFor:ChartDataLabel.ShowDataLabelsRange
+        //ExFor:ChartDataLabel.ShowLeaderLines
+        //ExFor:ChartDataLabel.ShowLegendKey
+        //ExFor:ChartDataLabel.ShowPercentage
+        //ExFor:ChartDataLabel.ShowSeriesName
+        //ExFor:ChartDataLabel.ShowValue
+        //ExFor:ChartDataLabel.IsHidden
+        //ExFor:ChartDataLabel.Format
+        //ExFor:ChartDataLabel.ClearFormat
+        //ExFor:ChartDataLabelCollection
+        //ExFor:ChartDataLabelCollection.ShowDataLabelsRange
+        //ExFor:ChartDataLabelCollection.ClearFormat
+        //ExFor:ChartDataLabelCollection.Count
+        //ExFor:ChartDataLabelCollection.GetEnumerator
+        //ExFor:ChartDataLabelCollection.Item(Int32)
+        //ExSummary:Shows how to apply labels to data points in a line chart.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -676,8 +676,37 @@ public class ExCharts extends ApiExampleBase
         chart.getSeries().get(2).getDataLabels().clearFormat();
 
         doc.save(getArtifactsDir() + "Charts.DataLabels.docx");
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:ChartSeries
+    //ExFor:ChartSeries.DataLabels
+    //ExFor:ChartSeries.DataPoints
+    //ExFor:ChartSeries.Name
+    //ExFor:ChartSeries.Explosion
+    //ExFor:ChartDataLabel
+    //ExFor:ChartDataLabel.Index
+    //ExFor:ChartDataLabel.IsVisible
+    //ExFor:ChartDataLabel.NumberFormat
+    //ExFor:ChartDataLabel.Separator
+    //ExFor:ChartDataLabel.ShowCategoryName
+    //ExFor:ChartDataLabel.ShowDataLabelsRange
+    //ExFor:ChartDataLabel.ShowLeaderLines
+    //ExFor:ChartDataLabel.ShowLegendKey
+    //ExFor:ChartDataLabel.ShowPercentage
+    //ExFor:ChartDataLabel.ShowSeriesName
+    //ExFor:ChartDataLabel.ShowValue
+    //ExFor:ChartDataLabel.IsHidden
+    //ExFor:ChartDataLabel.Format
+    //ExFor:ChartDataLabel.ClearFormat
+    //ExFor:ChartDataLabelCollection
+    //ExFor:ChartDataLabelCollection.ShowDataLabelsRange
+    //ExFor:ChartDataLabelCollection.ClearFormat
+    //ExFor:ChartDataLabelCollection.Count
+    //ExFor:ChartDataLabelCollection.GetEnumerator
+    //ExFor:ChartDataLabelCollection.Item(Int32)
+    //ExSummary:Shows how to apply labels to data points in a line chart (ApplyDataLabels).
     /// <summary>
     /// Apply data labels with custom number format and separator to several data points in a series.
     /// </summary>
@@ -709,30 +738,30 @@ public class ExCharts extends ApiExampleBase
     }
     //ExEnd
 
-    //ExStart
-    //ExFor:ChartSeries.Smooth
-    //ExFor:ChartSeries.InvertIfNegative
-    //ExFor:ChartDataPoint
-    //ExFor:ChartDataPoint.Format
-    //ExFor:ChartDataPoint.ClearFormat
-    //ExFor:ChartDataPoint.Index
-    //ExFor:ChartDataPointCollection
-    //ExFor:ChartDataPointCollection.ClearFormat
-    //ExFor:ChartDataPointCollection.Count
-    //ExFor:ChartDataPointCollection.GetEnumerator
-    //ExFor:ChartDataPointCollection.Item(Int32)
-    //ExFor:ChartMarker
-    //ExFor:ChartMarker.Size
-    //ExFor:ChartMarker.Symbol
-    //ExFor:IChartDataPoint
-    //ExFor:IChartDataPoint.InvertIfNegative
-    //ExFor:ChartDataPoint.InvertIfNegative
-    //ExFor:IChartDataPoint.Marker
-    //ExFor:MarkerSymbol
-    //ExSummary:Shows how to work with data points on a line chart.
-    @Test//ExSkip
+    @Test
     public void chartDataPoint() throws Exception
     {
+        //ExStart
+        //ExFor:ChartSeries.Smooth
+        //ExFor:ChartSeries.InvertIfNegative
+        //ExFor:ChartDataPoint
+        //ExFor:ChartDataPoint.Format
+        //ExFor:ChartDataPoint.ClearFormat
+        //ExFor:ChartDataPoint.Index
+        //ExFor:ChartDataPointCollection
+        //ExFor:ChartDataPointCollection.ClearFormat
+        //ExFor:ChartDataPointCollection.Count
+        //ExFor:ChartDataPointCollection.GetEnumerator
+        //ExFor:ChartDataPointCollection.Item(Int32)
+        //ExFor:ChartMarker
+        //ExFor:ChartMarker.Size
+        //ExFor:ChartMarker.Symbol
+        //ExFor:IChartDataPoint
+        //ExFor:IChartDataPoint.InvertIfNegative
+        //ExFor:ChartDataPoint.InvertIfNegative
+        //ExFor:IChartDataPoint.Marker
+        //ExFor:MarkerSymbol
+        //ExSummary:Shows how to work with data points on a line chart.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -772,8 +801,30 @@ public class ExCharts extends ApiExampleBase
         chart.getSeries().get(2).getDataPoints().clearFormat();
 
         doc.save(getArtifactsDir() + "Charts.ChartDataPoint.docx");
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:ChartSeries.Smooth
+    //ExFor:ChartSeries.InvertIfNegative
+    //ExFor:ChartDataPoint
+    //ExFor:ChartDataPoint.Format
+    //ExFor:ChartDataPoint.ClearFormat
+    //ExFor:ChartDataPoint.Index
+    //ExFor:ChartDataPointCollection
+    //ExFor:ChartDataPointCollection.ClearFormat
+    //ExFor:ChartDataPointCollection.Count
+    //ExFor:ChartDataPointCollection.GetEnumerator
+    //ExFor:ChartDataPointCollection.Item(Int32)
+    //ExFor:ChartMarker
+    //ExFor:ChartMarker.Size
+    //ExFor:ChartMarker.Symbol
+    //ExFor:IChartDataPoint
+    //ExFor:IChartDataPoint.InvertIfNegative
+    //ExFor:ChartDataPoint.InvertIfNegative
+    //ExFor:IChartDataPoint.Marker
+    //ExFor:MarkerSymbol
+    //ExSummary:Shows how to work with data points on a line chart (ApplyDataPoints).
     /// <summary>
     /// Applies a number of data points to a series.
     /// </summary>
@@ -865,19 +916,19 @@ public class ExCharts extends ApiExampleBase
         }
     }
 
-    //ExStart
-    //ExFor:ChartAxis.Type
-    //ExFor:ChartAxisType
-    //ExFor:ChartType
-    //ExFor:Chart.Series
-    //ExFor:ChartSeriesCollection.Add(String,DateTime[],Double[])
-    //ExFor:ChartSeriesCollection.Add(String,Double[],Double[])
-    //ExFor:ChartSeriesCollection.Add(String,Double[],Double[],Double[])
-    //ExFor:ChartSeriesCollection.Add(String,String[],Double[])
-    //ExSummary:Shows how to create an appropriate type of chart series for a graph type.
-    @Test //ExSkip
+    @Test
     public void chartSeriesCollection() throws Exception
     {
+        //ExStart
+        //ExFor:ChartAxis.Type
+        //ExFor:ChartAxisType
+        //ExFor:ChartType
+        //ExFor:Chart.Series
+        //ExFor:ChartSeriesCollection.Add(String,DateTime[],Double[])
+        //ExFor:ChartSeriesCollection.Add(String,Double[],Double[])
+        //ExFor:ChartSeriesCollection.Add(String,Double[],Double[],Double[])
+        //ExFor:ChartSeriesCollection.Add(String,String[],Double[])
+        //ExSummary:Shows how to create an appropriate type of chart series for a graph type.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -943,8 +994,19 @@ public class ExCharts extends ApiExampleBase
             new double[] { 2.0, 4.0, 8.0 });
 
         doc.save(getArtifactsDir() + "Charts.ChartSeriesCollection.docx");
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:ChartAxis.Type
+    //ExFor:ChartAxisType
+    //ExFor:ChartType
+    //ExFor:Chart.Series
+    //ExFor:ChartSeriesCollection.Add(String,DateTime[],Double[])
+    //ExFor:ChartSeriesCollection.Add(String,Double[],Double[])
+    //ExFor:ChartSeriesCollection.Add(String,Double[],Double[],Double[])
+    //ExFor:ChartSeriesCollection.Add(String,String[],Double[])
+    //ExSummary:Shows how to create an appropriate type of chart series for a graph type (AppendChart).
     /// <summary>
     /// Insert a chart using a document builder of a specified ChartType, width and height, and remove its demo data.
     /// </summary>

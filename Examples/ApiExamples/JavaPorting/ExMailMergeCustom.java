@@ -26,17 +26,17 @@ import com.aspose.words.ref.Ref;
 @Test
 public class ExMailMergeCustom extends ApiExampleBase
 {
-    //ExStart
-    //ExFor:IMailMergeDataSource
-    //ExFor:IMailMergeDataSource.TableName
-    //ExFor:IMailMergeDataSource.MoveNext
-    //ExFor:IMailMergeDataSource.GetValue
-    //ExFor:IMailMergeDataSource.GetChildDataSource
-    //ExFor:MailMerge.Execute(IMailMergeDataSource)
-    //ExSummary:Shows how to execute a mail merge with a data source in the form of a custom object.
-    @Test //ExSkip
+    @Test
     public void customDataSource() throws Exception
     {
+        //ExStart
+        //ExFor:IMailMergeDataSource
+        //ExFor:IMailMergeDataSource.TableName
+        //ExFor:IMailMergeDataSource.MoveNext
+        //ExFor:IMailMergeDataSource.GetValue
+        //ExFor:IMailMergeDataSource.GetChildDataSource
+        //ExFor:MailMerge.Execute(IMailMergeDataSource)
+        //ExSummary:Shows how to execute a mail merge with a data source in the form of a custom object.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertField(" MERGEFIELD FullName ");
@@ -56,8 +56,17 @@ public class ExMailMergeCustom extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "MailMergeCustom.CustomDataSource.docx");
         testCustomDataSource(customers, new Document(getArtifactsDir() + "MailMergeCustom.CustomDataSource.docx")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:IMailMergeDataSource
+    //ExFor:IMailMergeDataSource.TableName
+    //ExFor:IMailMergeDataSource.MoveNext
+    //ExFor:IMailMergeDataSource.GetValue
+    //ExFor:IMailMergeDataSource.GetChildDataSource
+    //ExFor:MailMerge.Execute(IMailMergeDataSource)
+    //ExSummary:Shows how to execute a mail merge with a data source in the form of a custom object (Customer).
     /// <summary>
     /// An example of a "data entity" class in your application.
     /// </summary>
@@ -150,14 +159,14 @@ public class ExMailMergeCustom extends ApiExampleBase
         TestUtil.mailMergeMatchesArray(mergeData, doc, true);
     }
 
-    //ExStart
-    //ExFor:IMailMergeDataSourceRoot
-    //ExFor:IMailMergeDataSourceRoot.GetDataSource(String)
-    //ExFor:MailMerge.ExecuteWithRegions(IMailMergeDataSourceRoot)
-    //ExSummary:Performs mail merge from a custom data source with master-detail data.
-    @Test //ExSkip
+    @Test
     public void customDataSourceRoot() throws Exception
     {
+        //ExStart
+        //ExFor:IMailMergeDataSourceRoot
+        //ExFor:IMailMergeDataSourceRoot.GetDataSource(String)
+        //ExFor:MailMerge.ExecuteWithRegions(IMailMergeDataSourceRoot)
+        //ExSummary:Performs mail merge from a custom data source with master-detail data.
         // Create a document with two mail merge regions named "Washington" and "Seattle".
         String[] mailMergeRegions = { "Vancouver", "Seattle" };
         Document doc = createSourceDocumentWithMailMergeRegions(mailMergeRegions);
@@ -185,8 +194,14 @@ public class ExMailMergeCustom extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "MailMergeCustom.CustomDataSourceRoot.docx");
         testCustomDataSourceRoot(mailMergeRegions, sourceRoot, new Document(getArtifactsDir() + "MailMergeCustom.CustomDataSourceRoot.docx")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:IMailMergeDataSourceRoot
+    //ExFor:IMailMergeDataSourceRoot.GetDataSource(String)
+    //ExFor:MailMerge.ExecuteWithRegions(IMailMergeDataSourceRoot)
+    //ExSummary:Performs mail merge from a custom data source with master-detail data (CreateSourceDocumentWithMailMergeRegions).
     /// <summary>
     /// Create a document that contains consecutive mail merge regions, with names designated by the input array,
     /// for a data table of employees.
@@ -357,3 +372,4 @@ public class ExMailMergeCustom extends ApiExampleBase
 	);
 
 }
+

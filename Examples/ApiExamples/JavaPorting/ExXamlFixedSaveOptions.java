@@ -29,16 +29,16 @@ import com.aspose.ms.System.msString;
 @Test
 public class ExXamlFixedSaveOptions extends ApiExampleBase
 {
-    //ExStart
-    //ExFor:XamlFixedSaveOptions
-    //ExFor:XamlFixedSaveOptions.ResourceSavingCallback
-    //ExFor:XamlFixedSaveOptions.ResourcesFolder
-    //ExFor:XamlFixedSaveOptions.ResourcesFolderAlias
-    //ExFor:XamlFixedSaveOptions.SaveFormat
-    //ExSummary:Shows how to print the URIs of linked resources created while converting a document to fixed-form .xaml.
-    @Test //ExSkip
+    @Test
     public void resourceFolder() throws Exception
     {
+        //ExStart
+        //ExFor:XamlFixedSaveOptions
+        //ExFor:XamlFixedSaveOptions.ResourceSavingCallback
+        //ExFor:XamlFixedSaveOptions.ResourcesFolder
+        //ExFor:XamlFixedSaveOptions.ResourcesFolderAlias
+        //ExFor:XamlFixedSaveOptions.SaveFormat
+        //ExSummary:Shows how to print the URIs of linked resources created while converting a document to fixed-form .xaml.
         Document doc = new Document(getMyDir() + "Rendering.docx");
         ResourceUriPrinter callback = new ResourceUriPrinter();
 
@@ -67,8 +67,16 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase
         for (String resource : callback.getResources())
             System.out.println(resource);
         testResourceFolder(callback); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:XamlFixedSaveOptions
+    //ExFor:XamlFixedSaveOptions.ResourceSavingCallback
+    //ExFor:XamlFixedSaveOptions.ResourcesFolder
+    //ExFor:XamlFixedSaveOptions.ResourcesFolderAlias
+    //ExFor:XamlFixedSaveOptions.SaveFormat
+    //ExSummary:Shows how to print the URIs of linked resources created while converting a document to fixed-form .xaml (ResourceUriPrinter).
     /// <summary>
     /// Counts and prints URIs of resources created during conversion to fixed .xaml.
     /// </summary>
@@ -102,3 +110,4 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase
             Assert.assertTrue(File.exists(msString.split(resource, '\t')[1]));
     }
 }
+

@@ -48,6 +48,44 @@ import com.aspose.words.StructuredDocumentTag;
 @Test
 public class ExDocumentVisitor extends ApiExampleBase
 {
+    @Test
+    public void docStructureToText() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.Accept(DocumentVisitor)
+        //ExFor:Section.Accept(DocumentVisitor)
+        //ExFor:SubDocument.Accept(DocumentVisitor)
+        //ExFor:CompositeNode.AcceptEnd(DocumentVisitor)
+        //ExFor:CompositeNode.AcceptStart(DocumentVisitor)
+        //ExFor:Document.AcceptEnd(DocumentVisitor)
+        //ExFor:Document.AcceptStart(DocumentVisitor)
+        //ExFor:DocumentVisitor
+        //ExFor:DocumentVisitor.VisitRun(Run)
+        //ExFor:DocumentVisitor.VisitDocumentEnd(Document)
+        //ExFor:DocumentVisitor.VisitDocumentStart(Document)
+        //ExFor:DocumentVisitor.VisitSectionEnd(Section)
+        //ExFor:DocumentVisitor.VisitSectionStart(Section)
+        //ExFor:DocumentVisitor.VisitBodyStart(Body)
+        //ExFor:DocumentVisitor.VisitBodyEnd(Body)
+        //ExFor:DocumentVisitor.VisitParagraphStart(Paragraph)
+        //ExFor:DocumentVisitor.VisitParagraphEnd(Paragraph)
+        //ExFor:DocumentVisitor.VisitSubDocument(SubDocument)
+        //ExFor:DocumentVisitor.VisitStructuredDocumentTagRangeEnd(StructuredDocumentTagRangeEnd)
+        //ExFor:DocumentVisitor.VisitStructuredDocumentTagRangeStart(StructuredDocumentTagRangeStart)
+        //ExSummary:Shows how to use a document visitor to print a document's node structure.
+        Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
+        DocStructurePrinter visitor = new DocStructurePrinter();
+
+        // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
+        // and then traverses all the node's children in a depth-first manner.
+        // The visitor can read and modify each visited node.
+        doc.accept(visitor);
+
+        System.out.println(visitor.getText());
+        testDocStructureToText(visitor); //ExSkip
+        //ExEnd
+    }
+
     //ExStart
     //ExFor:Document.Accept(DocumentVisitor)
     //ExFor:Section.Accept(DocumentVisitor)
@@ -69,22 +107,7 @@ public class ExDocumentVisitor extends ApiExampleBase
     //ExFor:DocumentVisitor.VisitSubDocument(SubDocument)
     //ExFor:DocumentVisitor.VisitStructuredDocumentTagRangeEnd(StructuredDocumentTagRangeEnd)
     //ExFor:DocumentVisitor.VisitStructuredDocumentTagRangeStart(StructuredDocumentTagRangeStart)
-    //ExSummary:Shows how to use a document visitor to print a document's node structure.
-    @Test //ExSkip
-    public void docStructureToText() throws Exception
-    {
-        Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
-        DocStructurePrinter visitor = new DocStructurePrinter();
-
-        // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
-        // and then traverses all the node's children in a depth-first manner.
-        // The visitor can read and modify each visited node.
-        doc.accept(visitor);
-
-        System.out.println(visitor.getText());
-        testDocStructureToText(visitor); //ExSkip
-    }
-
+    //ExSummary:Shows how to use a document visitor to print a document's node structure (DocStructurePrinter).
     /// <summary>
     /// Traverses a node's tree of child nodes.
     /// Creates a map of this tree in the form of a string.
@@ -269,6 +292,43 @@ public class ExDocumentVisitor extends ApiExampleBase
         Assert.assertTrue(visitorText.contains("[SubDocument]"));
     }
 
+    @Test
+    public void tableToText() throws Exception
+    {
+        //ExStart
+        //ExFor:Cell.Accept(DocumentVisitor)
+        //ExFor:Cell.AcceptStart(DocumentVisitor)
+        //ExFor:Cell.AcceptEnd(DocumentVisitor)
+        //ExFor:Cell.IsFirstCell
+        //ExFor:Cell.IsLastCell
+        //ExFor:DocumentVisitor.VisitTableEnd(Table)
+        //ExFor:DocumentVisitor.VisitTableStart(Table)
+        //ExFor:DocumentVisitor.VisitRowEnd(Row)
+        //ExFor:DocumentVisitor.VisitRowStart(Row)
+        //ExFor:DocumentVisitor.VisitCellStart(Cell)
+        //ExFor:DocumentVisitor.VisitCellEnd(Cell)
+        //ExFor:Row.Accept(DocumentVisitor)
+        //ExFor:Row.AcceptStart(DocumentVisitor)
+        //ExFor:Row.AcceptEnd(DocumentVisitor)
+        //ExFor:Row.FirstCell
+        //ExFor:Row.GetText
+        //ExFor:Row.IsFirstRow
+        //ExFor:Row.LastCell
+        //ExFor:Row.ParentTable
+        //ExSummary:Shows how to print the node structure of every table in a document.
+        Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
+        TableStructurePrinter visitor = new TableStructurePrinter();
+
+        // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
+        // and then traverses all the node's children in a depth-first manner.
+        // The visitor can read and modify each visited node.
+        doc.accept(visitor);
+
+        System.out.println(visitor.getText());
+        testTableToText(visitor); //ExSkip
+        //ExEnd
+    }
+
     //ExStart
     //ExFor:Cell.Accept(DocumentVisitor)
     //ExFor:Cell.AcceptStart(DocumentVisitor)
@@ -289,22 +349,7 @@ public class ExDocumentVisitor extends ApiExampleBase
     //ExFor:Row.IsFirstRow
     //ExFor:Row.LastCell
     //ExFor:Row.ParentTable
-    //ExSummary:Shows how to print the node structure of every table in a document.
-    @Test //ExSkip
-    public void tableToText() throws Exception
-    {
-        Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
-        TableStructurePrinter visitor = new TableStructurePrinter();
-
-        // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
-        // and then traverses all the node's children in a depth-first manner.
-        // The visitor can read and modify each visited node.
-        doc.accept(visitor);
-
-        System.out.println(visitor.getText());
-        testTableToText(visitor); //ExSkip
-    }
-
+    //ExSummary:Shows how to print the node structure of every table in a document (TableStructurePrinter).
     /// <summary>
     /// Traverses a node's non-binary tree of child nodes.
     /// Creates a map in the form of a string of all encountered Table nodes and their children.
@@ -460,15 +505,15 @@ public class ExDocumentVisitor extends ApiExampleBase
         Assert.assertTrue(visitorText.contains("[Run]"));
     }
 
-    //ExStart
-    //ExFor:DocumentVisitor.VisitCommentStart(Comment)
-    //ExFor:DocumentVisitor.VisitCommentEnd(Comment)
-    //ExFor:DocumentVisitor.VisitCommentRangeEnd(CommentRangeEnd)
-    //ExFor:DocumentVisitor.VisitCommentRangeStart(CommentRangeStart)
-    //ExSummary:Shows how to print the node structure of every comment and comment range in a document.
-    @Test //ExSkip
+    @Test
     public void commentsToText() throws Exception
     {
+        //ExStart
+        //ExFor:DocumentVisitor.VisitCommentStart(Comment)
+        //ExFor:DocumentVisitor.VisitCommentEnd(Comment)
+        //ExFor:DocumentVisitor.VisitCommentRangeEnd(CommentRangeEnd)
+        //ExFor:DocumentVisitor.VisitCommentRangeStart(CommentRangeStart)
+        //ExSummary:Shows how to print the node structure of every comment and comment range in a document.
         Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
         CommentStructurePrinter visitor = new CommentStructurePrinter();
 
@@ -479,8 +524,15 @@ public class ExDocumentVisitor extends ApiExampleBase
 
         System.out.println(visitor.getText());
         testCommentsToText(visitor); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:DocumentVisitor.VisitCommentStart(Comment)
+    //ExFor:DocumentVisitor.VisitCommentEnd(Comment)
+    //ExFor:DocumentVisitor.VisitCommentRangeEnd(CommentRangeEnd)
+    //ExFor:DocumentVisitor.VisitCommentRangeStart(CommentRangeStart)
+    //ExSummary:Shows how to print the node structure of every comment and comment range in a document (CommentStructurePrinter).
     /// <summary>
     /// Traverses a node's non-binary tree of child nodes.
     /// Creates a map in the form of a string of all encountered Comment/CommentRange nodes and their children.
@@ -590,14 +642,14 @@ public class ExDocumentVisitor extends ApiExampleBase
         Assert.assertTrue(visitorText.contains("[Run]"));
     }
 
-    //ExStart
-    //ExFor:DocumentVisitor.VisitFieldStart
-    //ExFor:DocumentVisitor.VisitFieldEnd
-    //ExFor:DocumentVisitor.VisitFieldSeparator
-    //ExSummary:Shows how to print the node structure of every field in a document.
-    @Test //ExSkip
+    @Test
     public void fieldToText() throws Exception
     {
+        //ExStart
+        //ExFor:DocumentVisitor.VisitFieldStart
+        //ExFor:DocumentVisitor.VisitFieldEnd
+        //ExFor:DocumentVisitor.VisitFieldSeparator
+        //ExSummary:Shows how to print the node structure of every field in a document.
         Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
         FieldStructurePrinter visitor = new FieldStructurePrinter();
 
@@ -608,8 +660,14 @@ public class ExDocumentVisitor extends ApiExampleBase
 
         System.out.println(visitor.getText());
         testFieldToText(visitor); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:DocumentVisitor.VisitFieldStart
+    //ExFor:DocumentVisitor.VisitFieldEnd
+    //ExFor:DocumentVisitor.VisitFieldSeparator
+    //ExSummary:Shows how to print the node structure of every field in a document (FieldStructurePrinter).
     /// <summary>
     /// Traverses a node's non-binary tree of child nodes.
     /// Creates a map in the form of a string of all encountered Field nodes and their children.
@@ -702,19 +760,19 @@ public class ExDocumentVisitor extends ApiExampleBase
         Assert.assertTrue(visitorText.contains("[Run]"));
     }
 
-    //ExStart
-    //ExFor:DocumentVisitor.VisitHeaderFooterStart(HeaderFooter)
-    //ExFor:DocumentVisitor.VisitHeaderFooterEnd(HeaderFooter)
-    //ExFor:HeaderFooter.Accept(DocumentVisitor)
-    //ExFor:HeaderFooter.AcceptStart(DocumentVisitor)
-    //ExFor:HeaderFooter.AcceptEnd(DocumentVisitor)
-    //ExFor:HeaderFooterCollection.ToArray
-    //ExFor:Run.Accept(DocumentVisitor)
-    //ExFor:Run.GetText
-    //ExSummary:Shows how to print the node structure of every header and footer in a document.
-    @Test //ExSkip
+    @Test
     public void headerFooterToText() throws Exception
     {
+        //ExStart
+        //ExFor:DocumentVisitor.VisitHeaderFooterStart(HeaderFooter)
+        //ExFor:DocumentVisitor.VisitHeaderFooterEnd(HeaderFooter)
+        //ExFor:HeaderFooter.Accept(DocumentVisitor)
+        //ExFor:HeaderFooter.AcceptStart(DocumentVisitor)
+        //ExFor:HeaderFooter.AcceptEnd(DocumentVisitor)
+        //ExFor:HeaderFooterCollection.ToArray
+        //ExFor:Run.Accept(DocumentVisitor)
+        //ExFor:Run.GetText
+        //ExSummary:Shows how to print the node structure of every header and footer in a document.
         Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
         HeaderFooterStructurePrinter visitor = new HeaderFooterStructurePrinter();
 
@@ -729,8 +787,19 @@ public class ExDocumentVisitor extends ApiExampleBase
         HeaderFooter[] headerFooters = doc.getFirstSection().getHeadersFooters().toArray();
         Assert.assertEquals(3, headerFooters.length);
         testHeaderFooterToText(visitor); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:DocumentVisitor.VisitHeaderFooterStart(HeaderFooter)
+    //ExFor:DocumentVisitor.VisitHeaderFooterEnd(HeaderFooter)
+    //ExFor:HeaderFooter.Accept(DocumentVisitor)
+    //ExFor:HeaderFooter.AcceptStart(DocumentVisitor)
+    //ExFor:HeaderFooter.AcceptEnd(DocumentVisitor)
+    //ExFor:HeaderFooterCollection.ToArray
+    //ExFor:Run.Accept(DocumentVisitor)
+    //ExFor:Run.GetText
+    //ExSummary:Shows how to print the node structure of every header and footer in a document (HeaderFooterStructurePrinter).
     /// <summary>
     /// Traverses a node's non-binary tree of child nodes.
     /// Creates a map in the form of a string of all encountered HeaderFooter nodes and their children.
@@ -813,13 +882,13 @@ public class ExDocumentVisitor extends ApiExampleBase
         Assert.assertTrue(visitorText.contains("[Run]"));
     }
 
-    //ExStart
-    //ExFor:DocumentVisitor.VisitEditableRangeEnd(EditableRangeEnd)
-    //ExFor:DocumentVisitor.VisitEditableRangeStart(EditableRangeStart)
-    //ExSummary:Shows how to print the node structure of every editable range in a document.
-    @Test //ExSkip
+    @Test
     public void editableRangeToText() throws Exception
     {
+        //ExStart
+        //ExFor:DocumentVisitor.VisitEditableRangeEnd(EditableRangeEnd)
+        //ExFor:DocumentVisitor.VisitEditableRangeStart(EditableRangeStart)
+        //ExSummary:Shows how to print the node structure of every editable range in a document.
         Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
         EditableRangeStructurePrinter visitor = new EditableRangeStructurePrinter();
 
@@ -830,8 +899,13 @@ public class ExDocumentVisitor extends ApiExampleBase
 
         System.out.println(visitor.getText());
         testEditableRangeToText(visitor); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:DocumentVisitor.VisitEditableRangeEnd(EditableRangeEnd)
+    //ExFor:DocumentVisitor.VisitEditableRangeStart(EditableRangeStart)
+    //ExSummary:Shows how to print the node structure of every editable range in a document (EditableRangeStructurePrinter).
     /// <summary>
     /// Traverses a node's non-binary tree of child nodes.
     /// Creates a map in the form of a string of all encountered EditableRange nodes and their children.
@@ -914,16 +988,16 @@ public class ExDocumentVisitor extends ApiExampleBase
         Assert.assertTrue(visitorText.contains("[Run]"));
     }
 
-    //ExStart
-    //ExFor:DocumentVisitor.VisitFootnoteEnd(Footnote)
-    //ExFor:DocumentVisitor.VisitFootnoteStart(Footnote)
-    //ExFor:Footnote.Accept(DocumentVisitor)
-    //ExFor:Footnote.AcceptStart(DocumentVisitor)
-    //ExFor:Footnote.AcceptEnd(DocumentVisitor)
-    //ExSummary:Shows how to print the node structure of every footnote in a document.
-    @Test //ExSkip
+    @Test
     public void footnoteToText() throws Exception
     {
+        //ExStart
+        //ExFor:DocumentVisitor.VisitFootnoteEnd(Footnote)
+        //ExFor:DocumentVisitor.VisitFootnoteStart(Footnote)
+        //ExFor:Footnote.Accept(DocumentVisitor)
+        //ExFor:Footnote.AcceptStart(DocumentVisitor)
+        //ExFor:Footnote.AcceptEnd(DocumentVisitor)
+        //ExSummary:Shows how to print the node structure of every footnote in a document.
         Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
         FootnoteStructurePrinter visitor = new FootnoteStructurePrinter();
 
@@ -934,8 +1008,16 @@ public class ExDocumentVisitor extends ApiExampleBase
 
         System.out.println(visitor.getText());
         testFootnoteToText(visitor); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:DocumentVisitor.VisitFootnoteEnd(Footnote)
+    //ExFor:DocumentVisitor.VisitFootnoteStart(Footnote)
+    //ExFor:Footnote.Accept(DocumentVisitor)
+    //ExFor:Footnote.AcceptStart(DocumentVisitor)
+    //ExFor:Footnote.AcceptEnd(DocumentVisitor)
+    //ExSummary:Shows how to print the node structure of every footnote in a document (FootnoteStructurePrinter).
     /// <summary>
     /// Traverses a node's non-binary tree of child nodes.
     /// Creates a map in the form of a string of all encountered Footnote nodes and their children.
@@ -1016,18 +1098,18 @@ public class ExDocumentVisitor extends ApiExampleBase
         Assert.assertTrue(visitorText.contains("[Run]"));
     }
 
-    //ExStart
-    //ExFor:DocumentVisitor.VisitOfficeMathEnd(OfficeMath)
-    //ExFor:DocumentVisitor.VisitOfficeMathStart(OfficeMath)
-    //ExFor:MathObjectType
-    //ExFor:OfficeMath.Accept(DocumentVisitor)
-    //ExFor:OfficeMath.AcceptStart(DocumentVisitor)
-    //ExFor:OfficeMath.AcceptEnd(DocumentVisitor)
-    //ExFor:OfficeMath.MathObjectType
-    //ExSummary:Shows how to print the node structure of every office math node in a document.
-    @Test //ExSkip
+    @Test
     public void officeMathToText() throws Exception
     {
+        //ExStart
+        //ExFor:DocumentVisitor.VisitOfficeMathEnd(OfficeMath)
+        //ExFor:DocumentVisitor.VisitOfficeMathStart(OfficeMath)
+        //ExFor:MathObjectType
+        //ExFor:OfficeMath.Accept(DocumentVisitor)
+        //ExFor:OfficeMath.AcceptStart(DocumentVisitor)
+        //ExFor:OfficeMath.AcceptEnd(DocumentVisitor)
+        //ExFor:OfficeMath.MathObjectType
+        //ExSummary:Shows how to print the node structure of every office math node in a document.
         Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
         OfficeMathStructurePrinter visitor = new OfficeMathStructurePrinter();
 
@@ -1038,8 +1120,18 @@ public class ExDocumentVisitor extends ApiExampleBase
 
         System.out.println(visitor.getText());
         testOfficeMathToText(visitor); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:DocumentVisitor.VisitOfficeMathEnd(OfficeMath)
+    //ExFor:DocumentVisitor.VisitOfficeMathStart(OfficeMath)
+    //ExFor:MathObjectType
+    //ExFor:OfficeMath.Accept(DocumentVisitor)
+    //ExFor:OfficeMath.AcceptStart(DocumentVisitor)
+    //ExFor:OfficeMath.AcceptEnd(DocumentVisitor)
+    //ExFor:OfficeMath.MathObjectType
+    //ExSummary:Shows how to print the node structure of every office math node in a document (OfficeMathStructurePrinter).
     /// <summary>
     /// Traverses a node's non-binary tree of child nodes.
     /// Creates a map in the form of a string of all encountered OfficeMath nodes and their children.
@@ -1127,13 +1219,13 @@ public class ExDocumentVisitor extends ApiExampleBase
         Assert.assertTrue(visitorText.contains("[Run]"));
     }
 
-    //ExStart
-    //ExFor:DocumentVisitor.VisitSmartTagEnd(SmartTag)
-    //ExFor:DocumentVisitor.VisitSmartTagStart(SmartTag)
-    //ExSummary:Shows how to print the node structure of every smart tag in a document.
-    @Test //ExSkip
+    @Test
     public void smartTagToText() throws Exception
     {
+        //ExStart
+        //ExFor:DocumentVisitor.VisitSmartTagEnd(SmartTag)
+        //ExFor:DocumentVisitor.VisitSmartTagStart(SmartTag)
+        //ExSummary:Shows how to print the node structure of every smart tag in a document.
         Document doc = new Document(getMyDir() + "Smart tags.doc");
         SmartTagStructurePrinter visitor = new SmartTagStructurePrinter();
 
@@ -1144,8 +1236,13 @@ public class ExDocumentVisitor extends ApiExampleBase
 
         System.out.println(visitor.getText());
         testSmartTagToText(visitor); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:DocumentVisitor.VisitSmartTagEnd(SmartTag)
+    //ExFor:DocumentVisitor.VisitSmartTagStart(SmartTag)
+    //ExSummary:Shows how to print the node structure of every smart tag in a document (SmartTagStructurePrinter).
     /// <summary>
     /// Traverses a node's non-binary tree of child nodes.
     /// Creates a map in the form of a string of all encountered SmartTag nodes and their children.
@@ -1233,16 +1330,16 @@ public class ExDocumentVisitor extends ApiExampleBase
         Assert.assertTrue(visitorText.contains("[Run]"));
     }
 
-    //ExStart
-    //ExFor:StructuredDocumentTag.Accept(DocumentVisitor)
-    //ExFor:StructuredDocumentTag.AcceptStart(DocumentVisitor)
-    //ExFor:StructuredDocumentTag.AcceptEnd(DocumentVisitor)
-    //ExFor:DocumentVisitor.VisitStructuredDocumentTagEnd(StructuredDocumentTag)
-    //ExFor:DocumentVisitor.VisitStructuredDocumentTagStart(StructuredDocumentTag)
-    //ExSummary:Shows how to print the node structure of every structured document tag in a document.
-    @Test //ExSkip
+    @Test
     public void structuredDocumentTagToText() throws Exception
     {
+        //ExStart
+        //ExFor:StructuredDocumentTag.Accept(DocumentVisitor)
+        //ExFor:StructuredDocumentTag.AcceptStart(DocumentVisitor)
+        //ExFor:StructuredDocumentTag.AcceptEnd(DocumentVisitor)
+        //ExFor:DocumentVisitor.VisitStructuredDocumentTagEnd(StructuredDocumentTag)
+        //ExFor:DocumentVisitor.VisitStructuredDocumentTagStart(StructuredDocumentTag)
+        //ExSummary:Shows how to print the node structure of every structured document tag in a document.
         Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
         StructuredDocumentTagNodePrinter visitor = new StructuredDocumentTagNodePrinter();
 
@@ -1253,8 +1350,16 @@ public class ExDocumentVisitor extends ApiExampleBase
 
         System.out.println(visitor.getText());
         testStructuredDocumentTagToText(visitor); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:StructuredDocumentTag.Accept(DocumentVisitor)
+    //ExFor:StructuredDocumentTag.AcceptStart(DocumentVisitor)
+    //ExFor:StructuredDocumentTag.AcceptEnd(DocumentVisitor)
+    //ExFor:DocumentVisitor.VisitStructuredDocumentTagEnd(StructuredDocumentTag)
+    //ExFor:DocumentVisitor.VisitStructuredDocumentTagStart(StructuredDocumentTag)
+    //ExSummary:Shows how to print the node structure of every structured document tag in a document (StructuredDocumentTagNodePrinter).
     /// <summary>
     /// Traverses a node's non-binary tree of child nodes.
     /// Creates a map in the form of a string of all encountered StructuredDocumentTag nodes and their children.
@@ -1332,3 +1437,4 @@ public class ExDocumentVisitor extends ApiExampleBase
         Assert.assertTrue(visitorText.contains("[StructuredDocumentTag end]"));
     }
 }
+

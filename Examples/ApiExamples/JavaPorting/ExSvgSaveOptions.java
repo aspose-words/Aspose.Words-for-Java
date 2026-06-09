@@ -49,17 +49,17 @@ public class ExSvgSaveOptions extends ApiExampleBase
         //ExEnd
     }
 
-    //ExStart
-    //ExFor:SvgSaveOptions
-    //ExFor:SvgSaveOptions.ExportEmbeddedImages
-    //ExFor:SvgSaveOptions.ResourceSavingCallback
-    //ExFor:SvgSaveOptions.ResourcesFolder
-    //ExFor:SvgSaveOptions.ResourcesFolderAlias
-    //ExFor:SvgSaveOptions.SaveFormat
-    //ExSummary:Shows how to manipulate and print the URIs of linked resources created while converting a document to .svg.
-    @Test //ExSkip
+    @Test
     public void svgResourceFolder() throws Exception
     {
+        //ExStart
+        //ExFor:SvgSaveOptions
+        //ExFor:SvgSaveOptions.ExportEmbeddedImages
+        //ExFor:SvgSaveOptions.ResourceSavingCallback
+        //ExFor:SvgSaveOptions.ResourcesFolder
+        //ExFor:SvgSaveOptions.ResourcesFolderAlias
+        //ExFor:SvgSaveOptions.SaveFormat
+        //ExSummary:Shows how to manipulate and print the URIs of linked resources created while converting a document to .svg.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         SvgSaveOptions options = new SvgSaveOptions();
@@ -76,8 +76,17 @@ public class ExSvgSaveOptions extends ApiExampleBase
         Directory.createDirectory(options.getResourcesFolderAlias());
 
         doc.save(getArtifactsDir() + "SvgSaveOptions.SvgResourceFolder.svg", options);
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:SvgSaveOptions
+    //ExFor:SvgSaveOptions.ExportEmbeddedImages
+    //ExFor:SvgSaveOptions.ResourceSavingCallback
+    //ExFor:SvgSaveOptions.ResourcesFolder
+    //ExFor:SvgSaveOptions.ResourcesFolderAlias
+    //ExFor:SvgSaveOptions.SaveFormat
+    //ExSummary:Shows how to manipulate and print the URIs of linked resources created while converting a document to .svg (ResourceUriPrinter).
     /// <summary>
     /// Counts and prints URIs of resources contained by as they are converted to .svg.
     /// </summary>

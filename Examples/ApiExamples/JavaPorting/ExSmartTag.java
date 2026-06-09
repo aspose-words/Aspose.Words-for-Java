@@ -28,24 +28,24 @@ import java.util.Iterator;
 @Test
 class ExSmartTag !Test class should be public in Java to run, please fix .Net source!  extends ApiExampleBase
 {
-    //ExStart
-    //ExFor:CompositeNode.RemoveSmartTags
-    //ExFor:CustomXmlProperty
-    //ExFor:CustomXmlProperty.#ctor(String,String,String)
-    //ExFor:CustomXmlProperty.Name
-    //ExFor:CustomXmlProperty.Value
-    //ExFor:SmartTag
-    //ExFor:SmartTag.#ctor(DocumentBase)
-    //ExFor:SmartTag.Accept(DocumentVisitor)
-    //ExFor:SmartTag.AcceptStart(DocumentVisitor)
-    //ExFor:SmartTag.AcceptEnd(DocumentVisitor)
-    //ExFor:SmartTag.Element
-    //ExFor:SmartTag.Properties
-    //ExFor:SmartTag.Uri
-    //ExSummary:Shows how to create smart tags.
-    @Test //ExSkip
+    @Test
     public void create() throws Exception
     {
+        //ExStart
+        //ExFor:CompositeNode.RemoveSmartTags
+        //ExFor:CustomXmlProperty
+        //ExFor:CustomXmlProperty.#ctor(String,String,String)
+        //ExFor:CustomXmlProperty.Name
+        //ExFor:CustomXmlProperty.Value
+        //ExFor:SmartTag
+        //ExFor:SmartTag.#ctor(DocumentBase)
+        //ExFor:SmartTag.Accept(DocumentVisitor)
+        //ExFor:SmartTag.AcceptStart(DocumentVisitor)
+        //ExFor:SmartTag.AcceptEnd(DocumentVisitor)
+        //ExFor:SmartTag.Element
+        //ExFor:SmartTag.Properties
+        //ExFor:SmartTag.Uri
+        //ExSummary:Shows how to create smart tags.
         Document doc = new Document();
 
         // A smart tag appears in a document with Microsoft Word recognizes a part of its text as some form of data,
@@ -94,8 +94,24 @@ class ExSmartTag !Test class should be public in Java to run, please fix .Net so
 
         Assert.assertEquals(0, doc.getChildNodes(NodeType.SMART_TAG, true).getCount());
         testCreate(new Document(getArtifactsDir() + "SmartTag.Create.doc")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:CompositeNode.RemoveSmartTags
+    //ExFor:CustomXmlProperty
+    //ExFor:CustomXmlProperty.#ctor(String,String,String)
+    //ExFor:CustomXmlProperty.Name
+    //ExFor:CustomXmlProperty.Value
+    //ExFor:SmartTag
+    //ExFor:SmartTag.#ctor(DocumentBase)
+    //ExFor:SmartTag.Accept(DocumentVisitor)
+    //ExFor:SmartTag.AcceptStart(DocumentVisitor)
+    //ExFor:SmartTag.AcceptEnd(DocumentVisitor)
+    //ExFor:SmartTag.Element
+    //ExFor:SmartTag.Properties
+    //ExFor:SmartTag.Uri
+    //ExSummary:Shows how to create smart tags (SmartTagPrinter).
     /// <summary>
     /// Prints visited smart tags and their contents.
     /// </summary>

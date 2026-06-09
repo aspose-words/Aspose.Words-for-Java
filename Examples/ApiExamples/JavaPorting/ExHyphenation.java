@@ -91,18 +91,18 @@ public class ExHyphenation extends ApiExampleBase
                                                $"gekommen achtzehn blaulich."), assertTrue();
     }
 
-    //ExStart
-    //ExFor:Hyphenation
-    //ExFor:Hyphenation.Callback
-    //ExFor:Hyphenation.RegisterDictionary(String, Stream)
-    //ExFor:Hyphenation.RegisterDictionary(String, String)
-    //ExFor:Hyphenation.WarningCallback
-    //ExFor:IHyphenationCallback
-    //ExFor:IHyphenationCallback.RequestDictionary(String)
-    //ExSummary:Shows how to open and register a dictionary from a file.
-    @Test //ExSkip
+    @Test
     public void registerDictionary() throws Exception
     {
+        //ExStart
+        //ExFor:Hyphenation
+        //ExFor:Hyphenation.Callback
+        //ExFor:Hyphenation.RegisterDictionary(String, Stream)
+        //ExFor:Hyphenation.RegisterDictionary(String, String)
+        //ExFor:Hyphenation.WarningCallback
+        //ExFor:IHyphenationCallback
+        //ExFor:IHyphenationCallback.RequestDictionary(String)
+        //ExSummary:Shows how to open and register a dictionary from a file.
         // Set up a callback that tracks warnings that occur during hyphenation dictionary registration.
         WarningInfoCollection warningInfoCollection = new WarningInfoCollection();
         Hyphenation.setWarningCallback(warningInfoCollection);
@@ -133,8 +133,18 @@ public class ExHyphenation extends ApiExampleBase
         Hyphenation.setWarningCallback(null); //ExSkip
         Hyphenation.unregisterDictionary("en-US"); //ExSkip
         Hyphenation.setCallback(null); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:Hyphenation
+    //ExFor:Hyphenation.Callback
+    //ExFor:Hyphenation.RegisterDictionary(String, Stream)
+    //ExFor:Hyphenation.RegisterDictionary(String, String)
+    //ExFor:Hyphenation.WarningCallback
+    //ExFor:IHyphenationCallback
+    //ExFor:IHyphenationCallback.RequestDictionary(String)
+    //ExSummary:Shows how to open and register a dictionary from a file (CustomHyphenationDictionaryRegister).
     /// <summary>
     /// Associates ISO language codes with local system filenames for hyphenation dictionary files.
     /// </summary>

@@ -100,15 +100,15 @@ public class ExNodeImporter extends ApiExampleBase
 		};
 	}
 
-    //ExStart
-    //ExFor:Paragraph.IsEndOfSection
-    //ExFor:NodeImporter
-    //ExFor:NodeImporter.#ctor(DocumentBase, DocumentBase, ImportFormatMode)
-    //ExFor:NodeImporter.ImportNode(Node, Boolean)
-    //ExSummary:Shows how to insert the contents of one document to a bookmark in another document.
-    @Test//ExSkip
+    @Test
     public void insertAtBookmark() throws Exception
     {
+        //ExStart
+        //ExFor:Paragraph.IsEndOfSection
+        //ExFor:NodeImporter
+        //ExFor:NodeImporter.#ctor(DocumentBase, DocumentBase, ImportFormatMode)
+        //ExFor:NodeImporter.ImportNode(Node, Boolean)
+        //ExSummary:Shows how to insert the contents of one document to a bookmark in another document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -128,8 +128,15 @@ public class ExNodeImporter extends ApiExampleBase
 
         Assert.assertEquals("We will insert a document here: " +
                             "\rHello world!", doc.getText().trim());
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:Paragraph.IsEndOfSection
+    //ExFor:NodeImporter
+    //ExFor:NodeImporter.#ctor(DocumentBase, DocumentBase, ImportFormatMode)
+    //ExFor:NodeImporter.ImportNode(Node, Boolean)
+    //ExSummary:Shows how to insert the contents of one document to a bookmark in another document (InsertDocument).
     /// <summary>
     /// Inserts the contents of a document after the specified node.
     /// </summary>
@@ -224,3 +231,4 @@ public class ExNodeImporter extends ApiExampleBase
         }
     }
 }
+

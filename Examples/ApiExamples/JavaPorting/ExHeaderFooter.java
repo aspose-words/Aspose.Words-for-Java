@@ -266,14 +266,14 @@ public class ExHeaderFooter extends ApiExampleBase
         Assert.assertTrue(doc.getRange().getText().contains($"Copyright (C) {currentYear} by Aspose Pty Ltd."));
     }
 
-    //ExStart
-    //ExFor:IReplacingCallback
-    //ExFor:PageSetup.DifferentFirstPageHeaderFooter
-    //ExFor:FindReplaceOptions.#ctor(IReplacingCallback)
-    //ExSummary:Shows how to track the order in which a text replacement operation traverses nodes.
-    @Test (dataProvider = "orderDataProvider") //ExSkip
+    @Test (dataProvider = "orderDataProvider")
     public void order(boolean differentFirstPageHeaderFooter) throws Exception
     {
+        //ExStart
+        //ExFor:IReplacingCallback
+        //ExFor:PageSetup.DifferentFirstPageHeaderFooter
+        //ExFor:FindReplaceOptions.#ctor(IReplacingCallback)
+        //ExSummary:Shows how to track the order in which a text replacement operation traverses nodes.
         Document doc = new Document(getMyDir() + "Header and footer types.docx");
 
         Section firstPageSection = doc.getFirstSection();
@@ -289,6 +289,7 @@ public class ExHeaderFooter extends ApiExampleBase
             Assert.That(logger.Text.Replace("\r", ""), assertEquals("First header\nFirst footer\nSecond header\nSecond footer\nThird header\nThird footer\n", );
         else
             Assert.That(logger.Text.Replace("\r", ""), assertEquals("Third header\nFirst header\nThird footer\nFirst footer\nSecond header\nSecond footer\n", );
+        //ExEnd
     }
 
 	//JAVA-added data provider for test method
@@ -302,6 +303,11 @@ public class ExHeaderFooter extends ApiExampleBase
 		};
 	}
 
+    //ExStart
+    //ExFor:IReplacingCallback
+    //ExFor:PageSetup.DifferentFirstPageHeaderFooter
+    //ExFor:FindReplaceOptions.#ctor(IReplacingCallback)
+    //ExSummary:Shows how to track the order in which a text replacement operation traverses nodes (ReplaceLog).
     /// <summary>
     /// During a find-and-replace operation, records the contents of every node that has text that the operation 'finds',
     /// in the state it is in before the replacement takes place.

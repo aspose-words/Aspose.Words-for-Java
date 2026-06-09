@@ -2039,6 +2039,34 @@ public class ExShape extends ApiExampleBase
         TestUtil.verifyShape(ShapeType.DIAGONAL_CORNERS_ROUNDED, "DiagonalCornersRounded 100004", 50.0d, 50.0d, 0.0d, 0.0d, shapes.get(1));
     }
 
+    @Test
+    public void visitShapes() throws Exception
+    {
+        //ExStart
+        //ExFor:Shape.Accept(DocumentVisitor)
+        //ExFor:Shape.AcceptStart(DocumentVisitor)
+        //ExFor:Shape.AcceptEnd(DocumentVisitor)
+        //ExFor:Shape.Chart
+        //ExFor:Shape.ExtrusionEnabled
+        //ExFor:Shape.Filled
+        //ExFor:Shape.HasChart
+        //ExFor:Shape.OleFormat
+        //ExFor:Shape.ShadowEnabled
+        //ExFor:Shape.StoryType
+        //ExFor:Shape.StrokeColor
+        //ExFor:Shape.Stroked
+        //ExFor:Shape.StrokeWeight
+        //ExSummary:Shows how to iterate over all the shapes in a document.
+        Document doc = new Document(getMyDir() + "Revision shape.docx");
+        Assert.assertEquals(2, doc.getChildNodes(NodeType.SHAPE, true).getCount()); //ExSkip
+
+        ShapeAppearancePrinter visitor = new ShapeAppearancePrinter();
+        doc.accept(visitor);
+
+        System.out.println(visitor.getText());
+        //ExEnd
+    }
+
     //ExStart
     //ExFor:Shape.Accept(DocumentVisitor)
     //ExFor:Shape.AcceptStart(DocumentVisitor)
@@ -2053,19 +2081,7 @@ public class ExShape extends ApiExampleBase
     //ExFor:Shape.StrokeColor
     //ExFor:Shape.Stroked
     //ExFor:Shape.StrokeWeight
-    //ExSummary:Shows how to iterate over all the shapes in a document.
-    @Test //ExSkip
-    public void visitShapes() throws Exception
-    {
-        Document doc = new Document(getMyDir() + "Revision shape.docx");
-        Assert.assertEquals(2, doc.getChildNodes(NodeType.SHAPE, true).getCount()); //ExSkip
-
-        ShapeAppearancePrinter visitor = new ShapeAppearancePrinter();
-        doc.accept(visitor);
-
-        System.out.println(visitor.getText());
-    }
-
+    //ExSummary:Shows how to iterate over all the shapes in a document (ShapeAppearancePrinter).
     /// <summary>
     /// Logs appearance-related information about visited shapes.
     /// </summary>
@@ -2574,35 +2590,35 @@ public class ExShape extends ApiExampleBase
 		};
 	}
 
-    //ExStart
-    //ExFor:Shape.TextPath
-    //ExFor:ShapeBase.IsWordArt
-    //ExFor:TextPath
-    //ExFor:TextPath.Bold
-    //ExFor:TextPath.FitPath
-    //ExFor:TextPath.FitShape
-    //ExFor:TextPath.FontFamily
-    //ExFor:TextPath.Italic
-    //ExFor:TextPath.Kerning
-    //ExFor:TextPath.On
-    //ExFor:TextPath.ReverseRows
-    //ExFor:TextPath.RotateLetters
-    //ExFor:TextPath.SameLetterHeights
-    //ExFor:TextPath.Shadow
-    //ExFor:TextPath.SmallCaps
-    //ExFor:TextPath.Spacing
-    //ExFor:TextPath.StrikeThrough
-    //ExFor:TextPath.Text
-    //ExFor:TextPath.TextPathAlignment
-    //ExFor:TextPath.Trim
-    //ExFor:TextPath.Underline
-    //ExFor:TextPath.XScale
-    //ExFor:TextPath.Size
-    //ExFor:TextPathAlignment
-    //ExSummary:Shows how to work with WordArt.
-    @Test //ExSkip
+    @Test
     public void insertTextPaths() throws Exception
     {
+        //ExStart
+        //ExFor:Shape.TextPath
+        //ExFor:ShapeBase.IsWordArt
+        //ExFor:TextPath
+        //ExFor:TextPath.Bold
+        //ExFor:TextPath.FitPath
+        //ExFor:TextPath.FitShape
+        //ExFor:TextPath.FontFamily
+        //ExFor:TextPath.Italic
+        //ExFor:TextPath.Kerning
+        //ExFor:TextPath.On
+        //ExFor:TextPath.ReverseRows
+        //ExFor:TextPath.RotateLetters
+        //ExFor:TextPath.SameLetterHeights
+        //ExFor:TextPath.Shadow
+        //ExFor:TextPath.SmallCaps
+        //ExFor:TextPath.Spacing
+        //ExFor:TextPath.StrikeThrough
+        //ExFor:TextPath.Text
+        //ExFor:TextPath.TextPathAlignment
+        //ExFor:TextPath.Trim
+        //ExFor:TextPath.Underline
+        //ExFor:TextPath.XScale
+        //ExFor:TextPath.Size
+        //ExFor:TextPathAlignment
+        //ExSummary:Shows how to work with WordArt.
         Document doc = new Document();
 
         // Insert a WordArt object to display text in a shape that we can re-size and move by using the mouse in Microsoft Word.
@@ -2668,8 +2684,35 @@ public class ExShape extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Shape.InsertTextPaths.docx");
         testInsertTextPaths(getArtifactsDir() + "Shape.InsertTextPaths.docx"); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:Shape.TextPath
+    //ExFor:ShapeBase.IsWordArt
+    //ExFor:TextPath
+    //ExFor:TextPath.Bold
+    //ExFor:TextPath.FitPath
+    //ExFor:TextPath.FitShape
+    //ExFor:TextPath.FontFamily
+    //ExFor:TextPath.Italic
+    //ExFor:TextPath.Kerning
+    //ExFor:TextPath.On
+    //ExFor:TextPath.ReverseRows
+    //ExFor:TextPath.RotateLetters
+    //ExFor:TextPath.SameLetterHeights
+    //ExFor:TextPath.Shadow
+    //ExFor:TextPath.SmallCaps
+    //ExFor:TextPath.Spacing
+    //ExFor:TextPath.StrikeThrough
+    //ExFor:TextPath.Text
+    //ExFor:TextPath.TextPathAlignment
+    //ExFor:TextPath.Trim
+    //ExFor:TextPath.Underline
+    //ExFor:TextPath.XScale
+    //ExFor:TextPath.Size
+    //ExFor:TextPathAlignment
+    //ExSummary:Shows how to work with WordArt (AppendWordArt).
     /// <summary>
     /// Insert a new paragraph with a WordArt shape inside it.
     /// </summary>

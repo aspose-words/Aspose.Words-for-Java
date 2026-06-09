@@ -113,21 +113,21 @@ class ExVbaProject !Test class should be public in Java to run, please fix .Net 
         }
     }
 
-    //ExStart
-    //ExFor:VbaReference
-    //ExFor:VbaReference.Type
-    //ExFor:VbaReference.LibId
-    //ExFor:VbaReferenceCollection
-    //ExFor:VbaReferenceCollection.Item(Int32)
-    //ExFor:VbaReferenceCollection.Count
-    //ExFor:VbaReferenceCollection.RemoveAt(int)
-    //ExFor:VbaReferenceCollection.Remove(VbaReference)
-    //ExFor:VbaReferenceType
-    //ExFor:VbaProject.References
-    //ExSummary:Shows how to get/remove an element from the VBA reference collection.
-    @Test//ExSkip
+    @Test
     public void removeVbaReference() throws Exception
     {
+        //ExStart
+        //ExFor:VbaReference
+        //ExFor:VbaReference.Type
+        //ExFor:VbaReference.LibId
+        //ExFor:VbaReferenceCollection
+        //ExFor:VbaReferenceCollection.Item(Int32)
+        //ExFor:VbaReferenceCollection.Count
+        //ExFor:VbaReferenceCollection.RemoveAt(int)
+        //ExFor:VbaReferenceCollection.Remove(VbaReference)
+        //ExFor:VbaReferenceType
+        //ExFor:VbaProject.References
+        //ExSummary:Shows how to get/remove an element from the VBA reference collection.
         final String BROKEN_PATH = "X:\\broken.dll";
         Document doc = new Document(getMyDir() + "VBA project.docm");
         
@@ -148,8 +148,21 @@ class ExVbaProject !Test class should be public in Java to run, please fix .Net 
         Assert.assertEquals(3, references.getCount());
 
         doc.save(getArtifactsDir() + "VbaProject.RemoveVbaReference.docm"); 
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:VbaReference
+    //ExFor:VbaReference.Type
+    //ExFor:VbaReference.LibId
+    //ExFor:VbaReferenceCollection
+    //ExFor:VbaReferenceCollection.Item(Int32)
+    //ExFor:VbaReferenceCollection.Count
+    //ExFor:VbaReferenceCollection.RemoveAt(int)
+    //ExFor:VbaReferenceCollection.Remove(VbaReference)
+    //ExFor:VbaReferenceType
+    //ExFor:VbaProject.References
+    //ExSummary:Shows how to get/remove an element from the VBA reference collection (GetLibIdPath).
     /// <summary>
     /// Returns string representing LibId path of a specified reference. 
     /// </summary>

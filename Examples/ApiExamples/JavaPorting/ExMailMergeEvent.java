@@ -30,21 +30,21 @@ import com.aspose.ms.System.IO.MemoryStream;
 @Test
 public class ExMailMergeEvent extends ApiExampleBase
 {
-    //ExStart
-    //ExFor:DocumentBuilder.InsertHtml(String)
-    //ExFor:MailMerge.FieldMergingCallback
-    //ExFor:IFieldMergingCallback
-    //ExFor:FieldMergingArgs
-    //ExFor:FieldMergingArgsBase
-    //ExFor:FieldMergingArgsBase.Field
-    //ExFor:FieldMergingArgsBase.DocumentFieldName
-    //ExFor:FieldMergingArgsBase.Document
-    //ExFor:IFieldMergingCallback.FieldMerging
-    //ExFor:FieldMergingArgs.Text
-    //ExSummary:Shows how to execute a mail merge with a custom callback that handles merge data in the form of HTML documents.
-    @Test //ExSkip
+    @Test
     public void mergeHtml() throws Exception
     {
+        //ExStart
+        //ExFor:DocumentBuilder.InsertHtml(String)
+        //ExFor:MailMerge.FieldMergingCallback
+        //ExFor:IFieldMergingCallback
+        //ExFor:FieldMergingArgs
+        //ExFor:FieldMergingArgsBase
+        //ExFor:FieldMergingArgsBase.Field
+        //ExFor:FieldMergingArgsBase.DocumentFieldName
+        //ExFor:FieldMergingArgsBase.Document
+        //ExFor:IFieldMergingCallback.FieldMerging
+        //ExFor:FieldMergingArgs.Text
+        //ExSummary:Shows how to execute a mail merge with a custom callback that handles merge data in the form of HTML documents.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -70,8 +70,21 @@ public class ExMailMergeEvent extends ApiExampleBase
         doc.getMailMerge().execute(new String[] { "html_Title", "html_Body" }, mergeData);
 
         doc.save(getArtifactsDir() + "MailMergeEvent.MergeHtml.docx");
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:DocumentBuilder.InsertHtml(String)
+    //ExFor:MailMerge.FieldMergingCallback
+    //ExFor:IFieldMergingCallback
+    //ExFor:FieldMergingArgs
+    //ExFor:FieldMergingArgsBase
+    //ExFor:FieldMergingArgsBase.Field
+    //ExFor:FieldMergingArgsBase.DocumentFieldName
+    //ExFor:FieldMergingArgsBase.Document
+    //ExFor:IFieldMergingCallback.FieldMerging
+    //ExFor:FieldMergingArgs.Text
+    //ExSummary:Shows how to execute a mail merge with a custom callback that handles merge data in the form of HTML documents (HandleMergeFieldInsertHtml).
     /// <summary>
     /// If the mail merge encounters a MERGEFIELD whose name starts with the "html_" prefix,
     /// this callback parses its merge data as HTML content and adds the result to the document location of the MERGEFIELD.
@@ -103,12 +116,12 @@ public class ExMailMergeEvent extends ApiExampleBase
     }
     //ExEnd
 
-    //ExStart
-    //ExFor:FieldMergingArgsBase.FieldValue
-    //ExSummary:Shows how to edit values that MERGEFIELDs receive as a mail merge takes place.
-    @Test //ExSkip
+    @Test
     public void fieldFormats() throws Exception
     {
+        //ExStart
+        //ExFor:FieldMergingArgsBase.FieldValue
+        //ExSummary:Shows how to edit values that MERGEFIELDs receive as a mail merge takes place.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -126,8 +139,12 @@ public class ExMailMergeEvent extends ApiExampleBase
             new Object[] { "Field 1", "Field 2", 10 });
         String t = doc.getText().trim();
         Assert.assertEquals("Merge Value For \"Text_Field1\": Field 1, MERGE VALUE FOR \"TEXT_FIELD2\": FIELD 2, 10000.0", doc.getText().trim());
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldMergingArgsBase.FieldValue
+    //ExSummary:Shows how to edit values that MERGEFIELDs receive as a mail merge takes place (FieldValueMergingCallback).
     /// <summary>
     /// Edits the values that MERGEFIELDs receive during a mail merge.
     /// The name of a MERGEFIELD must have a prefix for this callback to take effect on its value.
@@ -152,15 +169,15 @@ public class ExMailMergeEvent extends ApiExampleBase
     }
     //ExEnd
 
-    //ExStart
-    //ExFor:DocumentBuilder.MoveToMergeField(String)
-    //ExFor:FieldMergingArgsBase.FieldName
-    //ExFor:FieldMergingArgsBase.TableName
-    //ExFor:FieldMergingArgsBase.RecordIndex
-    //ExSummary:Shows how to insert checkbox form fields into MERGEFIELDs as merge data during mail merge.
-    @Test //ExSkip
+    @Test
     public void insertCheckBox() throws Exception
     {
+        //ExStart
+        //ExFor:DocumentBuilder.MoveToMergeField(String)
+        //ExFor:FieldMergingArgsBase.FieldName
+        //ExFor:FieldMergingArgsBase.TableName
+        //ExFor:FieldMergingArgsBase.RecordIndex
+        //ExSummary:Shows how to insert checkbox form fields into MERGEFIELDs as merge data during mail merge.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -182,8 +199,15 @@ public class ExMailMergeEvent extends ApiExampleBase
         doc.getMailMerge().executeWithRegions(dataTable);
         doc.save(getArtifactsDir() + "MailMergeEvent.InsertCheckBox.docx");
         TestUtil.mailMergeMatchesDataTable(dataTable, new Document(getArtifactsDir() + "MailMergeEvent.InsertCheckBox.docx"), false); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:DocumentBuilder.MoveToMergeField(String)
+    //ExFor:FieldMergingArgsBase.FieldName
+    //ExFor:FieldMergingArgsBase.TableName
+    //ExFor:FieldMergingArgsBase.RecordIndex
+    //ExSummary:Shows how to insert checkbox form fields into MERGEFIELDs as merge data during mail merge (HandleMergeFieldInsertCheckBox).
     /// <summary>
     /// Upon encountering a MERGEFIELD with a specific name, inserts a check box form field instead of merge data text.
     /// </summary>
@@ -238,12 +262,12 @@ public class ExMailMergeEvent extends ApiExampleBase
     }
     //ExEnd
 
-    //ExStart
-    //ExFor:MailMerge.ExecuteWithRegions(DataTable)
-    //ExSummary:Demonstrates how to format cells during a mail merge.
-    @Test //ExSkip
+    @Test
     public void alternatingRows() throws Exception
     {
+        //ExStart
+        //ExFor:MailMerge.ExecuteWithRegions(DataTable)
+        //ExSummary:Demonstrates how to format cells during a mail merge.
         Document doc = new Document(getMyDir() + "Mail merge destination - Northwind suppliers.docx");
 
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeFieldAlternatingRows());
@@ -253,8 +277,12 @@ public class ExMailMergeEvent extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "MailMergeEvent.AlternatingRows.docx");
         TestUtil.mailMergeMatchesDataTable(dataTable, new Document(getArtifactsDir() + "MailMergeEvent.AlternatingRows.docx"), false); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:MailMerge.ExecuteWithRegions(DataTable)
+    //ExSummary:Demonstrates how to format cells during a mail merge (HandleMergeFieldAlternatingRows).
     /// <summary>
     /// Formats table rows as a mail merge takes place to alternate between two colors on odd/even rows.
     /// </summary>
@@ -354,21 +382,21 @@ public class ExMailMergeEvent extends ApiExampleBase
 
         imageShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImageInShape(100, 100, ImageType.PNG, imageShape);
+        TestUtil.verifyImageInShape(400, 300, ImageType.PNG, imageShape);
     }
 
-    //ExStart
-    //ExFor:MailMerge.FieldMergingCallback
-    //ExFor:MailMerge.ExecuteWithRegions(IDataReader,String)
-    //ExFor:IFieldMergingCallback
-    //ExFor:ImageFieldMergingArgs
-    //ExFor:IFieldMergingCallback.FieldMerging
-    //ExFor:IFieldMergingCallback.ImageFieldMerging
-    //ExFor:ImageFieldMergingArgs.ImageStream
-    //ExSummary:Shows how to insert images stored in a database BLOB field into a report.
-    @Test //ExSkip
+    @Test
     public void imageFromBlob() throws Exception
     {
+        //ExStart
+        //ExFor:MailMerge.FieldMergingCallback
+        //ExFor:MailMerge.ExecuteWithRegions(IDataReader,String)
+        //ExFor:IFieldMergingCallback
+        //ExFor:ImageFieldMergingArgs
+        //ExFor:IFieldMergingCallback.FieldMerging
+        //ExFor:IFieldMergingCallback.ImageFieldMerging
+        //ExFor:ImageFieldMergingArgs.ImageStream
+        //ExSummary:Shows how to insert images stored in a database BLOB field into a report.
         Document doc = new Document(getMyDir() + "Mail merge destination - Northwind employees.docx");
 
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeImageFieldFromBlob());
@@ -391,8 +419,18 @@ public class ExMailMergeEvent extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "MailMergeEvent.ImageFromBlob.docx");
         TestUtil.mailMergeMatchesQueryResult(getDatabaseDir() + "Northwind.db", query, new Document(getArtifactsDir() + "MailMergeEvent.ImageFromBlob.docx"), false); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:MailMerge.FieldMergingCallback
+    //ExFor:MailMerge.ExecuteWithRegions(IDataReader,String)
+    //ExFor:IFieldMergingCallback
+    //ExFor:ImageFieldMergingArgs
+    //ExFor:IFieldMergingCallback.FieldMerging
+    //ExFor:IFieldMergingCallback.ImageFieldMerging
+    //ExFor:ImageFieldMergingArgs.ImageStream
+    //ExSummary:Shows how to insert images stored in a database BLOB field into a report (HandleMergeImageFieldFromBlob).
     private static class HandleMergeImageFieldFromBlob implements IFieldMergingCallback
     {
         public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs args)

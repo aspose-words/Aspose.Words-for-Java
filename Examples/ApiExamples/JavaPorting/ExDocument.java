@@ -521,20 +521,20 @@ public class ExDocument extends ApiExampleBase
         //ExEnd
     }
 
-    //ExStart
-    //ExFor:Range.Fields
-    //ExFor:INodeChangingCallback
-    //ExFor:INodeChangingCallback.NodeInserting
-    //ExFor:INodeChangingCallback.NodeInserted
-    //ExFor:INodeChangingCallback.NodeRemoving
-    //ExFor:INodeChangingCallback.NodeRemoved
-    //ExFor:NodeChangingArgs
-    //ExFor:NodeChangingArgs.Node
-    //ExFor:DocumentBase.NodeChangingCallback
-    //ExSummary:Shows how customize node changing with a callback.
-    @Test //ExSkip
+    @Test
     public void fontChangeViaCallback() throws Exception
     {
+        //ExStart
+        //ExFor:Range.Fields
+        //ExFor:INodeChangingCallback
+        //ExFor:INodeChangingCallback.NodeInserting
+        //ExFor:INodeChangingCallback.NodeInserted
+        //ExFor:INodeChangingCallback.NodeRemoving
+        //ExFor:INodeChangingCallback.NodeRemoved
+        //ExFor:NodeChangingArgs
+        //ExFor:NodeChangingArgs.Node
+        //ExFor:DocumentBase.NodeChangingCallback
+        //ExSummary:Shows how customize node changing with a callback.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -552,8 +552,20 @@ public class ExDocument extends ApiExampleBase
 
         System.out.println(callback.getLog());
         testFontChangeViaCallback(callback.getLog()); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:Range.Fields
+    //ExFor:INodeChangingCallback
+    //ExFor:INodeChangingCallback.NodeInserting
+    //ExFor:INodeChangingCallback.NodeInserted
+    //ExFor:INodeChangingCallback.NodeRemoving
+    //ExFor:INodeChangingCallback.NodeRemoved
+    //ExFor:NodeChangingArgs
+    //ExFor:NodeChangingArgs.Node
+    //ExFor:DocumentBase.NodeChangingCallback
+    //ExSummary:Shows how customize node changing with a callback (HandleNodeChangingFontChanger).
     /// <summary>
     /// Logs the date and time of each node insertion and removal.
     /// Sets a custom font name/size for the text contents of Run nodes.
@@ -2920,8 +2932,24 @@ public class ExDocument extends ApiExampleBase
         // Set to false (default) to exclude non-image shapes from the output.
         saveOptions.setRenderNonImageShapes(true);
 
-        doc.save(getArtifactsDir() + "DoclingSaveOptions.DoclingJson.json", saveOptions);
+        doc.save(getArtifactsDir() + "Document.DoclingJson.json", saveOptions);
         //ExEnd:DoclingJson
+    }
+
+    @Test
+    public void removeCustomizations() throws Exception
+    {
+        //ExStart:RemoveCustomizations
+        //GistId:4f0f7d328594293c40062359b8eb9a08
+        //ExFor:Document.RemoveCustomizations
+        //ExSummary:Shows how to remove toolbar and keyboard command customizations from the document.
+        Document doc = new Document(getMyDir() + "Customized menu.docx");
+
+        // Remove all custom document UI customizations, including custom context menu entries.
+        doc.removeCustomizations();
+
+        doc.save(getArtifactsDir() + "Document.RemoveCustomizations.docx");
+        //ExEnd:RemoveCustomizations
     }
 }
 

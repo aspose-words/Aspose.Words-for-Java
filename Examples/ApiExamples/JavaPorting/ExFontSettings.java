@@ -170,14 +170,14 @@ public class ExFontSettings extends ApiExampleBase
         public WarningInfoCollection FontWarnings = new WarningInfoCollection();
     }
 
-    //ExStart
-    //ExFor:IWarningCallback
-    //ExFor:DocumentBase.WarningCallback
-    //ExFor:FontSettings.DefaultInstance
-    //ExSummary:Shows how to use the IWarningCallback interface to monitor font substitution warnings.
-    @Test //ExSkip
+    @Test
     public void substitutionWarning() throws Exception
     {
+        //ExStart
+        //ExFor:IWarningCallback
+        //ExFor:DocumentBase.WarningCallback
+        //ExFor:FontSettings.DefaultInstance
+        //ExSummary:Shows how to use the IWarningCallback interface to monitor font substitution warnings.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -205,8 +205,14 @@ public class ExFontSettings extends ApiExampleBase
         Assert.assertTrue(callback.FontSubstitutionWarnings.get(0).getDescription()
                 .equals(
                     "Font 'Times New Roman' has not been found. Using 'Fanwood' font instead. Reason: first available font."));
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:IWarningCallback
+    //ExFor:DocumentBase.WarningCallback
+    //ExFor:FontSettings.DefaultInstance
+    //ExSummary:Shows how to use the IWarningCallback interface to monitor font substitution warnings (FontSubstitutionWarningCollector).
     private static class FontSubstitutionWarningCollector implements IWarningCallback
     {
         /// <summary>
@@ -222,12 +228,12 @@ public class ExFontSettings extends ApiExampleBase
     }
     //ExEnd
 
-    //ExStart
-    //ExFor:FontSourceBase.WarningCallback
-    //ExSummary:Shows how to call warning callback when the font sources working with.
-    @Test//ExSkip
+    @Test
     public void fontSourceWarning()
     {
+        //ExStart
+        //ExFor:FontSourceBase.WarningCallback
+        //ExSummary:Shows how to call warning callback when the font sources working with.
         FontSettings settings = new FontSettings();
         settings.setFontsFolder("bad folder?", false);
 
@@ -240,8 +246,12 @@ public class ExFontSettings extends ApiExampleBase
 
         Assert.assertTrue(callback.FontSubstitutionWarnings.get(0).getDescription()
                 .contains("Error loading font from the folder \"bad folder?\""));
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FontSourceBase.WarningCallback
+    //ExSummary:Shows how to call warning callback when the font sources working with (FontSourceWarningCollector).
     private static class FontSourceWarningCollector implements IWarningCallback
     {
         /// <summary>
@@ -1306,13 +1316,13 @@ public class ExFontSettings extends ApiExampleBase
         //ExEnd
     }
 
-    //ExStart
-    //ExFor:StreamFontSource
-    //ExFor:StreamFontSource.OpenFontDataStream
-    //ExSummary:Shows how to load fonts from stream.
-    @Test //ExSkip
+    @Test
     public void streamFontSourceFileRendering() throws Exception
     {
+        //ExStart
+        //ExFor:StreamFontSource
+        //ExFor:StreamFontSource.OpenFontDataStream
+        //ExSummary:Shows how to load fonts from stream.
         FontSettings fontSettings = new FontSettings();
         fontSettings.setFontsSources(new FontSourceBase[] {new StreamFontSourceFile()});
 
@@ -1322,8 +1332,13 @@ public class ExFontSettings extends ApiExampleBase
         builder.writeln("Test aspose text when saving to PDF.");
 
         builder.getDocument().save(getArtifactsDir() + "FontSettings.StreamFontSourceFileRendering.pdf");
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:StreamFontSource
+    //ExFor:StreamFontSource.OpenFontDataStream
+    //ExSummary:Shows how to load fonts from stream (StreamFontSourceFile).
     /// <summary>
     /// Load the font data only when required instead of storing it in the memory
     /// for the entire lifetime of the "FontSettings" object.
@@ -1337,18 +1352,18 @@ public class ExFontSettings extends ApiExampleBase
     }
     //ExEnd
 
-    //ExStart
-    //ExFor:FileFontSource.#ctor(String, Int32, String)
-    //ExFor:MemoryFontSource.#ctor(Byte[], Int32, String)
-    //ExFor:FontSettings.SaveSearchCache(Stream)
-    //ExFor:FontSettings.SetFontsSources(FontSourceBase[], Stream)
-    //ExFor:FileFontSource.CacheKey
-    //ExFor:MemoryFontSource.CacheKey
-    //ExFor:StreamFontSource.CacheKey
-    //ExSummary:Shows how to speed up the font cache initialization process.
-    @Test//ExSkip
+    @Test
     public void loadFontSearchCache() throws Exception
     {
+        //ExStart
+        //ExFor:FileFontSource.#ctor(String, Int32, String)
+        //ExFor:MemoryFontSource.#ctor(Byte[], Int32, String)
+        //ExFor:FontSettings.SaveSearchCache(Stream)
+        //ExFor:FontSettings.SetFontsSources(FontSourceBase[], Stream)
+        //ExFor:FileFontSource.CacheKey
+        //ExFor:MemoryFontSource.CacheKey
+        //ExFor:StreamFontSource.CacheKey
+        //ExSummary:Shows how to speed up the font cache initialization process.
         final String CACHE_KEY_1 = "Arvo";
         final String CACHE_KEY_2 = "Arvo-Bold";
         FontSettings parsedFonts = new FontSettings();
@@ -1373,8 +1388,18 @@ public class ExFontSettings extends ApiExampleBase
         finally { if (cacheStream != null) cacheStream.close(); }
 
         Assert.assertEquals(parsedFonts.getFontsSources().length, loadedCache.getFontsSources().length);
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FileFontSource.#ctor(String, Int32, String)
+    //ExFor:MemoryFontSource.#ctor(Byte[], Int32, String)
+    //ExFor:FontSettings.SaveSearchCache(Stream)
+    //ExFor:FontSettings.SetFontsSources(FontSourceBase[], Stream)
+    //ExFor:FileFontSource.CacheKey
+    //ExFor:MemoryFontSource.CacheKey
+    //ExFor:StreamFontSource.CacheKey
+    //ExSummary:Shows how to speed up the font cache initialization process (SearchCacheStream).
     /// <summary>
     /// Load the font data only when required instead of storing it in the memory
     /// for the entire lifetime of the "FontSettings" object.

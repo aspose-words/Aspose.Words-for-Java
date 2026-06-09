@@ -376,14 +376,14 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
     }
 
     @Test (dataProvider = "progressCallbackDataProvider")
-    //ExStart
-    //ExFor:SaveOptions.ProgressCallback
-    //ExFor:IDocumentSavingCallback
-    //ExFor:IDocumentSavingCallback.Notify(DocumentSavingArgs)
-    //ExFor:DocumentSavingArgs.EstimatedProgress
-    //ExSummary:Shows how to manage a document while saving to docx.
     public void progressCallback(/*SaveFormat*/int saveFormat, String ext) throws Exception
     {
+        //ExStart
+        //ExFor:SaveOptions.ProgressCallback
+        //ExFor:IDocumentSavingCallback
+        //ExFor:IDocumentSavingCallback.Notify(DocumentSavingArgs)
+        //ExFor:DocumentSavingArgs.EstimatedProgress
+        //ExSummary:Shows how to manage a document while saving to docx.
         Document doc = new Document(getMyDir() + "Big document.docx");
 
         // Following formats are supported: Docx, FlatOpc, Docm, Dotm, Dotx.
@@ -395,6 +395,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         IllegalStateException exception = Assert.<IllegalStateException>Throws(() =>
             doc.save(getArtifactsDir() + $"OoxmlSaveOptions.ProgressCallback.{ext}", saveOptions));
         Assert.That(exception?.Message.Contains("EstimatedProgress"), assertTrue();
+        //ExEnd
     }
 
 	//JAVA-added data provider for test method
@@ -411,6 +412,12 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
 		};
 	}
 
+    //ExStart
+    //ExFor:SaveOptions.ProgressCallback
+    //ExFor:IDocumentSavingCallback
+    //ExFor:IDocumentSavingCallback.Notify(DocumentSavingArgs)
+    //ExFor:DocumentSavingArgs.EstimatedProgress
+    //ExSummary:Shows how to manage a document while saving to docx (SavingProgressCallback).
     /// <summary>
     /// Saving progress callback. Cancel a document saving after the "MaxDuration" seconds.
     /// </summary>

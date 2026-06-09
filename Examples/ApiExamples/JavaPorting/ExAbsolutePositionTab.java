@@ -25,18 +25,18 @@ import com.aspose.ms.System.Text.msStringBuilder;
 @Test
 public class ExAbsolutePositionTab extends ApiExampleBase
 {
-    //ExStart
-    //ExFor:AbsolutePositionTab
-    //ExFor:AbsolutePositionTab.Accept(DocumentVisitor)
-    //ExFor:DocumentVisitor.VisitAbsolutePositionTab
-    //ExFor:Body.Accept(DocumentVisitor)
-    //ExFor:Body.AcceptStart(DocumentVisitor)
-    //ExFor:Body.AcceptEnd(DocumentVisitor)
-    //ExFor:VisitorAction
-    //ExSummary:Shows how to process absolute position tab characters with a document visitor.
-    @Test //ExSkip
+    @Test
     public void documentToTxt() throws Exception
     {
+        //ExStart
+        //ExFor:AbsolutePositionTab
+        //ExFor:AbsolutePositionTab.Accept(DocumentVisitor)
+        //ExFor:DocumentVisitor.VisitAbsolutePositionTab
+        //ExFor:Body.Accept(DocumentVisitor)
+        //ExFor:Body.AcceptStart(DocumentVisitor)
+        //ExFor:Body.AcceptEnd(DocumentVisitor)
+        //ExFor:VisitorAction
+        //ExSummary:Shows how to process absolute position tab characters with a document visitor.
         Document doc = new Document(getMyDir() + "Absolute position tab.docx");
 
         // Extract the text contents of our document by accepting this custom document visitor.
@@ -58,8 +58,18 @@ public class ExAbsolutePositionTab extends ApiExampleBase
         absPositionTab.accept(myDocTextExtractor);
 
         Assert.assertEquals("\t", myDocTextExtractor.getText());
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:AbsolutePositionTab
+    //ExFor:AbsolutePositionTab.Accept(DocumentVisitor)
+    //ExFor:DocumentVisitor.VisitAbsolutePositionTab
+    //ExFor:Body.Accept(DocumentVisitor)
+    //ExFor:Body.AcceptStart(DocumentVisitor)
+    //ExFor:Body.AcceptEnd(DocumentVisitor)
+    //ExFor:VisitorAction
+    //ExSummary:Shows how to process absolute position tab characters with a document visitor (DocTextExtractor).
     /// <summary>
     /// Collects the text contents of all runs in the visited document. Replaces all absolute tab characters with ordinary tabs.
     /// </summary>

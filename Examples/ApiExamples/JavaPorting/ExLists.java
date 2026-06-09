@@ -646,12 +646,12 @@ public class ExLists extends ApiExampleBase
         Assert.assertEquals(3, paras.Count(n => ((Paragraph)n).getListFormat().getListLevelNumber() == 1));
     }
 
-    //ExStart
-    //ExFor:ListTemplate
-    //ExSummary:Shows how to create a document that contains all outline headings list templates.
-    @Test //ExSkip
+    @Test
     public void outlineHeadingTemplates() throws Exception
     {
+        //ExStart
+        //ExFor:ListTemplate
+        //ExSummary:Shows how to create a document that contains all outline headings list templates.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -671,8 +671,12 @@ public class ExLists extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Lists.OutlineHeadingTemplates.docx");
         testOutlineHeadingTemplates(new Document(getArtifactsDir() + "Lists.OutlineHeadingTemplates.docx")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:ListTemplate
+    //ExSummary:Shows how to create a document that contains all outline headings list templates (AddOutlineHeadingParagraphs).
     private static void addOutlineHeadingParagraphs(DocumentBuilder builder, List docList, String title)
     {
         builder.getParagraphFormat().clearFormatting();
@@ -743,13 +747,13 @@ public class ExLists extends ApiExampleBase
         TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, docList.getListLevels().get(8));
     }
 
-    //ExStart
-    //ExFor:ListCollection
-    //ExFor:ListCollection.AddCopy(List)
-    //ExSummary:Shows how to create a document with a sample of all the lists from another document.
-    @Test //ExSkip
+    @Test
     public void printOutAllLists() throws Exception
     {
+        //ExStart
+        //ExFor:ListCollection
+        //ExFor:ListCollection.AddCopy(List)
+        //ExSummary:Shows how to create a document with a sample of all the lists from another document.
         Document srcDoc = new Document(getMyDir() + "Rendering.docx");
 
         Document dstDoc = new Document();
@@ -763,8 +767,13 @@ public class ExLists extends ApiExampleBase
 
         dstDoc.save(getArtifactsDir() + "Lists.PrintOutAllLists.docx");
         testPrintOutAllLists(srcDoc, new Document(getArtifactsDir() + "Lists.PrintOutAllLists.docx")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:ListCollection
+    //ExFor:ListCollection.AddCopy(List)
+    //ExSummary:Shows how to create a document with a sample of all the lists from another document (AddListSample).
     private static void addListSample(DocumentBuilder builder, List docList)
     {
         builder.writeln("Sample formatting of list with ListId:" + docList.getListId());
@@ -1085,3 +1094,4 @@ public class ExLists extends ApiExampleBase
         //ExEnd:AddSingleLevelList
     }
 }
+

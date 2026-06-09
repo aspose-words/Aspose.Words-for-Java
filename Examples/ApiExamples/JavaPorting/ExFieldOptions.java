@@ -334,14 +334,14 @@ public class ExFieldOptions extends ApiExampleBase
         TestUtil.verifyField(FieldType.FIELD_FORMULA, " = 1234567,89 \\# $#,###,###.##", "$1.234.567,89", doc.getRange().getFields().get(0));
     }
 
-    //ExStart
-    //ExFor:FieldOptions.FieldUpdateCultureProvider
-    //ExFor:IFieldUpdateCultureProvider
-    //ExFor:IFieldUpdateCultureProvider.GetCulture(string, Field)
-    //ExSummary:Shows how to specify a culture which parses date/time formatting for each field.
-    @Test//ExSkip
+    @Test
     public void defineDateTimeFormatting() throws Exception
     {
+        //ExStart
+        //ExFor:FieldOptions.FieldUpdateCultureProvider
+        //ExFor:IFieldUpdateCultureProvider
+        //ExFor:IFieldUpdateCultureProvider.GetCulture(string, Field)
+        //ExSummary:Shows how to specify a culture which parses date/time formatting for each field.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -357,8 +357,14 @@ public class ExFieldOptions extends ApiExampleBase
             fieldDate.setLocaleId((int)EditingLanguage.RUSSIAN);
 
         doc.save(getArtifactsDir() + "FieldOptions.UpdateDateTimeFormatting.pdf");
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldOptions.FieldUpdateCultureProvider
+    //ExFor:IFieldUpdateCultureProvider
+    //ExFor:IFieldUpdateCultureProvider.GetCulture(string, Field)
+    //ExSummary:Shows how to specify a culture which parses date/time formatting for each field (FieldUpdateCultureProvider).
     /// <summary>
     /// Provides a CultureInfo object that should be used during the update of a field.
     /// </summary>

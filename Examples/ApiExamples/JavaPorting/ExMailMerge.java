@@ -83,7 +83,7 @@ public class ExMailMerge extends ApiExampleBase
         // in our local file system, open a connection, and set up an SQL query.
         String connectionString = "Data Source=" + getDatabaseDir() + "Northwind.db";
         String query =
-            "SELECT Products.ProductName, Suppliers.CompanyName, Products.QuantityPerUnit, Products.UnitPrice\r\n                FROM Products\r\n                INNER JOIN Suppliers\r\n                ON Products.SupplierID = Suppliers.SupplierID";
+            "SELECT Products.ProductName, Suppliers.CompanyName, Products.QuantityPerUnit, Products.UnitPrice\n                FROM Products\n                INNER JOIN Suppliers\n                ON Products.SupplierID = Suppliers.SupplierID";
 
         SqliteConnection connection = new SqliteConnection(connectionString);
         try /*JAVA: was using*/
@@ -152,12 +152,12 @@ public class ExMailMerge extends ApiExampleBase
         TestUtil.mailMergeMatchesArray(new String[] { new String[] { "James Bond", "MI5 Headquarters", "Milbank", "London" } }, doc, true);
     }
 
-    //ExStart
-    //ExFor:MailMerge.ExecuteADO(Object)
-    //ExSummary:Shows how to run a mail merge with data from an ADO dataset.
-    @Test (enabled = false, description = "Run only under x86") //ExSkip
+    @Test (enabled = false, description = "Run only under x86")
     public void executeADO() throws Exception
     {
+        //ExStart
+        //ExFor:MailMerge.ExecuteADO(Object)
+        //ExSummary:Shows how to run a mail merge with data from an ADO dataset.
         Document doc = createSourceDocADOMailMerge();
 
         // To work with ADO DataSets, we will need to add a reference to the Microsoft ActiveX Data Objects library,
@@ -181,8 +181,12 @@ public class ExMailMerge extends ApiExampleBase
         doc.getMailMerge().ExecuteADO(recordset);
         doc.save(getArtifactsDir() + "MailMerge.ExecuteADO.docx");
         TestUtil.mailMergeMatchesQueryResult(getDatabaseDir() + "Northwind.db", COMMAND, doc, true); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:MailMerge.ExecuteADO(Object)
+    //ExSummary:Shows how to run a mail merge with data from an ADO dataset (CreateSourceDocADOMailMerge).
     /// <summary>
     /// Create a blank document and populate it with MERGEFIELDS that will accept data when a mail merge is executed.
     /// </summary>
@@ -202,12 +206,12 @@ public class ExMailMerge extends ApiExampleBase
     }
     //ExEnd
 
-    //ExStart
-    //ExFor:MailMerge.ExecuteWithRegionsADO(Object,String)
-    //ExSummary:Shows how to run a mail merge with multiple regions, compiled with data from an ADO dataset.
-    @Test (enabled = false, description = "Run only under x86") //ExSkip
+    @Test (enabled = false, description = "Run only under x86")
     public void executeWithRegionsADO() throws Exception
     {
+        //ExStart
+        //ExFor:MailMerge.ExecuteWithRegionsADO(Object,String)
+        //ExSummary:Shows how to run a mail merge with multiple regions, compiled with data from an ADO dataset.
         Document doc = createSourceDocADOMailMergeWithRegions();
 
         // To work with ADO DataSets, we will need to add a reference to the Microsoft ActiveX Data Objects library,
@@ -242,8 +246,12 @@ public class ExMailMerge extends ApiExampleBase
         doc.save(getArtifactsDir() + "MailMerge.ExecuteWithRegionsADO.docx");
 
         TestUtil.mailMergeMatchesQueryResultMultiple(getDatabaseDir() + "Northwind.db", new String[] { "SELECT FirstName, LastName, City FROM Employees", "SELECT ContactName, Address, City FROM Customers" }, new Document(getArtifactsDir() + "MailMerge.ExecuteWithRegionsADO.docx"), false); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:MailMerge.ExecuteWithRegionsADO(Object,String)
+    //ExSummary:Shows how to run a mail merge with multiple regions, compiled with data from an ADO dataset (CreateSourceDocADOMailMergeWithRegions).
     /// <summary>
     /// Create a document with two mail merge regions.
     /// </summary>
@@ -275,16 +283,16 @@ public class ExMailMerge extends ApiExampleBase
     }
     //ExEnd
 
-    //ExStart
-    //ExFor:Document
-    //ExFor:MailMerge
-    //ExFor:MailMerge.Execute(DataTable)
-    //ExFor:MailMerge.Execute(DataRow)
-    //ExFor:Document.MailMerge
-    //ExSummary:Shows how to execute a mail merge with data from a DataTable.
-    @Test //ExSkip
+    @Test
     public void executeDataTable() throws Exception
     {
+        //ExStart
+        //ExFor:Document
+        //ExFor:MailMerge
+        //ExFor:MailMerge.Execute(DataTable)
+        //ExFor:MailMerge.Execute(DataRow)
+        //ExFor:Document.MailMerge
+        //ExSummary:Shows how to execute a mail merge with data from a DataTable.
         DataTable table = new DataTable("Test");
         table.getColumns().add("CustomerName");
         table.getColumns().add("Address");
@@ -306,8 +314,16 @@ public class ExMailMerge extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "MailMerge.ExecuteDataTable.OneRow.docx");
         testADODataTable(new Document(getArtifactsDir() + "MailMerge.ExecuteDataTable.WholeTable.docx"), new Document(getArtifactsDir() + "MailMerge.ExecuteDataTable.OneRow.docx"), table); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:Document
+    //ExFor:MailMerge
+    //ExFor:MailMerge.Execute(DataTable)
+    //ExFor:MailMerge.Execute(DataRow)
+    //ExFor:Document.MailMerge
+    //ExSummary:Shows how to execute a mail merge with data from a DataTable (CreateSourceDocExecuteDataTable).
     /// <summary>
     /// Creates a mail merge source document.
     /// </summary>
@@ -372,12 +388,12 @@ public class ExMailMerge extends ApiExampleBase
         TestUtil.mailMergeMatchesDataTable(view.toTable(), new Document(getArtifactsDir() + "MailMerge.ExecuteDataView.docx"), true);
     }
 
-    //ExStart
-    //ExFor:MailMerge.ExecuteWithRegions(DataSet)
-    //ExSummary:Shows how to execute a nested mail merge with two merge regions and two data tables.
-    @Test//ExSkip
+    @Test
     public void executeWithRegionsNested() throws Exception
     {
+        //ExStart
+        //ExFor:MailMerge.ExecuteWithRegions(DataSet)
+        //ExSummary:Shows how to execute a nested mail merge with two merge regions and two data tables.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -423,8 +439,12 @@ public class ExMailMerge extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "MailMerge.ExecuteWithRegionsNested.docx");
         TestUtil.mailMergeMatchesDataSet(customersAndOrders, new Document(getArtifactsDir() + "MailMerge.ExecuteWithRegionsNested.docx"), false); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:MailMerge.ExecuteWithRegions(DataSet)
+    //ExSummary:Shows how to execute a nested mail merge with two merge regions and two data tables (CreateDataSet).
     /// <summary>
     /// Generates a data set that has two data tables named "Customers" and "Orders", with a one-to-many relationship on the "CustomerID" column.
     /// </summary>
@@ -575,12 +595,12 @@ public class ExMailMerge extends ApiExampleBase
         //ExEnd
     }
 
-    //ExStart
-    //ExFor:MailMerge.MergeDuplicateRegions
-    //ExSummary:Shows how to work with duplicate mail merge regions.
-    @Test (dataProvider = "mergeDuplicateRegionsDataProvider") //ExSkip
+    @Test (dataProvider = "mergeDuplicateRegionsDataProvider")
     public void mergeDuplicateRegions(boolean mergeDuplicateRegions) throws Exception
     {
+        //ExStart
+        //ExFor:MailMerge.MergeDuplicateRegions
+        //ExSummary:Shows how to work with duplicate mail merge regions.
         Document doc = createSourceDocMergeDuplicateRegions();
         DataTable dataTable = createSourceTableMergeDuplicateRegions();
 
@@ -594,6 +614,7 @@ public class ExMailMerge extends ApiExampleBase
         doc.getMailMerge().executeWithRegions(dataTable);
         doc.save(getArtifactsDir() + "MailMerge.MergeDuplicateRegions.docx");
         testMergeDuplicateRegions(dataTable, doc, mergeDuplicateRegions); //ExSkip
+        //ExEnd
     }
 
 	//JAVA-added data provider for test method
@@ -607,6 +628,9 @@ public class ExMailMerge extends ApiExampleBase
 		};
 	}
 
+    //ExStart
+    //ExFor:MailMerge.MergeDuplicateRegions
+    //ExSummary:Shows how to work with duplicate mail merge regions (CreateSourceDocMergeDuplicateRegions).
     /// <summary>
     /// Returns a document that contains two duplicate mail merge regions (sharing the same name in the "TableStart/End" tags).
     /// </summary>
@@ -652,13 +676,13 @@ public class ExMailMerge extends ApiExampleBase
         }
     }
 
-    //ExStart
-    //ExFor:MailMerge.PreserveUnusedTags
-    //ExFor:MailMerge.UseNonMergeFields
-    //ExSummary:Shows how to preserve the appearance of alternative mail merge tags that go unused during a mail merge. 
-    @Test (dataProvider = "preserveUnusedTagsDataProvider") //ExSkip
+    @Test (dataProvider = "preserveUnusedTagsDataProvider")
     public void preserveUnusedTags(boolean preserveUnusedTags) throws Exception
     {
+        //ExStart
+        //ExFor:MailMerge.PreserveUnusedTags
+        //ExFor:MailMerge.UseNonMergeFields
+        //ExSummary:Shows how to preserve the appearance of alternative mail merge tags that go unused during a mail merge. 
         Document doc = createSourceDocWithAlternativeMergeFields();
         DataTable dataTable = createSourceTablePreserveUnusedTags();
 
@@ -682,6 +706,7 @@ public class ExMailMerge extends ApiExampleBase
         else
             Assert.assertEquals(1, doc.getRange().getFields().Count(f => f.getType() == FieldType.FIELD_MERGE_FIELD));
         TestUtil.mailMergeMatchesDataTable(dataTable, doc, true); //ExSkip
+        //ExEnd
     }
 
 	//JAVA-added data provider for test method
@@ -695,6 +720,10 @@ public class ExMailMerge extends ApiExampleBase
 		};
 	}
 
+    //ExStart
+    //ExFor:MailMerge.PreserveUnusedTags
+    //ExFor:MailMerge.UseNonMergeFields
+    //ExSummary:Shows how to preserve the appearance of alternative mail merge tags that go unused during a mail merge (CreateSourceDocWithAlternativeMergeFields).
     /// <summary>
     /// Create a document and add two plaintext tags that may act as MERGEFIELDs during a mail merge.
     /// </summary>
@@ -725,12 +754,12 @@ public class ExMailMerge extends ApiExampleBase
     }
     //ExEnd
     
-    //ExStart
-    //ExFor:MailMerge.MergeWholeDocument
-    //ExSummary:Shows the relationship between mail merges with regions, and field updating.
-    @Test (dataProvider = "mergeWholeDocumentDataProvider") //ExSkip
+    @Test (dataProvider = "mergeWholeDocumentDataProvider")
     public void mergeWholeDocument(boolean mergeWholeDocument) throws Exception
     {
+        //ExStart
+        //ExFor:MailMerge.MergeWholeDocument
+        //ExSummary:Shows the relationship between mail merges with regions, and field updating.
         Document doc = createSourceDocMergeWholeDocument();
         DataTable dataTable = createSourceTableMergeWholeDocument();
 
@@ -748,6 +777,7 @@ public class ExMailMerge extends ApiExampleBase
         Assert.assertTrue(doc.getText().contains("This QUOTE field is inside the \"MyTable\" merge region."));
         Assert.assertEquals(mergeWholeDocument, doc.getText().contains("This QUOTE field is outside of the \"MyTable\" merge region."));
         TestUtil.mailMergeMatchesDataTable(dataTable, doc, true); //ExSkip
+        //ExEnd
     }
 
 	//JAVA-added data provider for test method
@@ -761,6 +791,9 @@ public class ExMailMerge extends ApiExampleBase
 		};
 	}
 
+    //ExStart
+    //ExFor:MailMerge.MergeWholeDocument
+    //ExSummary:Shows the relationship between mail merges with regions, and field updating (CreateSourceDocMergeWholeDocument).
     /// <summary>
     /// Create a document with a mail merge region that belongs to a data source named "MyTable".
     /// Insert one QUOTE field inside this region, and one more outside it.
@@ -799,12 +832,12 @@ public class ExMailMerge extends ApiExampleBase
     }
     //ExEnd
 
-    //ExStart
-    //ExFor:MailMerge.UseWholeParagraphAsRegion
-    //ExSummary:Shows the relationship between mail merge regions and paragraphs.
-    @Test (dataProvider = "useWholeParagraphAsRegionDataProvider") //ExSkip
+    @Test (dataProvider = "useWholeParagraphAsRegionDataProvider")
     public void useWholeParagraphAsRegion(boolean useWholeParagraphAsRegion) throws Exception
     {
+        //ExStart
+        //ExFor:MailMerge.UseWholeParagraphAsRegion
+        //ExSummary:Shows the relationship between mail merge regions and paragraphs.
         Document doc = createSourceDocWithNestedMergeRegions();
         DataTable dataTable = createSourceTableDataTableForOneRegion();
 
@@ -826,6 +859,7 @@ public class ExMailMerge extends ApiExampleBase
         doc.save(getArtifactsDir() + "MailMerge.UseWholeParagraphAsRegion.docx");
         if (!useWholeParagraphAsRegion) //ExSkip
             TestUtil.mailMergeMatchesDataTable(dataTable, new Document(getArtifactsDir() + "MailMerge.UseWholeParagraphAsRegion.docx"), true); //ExSkip
+        //ExEnd
     }
 
 	//JAVA-added data provider for test method
@@ -839,6 +873,9 @@ public class ExMailMerge extends ApiExampleBase
 		};
 	}
 
+    //ExStart
+    //ExFor:MailMerge.UseWholeParagraphAsRegion
+    //ExSummary:Shows the relationship between mail merge regions and paragraphs (CreateSourceDocWithNestedMergeRegions).
     /// <summary>
     /// Create a document with two mail merge regions sharing one paragraph.
     /// </summary>
@@ -1137,21 +1174,21 @@ public class ExMailMerge extends ApiExampleBase
 		};
 	}
 
-    //ExStart
-    //ExFor:MailMerge.MappedDataFields
-    //ExFor:MappedDataFieldCollection
-    //ExFor:MappedDataFieldCollection.Add
-    //ExFor:MappedDataFieldCollection.Clear
-    //ExFor:MappedDataFieldCollection.ContainsKey(String)
-    //ExFor:MappedDataFieldCollection.ContainsValue(String)
-    //ExFor:MappedDataFieldCollection.Count
-    //ExFor:MappedDataFieldCollection.GetEnumerator
-    //ExFor:MappedDataFieldCollection.Item(String)
-    //ExFor:MappedDataFieldCollection.Remove(String)
-    //ExSummary:Shows how to map data columns and MERGEFIELDs with different names so the data is transferred between them during a mail merge.
-    @Test //ExSkip
+    @Test
     public void mappedDataFieldCollection() throws Exception
     {
+        //ExStart
+        //ExFor:MailMerge.MappedDataFields
+        //ExFor:MappedDataFieldCollection
+        //ExFor:MappedDataFieldCollection.Add
+        //ExFor:MappedDataFieldCollection.Clear
+        //ExFor:MappedDataFieldCollection.ContainsKey(String)
+        //ExFor:MappedDataFieldCollection.ContainsValue(String)
+        //ExFor:MappedDataFieldCollection.Count
+        //ExFor:MappedDataFieldCollection.GetEnumerator
+        //ExFor:MappedDataFieldCollection.Item(String)
+        //ExFor:MappedDataFieldCollection.Remove(String)
+        //ExSummary:Shows how to map data columns and MERGEFIELDs with different names so the data is transferred between them during a mail merge.
         Document doc = createSourceDocMappedDataFields();
         DataTable dataTable = createSourceTableMappedDataFields();
 
@@ -1198,8 +1235,21 @@ public class ExMailMerge extends ApiExampleBase
 
         Assert.assertEquals(0, mappedDataFields.getCount());
         TestUtil.mailMergeMatchesDataTable(dataTable, new Document(getArtifactsDir() + "MailMerge.MappedDataFieldCollection.docx"), true); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:MailMerge.MappedDataFields
+    //ExFor:MappedDataFieldCollection
+    //ExFor:MappedDataFieldCollection.Add
+    //ExFor:MappedDataFieldCollection.Clear
+    //ExFor:MappedDataFieldCollection.ContainsKey(String)
+    //ExFor:MappedDataFieldCollection.ContainsValue(String)
+    //ExFor:MappedDataFieldCollection.Count
+    //ExFor:MappedDataFieldCollection.GetEnumerator
+    //ExFor:MappedDataFieldCollection.Item(String)
+    //ExFor:MappedDataFieldCollection.Remove(String)
+    //ExSummary:Shows how to map data columns and MERGEFIELDs with different names so the data is transferred between them during a mail merge (CreateSourceDocMappedDataFields).
     /// <summary>
     /// Create a document with 2 MERGEFIELDs, one of which does not have a
     /// corresponding column in the data table from the method below.
@@ -1362,14 +1412,14 @@ public class ExMailMerge extends ApiExampleBase
         //ExEnd
     }
 
-    //ExStart
-    //ExFor:MailMerge.MailMergeCallback
-    //ExFor:IMailMergeCallback
-    //ExFor:IMailMergeCallback.TagsReplaced
-    //ExSummary:Shows how to define custom logic for handling events during mail merge.
-    @Test //ExSkip
+    @Test
     public void callback() throws Exception
     {
+        //ExStart
+        //ExFor:MailMerge.MailMergeCallback
+        //ExFor:IMailMergeCallback
+        //ExFor:IMailMergeCallback.TagsReplaced
+        //ExSummary:Shows how to define custom logic for handling events during mail merge.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1395,8 +1445,14 @@ public class ExMailMerge extends ApiExampleBase
         doc.getMailMerge().execute(table);
 
         Assert.assertEquals(1, counter.getTagsReplacedCount());
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:MailMerge.MailMergeCallback
+    //ExFor:IMailMergeCallback
+    //ExFor:IMailMergeCallback.TagsReplaced
+    //ExSummary:Shows how to define custom logic for handling events during mail merge (MailMergeTagReplacementCounter).
     /// <summary>
     /// Counts the number of times a mail merge replaces mail merge tags that it could not fill with data with MERGEFIELDs.
     /// </summary>

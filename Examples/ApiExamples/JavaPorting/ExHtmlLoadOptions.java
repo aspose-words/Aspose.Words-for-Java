@@ -87,12 +87,14 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
 		};
 	}
 
-    //ExStart
-    //ExFor:HtmlLoadOptions.WebRequestTimeout
-    //ExSummary:Shows how to set a time limit for web requests when loading a document with external resources linked by URLs.
-    @Test //ExSkip
+    @Test
     public void webRequestTimeout() throws Exception
     {
+        //ExStart
+        //ExFor:HtmlLoadOptions.WebRequestTimeout
+        //ExSummary:Shows how to set a time limit for web requests when loading a document with external resources linked by URLs.
+        String imageUri = "https://samplelib.com/png/sample-alpha-circle-400x300.png";
+
         // Create a new HtmlLoadOptions object and verify its timeout threshold for a web request.
         HtmlLoadOptions options = new HtmlLoadOptions();
 
@@ -106,7 +108,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
 
         // Load such a document and verify that a shape with image data has been created.
         // This linked image will require a web request to load, which will have to complete within our time limit.
-        String html = $"\n                <html>\n                    <img src=\"{ImageUrl}\" alt=\"Aspose logo\" style=\"width:400px;height:400px;\">\n                </html>\n            ";
+        String html = $"\n                <html>\n                    <img src=\"{imageUri}\" alt=\"Aspose logo\" style=\"width:400px;height:400px;\">\n                </html>\n            ";
 
         // Set an unreasonable timeout limit and try load the document again.
         options.setWebRequestTimeout(0);
@@ -121,15 +123,19 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         // We can also configure a custom callback to pick up any warnings from timed out web requests.
         Assert.assertEquals(WarningSource.HTML, warningCallback.warnings().get(0).getSource());
         Assert.assertEquals(WarningType.DATA_LOSS, warningCallback.warnings().get(0).getWarningType());
-        Assert.assertEquals("Couldn't load a resource from \'{ImageUrl}\'.", warningCallback.warnings().get(0).getDescription());
+        Assert.assertEquals("Couldn't load a resource from \'{imageUri}\'.", warningCallback.warnings().get(0).getDescription());
 
         Assert.assertEquals(WarningSource.HTML, warningCallback.warnings().get(1).getSource());
         Assert.assertEquals(WarningType.DATA_LOSS, warningCallback.warnings().get(1).getWarningType());
         Assert.assertEquals("Image has been replaced with a placeholder.", warningCallback.warnings().get(1).getDescription());
 
         doc.save(getArtifactsDir() + "HtmlLoadOptions.WebRequestTimeout.docx");
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:HtmlLoadOptions.WebRequestTimeout
+    //ExSummary:Shows how to set a time limit for web requests when loading a document with external resources linked by URLs (ListDocumentWarnings).
     /// <summary>
     /// Stores all warnings that occur during a document loading operation in a List.
     /// </summary>
@@ -370,3 +376,4 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         //ExEnd:FontFaceRules
     }
 }
+

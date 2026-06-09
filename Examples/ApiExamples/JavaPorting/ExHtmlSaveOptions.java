@@ -481,7 +481,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         builder.write("Here is an SVG image: ");
         builder.insertHtml(
-            "<svg height='210' width='500'>\n                    <polygon points='100,10 40,198 190,78 10,78 160,198' \n                        style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />\n                  </svg> ");
+            "<svg height='210' width='500'>\r\n                    <polygon points='100,10 40,198 190,78 10,78 160,198' \r\n                        style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />\r\n                  </svg> ");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(); { saveOptions.setMetafileFormat(HtmlMetafileFormat.PNG); }
         builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.SvgMetafileFormat.html", saveOptions);
@@ -494,7 +494,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         builder.write("Here is an Png image: ");
         builder.insertHtml(
-            "<svg height='210' width='500'>\n                    <polygon points='100,10 40,198 190,78 10,78 160,198' \n                        style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />\n                  </svg> ");
+            "<svg height='210' width='500'>\r\n                    <polygon points='100,10 40,198 190,78 10,78 160,198' \r\n                        style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />\r\n                  </svg> ");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(); { saveOptions.setMetafileFormat(HtmlMetafileFormat.PNG); }
         builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.PngMetafileFormat.html", saveOptions);
@@ -507,7 +507,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         builder.write("Here is an image as is: ");
         builder.insertHtml(
-            "<img src=\"data:image/png;base64,\n                    iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGP\n                    C/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YGARc5KB0XV+IA\n                    AAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAF1J\n                    REFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jq\n                    ch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0\n                    vr4MkhoXe0rZigAAAABJRU5ErkJggg==\" alt=\"Red dot\" />");
+            "<img src=\"data:image/png;base64,\r\n                    iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGP\r\n                    C/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YGARc5KB0XV+IA\r\n                    AAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAF1J\r\n                    REFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jq\r\n                    ch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0\r\n                    vr4MkhoXe0rZigAAAABJRU5ErkJggg==\" alt=\"Red dot\" />");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(); { saveOptions.setMetafileFormat(HtmlMetafileFormat.EMF_OR_WMF); }
         builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.EmfOrWmfMetafileFormat.html", saveOptions);
@@ -797,27 +797,27 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         //ExEnd
     }
 
-    //ExStart
-    //ExFor:HtmlSaveOptions.ExportFontResources
-    //ExFor:HtmlSaveOptions.FontSavingCallback
-    //ExFor:IFontSavingCallback
-    //ExFor:IFontSavingCallback.FontSaving
-    //ExFor:FontSavingArgs
-    //ExFor:FontSavingArgs.Bold
-    //ExFor:FontSavingArgs.Document
-    //ExFor:FontSavingArgs.FontFamilyName
-    //ExFor:FontSavingArgs.FontFileName
-    //ExFor:FontSavingArgs.FontStream
-    //ExFor:FontSavingArgs.IsExportNeeded
-    //ExFor:FontSavingArgs.IsSubsettingNeeded
-    //ExFor:FontSavingArgs.Italic
-    //ExFor:FontSavingArgs.KeepFontStreamOpen
-    //ExFor:FontSavingArgs.OriginalFileName
-    //ExFor:FontSavingArgs.OriginalFileSize
-    //ExSummary:Shows how to define custom logic for exporting fonts when saving to HTML.
-    @Test //ExSkip
+    @Test
     public void saveExportedFonts() throws Exception
     {
+        //ExStart
+        //ExFor:HtmlSaveOptions.ExportFontResources
+        //ExFor:HtmlSaveOptions.FontSavingCallback
+        //ExFor:IFontSavingCallback
+        //ExFor:IFontSavingCallback.FontSaving
+        //ExFor:FontSavingArgs
+        //ExFor:FontSavingArgs.Bold
+        //ExFor:FontSavingArgs.Document
+        //ExFor:FontSavingArgs.FontFamilyName
+        //ExFor:FontSavingArgs.FontFileName
+        //ExFor:FontSavingArgs.FontStream
+        //ExFor:FontSavingArgs.IsExportNeeded
+        //ExFor:FontSavingArgs.IsSubsettingNeeded
+        //ExFor:FontSavingArgs.Italic
+        //ExFor:FontSavingArgs.KeepFontStreamOpen
+        //ExFor:FontSavingArgs.OriginalFileName
+        //ExFor:FontSavingArgs.OriginalFileSize
+        //ExSummary:Shows how to define custom logic for exporting fonts when saving to HTML.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Configure a SaveOptions object to export fonts to separate files.
@@ -835,8 +835,27 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
             System.out.println(fontFilename);
 
         Assert.assertEquals(10, Object[].FindAll(Directory.getFiles(getArtifactsDir()), s => s.endsWith(".ttf")).length); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:HtmlSaveOptions.ExportFontResources
+    //ExFor:HtmlSaveOptions.FontSavingCallback
+    //ExFor:IFontSavingCallback
+    //ExFor:IFontSavingCallback.FontSaving
+    //ExFor:FontSavingArgs
+    //ExFor:FontSavingArgs.Bold
+    //ExFor:FontSavingArgs.Document
+    //ExFor:FontSavingArgs.FontFamilyName
+    //ExFor:FontSavingArgs.FontFileName
+    //ExFor:FontSavingArgs.FontStream
+    //ExFor:FontSavingArgs.IsExportNeeded
+    //ExFor:FontSavingArgs.IsSubsettingNeeded
+    //ExFor:FontSavingArgs.Italic
+    //ExFor:FontSavingArgs.KeepFontStreamOpen
+    //ExFor:FontSavingArgs.OriginalFileName
+    //ExFor:FontSavingArgs.OriginalFileSize
+    //ExSummary:Shows how to define custom logic for exporting fonts when saving to HTML (HandleFontSaving).
     /// <summary>
     /// Prints information about exported fonts and saves them in the same local system folder as their output .html.
     /// </summary>
@@ -1855,7 +1874,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         //ExFor:HtmlLoadOptions.ConvertSvgToEmf
         //ExSummary:Shows how to convert SVG objects to a different format when saving HTML documents.
         String html = 
-            "<html>\n                    <svg xmlns='http://www.w3.org/2000/svg' width='500' height='40' viewBox='0 0 500 40'>\n                        <text x='0' y='35' font-family='Verdana' font-size='35'>Hello world!</text>\n                    </svg>\n                </html>";
+            "<html>\r\n                    <svg xmlns='http://www.w3.org/2000/svg' width='500' height='40' viewBox='0 0 500 40'>\r\n                        <text x='0' y='35' font-family='Verdana' font-size='35'>Hello world!</text>\r\n                    </svg>\r\n                </html>";
 
         // Use 'ConvertSvgToEmf' to turn back the legacy behavior
         // where all SVG images loaded from an HTML document were converted to EMF.
@@ -2061,16 +2080,16 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         Directory.delete(imagesDir, true);
     }
 
-    //ExStart
-    //ExFor:ImageSavingArgs.CurrentShape
-    //ExFor:ImageSavingArgs.Document
-    //ExFor:ImageSavingArgs.ImageStream
-    //ExFor:ImageSavingArgs.IsImageAvailable
-    //ExFor:ImageSavingArgs.KeepImageStreamOpen
-    //ExSummary:Shows how to involve an image saving callback in an HTML conversion process.
-    @Test //ExSkip
+    @Test
     public void imageSavingCallback() throws Exception
     {
+        //ExStart
+        //ExFor:ImageSavingArgs.CurrentShape
+        //ExFor:ImageSavingArgs.Document
+        //ExFor:ImageSavingArgs.ImageStream
+        //ExFor:ImageSavingArgs.IsImageAvailable
+        //ExFor:ImageSavingArgs.KeepImageStreamOpen
+        //ExSummary:Shows how to involve an image saving callback in an HTML conversion process.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // When we save the document to HTML, we can pass a SaveOptions object to designate a callback
@@ -2079,8 +2098,16 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         options.setImageSavingCallback(new ImageShapePrinter());
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ImageSavingCallback.html", options);
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:ImageSavingArgs.CurrentShape
+    //ExFor:ImageSavingArgs.Document
+    //ExFor:ImageSavingArgs.ImageStream
+    //ExFor:ImageSavingArgs.IsImageAvailable
+    //ExFor:ImageSavingArgs.KeepImageStreamOpen
+    //ExSummary:Shows how to involve an image saving callback in an HTML conversion process (ImageShapePrinter).
     /// <summary>
     /// Prints the properties of each image as the saving process saves it to an image file in the local file system
     /// during the exporting of a document to HTML.
@@ -2166,15 +2193,15 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 	}
 
     @Test (dataProvider = "progressCallbackDataProvider")
-    //ExStart
-    //ExFor:SaveOptions.ProgressCallback
-    //ExFor:IDocumentSavingCallback
-    //ExFor:IDocumentSavingCallback.Notify(DocumentSavingArgs)
-    //ExFor:DocumentSavingArgs.EstimatedProgress
-    //ExFor:DocumentSavingArgs
-    //ExSummary:Shows how to manage a document while saving to html.
     public void progressCallback(/*SaveFormat*/int saveFormat, String ext) throws Exception
     {
+        //ExStart
+        //ExFor:SaveOptions.ProgressCallback
+        //ExFor:IDocumentSavingCallback
+        //ExFor:IDocumentSavingCallback.Notify(DocumentSavingArgs)
+        //ExFor:DocumentSavingArgs.EstimatedProgress
+        //ExFor:DocumentSavingArgs
+        //ExSummary:Shows how to manage a document while saving to html.
         Document doc = new Document(getMyDir() + "Big document.docx");
 
         // Following formats are supported: Html, Mhtml, Epub.
@@ -2186,6 +2213,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         IllegalStateException exception = Assert.<IllegalStateException>Throws(() =>
             doc.save(getArtifactsDir() + $"HtmlSaveOptions.ProgressCallback.{ext}", saveOptions));
         Assert.That(exception?.Message.Contains("EstimatedProgress"), assertTrue();
+        //ExEnd
     }
 
 	//JAVA-added data provider for test method
@@ -2200,6 +2228,13 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 		};
 	}
 
+    //ExStart
+    //ExFor:SaveOptions.ProgressCallback
+    //ExFor:IDocumentSavingCallback
+    //ExFor:IDocumentSavingCallback.Notify(DocumentSavingArgs)
+    //ExFor:DocumentSavingArgs.EstimatedProgress
+    //ExFor:DocumentSavingArgs
+    //ExSummary:Shows how to manage a document while saving to html (SavingProgressCallback).
     /// <summary>
     /// Saving progress callback. Cancel a document saving after the "MaxDuration" seconds.
     /// </summary>

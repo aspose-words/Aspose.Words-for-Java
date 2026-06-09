@@ -101,16 +101,16 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
 		};
 	}
 
-    //ExStart
-    //ExFor:MarkdownSaveOptions
-    //ExFor:MarkdownSaveOptions.#ctor
-    //ExFor:MarkdownSaveOptions.ImageSavingCallback
-    //ExFor:MarkdownSaveOptions.SaveFormat
-    //ExFor:IImageSavingCallback
-    //ExSummary:Shows how to rename the image name during saving into Markdown document.
-    @Test //ExSkip
+    @Test
     public void renameImages() throws Exception
     {
+        //ExStart
+        //ExFor:MarkdownSaveOptions
+        //ExFor:MarkdownSaveOptions.#ctor
+        //ExFor:MarkdownSaveOptions.ImageSavingCallback
+        //ExFor:MarkdownSaveOptions.SaveFormat
+        //ExFor:IImageSavingCallback
+        //ExSummary:Shows how to rename the image name during saving into Markdown document.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
@@ -129,8 +129,16 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
         Assert.assertEquals(8, Directory.getFiles(getArtifactsDir())
                     .Where(s => s.startsWith(getArtifactsDir() + "MarkdownSaveOptions.HandleDocument.md shape"))
                     .Count(f => f.endsWith(".png")));
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:MarkdownSaveOptions
+    //ExFor:MarkdownSaveOptions.#ctor
+    //ExFor:MarkdownSaveOptions.ImageSavingCallback
+    //ExFor:MarkdownSaveOptions.SaveFormat
+    //ExFor:IImageSavingCallback
+    //ExSummary:Shows how to rename the image name during saving into Markdown document (SavedImageRename).
     /// <summary>
     /// Renames saved images that are produced when an Markdown document is saved.
     /// </summary>

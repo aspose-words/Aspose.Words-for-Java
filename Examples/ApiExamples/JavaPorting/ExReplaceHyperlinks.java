@@ -30,7 +30,7 @@ import com.aspose.ms.System.Text.RegularExpressions.Regex;
 @Test //ExSkip
 public class ExReplaceHyperlinks extends ApiExampleBase
 {
-    @Test //ExSkip
+    @Test
     public void fields() throws Exception
     {
         Document doc = new Document(getMyDir() + "Hyperlinks.docx");

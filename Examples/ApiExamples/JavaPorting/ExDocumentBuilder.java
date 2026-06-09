@@ -1885,7 +1885,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         image = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImageInShape(100, 100, ImageType.PNG, image);
+        TestUtil.verifyImageInShape(400, 300, ImageType.PNG, image);
         Assert.assertEquals(100.0d, image.getLeft());
         Assert.assertEquals(250.0d, image.getTop());
         Assert.assertEquals(200.0d, image.getWidth());
@@ -2761,18 +2761,18 @@ public class ExDocumentBuilder extends ApiExampleBase
 		};
 	}
 
-    //ExStart
-    //ExFor:IFieldResultFormatter
-    //ExFor:IFieldResultFormatter.Format(Double, GeneralFormat)
-    //ExFor:IFieldResultFormatter.Format(String, GeneralFormat)
-    //ExFor:IFieldResultFormatter.FormatDateTime(DateTime, String, CalendarType)
-    //ExFor:IFieldResultFormatter.FormatNumeric(Double, String)
-    //ExFor:FieldOptions.ResultFormatter
-    //ExFor:CalendarType
-    //ExSummary:Shows how to automatically apply a custom format to field results as the fields are updated.
-    @Test //ExSkip
+    @Test
     public void fieldResultFormatting() throws Exception
     {
+        //ExStart
+        //ExFor:IFieldResultFormatter
+        //ExFor:IFieldResultFormatter.Format(Double, GeneralFormat)
+        //ExFor:IFieldResultFormatter.Format(String, GeneralFormat)
+        //ExFor:IFieldResultFormatter.FormatDateTime(DateTime, String, CalendarType)
+        //ExFor:IFieldResultFormatter.FormatNumeric(Double, String)
+        //ExFor:FieldOptions.ResultFormatter
+        //ExFor:CalendarType
+        //ExSummary:Shows how to automatically apply a custom format to field results as the fields are updated.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         FieldResultFormatter formatter = new FieldResultFormatter("${0}", "Date: {0}", "Item # {0}:");
@@ -2800,8 +2800,18 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(1, formatter.countFormatInvocations(FieldResultFormatter.FormatInvocationType.GENERAL));
 
         formatter.printFormatInvocations();
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:IFieldResultFormatter
+    //ExFor:IFieldResultFormatter.Format(Double, GeneralFormat)
+    //ExFor:IFieldResultFormatter.Format(String, GeneralFormat)
+    //ExFor:IFieldResultFormatter.FormatDateTime(DateTime, String, CalendarType)
+    //ExFor:IFieldResultFormatter.FormatNumeric(Double, String)
+    //ExFor:FieldOptions.ResultFormatter
+    //ExFor:CalendarType
+    //ExSummary:Shows how to automatically apply a custom format to field results as the fields are updated (FieldResultFormatter).
     /// <summary>
     /// When fields with formatting are updated, this formatter will override their formatting
     /// with a custom format, while tracking every invocation.
@@ -3719,7 +3729,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExStart
         //ExFor:HtmlInsertOptions
         //ExSummary:Shows how to allows better preserve borders and margins seen.
-        final String HTML = "\n                <html>\n                    <div style='border:dotted'>\n                    <div style='border:solid'>\n                        <p>paragraph 1</p>\n                        <p>paragraph 2</p>\n                    </div>\n                    </div>\n                </html>";
+        final String HTML = "\r\n                <html>\r\n                    <div style='border:dotted'>\r\n                    <div style='border:solid'>\r\n                        <p>paragraph 1</p>\r\n                        <p>paragraph 2</p>\r\n                    </div>\r\n                    </div>\r\n                </html>";
 
         // Set the new mode of import HTML block-level elements.
         /*HtmlInsertOptions*/int insertOptions = HtmlInsertOptions.PRESERVE_BLOCKS;

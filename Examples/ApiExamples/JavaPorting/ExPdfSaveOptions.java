@@ -1284,17 +1284,17 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 		};
 	}
 
-    //ExStart
-    //ExFor:MetafileRenderingMode
-    //ExFor:MetafileRenderingOptions
-    //ExFor:MetafileRenderingOptions.EmulateRasterOperations
-    //ExFor:MetafileRenderingOptions.RenderingMode
-    //ExFor:IWarningCallback
-    //ExFor:FixedPageSaveOptions.MetafileRenderingOptions
-    //ExSummary:Shows added a fallback to bitmap rendering and changing type of warnings about unsupported metafile records.
-    @Test (groups = "SkipMono") //ExSkip
+    @Test (groups = "SkipMono")
     public void handleBinaryRasterWarnings() throws Exception
     {
+        //ExStart
+        //ExFor:MetafileRenderingMode
+        //ExFor:MetafileRenderingOptions
+        //ExFor:MetafileRenderingOptions.EmulateRasterOperations
+        //ExFor:MetafileRenderingOptions.RenderingMode
+        //ExFor:IWarningCallback
+        //ExFor:FixedPageSaveOptions.MetafileRenderingOptions
+        //ExSummary:Shows added a fallback to bitmap rendering and changing type of warnings about unsupported metafile records.
         Document doc = new Document(getMyDir() + "WMF with image.docx");
 
         MetafileRenderingOptions metafileRenderingOptions = new MetafileRenderingOptions();
@@ -1319,8 +1319,17 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Assert.assertEquals(1, callback.Warnings.getCount());
         Assert.assertEquals("'R2_XORPEN' binary raster operation is not supported.", callback.Warnings.get(0).getDescription());
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:MetafileRenderingMode
+    //ExFor:MetafileRenderingOptions
+    //ExFor:MetafileRenderingOptions.EmulateRasterOperations
+    //ExFor:MetafileRenderingOptions.RenderingMode
+    //ExFor:IWarningCallback
+    //ExFor:FixedPageSaveOptions.MetafileRenderingOptions
+    //ExSummary:Shows added a fallback to bitmap rendering and changing type of warnings about unsupported metafile records (HandleDocumentWarnings).
     /// <summary>
     /// Prints and collects formatting loss-related warnings that occur upon saving a document.
     /// </summary>
@@ -3252,5 +3261,35 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "PdfSaveOptions.ExportFloatingShapesAsInlineTag.pdf", saveOptions);
         //ExEnd:ExportFloatingShapesAsInlineTag
     }
+
+    @Test (dataProvider = "generateFormFieldScriptsDatetimeDataProvider")
+    public void generateFormFieldScriptsDatetime(String inputFile) throws Exception
+    {
+        //ExStart:GenerateFormFieldScriptsDatetime
+        //GistId:4f0f7d328594293c40062359b8eb9a08
+        //ExFor:PdfSaveOptions.GenerateFormFieldScripts
+        //ExSummary:Shows how to enable generation of JavaScript form field scripts for datetime fields when exporting to PDF.
+        Document doc = new Document(getMyDir() + inputFile);
+
+        // Create save options and enable form field scripts.
+        // Please note that JavaScript actions are prohibited by PDF/A-1, PDF/A-2 and PDF/A-3 compliance.
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setPreserveFormFields(true);
+        saveOptions.setGenerateFormFieldScripts(true);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.GenerateFormFieldScriptsDatetime.pdf", saveOptions);
+        //ExEnd:GenerateFormFieldScriptsDatetime
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "generateFormFieldScriptsDatetimeDataProvider")
+	public static Object[][] generateFormFieldScriptsDatetimeDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{"DateTime field.docx"},
+			{"DateTime sdt.docx"},
+		};
+	}
 }
 

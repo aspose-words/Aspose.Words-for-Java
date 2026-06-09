@@ -246,7 +246,7 @@ public class ApiExampleBase
         	mImageDir = new msUri(new msUri(getCodeBaseDir()), "Data/Images/").getLocalPath();
         	mDatabaseDir = new msUri(new msUri(getCodeBaseDir()), "Data/Database/").getLocalPath();
         	mFontsDir = new msUri(new msUri(getCodeBaseDir()), "Data/MyFonts/").getLocalPath();
-        	mImageUrl = new msUri("https://httpbin.org/image/png").getAbsoluteUri();
+        	mImageUrl = new msUri("https://samplelib.com/png/sample-alpha-semi-400x300.png").getAbsoluteUri();
     	}
     	catch (Exception e)
     	{

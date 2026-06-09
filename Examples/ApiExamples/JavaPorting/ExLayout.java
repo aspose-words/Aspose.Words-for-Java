@@ -102,29 +102,29 @@ class ExLayout !Test class should be public in Java to run, please fix .Net sour
         //ExEnd
     }
 
-    //ExStart
-    //ExFor:LayoutEntityType
-    //ExFor:LayoutEnumerator
-    //ExFor:LayoutEnumerator.#ctor(Document)
-    //ExFor:LayoutEnumerator.Document
-    //ExFor:LayoutEnumerator.Kind
-    //ExFor:LayoutEnumerator.MoveFirstChild
-    //ExFor:LayoutEnumerator.MoveLastChild
-    //ExFor:LayoutEnumerator.MoveNext
-    //ExFor:LayoutEnumerator.MoveNextLogical
-    //ExFor:LayoutEnumerator.MoveParent
-    //ExFor:LayoutEnumerator.MoveParent(LayoutEntityType)
-    //ExFor:LayoutEnumerator.MovePrevious
-    //ExFor:LayoutEnumerator.MovePreviousLogical
-    //ExFor:LayoutEnumerator.PageIndex
-    //ExFor:LayoutEnumerator.Rectangle
-    //ExFor:LayoutEnumerator.Reset
-    //ExFor:LayoutEnumerator.Text
-    //ExFor:LayoutEnumerator.Type
-    //ExSummary:Shows ways of traversing a document's layout entities.
-    @Test //ExSkip
+    @Test
     public void layoutEnumerator() throws Exception
     {
+        //ExStart
+        //ExFor:LayoutEntityType
+        //ExFor:LayoutEnumerator
+        //ExFor:LayoutEnumerator.#ctor(Document)
+        //ExFor:LayoutEnumerator.Document
+        //ExFor:LayoutEnumerator.Kind
+        //ExFor:LayoutEnumerator.MoveFirstChild
+        //ExFor:LayoutEnumerator.MoveLastChild
+        //ExFor:LayoutEnumerator.MoveNext
+        //ExFor:LayoutEnumerator.MoveNextLogical
+        //ExFor:LayoutEnumerator.MoveParent
+        //ExFor:LayoutEnumerator.MoveParent(LayoutEntityType)
+        //ExFor:LayoutEnumerator.MovePrevious
+        //ExFor:LayoutEnumerator.MovePreviousLogical
+        //ExFor:LayoutEnumerator.PageIndex
+        //ExFor:LayoutEnumerator.Rectangle
+        //ExFor:LayoutEnumerator.Reset
+        //ExFor:LayoutEnumerator.Text
+        //ExFor:LayoutEnumerator.Type
+        //ExSummary:Shows ways of traversing a document's layout entities.
         // Open a document that contains a variety of layout entities.
         // Layout entities are pages, cells, rows, lines, and other objects included in the LayoutEntityType enum.
         // Each layout entity has a rectangular space that it occupies in the document body.
@@ -163,8 +163,29 @@ class ExLayout !Test class should be public in Java to run, please fix .Net sour
 
         System.out.println("Traversing from last to first, elements between pages mixed:");
         traverseLayoutBackwardLogical(layoutEnumerator, 1);
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:LayoutEntityType
+    //ExFor:LayoutEnumerator
+    //ExFor:LayoutEnumerator.#ctor(Document)
+    //ExFor:LayoutEnumerator.Document
+    //ExFor:LayoutEnumerator.Kind
+    //ExFor:LayoutEnumerator.MoveFirstChild
+    //ExFor:LayoutEnumerator.MoveLastChild
+    //ExFor:LayoutEnumerator.MoveNext
+    //ExFor:LayoutEnumerator.MoveNextLogical
+    //ExFor:LayoutEnumerator.MoveParent
+    //ExFor:LayoutEnumerator.MoveParent(LayoutEntityType)
+    //ExFor:LayoutEnumerator.MovePrevious
+    //ExFor:LayoutEnumerator.MovePreviousLogical
+    //ExFor:LayoutEnumerator.PageIndex
+    //ExFor:LayoutEnumerator.Rectangle
+    //ExFor:LayoutEnumerator.Reset
+    //ExFor:LayoutEnumerator.Text
+    //ExFor:LayoutEnumerator.Type
+    //ExSummary:Shows ways of traversing a document's layout entities (TraverseLayoutForward).
     /// <summary>
     /// Enumerate through layoutEnumerator's layout entity collection front-to-back,
     /// in a depth-first manner, and in the "Visual" order.
@@ -260,19 +281,19 @@ class ExLayout !Test class should be public in Java to run, please fix .Net sour
     }
     //ExEnd
 
-    //ExStart
-    //ExFor:IPageLayoutCallback
-    //ExFor:IPageLayoutCallback.Notify(PageLayoutCallbackArgs)
-    //ExFor:PageLayoutCallbackArgs
-    //ExFor:PageLayoutCallbackArgs.Event
-    //ExFor:PageLayoutCallbackArgs.Document
-    //ExFor:PageLayoutCallbackArgs.PageIndex
-    //ExFor:PageLayoutEvent
-    //ExFor:LayoutOptions.Callback
-    //ExSummary:Shows how to track layout changes with a layout callback.
-    @Test//ExSkip
+    @Test
     public void pageLayoutCallback() throws Exception
     {
+        //ExStart
+        //ExFor:IPageLayoutCallback
+        //ExFor:IPageLayoutCallback.Notify(PageLayoutCallbackArgs)
+        //ExFor:PageLayoutCallbackArgs
+        //ExFor:PageLayoutCallbackArgs.Event
+        //ExFor:PageLayoutCallbackArgs.Document
+        //ExFor:PageLayoutCallbackArgs.PageIndex
+        //ExFor:PageLayoutEvent
+        //ExFor:LayoutOptions.Callback
+        //ExSummary:Shows how to track layout changes with a layout callback.
         Document doc = new Document();
         doc.getBuiltInDocumentProperties().setTitle("My Document");
 
@@ -283,8 +304,19 @@ class ExLayout !Test class should be public in Java to run, please fix .Net sour
         doc.updatePageLayout();
 
         doc.save(getArtifactsDir() + "Layout.PageLayoutCallback.pdf");
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:IPageLayoutCallback
+    //ExFor:IPageLayoutCallback.Notify(PageLayoutCallbackArgs)
+    //ExFor:PageLayoutCallbackArgs
+    //ExFor:PageLayoutCallbackArgs.Event
+    //ExFor:PageLayoutCallbackArgs.Document
+    //ExFor:PageLayoutCallbackArgs.PageIndex
+    //ExFor:PageLayoutEvent
+    //ExFor:LayoutOptions.Callback
+    //ExSummary:Shows how to track layout changes with a layout callback (RenderPageLayoutCallback).
     /// <summary>
     /// Notifies us when we save the document to a fixed page format
     /// and renders a page that we perform a page reflow on to an image in the local file system.

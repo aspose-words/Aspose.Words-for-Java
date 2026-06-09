@@ -233,21 +233,21 @@ public class ExDocumentProperties extends ApiExampleBase
         Assert.assertEquals(786432, properties.getVersion());
     }
 
-    //ExStart
-    //ExFor:BuiltInDocumentProperties.Bytes
-    //ExFor:BuiltInDocumentProperties.Characters
-    //ExFor:BuiltInDocumentProperties.CharactersWithSpaces
-    //ExFor:BuiltInDocumentProperties.ContentStatus
-    //ExFor:BuiltInDocumentProperties.ContentType
-    //ExFor:BuiltInDocumentProperties.Lines
-    //ExFor:BuiltInDocumentProperties.LinksUpToDate
-    //ExFor:BuiltInDocumentProperties.Pages
-    //ExFor:BuiltInDocumentProperties.Paragraphs
-    //ExFor:BuiltInDocumentProperties.Words
-    //ExSummary:Shows how to work with document properties in the "Content" category.
-    @Test //ExSkip
+    @Test
     public void content() throws Exception
     {
+        //ExStart
+        //ExFor:BuiltInDocumentProperties.Bytes
+        //ExFor:BuiltInDocumentProperties.Characters
+        //ExFor:BuiltInDocumentProperties.CharactersWithSpaces
+        //ExFor:BuiltInDocumentProperties.ContentStatus
+        //ExFor:BuiltInDocumentProperties.ContentType
+        //ExFor:BuiltInDocumentProperties.Lines
+        //ExFor:BuiltInDocumentProperties.LinksUpToDate
+        //ExFor:BuiltInDocumentProperties.Pages
+        //ExFor:BuiltInDocumentProperties.Paragraphs
+        //ExFor:BuiltInDocumentProperties.Words
+        //ExSummary:Shows how to work with document properties in the "Content" category.
         Document doc = new Document(getMyDir() + "Paragraphs.docx");
         BuiltInDocumentProperties properties = doc.getBuiltInDocumentProperties();
 
@@ -303,8 +303,21 @@ public class ExDocumentProperties extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "DocumentProperties.Content.docx");
         testContent(new Document(getArtifactsDir() + "DocumentProperties.Content.docx")); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:BuiltInDocumentProperties.Bytes
+    //ExFor:BuiltInDocumentProperties.Characters
+    //ExFor:BuiltInDocumentProperties.CharactersWithSpaces
+    //ExFor:BuiltInDocumentProperties.ContentStatus
+    //ExFor:BuiltInDocumentProperties.ContentType
+    //ExFor:BuiltInDocumentProperties.Lines
+    //ExFor:BuiltInDocumentProperties.LinksUpToDate
+    //ExFor:BuiltInDocumentProperties.Pages
+    //ExFor:BuiltInDocumentProperties.Paragraphs
+    //ExFor:BuiltInDocumentProperties.Words
+    //ExSummary:Shows how to work with document properties in the "Content" category (LineCounter).
     /// <summary>
     /// Counts the lines in a document.
     /// Traverses the document's layout entities tree upon construction,
@@ -708,3 +721,4 @@ public class ExDocumentProperties extends ApiExampleBase
         //ExEnd:ExtendedProperties
     }
 }
+

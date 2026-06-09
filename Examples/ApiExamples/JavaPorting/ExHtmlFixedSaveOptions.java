@@ -504,17 +504,17 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
 		};
 	}
 
-    //ExStart
-    //ExFor:IResourceSavingCallback
-    //ExFor:IResourceSavingCallback.ResourceSaving(ResourceSavingArgs)
-    //ExFor:ResourceSavingArgs
-    //ExFor:ResourceSavingArgs.Document
-    //ExFor:ResourceSavingArgs.ResourceFileName
-    //ExFor:ResourceSavingArgs.ResourceFileUri
-    //ExSummary:Shows how to use a callback to track external resources created while converting a document to HTML.
-    @Test //ExSkip
+    @Test
     public void resourceSavingCallback() throws Exception
     {
+        //ExStart
+        //ExFor:IResourceSavingCallback
+        //ExFor:IResourceSavingCallback.ResourceSaving(ResourceSavingArgs)
+        //ExFor:ResourceSavingArgs
+        //ExFor:ResourceSavingArgs.Document
+        //ExFor:ResourceSavingArgs.ResourceFileName
+        //ExFor:ResourceSavingArgs.ResourceFileUri
+        //ExSummary:Shows how to use a callback to track external resources created while converting a document to HTML.
         Document doc = new Document(getMyDir() + "Bullet points with alternative font.docx");
 
         FontSavingCallback callback = new FontSavingCallback();
@@ -528,8 +528,17 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
 
         System.out.println(callback.getText());
         testResourceSavingCallback(callback); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:IResourceSavingCallback
+    //ExFor:IResourceSavingCallback.ResourceSaving(ResourceSavingArgs)
+    //ExFor:ResourceSavingArgs
+    //ExFor:ResourceSavingArgs.Document
+    //ExFor:ResourceSavingArgs.ResourceFileName
+    //ExFor:ResourceSavingArgs.ResourceFileUri
+    //ExSummary:Shows how to use a callback to track external resources created while converting a document to HTML (FontSavingCallback).
     private static class FontSavingCallback implements IResourceSavingCallback
     {
         /// <summary>
@@ -557,21 +566,21 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         Assert.assertTrue(callback.getText().contains("styles.css"));
     }
 
-    //ExStart
-    //ExFor:HtmlFixedSaveOptions
-    //ExFor:HtmlFixedSaveOptions.ResourceSavingCallback
-    //ExFor:HtmlFixedSaveOptions.ResourcesFolder
-    //ExFor:HtmlFixedSaveOptions.ResourcesFolderAlias
-    //ExFor:HtmlFixedSaveOptions.SaveFormat
-    //ExFor:HtmlFixedSaveOptions.ShowPageBorder
-    //ExFor:IResourceSavingCallback
-    //ExFor:IResourceSavingCallback.ResourceSaving(ResourceSavingArgs)
-    //ExFor:ResourceSavingArgs.KeepResourceStreamOpen
-    //ExFor:ResourceSavingArgs.ResourceStream
-    //ExSummary:Shows how to use a callback to print the URIs of external resources created while converting a document to HTML.
-    @Test //ExSkip
+    @Test
     public void htmlFixedResourceFolder() throws Exception
     {
+        //ExStart
+        //ExFor:HtmlFixedSaveOptions
+        //ExFor:HtmlFixedSaveOptions.ResourceSavingCallback
+        //ExFor:HtmlFixedSaveOptions.ResourcesFolder
+        //ExFor:HtmlFixedSaveOptions.ResourcesFolderAlias
+        //ExFor:HtmlFixedSaveOptions.SaveFormat
+        //ExFor:HtmlFixedSaveOptions.ShowPageBorder
+        //ExFor:IResourceSavingCallback
+        //ExFor:IResourceSavingCallback.ResourceSaving(ResourceSavingArgs)
+        //ExFor:ResourceSavingArgs.KeepResourceStreamOpen
+        //ExFor:ResourceSavingArgs.ResourceStream
+        //ExSummary:Shows how to use a callback to print the URIs of external resources created while converting a document to HTML.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         ResourceUriPrinter callback = new ResourceUriPrinter();
@@ -599,8 +608,21 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         Assert.assertFalse(Directory.exists(getArtifactsDir() + "HtmlFixedResourceFolder"));
         Assert.assertEquals(6, resourceFiles.Count(f => f.endsWith(".jpeg") || f.endsWith(".png") || f.endsWith(".css")));
         testHtmlFixedResourceFolder(callback); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:HtmlFixedSaveOptions
+    //ExFor:HtmlFixedSaveOptions.ResourceSavingCallback
+    //ExFor:HtmlFixedSaveOptions.ResourcesFolder
+    //ExFor:HtmlFixedSaveOptions.ResourcesFolderAlias
+    //ExFor:HtmlFixedSaveOptions.SaveFormat
+    //ExFor:HtmlFixedSaveOptions.ShowPageBorder
+    //ExFor:IResourceSavingCallback
+    //ExFor:IResourceSavingCallback.ResourceSaving(ResourceSavingArgs)
+    //ExFor:ResourceSavingArgs.KeepResourceStreamOpen
+    //ExFor:ResourceSavingArgs.ResourceStream
+    //ExSummary:Shows how to use a callback to print the URIs of external resources created while converting a document to HTML (ResourceUriPrinter).
     /// <summary>
     /// Counts and prints URIs of resources contained by as they are converted to fixed HTML.
     /// </summary>

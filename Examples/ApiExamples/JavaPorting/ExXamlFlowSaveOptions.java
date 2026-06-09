@@ -33,18 +33,18 @@ import org.testng.annotations.DataProvider;
 @Test
 public class ExXamlFlowSaveOptions extends ApiExampleBase
 {
-    //ExStart
-    //ExFor:XamlFlowSaveOptions
-    //ExFor:XamlFlowSaveOptions.#ctor
-    //ExFor:XamlFlowSaveOptions.#ctor(SaveFormat)
-    //ExFor:XamlFlowSaveOptions.ImageSavingCallback
-    //ExFor:XamlFlowSaveOptions.ImagesFolder
-    //ExFor:XamlFlowSaveOptions.ImagesFolderAlias
-    //ExFor:XamlFlowSaveOptions.SaveFormat
-    //ExSummary:Shows how to print the filenames of linked images created while converting a document to flow-form .xaml.
-    @Test //ExSkip
+    @Test
     public void imageFolder() throws Exception
     {
+        //ExStart
+        //ExFor:XamlFlowSaveOptions
+        //ExFor:XamlFlowSaveOptions.#ctor
+        //ExFor:XamlFlowSaveOptions.#ctor(SaveFormat)
+        //ExFor:XamlFlowSaveOptions.ImageSavingCallback
+        //ExFor:XamlFlowSaveOptions.ImagesFolder
+        //ExFor:XamlFlowSaveOptions.ImagesFolderAlias
+        //ExFor:XamlFlowSaveOptions.SaveFormat
+        //ExSummary:Shows how to print the filenames of linked images created while converting a document to flow-form .xaml.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         ImageUriPrinter callback = new ImageUriPrinter(getArtifactsDir() + "XamlFlowImageFolderAlias");
@@ -74,8 +74,18 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase
         for (String resource : callback.getResources())
             System.out.println("{callback.ImagesFolderAlias}/{resource}");
         testImageFolder(callback); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:XamlFlowSaveOptions
+    //ExFor:XamlFlowSaveOptions.#ctor
+    //ExFor:XamlFlowSaveOptions.#ctor(SaveFormat)
+    //ExFor:XamlFlowSaveOptions.ImageSavingCallback
+    //ExFor:XamlFlowSaveOptions.ImagesFolder
+    //ExFor:XamlFlowSaveOptions.ImagesFolderAlias
+    //ExFor:XamlFlowSaveOptions.SaveFormat
+    //ExSummary:Shows how to print the filenames of linked images created while converting a document to flow-form .xaml (ImageUriPrinter).
     /// <summary>
     /// Counts and prints filenames of images while their parent document is converted to flow-form .xaml.
     /// </summary>
@@ -114,14 +124,14 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase
     }
 
     @Test (dataProvider = "progressCallbackDataProvider")
-    //ExStart
-    //ExFor:SaveOptions.ProgressCallback
-    //ExFor:IDocumentSavingCallback
-    //ExFor:IDocumentSavingCallback.Notify(DocumentSavingArgs)
-    //ExFor:DocumentSavingArgs.EstimatedProgress
-    //ExSummary:Shows how to manage a document while saving to xamlflow.
     public void progressCallback(/*SaveFormat*/int saveFormat, String ext) throws Exception
     {
+        //ExStart
+        //ExFor:SaveOptions.ProgressCallback
+        //ExFor:IDocumentSavingCallback
+        //ExFor:IDocumentSavingCallback.Notify(DocumentSavingArgs)
+        //ExFor:DocumentSavingArgs.EstimatedProgress
+        //ExSummary:Shows how to manage a document while saving to xamlflow.
         Document doc = new Document(getMyDir() + "Big document.docx");
 
         // Following formats are supported: XamlFlow, XamlFlowPack.
@@ -133,6 +143,7 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase
         IllegalStateException exception = Assert.<IllegalStateException>Throws(() =>
             doc.save(getArtifactsDir() + $"XamlFlowSaveOptions.ProgressCallback.{ext}", saveOptions));
         Assert.That(exception?.Message.Contains("EstimatedProgress"), assertTrue();
+        //ExEnd
     }
 
 	//JAVA-added data provider for test method
@@ -146,6 +157,12 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase
 		};
 	}
 
+    //ExStart
+    //ExFor:SaveOptions.ProgressCallback
+    //ExFor:IDocumentSavingCallback
+    //ExFor:IDocumentSavingCallback.Notify(DocumentSavingArgs)
+    //ExFor:DocumentSavingArgs.EstimatedProgress
+    //ExSummary:Shows how to manage a document while saving to xamlflow (SavingProgressCallback).
     /// <summary>
     /// Saving progress callback. Cancel a document saving after the "MaxDuration" seconds.
     /// </summary>
@@ -202,3 +219,4 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase
         //ExEnd:XamlReplaceBackslashWithYenSign
     }
 }
+

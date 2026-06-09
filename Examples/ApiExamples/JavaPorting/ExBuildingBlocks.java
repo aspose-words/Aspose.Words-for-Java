@@ -32,29 +32,29 @@ import com.aspose.ms.System.Collections.msDictionary;
 @Test
 public class ExBuildingBlocks extends ApiExampleBase
 {
-    //ExStart
-    //ExFor:Document.GlossaryDocument
-    //ExFor:BuildingBlock
-    //ExFor:BuildingBlock.#ctor(GlossaryDocument)
-    //ExFor:BuildingBlock.Accept(DocumentVisitor)
-    //ExFor:BuildingBlock.AcceptStart(DocumentVisitor)
-    //ExFor:BuildingBlock.AcceptEnd(DocumentVisitor)
-    //ExFor:BuildingBlock.Behavior
-    //ExFor:BuildingBlock.Category
-    //ExFor:BuildingBlock.Description
-    //ExFor:BuildingBlock.FirstSection
-    //ExFor:BuildingBlock.Gallery
-    //ExFor:BuildingBlock.Guid
-    //ExFor:BuildingBlock.LastSection
-    //ExFor:BuildingBlock.Name
-    //ExFor:BuildingBlock.Sections
-    //ExFor:BuildingBlock.Type
-    //ExFor:BuildingBlockBehavior
-    //ExFor:BuildingBlockType
-    //ExSummary:Shows how to add a custom building block to a document.
-    @Test //ExSkip
+    @Test
     public void createAndInsert() throws Exception
     {
+        //ExStart
+        //ExFor:Document.GlossaryDocument
+        //ExFor:BuildingBlock
+        //ExFor:BuildingBlock.#ctor(GlossaryDocument)
+        //ExFor:BuildingBlock.Accept(DocumentVisitor)
+        //ExFor:BuildingBlock.AcceptStart(DocumentVisitor)
+        //ExFor:BuildingBlock.AcceptEnd(DocumentVisitor)
+        //ExFor:BuildingBlock.Behavior
+        //ExFor:BuildingBlock.Category
+        //ExFor:BuildingBlock.Description
+        //ExFor:BuildingBlock.FirstSection
+        //ExFor:BuildingBlock.Gallery
+        //ExFor:BuildingBlock.Guid
+        //ExFor:BuildingBlock.LastSection
+        //ExFor:BuildingBlock.Name
+        //ExFor:BuildingBlock.Sections
+        //ExFor:BuildingBlock.Type
+        //ExFor:BuildingBlockBehavior
+        //ExFor:BuildingBlockType
+        //ExSummary:Shows how to add a custom building block to a document.
         // A document's glossary document stores building blocks.
         Document doc = new Document();
         GlossaryDocument glossaryDoc = new GlossaryDocument();
@@ -104,8 +104,29 @@ public class ExBuildingBlocks extends ApiExampleBase
 
         // We can also find it in Microsoft Word's Building Blocks Organizer and place it manually.
         doc.save(getArtifactsDir() + "BuildingBlocks.CreateAndInsert.dotx");
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:Document.GlossaryDocument
+    //ExFor:BuildingBlock
+    //ExFor:BuildingBlock.#ctor(GlossaryDocument)
+    //ExFor:BuildingBlock.Accept(DocumentVisitor)
+    //ExFor:BuildingBlock.AcceptStart(DocumentVisitor)
+    //ExFor:BuildingBlock.AcceptEnd(DocumentVisitor)
+    //ExFor:BuildingBlock.Behavior
+    //ExFor:BuildingBlock.Category
+    //ExFor:BuildingBlock.Description
+    //ExFor:BuildingBlock.FirstSection
+    //ExFor:BuildingBlock.Gallery
+    //ExFor:BuildingBlock.Guid
+    //ExFor:BuildingBlock.LastSection
+    //ExFor:BuildingBlock.Name
+    //ExFor:BuildingBlock.Sections
+    //ExFor:BuildingBlock.Type
+    //ExFor:BuildingBlockBehavior
+    //ExFor:BuildingBlockType
+    //ExSummary:Shows how to add a custom building block to a document (BuildingBlockVisitor).
     /// <summary>
     /// Sets up a visited building block to be inserted into the document as a quick part and adds text to its contents.
     /// </summary>
@@ -148,27 +169,27 @@ public class ExBuildingBlocks extends ApiExampleBase
     }
     //ExEnd
 
-    //ExStart
-    //ExFor:GlossaryDocument
-    //ExFor:GlossaryDocument.Accept(DocumentVisitor)
-    //ExFor:GlossaryDocument.AcceptStart(DocumentVisitor)
-    //ExFor:GlossaryDocument.AcceptEnd(DocumentVisitor)
-    //ExFor:GlossaryDocument.BuildingBlocks
-    //ExFor:GlossaryDocument.FirstBuildingBlock
-    //ExFor:GlossaryDocument.GetBuildingBlock(BuildingBlockGallery,String,String)
-    //ExFor:GlossaryDocument.LastBuildingBlock
-    //ExFor:BuildingBlockCollection
-    //ExFor:BuildingBlockCollection.Item(Int32)
-    //ExFor:BuildingBlockCollection.ToArray
-    //ExFor:BuildingBlockGallery
-    //ExFor:DocumentVisitor.VisitBuildingBlockEnd(BuildingBlock)
-    //ExFor:DocumentVisitor.VisitBuildingBlockStart(BuildingBlock)
-    //ExFor:DocumentVisitor.VisitGlossaryDocumentEnd(GlossaryDocument)
-    //ExFor:DocumentVisitor.VisitGlossaryDocumentStart(GlossaryDocument)
-    //ExSummary:Shows ways of accessing building blocks in a glossary document.
-    @Test //ExSkip
+    @Test
     public void glossaryDocument() throws Exception
     {
+        //ExStart
+        //ExFor:GlossaryDocument
+        //ExFor:GlossaryDocument.Accept(DocumentVisitor)
+        //ExFor:GlossaryDocument.AcceptStart(DocumentVisitor)
+        //ExFor:GlossaryDocument.AcceptEnd(DocumentVisitor)
+        //ExFor:GlossaryDocument.BuildingBlocks
+        //ExFor:GlossaryDocument.FirstBuildingBlock
+        //ExFor:GlossaryDocument.GetBuildingBlock(BuildingBlockGallery,String,String)
+        //ExFor:GlossaryDocument.LastBuildingBlock
+        //ExFor:BuildingBlockCollection
+        //ExFor:BuildingBlockCollection.Item(Int32)
+        //ExFor:BuildingBlockCollection.ToArray
+        //ExFor:BuildingBlockGallery
+        //ExFor:DocumentVisitor.VisitBuildingBlockEnd(BuildingBlock)
+        //ExFor:DocumentVisitor.VisitBuildingBlockStart(BuildingBlock)
+        //ExFor:DocumentVisitor.VisitGlossaryDocumentEnd(GlossaryDocument)
+        //ExFor:DocumentVisitor.VisitGlossaryDocumentStart(GlossaryDocument)
+        //ExSummary:Shows ways of accessing building blocks in a glossary document.
         Document doc = new Document();
         GlossaryDocument glossaryDoc = new GlossaryDocument();
 
@@ -214,8 +235,27 @@ public class ExBuildingBlocks extends ApiExampleBase
 
         // In Microsoft Word, we can access the building blocks via "Insert" -> "Quick Parts" -> "Building Blocks Organizer".
         doc.save(getArtifactsDir() + "BuildingBlocks.GlossaryDocument.dotx"); 
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:GlossaryDocument
+    //ExFor:GlossaryDocument.Accept(DocumentVisitor)
+    //ExFor:GlossaryDocument.AcceptStart(DocumentVisitor)
+    //ExFor:GlossaryDocument.AcceptEnd(DocumentVisitor)
+    //ExFor:GlossaryDocument.BuildingBlocks
+    //ExFor:GlossaryDocument.FirstBuildingBlock
+    //ExFor:GlossaryDocument.GetBuildingBlock(BuildingBlockGallery,String,String)
+    //ExFor:GlossaryDocument.LastBuildingBlock
+    //ExFor:BuildingBlockCollection
+    //ExFor:BuildingBlockCollection.Item(Int32)
+    //ExFor:BuildingBlockCollection.ToArray
+    //ExFor:BuildingBlockGallery
+    //ExFor:DocumentVisitor.VisitBuildingBlockEnd(BuildingBlock)
+    //ExFor:DocumentVisitor.VisitBuildingBlockStart(BuildingBlock)
+    //ExFor:DocumentVisitor.VisitGlossaryDocumentEnd(GlossaryDocument)
+    //ExFor:DocumentVisitor.VisitGlossaryDocumentStart(GlossaryDocument)
+    //ExSummary:Shows ways of accessing building blocks in a glossary document (GlossaryDocVisitor).
     /// <summary>
     /// Gives each building block in a visited glossary document a unique GUID.
     /// Stores the GUID-building block pairs in a dictionary.
@@ -275,3 +315,4 @@ public class ExBuildingBlocks extends ApiExampleBase
     }
     //ExEnd
 }
+

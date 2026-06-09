@@ -164,20 +164,19 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
         TestUtil.verifyEditableRange(1, "", EditorType.CONTRIBUTORS, editableRange);
     }
 
-    //ExStart
-
-    //ExFor:EditableRange
-    //ExFor:EditableRange.EditorGroup
-    //ExFor:EditableRange.SingleUser
-    //ExFor:EditableRangeEnd
-    //ExFor:EditableRangeEnd.Accept(DocumentVisitor)
-    //ExFor:EditableRangeStart
-    //ExFor:EditableRangeStart.Accept(DocumentVisitor)
-    //ExFor:EditorType
-    //ExSummary:Shows how to limit the editing rights of editable ranges to a specific group/user.
-    @Test //ExSkip
+    @Test
     public void visitor() throws Exception
     {
+        //ExStart
+        //ExFor:EditableRange
+        //ExFor:EditableRange.EditorGroup
+        //ExFor:EditableRange.SingleUser
+        //ExFor:EditableRangeEnd
+        //ExFor:EditableRangeEnd.Accept(DocumentVisitor)
+        //ExFor:EditableRangeStart
+        //ExFor:EditableRangeStart.Accept(DocumentVisitor)
+        //ExFor:EditorType
+        //ExSummary:Shows how to limit the editing rights of editable ranges to a specific group/user.
         Document doc = new Document();
         doc.protect(ProtectionType.READ_ONLY, "MyPassword");
 
@@ -211,8 +210,19 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
         doc.accept(editableRangePrinter);
 
         System.out.println(editableRangePrinter.toText());
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:EditableRange
+    //ExFor:EditableRange.EditorGroup
+    //ExFor:EditableRange.SingleUser
+    //ExFor:EditableRangeEnd
+    //ExFor:EditableRangeEnd.Accept(DocumentVisitor)
+    //ExFor:EditableRangeStart
+    //ExFor:EditableRangeStart.Accept(DocumentVisitor)
+    //ExFor:EditorType
+    //ExSummary:Shows how to limit the editing rights of editable ranges to a specific group/user (EditableRangePrinter).
     /// <summary>
     /// Collects properties and contents of visited editable ranges in a string.
     /// </summary>
@@ -314,3 +324,4 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
         Assert.assertEquals(0, endNodes.getCount());
     }
 }
+

@@ -181,27 +181,27 @@ public class ExComment extends ApiExampleBase
         Assert.assertEquals("Hello world!", doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getText());
     }
 
-    //ExStart
-    //ExFor:Comment.Done
-    //ExFor:Comment.#ctor(DocumentBase)
-    //ExFor:Comment.Accept(DocumentVisitor)
-    //ExFor:Comment.AcceptStart(DocumentVisitor)
-    //ExFor:Comment.AcceptEnd(DocumentVisitor)
-    //ExFor:Comment.DateTime
-    //ExFor:Comment.Id
-    //ExFor:Comment.Initial
-    //ExFor:CommentRangeEnd
-    //ExFor:CommentRangeEnd.#ctor(DocumentBase,Int32)
-    //ExFor:CommentRangeEnd.Accept(DocumentVisitor)
-    //ExFor:CommentRangeEnd.Id
-    //ExFor:CommentRangeStart
-    //ExFor:CommentRangeStart.#ctor(DocumentBase,Int32)
-    //ExFor:CommentRangeStart.Accept(DocumentVisitor)
-    //ExFor:CommentRangeStart.Id
-    //ExSummary:Shows how print the contents of all comments and their comment ranges using a document visitor.
-    @Test //ExSkip
+    @Test
     public void createCommentsAndPrintAllInfo() throws Exception
     {
+        //ExStart
+        //ExFor:Comment.Done
+        //ExFor:Comment.#ctor(DocumentBase)
+        //ExFor:Comment.Accept(DocumentVisitor)
+        //ExFor:Comment.AcceptStart(DocumentVisitor)
+        //ExFor:Comment.AcceptEnd(DocumentVisitor)
+        //ExFor:Comment.DateTime
+        //ExFor:Comment.Id
+        //ExFor:Comment.Initial
+        //ExFor:CommentRangeEnd
+        //ExFor:CommentRangeEnd.#ctor(DocumentBase,Int32)
+        //ExFor:CommentRangeEnd.Accept(DocumentVisitor)
+        //ExFor:CommentRangeEnd.Id
+        //ExFor:CommentRangeStart
+        //ExFor:CommentRangeStart.#ctor(DocumentBase,Int32)
+        //ExFor:CommentRangeStart.Accept(DocumentVisitor)
+        //ExFor:CommentRangeStart.Id
+        //ExSummary:Shows how print the contents of all comments and their comment ranges using a document visitor.
         Document doc = new Document();
         
         Comment newComment = new Comment(doc);
@@ -225,8 +225,27 @@ public class ExComment extends ApiExampleBase
         newComment.addReplyInternal("John Doe", "JD", new Date, "Another reply.");
 
         printAllCommentInfo(doc.getChildNodes(NodeType.COMMENT, true));
+        //ExEnd
     }
-    
+
+    //ExStart
+    //ExFor:Comment.Done
+    //ExFor:Comment.#ctor(DocumentBase)
+    //ExFor:Comment.Accept(DocumentVisitor)
+    //ExFor:Comment.AcceptStart(DocumentVisitor)
+    //ExFor:Comment.AcceptEnd(DocumentVisitor)
+    //ExFor:Comment.DateTime
+    //ExFor:Comment.Id
+    //ExFor:Comment.Initial
+    //ExFor:CommentRangeEnd
+    //ExFor:CommentRangeEnd.#ctor(DocumentBase,Int32)
+    //ExFor:CommentRangeEnd.Accept(DocumentVisitor)
+    //ExFor:CommentRangeEnd.Id
+    //ExFor:CommentRangeStart
+    //ExFor:CommentRangeStart.#ctor(DocumentBase,Int32)
+    //ExFor:CommentRangeStart.Accept(DocumentVisitor)
+    //ExFor:CommentRangeStart.Id
+    //ExSummary:Shows how print the contents of all comments and their comment ranges using a document visitor (PrintAllCommentInfo).
     /// <summary>
     /// Iterates over every top-level comment and prints its comment range, contents, and replies.
     /// </summary>

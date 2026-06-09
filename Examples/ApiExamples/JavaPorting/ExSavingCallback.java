@@ -67,19 +67,19 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
         xpsSaveOptions.setPageSavingCallback(new CustomFileNamePageSavingCallback());
     }
 
-    //ExStart
-    //ExFor:IPageSavingCallback
-    //ExFor:IPageSavingCallback.PageSaving(PageSavingArgs)
-    //ExFor:PageSavingArgs
-    //ExFor:PageSavingArgs.PageFileName
-    //ExFor:PageSavingArgs.KeepPageStreamOpen
-    //ExFor:PageSavingArgs.PageIndex
-    //ExFor:PageSavingArgs.PageStream
-    //ExFor:FixedPageSaveOptions.PageSavingCallback
-    //ExSummary:Shows how to use a callback to save a document to HTML page by page.
-    @Test //ExSkip
+    @Test
     public void pageFileNames() throws Exception
     {
+        //ExStart
+        //ExFor:IPageSavingCallback
+        //ExFor:IPageSavingCallback.PageSaving(PageSavingArgs)
+        //ExFor:PageSavingArgs
+        //ExFor:PageSavingArgs.PageFileName
+        //ExFor:PageSavingArgs.KeepPageStreamOpen
+        //ExFor:PageSavingArgs.PageIndex
+        //ExFor:PageSavingArgs.PageStream
+        //ExFor:FixedPageSaveOptions.PageSavingCallback
+        //ExSummary:Shows how to use a callback to save a document to HTML page by page.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -104,8 +104,19 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
             s => s.startsWith(getArtifactsDir() + "SavingCallback.PageFileNames.Page_")).OrderBy(s => s).ToArray();
 
         Assert.assertEquals(3, filePaths.length);
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:IPageSavingCallback
+    //ExFor:IPageSavingCallback.PageSaving(PageSavingArgs)
+    //ExFor:PageSavingArgs
+    //ExFor:PageSavingArgs.PageFileName
+    //ExFor:PageSavingArgs.KeepPageStreamOpen
+    //ExFor:PageSavingArgs.PageIndex
+    //ExFor:PageSavingArgs.PageStream
+    //ExFor:FixedPageSaveOptions.PageSavingCallback
+    //ExSummary:Shows how to use a callback to save a document to HTML page by page (CustomFileNamePageSavingCallback).
     /// <summary>
     /// Saves all pages to a file and directory specified within.
     /// </summary>
@@ -127,25 +138,25 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
     }
     //ExEnd
 
-    //ExStart
-    //ExFor:DocumentPartSavingArgs
-    //ExFor:DocumentPartSavingArgs.Document
-    //ExFor:DocumentPartSavingArgs.DocumentPartFileName
-    //ExFor:DocumentPartSavingArgs.DocumentPartStream
-    //ExFor:DocumentPartSavingArgs.KeepDocumentPartStreamOpen
-    //ExFor:IDocumentPartSavingCallback
-    //ExFor:IDocumentPartSavingCallback.DocumentPartSaving(DocumentPartSavingArgs)
-    //ExFor:IImageSavingCallback
-    //ExFor:IImageSavingCallback.ImageSaving
-    //ExFor:ImageSavingArgs
-    //ExFor:ImageSavingArgs.ImageFileName
-    //ExFor:HtmlSaveOptions
-    //ExFor:HtmlSaveOptions.DocumentPartSavingCallback
-    //ExFor:HtmlSaveOptions.ImageSavingCallback
-    //ExSummary:Shows how to split a document into parts and save them.
-    @Test //ExSkip
+    @Test
     public void documentPartsFileNames() throws Exception
     {
+        //ExStart
+        //ExFor:DocumentPartSavingArgs
+        //ExFor:DocumentPartSavingArgs.Document
+        //ExFor:DocumentPartSavingArgs.DocumentPartFileName
+        //ExFor:DocumentPartSavingArgs.DocumentPartStream
+        //ExFor:DocumentPartSavingArgs.KeepDocumentPartStreamOpen
+        //ExFor:IDocumentPartSavingCallback
+        //ExFor:IDocumentPartSavingCallback.DocumentPartSaving(DocumentPartSavingArgs)
+        //ExFor:IImageSavingCallback
+        //ExFor:IImageSavingCallback.ImageSaving
+        //ExFor:ImageSavingArgs
+        //ExFor:ImageSavingArgs.ImageFileName
+        //ExFor:HtmlSaveOptions
+        //ExFor:HtmlSaveOptions.DocumentPartSavingCallback
+        //ExFor:HtmlSaveOptions.ImageSavingCallback
+        //ExSummary:Shows how to split a document into parts and save them.
         Document doc = new Document(getMyDir() + "Rendering.docx");
         String outFileName = "SavingCallback.DocumentPartsFileNames.html";
 
@@ -168,8 +179,25 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
         options.setImageSavingCallback(new SavedImageRename(outFileName));
 
         doc.save(getArtifactsDir() + outFileName, options);
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:DocumentPartSavingArgs
+    //ExFor:DocumentPartSavingArgs.Document
+    //ExFor:DocumentPartSavingArgs.DocumentPartFileName
+    //ExFor:DocumentPartSavingArgs.DocumentPartStream
+    //ExFor:DocumentPartSavingArgs.KeepDocumentPartStreamOpen
+    //ExFor:IDocumentPartSavingCallback
+    //ExFor:IDocumentPartSavingCallback.DocumentPartSaving(DocumentPartSavingArgs)
+    //ExFor:IImageSavingCallback
+    //ExFor:IImageSavingCallback.ImageSaving
+    //ExFor:ImageSavingArgs
+    //ExFor:ImageSavingArgs.ImageFileName
+    //ExFor:HtmlSaveOptions
+    //ExFor:HtmlSaveOptions.DocumentPartSavingCallback
+    //ExFor:HtmlSaveOptions.ImageSavingCallback
+    //ExSummary:Shows how to split a document into parts and save them (SavedDocumentPartRename).
     /// <summary>
     /// Sets custom filenames for output documents that the saving operation splits a document into.
     /// </summary>
@@ -253,22 +281,22 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
     }
     //ExEnd
 
-    //ExStart
-    //ExFor:CssSavingArgs
-    //ExFor:CssSavingArgs.CssStream
-    //ExFor:CssSavingArgs.Document
-    //ExFor:CssSavingArgs.IsExportNeeded
-    //ExFor:CssSavingArgs.KeepCssStreamOpen
-    //ExFor:CssStyleSheetType
-    //ExFor:HtmlSaveOptions.CssSavingCallback
-    //ExFor:HtmlSaveOptions.CssStyleSheetFileName
-    //ExFor:HtmlSaveOptions.CssStyleSheetType
-    //ExFor:ICssSavingCallback
-    //ExFor:ICssSavingCallback.CssSaving(CssSavingArgs)
-    //ExSummary:Shows how to work with CSS stylesheets that an HTML conversion creates.
-    @Test //ExSkip
+    @Test
     public void externalCssFilenames() throws Exception
     {
+        //ExStart
+        //ExFor:CssSavingArgs
+        //ExFor:CssSavingArgs.CssStream
+        //ExFor:CssSavingArgs.Document
+        //ExFor:CssSavingArgs.IsExportNeeded
+        //ExFor:CssSavingArgs.KeepCssStreamOpen
+        //ExFor:CssStyleSheetType
+        //ExFor:HtmlSaveOptions.CssSavingCallback
+        //ExFor:HtmlSaveOptions.CssStyleSheetFileName
+        //ExFor:HtmlSaveOptions.CssStyleSheetType
+        //ExFor:ICssSavingCallback
+        //ExFor:ICssSavingCallback.CssSaving(CssSavingArgs)
+        //ExSummary:Shows how to work with CSS stylesheets that an HTML conversion creates.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Create an "HtmlFixedSaveOptions" object, which we can pass to the document's "Save" method
@@ -287,8 +315,22 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
         options.setCssSavingCallback(new CustomCssSavingCallback(getArtifactsDir() + "SavingCallback.ExternalCssFilenames.css", true, false));
 
         doc.save(getArtifactsDir() + "SavingCallback.ExternalCssFilenames.html", options);
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:CssSavingArgs
+    //ExFor:CssSavingArgs.CssStream
+    //ExFor:CssSavingArgs.Document
+    //ExFor:CssSavingArgs.IsExportNeeded
+    //ExFor:CssSavingArgs.KeepCssStreamOpen
+    //ExFor:CssStyleSheetType
+    //ExFor:HtmlSaveOptions.CssSavingCallback
+    //ExFor:HtmlSaveOptions.CssStyleSheetFileName
+    //ExFor:HtmlSaveOptions.CssStyleSheetType
+    //ExFor:ICssSavingCallback
+    //ExFor:ICssSavingCallback.CssSaving(CssSavingArgs)
+    //ExSummary:Shows how to work with CSS stylesheets that an HTML conversion creates (CustomCssSavingCallback).
     /// <summary>
     /// Sets a custom filename, along with other parameters for an external CSS stylesheet.
     /// </summary>
@@ -319,3 +361,4 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
     }
     //ExEnd
 }
+

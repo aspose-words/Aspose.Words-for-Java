@@ -36,7 +36,6 @@ import com.aspose.ms.System.IO.File;
 import com.aspose.words.ShapeType;
 import ApiExamples.TestData.TestClasses.ImageTestClass;
 import ApiExamples.TestData.TestBuilders.ImageTestBuilder;
-import com.aspose.ms.System.msUri;
 import com.aspose.words.DocumentBuilder;
 import ApiExamples.TestData.TestClasses.ClientTestClass;
 import com.aspose.words.NodeCollection;
@@ -537,7 +536,7 @@ public class ExReportingEngine extends ApiExampleBase
         Document template =
             DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.ImageString]>>", ShapeType.TEXT_BOX);
         ImageTestClass imageUri = new ImageTestBuilder()
-            .withImageString(new msUri(getImageDir() + "Transparent background logo.png").toString())
+            .withImageString(getImageUrl())
             .build();
 
         buildReport(template, imageUri, "src", ReportBuildOptions.NONE);

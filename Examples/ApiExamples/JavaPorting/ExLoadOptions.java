@@ -50,20 +50,24 @@ import org.testng.annotations.DataProvider;
 @Test
 public class ExLoadOptions extends ApiExampleBase
 {
-    //ExStart
-    //ExFor:LoadOptions.ResourceLoadingCallback
-    //ExSummary:Shows how to handle external resources when loading Html documents.
-    @Test //ExSkip
+    @Test
     public void loadOptionsCallback() throws Exception
     {
+        //ExStart
+        //ExFor:LoadOptions.ResourceLoadingCallback
+        //ExSummary:Shows how to handle external resources when loading Html documents.
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.setResourceLoadingCallback(new HtmlLinkedResourceLoadingCallback());
 
         // When we load the document, our callback will handle linked resources such as CSS stylesheets and images.
         Document doc = new Document(getMyDir() + "Images.html", loadOptions);
         doc.save(getArtifactsDir() + "LoadOptions.LoadOptionsCallback.pdf");
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:LoadOptions.ResourceLoadingCallback
+    //ExSummary:Shows how to handle external resources when loading Html documents (HtmlLinkedResourceLoadingCallback).
     /// <summary>
     /// Prints the filenames of all external stylesheets and substitutes all images of a loaded html document.
     /// </summary>
@@ -196,12 +200,12 @@ public class ExLoadOptions extends ApiExampleBase
         //ExEnd
     }
 
-    //ExStart
-    //ExFor:LoadOptions.WarningCallback
-    //ExSummary:Shows how to print and store warnings that occur during document loading.
-    @Test //ExSkip
+    @Test
     public void loadOptionsWarningCallback() throws Exception
     {
+        //ExStart
+        //ExFor:LoadOptions.WarningCallback
+        //ExSummary:Shows how to print and store warnings that occur during document loading.
         // Create a new LoadOptions object and set its WarningCallback attribute
         // as an instance of our IWarningCallback implementation.
         LoadOptions loadOptions = new LoadOptions();
@@ -213,8 +217,12 @@ public class ExLoadOptions extends ApiExampleBase
         ArrayList<WarningInfo> warnings = ((DocumentLoadingWarningCallback)loadOptions.getWarningCallback()).getWarnings();
         Assert.assertEquals(3, warnings.size());
         testLoadOptionsWarningCallback(warnings); //ExSkip
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:LoadOptions.WarningCallback
+    //ExSummary:Shows how to print and store warnings that occur during document loading (DocumentLoadingWarningCallback).
     /// <summary>
     /// IWarningCallback that prints warnings and their details as they arise during document loading.
     /// </summary>
@@ -367,16 +375,16 @@ public class ExLoadOptions extends ApiExampleBase
         Document doc = new Document(getMyDir() + "HTML help.chm", loadOptions);
     }
 
-    //ExStart
-    //ExFor:LoadOptions.ProgressCallback
-    //ExFor:IDocumentLoadingCallback
-    //ExFor:IDocumentLoadingCallback.Notify
-    //ExFor:DocumentLoadingArgs
-    //ExFor:DocumentLoadingArgs.EstimatedProgress
-    //ExSummary:Shows how to notify the user if document loading exceeded expected loading time.
-    @Test//ExSkip
+    @Test
     public void progressCallback() throws Exception
     {
+        //ExStart
+        //ExFor:LoadOptions.ProgressCallback
+        //ExFor:IDocumentLoadingCallback
+        //ExFor:IDocumentLoadingCallback.Notify
+        //ExFor:DocumentLoadingArgs
+        //ExFor:DocumentLoadingArgs.EstimatedProgress
+        //ExSummary:Shows how to notify the user if document loading exceeded expected loading time.
         LoadingProgressCallback progressCallback = new LoadingProgressCallback();
 
         LoadOptions loadOptions = new LoadOptions(); { loadOptions.setProgressCallback(progressCallback); }
@@ -391,8 +399,16 @@ public class ExLoadOptions extends ApiExampleBase
 
             // Handle loading duration issue.
         }
+        //ExEnd
     }
 
+    //ExStart
+    //ExFor:LoadOptions.ProgressCallback
+    //ExFor:IDocumentLoadingCallback
+    //ExFor:IDocumentLoadingCallback.Notify
+    //ExFor:DocumentLoadingArgs
+    //ExFor:DocumentLoadingArgs.EstimatedProgress
+    //ExSummary:Shows how to notify the user if document loading exceeded expected loading time (LoadingProgressCallback).
     /// <summary>
     /// Cancel a document loading after the "MaxDuration" seconds.
     /// </summary>
