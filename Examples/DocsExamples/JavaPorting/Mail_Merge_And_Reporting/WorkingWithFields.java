@@ -292,7 +292,7 @@ class WorkingWithFields extends DocsExamplesBase
 
         doc.getMailMerge().setFieldMergingCallback(new MailMergeSwitches());
 
-        final String HTML = "<html>\r\n                    <h1>Hello world!</h1>\r\n            </html>";
+        final String HTML = "<html>\n                    <h1>Hello world!</h1>\n            </html>";
 
         doc.getMailMerge().execute(new String[] { "htmlField1" }, new Object[] { HTML });
 
