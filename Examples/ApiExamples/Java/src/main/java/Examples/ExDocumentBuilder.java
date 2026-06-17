@@ -3477,9 +3477,9 @@ public class ExDocumentBuilder extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertOnlineVideoCustomThumbnail.docx");
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImageInShape(100, 100, ImageType.PNG, shape);
-        Assert.assertEquals(100.0d, shape.getWidth());
-        Assert.assertEquals(100.0d, shape.getHeight());
+        TestUtil.verifyImageInShape(400, 300, ImageType.PNG, shape);
+        Assert.assertEquals(400.0d, shape.getWidth());
+        Assert.assertEquals(300.0d, shape.getHeight());
         Assert.assertEquals(0.0d, shape.getLeft());
         Assert.assertEquals(0.0d, shape.getTop());
         Assert.assertEquals(WrapType.INLINE, shape.getWrapType());
@@ -3490,11 +3490,11 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         shape = (Shape) doc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImageInShape(100, 100, ImageType.PNG, shape);
-        Assert.assertEquals(100, shape.getWidth());
-        Assert.assertEquals(100, shape.getHeight());
-        Assert.assertEquals(-28.0d, shape.getLeft());
-        Assert.assertEquals(-28.0d, shape.getTop());
+        TestUtil.verifyImageInShape(400, 300, ImageType.PNG, shape);
+        Assert.assertEquals(400, shape.getWidth());
+        Assert.assertEquals(300, shape.getHeight());
+        Assert.assertEquals(-328.0d, shape.getLeft());
+        Assert.assertEquals(-228.0d, shape.getTop());
         Assert.assertEquals(WrapType.SQUARE, shape.getWrapType());
         Assert.assertEquals(RelativeVerticalPosition.BOTTOM_MARGIN, shape.getRelativeVerticalPosition());
         Assert.assertEquals(RelativeHorizontalPosition.RIGHT_MARGIN, shape.getRelativeHorizontalPosition());
