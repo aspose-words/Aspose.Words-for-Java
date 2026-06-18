@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -2708,7 +2708,7 @@ public class ExDocument extends ApiExampleBase
     public void removeCustomizations() throws Exception
     {
         //ExStart:RemoveCustomizations
-        //GistId:4f0f7d328594293c40062359b8eb9a08
+        //GistId:08b70f8a949ac04c40f05d0720c63172
         //ExFor:Document.RemoveCustomizations
         //ExSummary:Shows how to remove toolbar and keyboard command customizations from the document.
         Document doc = new Document(getMyDir() + "Customized menu.docx");
