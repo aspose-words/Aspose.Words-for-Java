@@ -123,6 +123,7 @@ import com.aspose.words.XamlFixedSaveOptions;
 import com.aspose.words.PageExtractOptions;
 import com.aspose.words.SectionStart;
 import com.aspose.words.DoclingSaveOptions;
+import com.aspose.words.ReadabilityStatistics;
 import org.testng.annotations.DataProvider;
 
 
@@ -443,7 +444,8 @@ public class ExDocument extends ApiExampleBase
         //ExFor:WarningInfoCollection.Item(Int32)
         //ExSummary:Shows how to get warnings about unsupported formats.
         WarningInfoCollection warnings = new WarningInfoCollection();
-        Document doc = new Document(getMyDir() + "FB2 document.fb2", new LoadOptions(); { doc.setWarningCallback(warnings); });
+        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setWarningCallback(warnings); }
+        Document doc = new Document(getMyDir() + "FB2 document.fb2", loadOptions);
 
         Assert.assertEquals("The original file load format is FB2, which is not supported by Aspose.Words. The file is loaded as an XML document.", warnings.get(0).getDescription());
         Assert.assertEquals(1, warnings.getCount());
@@ -2950,6 +2952,29 @@ public class ExDocument extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Document.RemoveCustomizations.docx");
         //ExEnd:RemoveCustomizations
+    }
+
+    @Test
+    public void readabilityStatisticsFleschScores() throws Exception
+    {
+        //ExStart:ReadabilityStatisticsFleschScores
+        //GistId:1e92948c24f1db379b293ab9f71558ab
+        //ExFor:ReadabilityStatistics
+        //ExFor:Document.ReadabilityStatistics
+        //ExSummary:Shows how to calculate and display the Flesch reading scores for a document.
+        Document doc = new Document();
+
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("The implementation of artificial intelligence algorithms requires a comprehensive understanding of machine learning methodologies and statistical analysis techniques.");
+        builder.writeln("Furthermore, the integration of neural networks into existing software architectures presents significant challenges for developers.");
+        builder.writeln("This document serves as an illustrative example for calculating readability metrics using the Flesch reading ease formula.");
+
+        // Calculate readability statistics.
+        ReadabilityStatistics stats = doc.getReadabilityStatistics();
+        // Verify that the scores are within expected valid ranges.
+        Assert.lessOrEqual(0, .And.LessThanOrEqualTo(190)stats.getFleschReadingEasy());
+        Assert.greaterOrEqual(0, stats.getFleschKincaidGradeLevel());
+        //ExEnd:ReadabilityStatisticsFleschScores
     }
 }
 

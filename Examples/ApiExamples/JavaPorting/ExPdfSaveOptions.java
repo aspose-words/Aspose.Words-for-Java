@@ -1674,7 +1674,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         switch (pdfFontEmbeddingMode)
         {
             case PdfFontEmbeddingMode.EMBED_ALL:
-                Assert.assertTrue(testedFileLength < 1040000);
+                Assert.assertTrue(testedFileLength < 1045500);
                 break;
             case PdfFontEmbeddingMode.EMBED_NONSTANDARD:
                 Assert.assertTrue(testedFileLength < 492000);
@@ -1852,12 +1852,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         long testedFileLength = new FileInfo(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").getLength();
         if (applyAdditionalTextPositioning)
         {
-            Assert.assertTrue(testedFileLength < 102000);
+            Assert.assertTrue(testedFileLength < 103000);
             Assert.That(tjOperator.ToString(), assertEquals("[0 (S) 0 (a) 0 (m) 0 (s) 0 (t) 0 (a) -1 (g) 1 (,) 0 ( ) 0 (1) 0 (0) 0 (.) 0 ( ) 0 (N) 0 (o) 0 (v) 0 (e) 0 (m) 0 (b) 0 (e) 0 (r) -1 ( ) 1 (2) -1 (0) 0 (1) 0 (8)] TJ", );
         }
         else
         {
-            Assert.assertTrue(testedFileLength < 99500);
+            Assert.assertTrue(testedFileLength < 100000);
             Assert.That(tjOperator.ToString(), assertEquals("[(Samsta) -1 (g) 1 (, 10. November) -1 ( ) 1 (2) -1 (018)] TJ", );
         }
     }

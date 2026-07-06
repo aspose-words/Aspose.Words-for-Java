@@ -1093,5 +1093,33 @@ public class ExLists extends ApiExampleBase
         doc.save(getArtifactsDir() + "Lists.AddSingleLevelList.docx");
         //ExEnd:AddSingleLevelList
     }
+
+    @Test
+    public void removeTabStopFromListLevel() throws Exception
+    {
+        //ExStart:RemoveTabStopFromListLevel
+        //GistId:1e92948c24f1db379b293ab9f71558ab
+        //ExFor:ListLevel.RemoveTabStop()
+        //ExSummary:Shows how to clear the list level tab stop.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Create a list with default formatting.
+        builder.getListFormat().applyNumberDefault();
+        builder.writeln("Numbered list item 1");
+        builder.writeln("Numbered list item 2");
+
+        // Get the list level and remove its tab stop.
+        ListLevel listLevel = builder.getListFormat().getListLevel();
+        listLevel.removeTabStop();
+
+        doc.save(getArtifactsDir() + "Paragraph.RemoveTabStopFromListLevel.docx");
+        //ExEnd:RemoveTabStopFromListLevel
+
+        // Verify the tab stop was removed.
+        doc = new Document(getArtifactsDir() + "Paragraph.RemoveTabStopFromListLevel.docx");
+        ListLevel effectiveListLevel = doc.getFirstSection().getBody().getFirstParagraph().getListFormat().getListLevel();
+        Assert.Is.Not.NulleffectiveListLevel);
+    }
 }
 

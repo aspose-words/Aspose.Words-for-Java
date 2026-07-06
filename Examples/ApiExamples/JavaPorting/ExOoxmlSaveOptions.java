@@ -44,8 +44,8 @@ import java.awt.Graphics2D;
 import java.awt.Color;
 import com.aspose.words.Zip64Mode;
 import com.aspose.words.CertificateHolder;
-import com.aspose.words.DigitalSignatureDetails;
 import com.aspose.words.SignOptions;
+import com.aspose.words.DigitalSignatureDetails;
 import com.aspose.words.Run;
 import org.testng.annotations.DataProvider;
 
@@ -487,9 +487,8 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         	}
             finally { if (bmp != null) bmp.close(); }
         }
-
-        builder.getDocument().save(getArtifactsDir() + "OoxmlSaveOptions.Zip64ModeOption.docx", 
-            new OoxmlSaveOptions(); { .setZip64Mode(Zip64Mode.ALWAYS); });
+        OoxmlSaveOptions saveOptions =  new OoxmlSaveOptions(); { saveOptions.setZip64Mode(Zip64Mode.ALWAYS); }
+        builder.getDocument().save(getArtifactsDir() + "OoxmlSaveOptions.Zip64ModeOption.docx", saveOptions);
         //ExEnd:Zip64ModeOption
     }
 
@@ -507,9 +506,9 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         Document doc = new Document(getMyDir() + "Document.docx");
 
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
+        SignOptions signOptions = new SignOptions(); { signOptions.setComments("Some comments"); signOptions.setSignTime(new Date); }
         DigitalSignatureDetails digitalSignatureDetails = new DigitalSignatureDetails(
-            certificateHolder,
-            new SignOptions(); { digitalSignatureDetails.setComments("Some comments"); digitalSignatureDetails.setSignTime(new Date); });
+            certificateHolder, signOptions);
 
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
         saveOptions.setDigitalSignatureDetails(digitalSignatureDetails);

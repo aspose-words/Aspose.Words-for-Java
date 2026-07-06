@@ -252,9 +252,10 @@ public class ExTxtLoadOptions extends ApiExampleBase
         {
             byte[] buf = Encoding.getASCII().getBytes(INPUT_TEXT);
             stream.write(buf, 0, buf.length);
+            TxtLoadOptions loadOptions = new TxtLoadOptions(); {loadOptions.setDetectHyperlinks(true);}
 
             // Load document with hyperlinks.
-            Document doc = new Document(stream, new TxtLoadOptions(); { doc.setDetectHyperlinks(true); });
+            Document doc = new Document(stream, loadOptions);
 
             // Print hyperlinks text.
             for (Field field : doc.getRange().getFields())

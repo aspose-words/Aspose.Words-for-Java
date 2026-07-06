@@ -147,11 +147,13 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
         public SavedImageRename(String outFileName)
         {
             mOutFileName = outFileName;
+            mCount = 0;
         }
 
         public void /*IImageSavingCallback.*/imageSaving(ImageSavingArgs args) throws Exception
         {
-            String imageFileName = $"{mOutFileName} shape {++mCount}, of type {args.CurrentShape.ShapeType}{Path.GetExtension(args.ImageFileName)}";
+            mCount = mCount + 1;
+            String imageFileName = $"{mOutFileName} shape {mCount}, of type {args.CurrentShape.ShapeType}{Path.GetExtension(args.ImageFileName)}";
 
             args.setImageFileName(imageFileName);
             args.ImageStream = new FileStream(getArtifactsDir() + imageFileName, FileMode.CREATE);

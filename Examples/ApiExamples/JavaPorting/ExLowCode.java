@@ -54,9 +54,9 @@ import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.words.FindReplaceOptions;
 import com.aspose.words.Replacer;
 import com.aspose.words.ReplacerContext;
-import com.aspose.words.ReportBuilder;
 import com.aspose.words.ReportBuilderOptions;
 import com.aspose.words.ReportBuildOptions;
+import com.aspose.words.ReportBuilder;
 import com.aspose.words.ReportBuilderContext;
 import com.aspose.ms.System.Collections.msDictionary;
 import com.aspose.words.Splitter;
@@ -127,8 +127,10 @@ public class ExLowCode extends ApiExampleBase
         //There is a several ways to merge documents:
         String inputDoc1 = getMyDir() + "Big document.docx";
         String inputDoc2 = getMyDir() + "Tables.docx";
+        
+        MergerContext context = new MergerContext(); { context.setMergeFormatMode(MergeFormatMode.KEEP_SOURCE_FORMATTING); }
 
-        Merger.create(new MergerContext(); { .setMergeFormatMode(MergeFormatMode.KEEP_SOURCE_FORMATTING); })
+        Merger.create(context)
             .from(inputDoc1)
             .from(inputDoc2)
             .to(getArtifactsDir() + "LowCode.MergeContextDocuments.1.docx")
@@ -136,14 +138,16 @@ public class ExLowCode extends ApiExampleBase
 
         LoadOptions firstLoadOptions = new LoadOptions(); { firstLoadOptions.setIgnoreOleData(true); }
         LoadOptions secondLoadOptions = new LoadOptions(); { secondLoadOptions.setIgnoreOleData(false); }
-        Merger.create(new MergerContext(); { .setMergeFormatMode(MergeFormatMode.KEEP_SOURCE_FORMATTING); })
+        MergerContext contextLoadOptions = new MergerContext(); { contextLoadOptions.setMergeFormatMode(MergeFormatMode.KEEP_SOURCE_FORMATTING); }
+        Merger.create(contextLoadOptions)
             .from(inputDoc1, firstLoadOptions)
             .from(inputDoc2, secondLoadOptions)
             .to(getArtifactsDir() + "LowCode.MergeContextDocuments.2.docx", SaveFormat.DOCX)
             .execute();
 
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setPassword("Aspose.Words"); }
-        Merger.create(new MergerContext(); { .setMergeFormatMode(MergeFormatMode.KEEP_SOURCE_FORMATTING); })
+        MergerContext contextSaveOptions = new MergerContext(); { contextSaveOptions.setMergeFormatMode(MergeFormatMode.KEEP_SOURCE_FORMATTING); }
+        Merger.create(contextSaveOptions)
             .from(inputDoc1)
             .from(inputDoc2)
             .to(getArtifactsDir() + "LowCode.MergeContextDocuments.3.docx", saveOptions)
@@ -230,26 +234,20 @@ public class ExLowCode extends ApiExampleBase
                 OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setPassword("Aspose.Words"); }
                 FileStream streamOut = new FileStream(getArtifactsDir() + "LowCode.MergeStreamContextDocuments.1.docx", FileMode.CREATE, FileAccess.READ_WRITE);
                 try /*JAVA: was using*/
-            	{
-                    Merger.create(new MergerContext(); { .setMergeFormatMode(MergeFormatMode.KEEP_SOURCE_FORMATTING); })
-                    .fromInternal(firstStreamIn)
-                    .fromInternal(secondStreamIn)
-                    .toInternal(streamOut, saveOptions)
-                    .execute();
-            	}
+                {
+                    MergerContext context = new MergerContext(); {context.setMergeFormatMode(MergeFormatMode.KEEP_SOURCE_FORMATTING);}
+                    Merger.create(context).fromInternal(firstStreamIn).fromInternal(secondStreamIn).toInternal(streamOut, saveOptions).execute();
+                }
                 finally { if (streamOut != null) streamOut.close(); }
-
+                
                 LoadOptions firstLoadOptions = new LoadOptions(); { firstLoadOptions.setIgnoreOleData(true); }
                 LoadOptions secondLoadOptions = new LoadOptions(); { secondLoadOptions.setIgnoreOleData(false); }
                 FileStream streamOut1 = new FileStream(getArtifactsDir() + "LowCode.MergeStreamContextDocuments.2.docx", FileMode.CREATE, FileAccess.READ_WRITE);
                 try /*JAVA: was using*/
-            	{
-                    Merger.create(new MergerContext(); { .setMergeFormatMode(MergeFormatMode.KEEP_SOURCE_FORMATTING); })
-                    .fromInternal(firstStreamIn, firstLoadOptions)
-                    .fromInternal(secondStreamIn, secondLoadOptions)
-                    .toInternal(streamOut1, SaveFormat.DOCX)
-                    .execute();
-            	}
+                {
+                    MergerContext context = new MergerContext(); {context.setMergeFormatMode(MergeFormatMode.KEEP_SOURCE_FORMATTING);}
+                    Merger.create(context).fromInternal(firstStreamIn, firstLoadOptions).fromInternal(secondStreamIn, secondLoadOptions).toInternal(streamOut1, SaveFormat.DOCX).execute();
+                }
                 finally { if (streamOut1 != null) streamOut1.close(); }
             }
             finally { if (secondStreamIn != null) secondStreamIn.close(); }
@@ -1022,7 +1020,8 @@ public class ExLowCode extends ApiExampleBase
 
         MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataRow.1.docx", dataRow);
         MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataRow.2.docx", SaveFormat.DOCX, dataRow);
-        MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataRow.3.docx", SaveFormat.DOCX, dataRow, new MailMergeOptions(); { .setTrimWhitespaces(true); });
+        MailMergeOptions mailMergeOptions = new MailMergeOptions(); {mailMergeOptions.setTrimWhitespaces(true);}
+        MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataRow.3.docx", SaveFormat.DOCX, dataRow, mailMergeOptions);
         //ExEnd:MailMergeDataRow
     }
 
@@ -1074,7 +1073,8 @@ public class ExLowCode extends ApiExampleBase
         DataRow dataRow = dataTable.getRows().add(new String[] { "James Bond", "London", "Classified" });
 
         Stream[] images = MailMerger.executeToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataRow);
-        images = MailMerger.executeToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataRow, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
+        MailMergeOptions mailMergeOptions = new MailMergeOptions(); {mailMergeOptions.setTrimWhitespaces(true);}
+        images = MailMerger.executeToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataRow, mailMergeOptions);
         //ExEnd:MailMergeToImagesDataRow
     }
 
@@ -1105,9 +1105,10 @@ public class ExLowCode extends ApiExampleBase
 
             FileStream streamOut1 = new FileStream(getArtifactsDir() + "LowCode.MailMergeStreamDataRow.2.docx", FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
-        	{
-                MailMerger.executeInternal(streamIn, streamOut1, SaveFormat.DOCX, dataRow, new MailMergeOptions(); { .setTrimWhitespaces(true); });
-        	}
+            {
+                MailMergeOptions mailMergeOptions = new MailMergeOptions(); {mailMergeOptions.setTrimWhitespaces(true);}
+                MailMerger.executeInternal(streamIn, streamOut1, SaveFormat.DOCX, dataRow, mailMergeOptions);
+            }
             finally { if (streamOut1 != null) streamOut1.close(); }
         }
         finally { if (streamIn != null) streamIn.close(); }
@@ -1171,7 +1172,9 @@ public class ExLowCode extends ApiExampleBase
         try /*JAVA: was using*/
         {
             Stream[] images = MailMerger.executeToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataRow);
-            images = MailMerger.executeToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataRow, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
+
+            MailMergeOptions mailMergeOptions = new MailMergeOptions(); {mailMergeOptions.setTrimWhitespaces(true);}
+            images = MailMerger.executeToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataRow, mailMergeOptions);
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:MailMergeStreamToImagesDataRow
@@ -1197,7 +1200,8 @@ public class ExLowCode extends ApiExampleBase
 
         MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataTable.1.docx", dataTable);
         MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataTable.2.docx", SaveFormat.DOCX, dataTable);
-        MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataTable.3.docx", SaveFormat.DOCX, dataTable, new MailMergeOptions(); { .setTrimWhitespaces(true); });
+        MailMergeOptions mailMergeOptions = new MailMergeOptions(); {mailMergeOptions.setTrimWhitespaces(true);}
+        MailMerger.execute(doc, getArtifactsDir() + "LowCode.MailMergeDataTable.3.docx", SaveFormat.DOCX, dataTable, mailMergeOptions);
         //ExEnd:MailMergeDataTable
     }
 
@@ -1249,7 +1253,8 @@ public class ExLowCode extends ApiExampleBase
         DataRow dataRow = dataTable.getRows().add(new String[] { "James Bond", "London", "Classified" });
 
         Stream[] images = MailMerger.executeToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable);
-        images = MailMerger.executeToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
+        MailMergeOptions mailMergeOptions = new MailMergeOptions(); {mailMergeOptions.setTrimWhitespaces(true);}
+        images = MailMerger.executeToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable, mailMergeOptions);
         //ExEnd:MailMergeToImagesDataTable
     }
 
@@ -1280,9 +1285,10 @@ public class ExLowCode extends ApiExampleBase
 
             FileStream streamOut1 = new FileStream(getArtifactsDir() + "LowCode.MailMergeDataTable.2.docx", FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
-        	{
-                MailMerger.executeInternal(streamIn, streamOut1, SaveFormat.DOCX, dataTable, new MailMergeOptions(); { .setTrimWhitespaces(true); });
-        	}
+            {
+                MailMergeOptions mailMergeOptions = new MailMergeOptions(); {mailMergeOptions.setTrimWhitespaces(true);}
+                MailMerger.executeInternal(streamIn, streamOut1, SaveFormat.DOCX, dataTable, mailMergeOptions);
+            }
             finally { if (streamOut1 != null) streamOut1.close(); }
         }
         finally { if (streamIn != null) streamIn.close(); }
@@ -1347,7 +1353,8 @@ public class ExLowCode extends ApiExampleBase
         try /*JAVA: was using*/
         {
             Stream[] images = MailMerger.executeToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable);
-            images = MailMerger.executeToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
+            MailMergeOptions mailMergeOptions = new MailMergeOptions(); {mailMergeOptions.setTrimWhitespaces(true);}
+            images = MailMerger.executeToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable, mailMergeOptions);
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:MailMergeStreamToImagesDataTable
@@ -1373,7 +1380,8 @@ public class ExLowCode extends ApiExampleBase
 
         MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataTable.1.docx", dataTable);
         MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataTable.2.docx", SaveFormat.DOCX, dataTable);
-        MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataTable.3.docx", SaveFormat.DOCX, dataTable, new MailMergeOptions(); { .setTrimWhitespaces(true); });
+        MailMergeOptions mailMergeOptions = new MailMergeOptions(); {mailMergeOptions.setTrimWhitespaces(true);}
+        MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataTable.3.docx", SaveFormat.DOCX, dataTable, mailMergeOptions);
         //ExEnd:MailMergeWithRegionsDataTable
     }
 
@@ -1425,7 +1433,8 @@ public class ExLowCode extends ApiExampleBase
         dataTable.getRows().add(new Object[] { "Jane", "Doe" });
 
         Stream[] images = MailMerger.executeWithRegionsToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable);
-        images = MailMerger.executeWithRegionsToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
+        MailMergeOptions mailMergeOptions = new MailMergeOptions(); {mailMergeOptions.setTrimWhitespaces(true);}
+        images = MailMerger.executeWithRegionsToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataTable, mailMergeOptions);
         //ExEnd:MailMergeWithRegionsToImagesDataTable
     }
 
@@ -1456,9 +1465,10 @@ public class ExLowCode extends ApiExampleBase
 
             FileStream streamOut1 = new FileStream(getArtifactsDir() + "LowCode.MailMergeStreamWithRegionsDataTable.2.docx", FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
-        	{
-                MailMerger.executeWithRegionsInternal(streamIn, streamOut1, SaveFormat.DOCX, dataTable, new MailMergeOptions(); { .setTrimWhitespaces(true); });
-        	}
+            {
+                MailMergeOptions mailMergeOptions = new MailMergeOptions(); {mailMergeOptions.setTrimWhitespaces(true);}
+                MailMerger.executeWithRegionsInternal(streamIn, streamOut1, SaveFormat.DOCX, dataTable, mailMergeOptions);
+            }
             finally { if (streamOut1 != null) streamOut1.close(); }
         }
         finally { if (streamIn != null) streamIn.close(); }
@@ -1522,7 +1532,8 @@ public class ExLowCode extends ApiExampleBase
         try /*JAVA: was using*/
         {
             Stream[] images = MailMerger.executeWithRegionsToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable);
-            images = MailMerger.executeWithRegionsToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
+            MailMergeOptions mailMergeOptions = new MailMergeOptions(); {mailMergeOptions.setTrimWhitespaces(true);}
+            images = MailMerger.executeWithRegionsToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataTable, mailMergeOptions);
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:MailMergeStreamWithRegionsToImagesDataTable
@@ -1560,7 +1571,8 @@ public class ExLowCode extends ApiExampleBase
 
         MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataSet.1.docx", dataSet);
         MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataSet.2.docx", SaveFormat.DOCX, dataSet);
-        MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataSet.3.docx", SaveFormat.DOCX, dataSet, new MailMergeOptions(); { .setTrimWhitespaces(true); });
+        MailMergeOptions mailMergeOptions = new MailMergeOptions(); {mailMergeOptions.setTrimWhitespaces(true);}
+        MailMerger.executeWithRegions(doc, getArtifactsDir() + "LowCode.MailMergeWithRegionsDataSet.3.docx", SaveFormat.DOCX, dataSet, mailMergeOptions);
         //ExEnd:MailMergeWithRegionsDataSet
     }
 
@@ -1636,7 +1648,8 @@ public class ExLowCode extends ApiExampleBase
         dataSet.getRelations().add(tableCustomers.getColumns().get("CustomerID"), tableOrders.getColumns().get("CustomerID"));
 
         Stream[] images = MailMerger.executeWithRegionsToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataSet);
-        images = MailMerger.executeWithRegionsToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataSet, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
+        MailMergeOptions mailMergeOptions = new MailMergeOptions(); {mailMergeOptions.setTrimWhitespaces(true);}
+        images = MailMerger.executeWithRegionsToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), dataSet, mailMergeOptions);
         //ExEnd:MailMergeWithRegionsToImagesDataSet
     }
 
@@ -1679,9 +1692,10 @@ public class ExLowCode extends ApiExampleBase
 
             FileStream streamOut1 = new FileStream(getArtifactsDir() + "LowCode.MailMergeStreamWithRegionsDataTable.2.docx", FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
-        	{
-                MailMerger.executeWithRegionsInternal(streamIn, streamOut1, SaveFormat.DOCX, dataSet, new MailMergeOptions(); { .setTrimWhitespaces(true); });
-        	}
+            {
+                MailMergeOptions mailMergeOptions = new MailMergeOptions(); {mailMergeOptions.setTrimWhitespaces(true);}
+                MailMerger.executeWithRegionsInternal(streamIn, streamOut1, SaveFormat.DOCX, dataSet, mailMergeOptions);
+            }
             finally { if (streamOut1 != null) streamOut1.close(); }
         }
         finally { if (streamIn != null) streamIn.close(); }
@@ -1769,7 +1783,8 @@ public class ExLowCode extends ApiExampleBase
         try /*JAVA: was using*/
         {
             Stream[] images = MailMerger.executeWithRegionsToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataSet);
-            images = MailMerger.executeWithRegionsToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataSet, new MailMergeOptions(); { images.setTrimWhitespaces(true); });
+            MailMergeOptions mailMergeOptions = new MailMergeOptions(); {mailMergeOptions.setTrimWhitespaces(true);}
+            images = MailMerger.executeWithRegionsToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), dataSet, mailMergeOptions);
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:MailMergeStreamWithRegionsToImagesDataSet
@@ -1950,7 +1965,8 @@ public class ExLowCode extends ApiExampleBase
 
         Replacer.replaceInternal(doc, getArtifactsDir() + "LowCode.ReplaceRegex.1.docx", pattern, replacement);
         Replacer.replaceInternal(doc, getArtifactsDir() + "LowCode.ReplaceRegex.2.docx", SaveFormat.DOCX, pattern, replacement);
-        Replacer.replaceInternal(doc, getArtifactsDir() + "LowCode.ReplaceRegex.3.docx", SaveFormat.DOCX, pattern, replacement, new FindReplaceOptions(); { .setFindWholeWordsOnly(false); });
+        FindReplaceOptions findReplaceOptions = new FindReplaceOptions(); {findReplaceOptions.setFindWholeWordsOnly(false);}
+        Replacer.replaceInternal(doc, getArtifactsDir() + "LowCode.ReplaceRegex.3.docx", SaveFormat.DOCX, pattern, replacement, findReplaceOptions);
         //ExEnd:ReplaceRegex
     }
 
@@ -1993,7 +2009,8 @@ public class ExLowCode extends ApiExampleBase
         String replacement = "lavender";
 
         Stream[] images = Replacer.replaceToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement);
-        images = Replacer.replaceToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement, new FindReplaceOptions(); { images.setFindWholeWordsOnly(false); });
+        FindReplaceOptions findReplaceOptions = new FindReplaceOptions(); {findReplaceOptions.setFindWholeWordsOnly(false);}
+        images = Replacer.replaceToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement, findReplaceOptions);
         //ExEnd:ReplaceToImagesRegex
     }
 
@@ -2020,9 +2037,10 @@ public class ExLowCode extends ApiExampleBase
 
             FileStream streamOut1 = new FileStream(getArtifactsDir() + "LowCode.ReplaceStreamRegex.2.docx", FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
-        	{
-                Replacer.replaceInternal(streamIn, streamOut1, SaveFormat.DOCX, pattern, replacement, new FindReplaceOptions(); { .setFindWholeWordsOnly(false); });
-        	}
+            {
+                FindReplaceOptions findReplaceOptions = new FindReplaceOptions(); {findReplaceOptions.setFindWholeWordsOnly(false);}
+                Replacer.replaceInternal(streamIn, streamOut1, SaveFormat.DOCX, pattern, replacement, findReplaceOptions);
+            }
             finally { if (streamOut1 != null) streamOut1.close(); }
         }
         finally { if (streamIn != null) streamIn.close(); }
@@ -2079,7 +2097,8 @@ public class ExLowCode extends ApiExampleBase
         try /*JAVA: was using*/
         {
             Stream[] images = Replacer.replaceToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement);
-            images = Replacer.replaceToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement, new FindReplaceOptions(); { images.setFindWholeWordsOnly(false); });
+            FindReplaceOptions findReplaceOptions = new FindReplaceOptions(); {findReplaceOptions.setFindWholeWordsOnly(false);}
+            images = Replacer.replaceToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), pattern, replacement, findReplaceOptions);
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:ReplaceToImagesStreamRegex
@@ -2100,10 +2119,11 @@ public class ExLowCode extends ApiExampleBase
 
         AsposeData obj = new AsposeData(); { obj.setList(new ArrayList<String>()); { obj.getList().add("abc"); } }
 
+        ReportBuilderOptions reportBuilderOptions = new ReportBuilderOptions(); {reportBuilderOptions.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS);}
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportWithObject.1.docx", obj);
-        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportWithObject.2.docx", obj, new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportWithObject.2.docx", obj, reportBuilderOptions);
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportWithObject.3.docx", SaveFormat.DOCX, obj);
-        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportWithObject.4.docx", SaveFormat.DOCX, obj, new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportWithObject.4.docx", SaveFormat.DOCX, obj, reportBuilderOptions);
     }
 
     public static class AsposeData
@@ -2137,17 +2157,19 @@ public class ExLowCode extends ApiExampleBase
 
             FileStream streamOut1 = new FileStream(getArtifactsDir() + "LowCode.BuildReportDataStream.2.docx", FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
-        	{
-                ReportBuilder.buildReportInternal(streamIn, streamOut1, SaveFormat.DOCX, obj, new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
-        	}
+            {
+                ReportBuilderOptions reportBuilderOptions = new ReportBuilderOptions(); {reportBuilderOptions.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS);}
+                ReportBuilder.buildReportInternal(streamIn, streamOut1, SaveFormat.DOCX, obj, reportBuilderOptions);
+            }
             finally { if (streamOut1 != null) streamOut1.close(); }
 
             MessageTestClass sender = new MessageTestClass("LINQ Reporting Engine", "Hello World");
             FileStream streamOut2 = new FileStream(getArtifactsDir() + "LowCode.BuildReportDataStream.3.docx", FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
-        	{
-                ReportBuilder.buildReportInternal(streamIn, streamOut2, SaveFormat.DOCX, new Object[] { sender }, new String[] { "s" }, new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
-        	}
+            {
+                ReportBuilderOptions reportBuilderOptions = new ReportBuilderOptions(); {reportBuilderOptions.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS);}
+                ReportBuilder.buildReportInternal(streamIn, streamOut2, SaveFormat.DOCX, new Object[] {sender}, new String[] {"s"}, reportBuilderOptions);
+            }
             finally { if (streamOut2 != null) streamOut2.close(); }
         }
         finally { if (streamIn != null) streamIn.close(); }
@@ -2173,17 +2195,18 @@ public class ExLowCode extends ApiExampleBase
         String doc = getMyDir() + "Report building.docx";
 
         MessageTestClass sender = new MessageTestClass("LINQ Reporting Engine", "Hello World");
+        ReportBuilderOptions reportBuilderOptions = new ReportBuilderOptions(); {reportBuilderOptions.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS);}
 
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.1.docx", sender, "s");
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.2.docx", new Object[] { sender }, new String[] { "s" });
-        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.3.docx", sender, "s", new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.3.docx", sender, "s", reportBuilderOptions);
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.4.docx", SaveFormat.DOCX, sender, "s");
         ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.5.docx", SaveFormat.DOCX, new Object[] { sender }, new String[] { "s" });
-        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.6.docx", SaveFormat.DOCX, sender, "s", new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
-        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.7.docx", SaveFormat.DOCX, new Object[] { sender }, new String[] { "s" }, new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
-        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.8.docx", new Object[] { sender }, new String[] { "s" }, new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.6.docx", SaveFormat.DOCX, sender, "s", reportBuilderOptions);
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.7.docx", SaveFormat.DOCX, new Object[] { sender }, new String[] { "s" }, reportBuilderOptions);
+        ReportBuilder.buildReport(doc, getArtifactsDir() + "LowCode.BuildReportDataSource.8.docx", new Object[] { sender }, new String[] { "s" }, reportBuilderOptions);
 
-        Stream[] images = ReportBuilder.buildReportToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), new Object[] { sender }, new String[] { "s" }, new ReportBuilderOptions(); { images.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+        Stream[] images = ReportBuilder.buildReportToImagesInternal(doc, new ImageSaveOptions(SaveFormat.PNG), new Object[] { sender }, new String[] { "s" }, reportBuilderOptions);
 
         ReportBuilderContext reportBuilderContext = new ReportBuilderContext();
         reportBuilderContext.getReportBuilderOptions().setMissingMemberMessage("Missed members");
@@ -2244,14 +2267,16 @@ public class ExLowCode extends ApiExampleBase
         	}
             finally { if (streamOut1 != null) streamOut1.close(); }
 
+            ReportBuilderOptions reportBuilderOptions = new ReportBuilderOptions(); {reportBuilderOptions.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS);}
+
             FileStream streamOut2 = new FileStream(getArtifactsDir() + "LowCode.BuildReportDataSourceStream.3.docx", FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
         	{
-                ReportBuilder.buildReportInternal(streamIn, streamOut2, SaveFormat.DOCX, sender, "s", new ReportBuilderOptions(); { .setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+                ReportBuilder.buildReportInternal(streamIn, streamOut2, SaveFormat.DOCX, sender, "s", reportBuilderOptions);
         	}
             finally { if (streamOut2 != null) streamOut2.close(); }
 
-            Stream[] images = ReportBuilder.buildReportToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), new Object[] { sender }, new String[] { "s" }, new ReportBuilderOptions(); { images.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); });
+            Stream[] images = ReportBuilder.buildReportToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), new Object[] { sender }, new String[] { "s" }, reportBuilderOptions);
 
             ReportBuilderContext reportBuilderContext = new ReportBuilderContext();
             reportBuilderContext.getReportBuilderOptions().setMissingMemberMessage("Missed members");
@@ -2607,9 +2632,10 @@ public class ExLowCode extends ApiExampleBase
 
             FileStream streamOut1 = new FileStream(getArtifactsDir() + "LowCode.SetWatermarkText.2.docx", FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
-        	{
-                Watermarker.setImageInternal(streamIn, streamOut1, SaveFormat.DOCX, ImageIO.read(getImageDir() + "Logo.jpg"), new ImageWatermarkOptions(); { .setScale(50.0); });
-        	}
+            {
+                ImageWatermarkOptions imageWatermarkOptions = new ImageWatermarkOptions(); {imageWatermarkOptions.setScale(50.0);}
+                Watermarker.setImageInternal(streamIn, streamOut1, SaveFormat.DOCX, ImageIO.read(getImageDir() + "Logo.jpg"), imageWatermarkOptions);
+            }
             finally { if (streamOut1 != null) streamOut1.close(); }
         }
         finally { if (streamIn != null) streamIn.close(); }
@@ -2724,7 +2750,8 @@ public class ExLowCode extends ApiExampleBase
             try /*JAVA: was using*/
             {
                 Watermarker.setWatermarkToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), imageStream);
-                Watermarker.setWatermarkToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), imageStream, new ImageWatermarkOptions(); { .setScale(50.0); });
+                ImageWatermarkOptions imageWatermarkOptions = new ImageWatermarkOptions(); {imageWatermarkOptions.setScale(50.0);}
+                Watermarker.setWatermarkToImagesInternal(streamIn, new ImageSaveOptions(SaveFormat.PNG), imageStream, imageWatermarkOptions);
             }
             finally { if (imageStream != null) imageStream.close(); }
         }
