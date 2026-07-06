@@ -68,7 +68,6 @@ class WorkingWithFields extends DocsExamplesBase
     {
         //ExStart:ChangeFieldUpdateCultureSource
         //GistId:9e90defe4a7bcafb004f73a2ef236986
-        //ExStart:DocumentBuilderInsertField
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -77,7 +76,6 @@ class WorkingWithFields extends DocsExamplesBase
         builder.insertField("MERGEFIELD Date1 \\@ \"dddd, d MMMM yyyy\"");
         builder.write(" - ");
         builder.insertField("MERGEFIELD Date2 \\@ \"dddd, d MMMM yyyy\"");
-        //ExEnd:DocumentBuilderInsertField
 
         // Shows how to specify where the culture used for date formatting during field update and mail merge is chosen from
         // set the culture used during field update to the culture used by the field.

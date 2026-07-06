@@ -16,7 +16,7 @@ public class WorkingWithPdfLoadOptions extends DocsExamplesBase
     @Test
     public void loadEncryptedPdf() throws Exception
     {
-        //ExStart:LoadEncryptedPdf  
+        //ExStart:LoadEncryptedPdf
         Document doc = new Document(getMyDir() + "Pdf Document.pdf");
 
         PdfSaveOptions saveOptions = new PdfSaveOptions();
@@ -35,7 +35,7 @@ public class WorkingWithPdfLoadOptions extends DocsExamplesBase
     @Test
     public void loadPageRangeOfPdf() throws Exception
     {
-        //ExStart:LoadPageRangeOfPdf  
+        //ExStart:LoadPageRangeOfPdf
         PdfLoadOptions loadOptions = new PdfLoadOptions(); { loadOptions.setPageIndex(0); loadOptions.setPageCount(1); }
 
         //ExStart:LoadPDF

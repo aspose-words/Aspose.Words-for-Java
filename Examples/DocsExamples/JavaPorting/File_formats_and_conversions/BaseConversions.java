@@ -329,7 +329,7 @@ public class BaseConversions extends DocsExamplesBase
         }
         finally { if (image != null) image.flush(); }
 
-        doc.save(outputFileName);            
+        doc.save(outputFileName);
     }
     //ExEnd:ConvertImageToPdf
 }

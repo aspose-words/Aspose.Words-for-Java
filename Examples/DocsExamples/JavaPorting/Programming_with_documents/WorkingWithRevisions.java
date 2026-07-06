@@ -115,14 +115,14 @@ class WorkingWithRevisions extends DocsExamplesBase
     @Test
     public void removeCommentsInPdf() throws Exception
     {
-        //ExStart:RemoveCommentsInPDF
+        //ExStart:RemoveCommentsInPdf
         Document doc = new Document(getMyDir() + "Revisions.docx");
 
         // Do not render the comments in PDF.
         doc.getLayoutOptions().setCommentDisplayMode(CommentDisplayMode.HIDE);
 
         doc.save(getArtifactsDir() + "WorkingWithRevisions.RemoveCommentsInPdf.pdf");
-        //ExEnd:RemoveCommentsInPDF
+        //ExEnd:RemoveCommentsInPdf
     }
 
     @Test

@@ -60,8 +60,7 @@ public class WorkingWithLoadOptions extends DocsExamplesBase
         //GistId:af95c7a408187bb25cf9137465fe5ce6
         // We will not be able to open this document with Microsoft Word or
         // Aspose.Words without providing the correct password.
-        Assert.<IncorrectPasswordException>Throws(() =>
-            new Document(getMyDir() + "Encrypted.docx"));
+        Assert.Throws.<IncorrectPasswordException>TypeOf()(Action)(() => { new Document(getMyDir() + "Encrypted.docx"); }));
         //ExEnd:LoadEncryptedDocumentWithoutPassword
     }
 
@@ -220,10 +219,10 @@ public class WorkingWithLoadOptions extends DocsExamplesBase
     @Test
     public void loadChm() throws Exception
     {
-        //ExStart:LoadCHM
+        //ExStart:LoadChm
         LoadOptions loadOptions = new LoadOptions(); { loadOptions.setEncoding(Encoding.getEncoding("windows-1251")); }
 
         Document doc = new Document(getMyDir() + "HTML help.chm", loadOptions);
-        //ExEnd:LoadCHM
+        //ExEnd:LoadChm
     }
 }

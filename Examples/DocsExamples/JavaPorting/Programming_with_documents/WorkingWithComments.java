@@ -28,12 +28,10 @@ class WorkingWithComments extends DocsExamplesBase
     {
         //ExStart:AddComments
         //GistId:70902b20df8b1f6b0459f676e21623bb
-        //ExStart:CreateSimpleDocumentUsingDocumentBuilder
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.write("Some text is added.");
-        //ExEnd:CreateSimpleDocumentUsingDocumentBuilder
         
         Comment comment = new Comment(doc, "Awais Hafeez", "AH", DateTime.getToday());
         comment.setText("Comment text.");
