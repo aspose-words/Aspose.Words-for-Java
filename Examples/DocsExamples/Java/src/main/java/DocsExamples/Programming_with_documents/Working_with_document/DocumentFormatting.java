@@ -151,7 +151,7 @@ public class DocumentFormatting extends DocsExamplesBase {
 
     @Test
     public void snapToGrid() throws Exception {
-        //ExStart:SetSnapToGrid
+        //ExStart:SnapToGrid
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -165,7 +165,7 @@ public class DocumentFormatting extends DocsExamplesBase {
         par.getRuns().get(0).getFont().setSnapToGrid(true);
 
         doc.save(getArtifactsDir() + "DocumentFormatting.SnapToGrid.docx");
-        //ExEnd:SetSnapToGrid
+        //ExEnd:SnapToGrid
     }
 
     @Test

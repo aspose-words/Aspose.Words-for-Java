@@ -2719,4 +2719,27 @@ public class ExDocument extends ApiExampleBase
         doc.save(getArtifactsDir() + "Document.RemoveCustomizations.docx");
         //ExEnd:RemoveCustomizations
     }
+
+    @Test
+    public void readabilityStatisticsFleschScores() throws Exception
+    {
+        //ExStart:ReadabilityStatisticsFleschScores
+        //GistId:1e92948c24f1db379b293ab9f71558ab
+        //ExFor:ReadabilityStatistics
+        //ExFor:Document.ReadabilityStatistics
+        //ExSummary:Shows how to calculate and display the Flesch reading scores for a document.
+        Document doc = new Document();
+
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("The implementation of artificial intelligence algorithms requires a comprehensive understanding of machine learning methodologies and statistical analysis techniques.");
+        builder.writeln("Furthermore, the integration of neural networks into existing software architectures presents significant challenges for developers.");
+        builder.writeln("This document serves as an illustrative example for calculating readability metrics using the Flesch reading ease formula.");
+
+        // Calculate readability statistics.
+        ReadabilityStatistics stats = doc.getReadabilityStatistics();
+        // Verify that the scores are within expected valid ranges.
+        Assert.assertTrue(stats.getFleschReadingEasy() >= 0 && stats.getFleschReadingEasy() <= 190);
+        Assert.assertTrue(stats.getFleschKincaidGradeLevel() <= 0);
+        //ExEnd:ReadabilityStatisticsFleschScores
+    }
 }

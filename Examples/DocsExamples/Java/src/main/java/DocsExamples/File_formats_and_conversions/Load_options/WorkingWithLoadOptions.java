@@ -183,11 +183,11 @@ public class WorkingWithLoadOptions extends DocsExamplesBase {
 
     @Test
     public void loadChm() throws Exception {
-        //ExStart:LoadCHM
+        //ExStart:LoadChm
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.setEncoding(Charset.forName("windows-1251"));
 
         Document doc = new Document(getMyDir() + "HTML help.chm", loadOptions);
-        //ExEnd:LoadCHM
+        //ExEnd:LoadChm
     }
 }

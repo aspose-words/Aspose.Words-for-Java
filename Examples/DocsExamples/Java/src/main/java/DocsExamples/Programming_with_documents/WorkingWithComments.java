@@ -15,12 +15,10 @@ public class WorkingWithComments extends DocsExamplesBase {
     public void addComments() throws Exception {
         //ExStart:AddComments
         //GistId:70902b20df8b1f6b0459f676e21623bb
-        //ExStart:CreateSimpleDocumentUsingDocumentBuilder
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.write("Some text is added.");
-        //ExEnd:CreateSimpleDocumentUsingDocumentBuilder
 
         Comment comment = new Comment(doc, "Awais Hafeez", "AH", new Date());
         comment.setText("Comment text.");

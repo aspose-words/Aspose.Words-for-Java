@@ -118,7 +118,7 @@ public class WorkingWithOleObjectsAndActiveX extends DocsExamplesBase {
         double width = 360.0;
         double height = 270.0;
 
-        Shape shape = builder.insertOnlineVideo(url, width, height);
+        builder.insertOnlineVideo(url, width, height);
 
         doc.save(getArtifactsDir() + "WorkingWithOleObjectsAndActiveX.InsertOnlineVideo.docx");
         //ExEnd:InsertOnlineVideo

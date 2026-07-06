@@ -17,7 +17,7 @@ import java.util.List;
 public class WorkingWithFonts extends DocsExamplesBase {
     @Test
     public void fontFormatting() throws Exception {
-        //ExStart:WriteAndFont
+        //ExStart:FontFormatting
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -31,7 +31,7 @@ public class WorkingWithFonts extends DocsExamplesBase {
         builder.write("Sample text.");
 
         doc.save(getArtifactsDir() + "WorkingWithFonts.FontFormatting.docx");
-        //ExEnd:WriteAndFont
+        //ExEnd:FontFormatting
     }
 
     @Test
