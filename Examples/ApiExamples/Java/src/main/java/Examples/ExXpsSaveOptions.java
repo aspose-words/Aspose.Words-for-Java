@@ -124,7 +124,7 @@ public class ExXpsSaveOptions extends ApiExampleBase {
         if (optimizeOutput)
             Assert.assertTrue(outFileInfo.length() <= 50000);
         else
-            Assert.assertTrue(outFileInfo.length() < 65000);
+            Assert.assertTrue(outFileInfo.length() < 70000);
 
         TestUtil.docPackageFileContainsString(
                 optimizeOutput

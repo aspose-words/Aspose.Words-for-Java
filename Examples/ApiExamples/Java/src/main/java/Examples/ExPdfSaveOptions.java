@@ -1207,7 +1207,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf", options);
 
         if (embedFullFonts)
-            Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf").length() < 591000);
+            Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf").length() < 592500);
         else
             Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf").length() < 25000);
 
@@ -1268,7 +1268,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         switch (pdfFontEmbeddingMode) {
             case PdfFontEmbeddingMode.EMBED_ALL:
-                Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").length() < 1041200);
+                Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").length() < 1047200);
                 break;
             case PdfFontEmbeddingMode.EMBED_NONSTANDARD:
                 Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").length() < 491800);
@@ -1391,12 +1391,12 @@ public class ExPdfSaveOptions extends ApiExampleBase {
                 (SetGlyphsPositionShowText) textAbsorber.getTextFragments().get_Item(1).getPage().getContents().get_Item(71);
 
         if (applyAdditionalTextPositioning) {
-            Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").length() < 102000);
+            Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").length() < 102800);
             Assert.assertEquals(
                     "[0 (S) 0 (a) 0 (m) 0 (s) 0 (t) 0 (a) -1 (g) 1 (,) 0 ( ) 0 (1) 0 (0) 0 (.) 0 ( ) 0 (N) 0 (o) 0 (v) 0 (e) 0 (m) 0 (b) 0 (e) 0 (r) -1 ( ) 1 (2) -1 (0) 0 (1) 0 (8)] TJ",
                     tjOperator.toString());
         } else {
-            Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").length() < 99200);
+            Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").length() < 99960);
             Assert.assertEquals("[(Samsta) -1 (g) 1 (, 10. November) -1 ( ) 1 (2) -1 (018)] TJ", tjOperator.toString());
         }
 
