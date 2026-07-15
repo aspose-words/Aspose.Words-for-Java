@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -1048,7 +1048,7 @@ public class ExLists extends ApiExampleBase {
     public void removeTabStopFromListLevel() throws Exception
     {
         //ExStart:RemoveTabStopFromListLevel
-        //GistId:1e92948c24f1db379b293ab9f71558ab
+        //GistId:f99d87e10ab87a581c52206321d8b617
         //ExFor:ListLevel.RemoveTabStop()
         //ExSummary:Shows how to clear the list level tab stop.
         Document doc = new Document();

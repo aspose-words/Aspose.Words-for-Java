@@ -2724,7 +2724,7 @@ public class ExDocument extends ApiExampleBase
     public void readabilityStatisticsFleschScores() throws Exception
     {
         //ExStart:ReadabilityStatisticsFleschScores
-        //GistId:1e92948c24f1db379b293ab9f71558ab
+        //GistId:f99d87e10ab87a581c52206321d8b617
         //ExFor:ReadabilityStatistics
         //ExFor:Document.ReadabilityStatistics
         //ExSummary:Shows how to calculate and display the Flesch reading scores for a document.
