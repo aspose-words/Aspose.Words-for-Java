@@ -1194,13 +1194,13 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         rangeStart = insertStructuredDocumentTagRanges(doc);
 
         Node paragraphNode = rangeStart.LastOrDefault();
-        Assert.That(paragraphNode?.GetText().Trim(), assertEquals("StructuredDocumentTag element", );
+        Assert.assertEquals("StructuredDocumentTag element", paragraphNode != null ? paragraphNode.getText().trim() : null);
 
         // Removes ranged structured document tag and content inside.
         rangeStart.removeAllChildren();
 
         paragraphNode = rangeStart.LastOrDefault();
-        Assert.That(paragraphNode?.GetText(), assertEquals(null, );
+        Assert.assertEquals(null, paragraphNode != null ? paragraphNode.getText() : null);
         //ExEnd
     }
 

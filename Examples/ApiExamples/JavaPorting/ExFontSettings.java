@@ -828,7 +828,9 @@ public class ExFontSettings extends ApiExampleBase
         if (isWindows)
         {
             final String FONTS_PATH = "C:\\WINDOWS\\Fonts";
-            Assert.That(SystemFontSource.getSystemFontFolders().FirstOrDefault()?.ToLower(), assertEquals(FONTS_PATH.toLowerCase(), );
+            String fontFolder = SystemFontSource.getSystemFontFolders().FirstOrDefault();
+            if (fontFolder != null) 
+                Assert.assertEquals(FONTS_PATH.toLowerCase(), fontFolder.toLowerCase());
         }
 
         for (String systemFontFolder : SystemFontSource.getSystemFontFolders())

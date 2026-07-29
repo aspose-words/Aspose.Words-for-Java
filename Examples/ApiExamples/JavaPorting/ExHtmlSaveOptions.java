@@ -2212,7 +2212,8 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         IllegalStateException exception = Assert.<IllegalStateException>Throws(() =>
             doc.save(getArtifactsDir() + $"HtmlSaveOptions.ProgressCallback.{ext}", saveOptions));
-        Assert.That(exception?.Message.Contains("EstimatedProgress"), assertTrue();
+        
+        Assert.assertTrue(exception != null ? exception.getMessage().contains("EstimatedProgress") : (boolean?)null);
         //ExEnd
     }
 

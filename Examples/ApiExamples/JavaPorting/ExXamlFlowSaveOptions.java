@@ -142,7 +142,7 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase
 
         IllegalStateException exception = Assert.<IllegalStateException>Throws(() =>
             doc.save(getArtifactsDir() + $"XamlFlowSaveOptions.ProgressCallback.{ext}", saveOptions));
-        Assert.That(exception?.Message.Contains("EstimatedProgress"), assertTrue();
+        Assert.assertTrue(exception != null ? exception.getMessage().contains("EstimatedProgress") : (boolean?)null);
         //ExEnd
     }
 
