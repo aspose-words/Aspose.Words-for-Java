@@ -27,6 +27,7 @@ import com.aspose.words.SignOptions;
 import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.DigitalSignatureDetails;
+import com.aspose.words.CompressionLevel;
 import org.testng.annotations.DataProvider;
 
 
@@ -214,5 +215,29 @@ public class ExXpsSaveOptions extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "XpsSaveOptions.XpsDigitalSignature.docx", saveOptions);
         //ExEnd:XpsDigitalSignature
+    }
+
+    @Test
+    public void compressionLevelXps() throws Exception
+    {
+        //ExStart:CompressionLevelXps
+        //GistId:7d9e4e6d70159060102d291fbe71c144
+        //ExFor:XpsSaveOptions.CompressionLevel
+        //ExFor:CompressionLevel
+        //ExSummary:Shows how to control the compression level when saving a document to XPS format.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("Sample document for XPS compression test.");
+
+        // Create an XpsSaveOptions object and set the compression level.
+        XpsSaveOptions options = new XpsSaveOptions();
+        options.setCompressionLevel(CompressionLevel.MAXIMUM);
+
+        doc.save(getArtifactsDir() + "XpsSaveOptions.CompressionLevelXps.xps", options);
+        //ExEnd:CompressionLevelXps
+
+        FileInfo fileInfo = new FileInfo(getArtifactsDir() + "XpsSaveOptions.CompressionLevelXps.xps");
+        Assert.greater(40000, fileInfo.getLength());
     }
 }

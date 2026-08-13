@@ -14,7 +14,7 @@ import com.aspose.ms.System.IO.File;
 import com.aspose.words.CertificateHolder;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
-import org.bouncycastle.jcajce.provider.keystore.pkcs12.PKCS12KeyStoreSpi;
+import java.security.KeyStore;
 import com.aspose.ms.System.msConsole;
 
 
@@ -43,9 +43,9 @@ public class ExCertificateHolder extends ApiExampleBase
         FileStream certStream = new FileStream(getMyDir() + "morzal.pfx", FileMode.OPEN);
         try /*JAVA: was using*/
         {
-            PKCS12KeyStoreSpi.BCPKCS12KeyStore pkcs12Store = new Pkcs12StoreBuilder().Build();
+            KeyStore pkcs12Store = new Pkcs12StoreBuilder().Build();
             pkcs12Store.load(certStream, "aw".toCharArray());
-            for (String currentAlias : (Iterable<String>) pkcs12Store.getAliases())
+            for (String currentAlias : pkcs12Store.getAliases())
             {
                 if ((currentAlias != null) &&
                     (pkcs12Store.isKeyEntry(currentAlias) &&

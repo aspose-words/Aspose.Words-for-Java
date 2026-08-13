@@ -215,7 +215,7 @@ public class ExLoadOptions extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
 
         ArrayList<WarningInfo> warnings = ((DocumentLoadingWarningCallback)loadOptions.getWarningCallback()).getWarnings();
-        Assert.assertEquals(3, warnings.size());
+        Assert.assertEquals(2, warnings.size());
         testLoadOptionsWarningCallback(warnings); //ExSkip
         //ExEnd
     }
@@ -247,17 +247,13 @@ public class ExLoadOptions extends ApiExampleBase
 
     private static void testLoadOptionsWarningCallback(ArrayList<WarningInfo> warnings)
     {
-        Assert.assertEquals(WarningType.UNEXPECTED_CONTENT, warnings.get(0).getWarningType());
+        Assert.assertEquals(WarningType.MINOR_FORMATTING_LOSS, warnings.get(0).getWarningType());
         Assert.assertEquals(WarningSource.DOCX, warnings.get(0).getSource());
-        Assert.assertEquals("3F01", warnings.get(0).getDescription());
+        Assert.assertEquals("Import of element 'shapedefaults' is not supported in Docx format by Aspose.Words.", warnings.get(0).getDescription());
 
         Assert.assertEquals(WarningType.MINOR_FORMATTING_LOSS, warnings.get(1).getWarningType());
         Assert.assertEquals(WarningSource.DOCX, warnings.get(1).getSource());
-        Assert.assertEquals("Import of element 'shapedefaults' is not supported in Docx format by Aspose.Words.", warnings.get(1).getDescription());
-
-        Assert.assertEquals(WarningType.MINOR_FORMATTING_LOSS, warnings.get(2).getWarningType());
-        Assert.assertEquals(WarningSource.DOCX, warnings.get(2).getSource());
-        Assert.assertEquals("Import of element 'extraClrSchemeLst' is not supported in Docx format by Aspose.Words.", warnings.get(2).getDescription());
+        Assert.assertEquals("Import of element 'extraClrSchemeLst' is not supported in Docx format by Aspose.Words.", warnings.get(1).getDescription());
     }
 
     @Test

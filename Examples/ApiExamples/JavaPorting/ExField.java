@@ -4317,9 +4317,9 @@ public class ExField extends ApiExampleBase
         doc.getMailMerge().execute(table);
 
         Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(0).getType());
-        Assert.assertEquals("DISPLAYBARCODE \"ABC123\" QR \\q 3 \\s 250 \\h 1000 \\r 0 \\b 0xF8BD69 \\f 0xB5413B", doc.getRange().getFields().get(0).getFieldCode());
+        Assert.assertEquals(" DISPLAYBARCODE  ABC123 QR \\b 0xF8BD69 \\f 0xB5413B \\q 3 \\s 250 \\h 1000 \\r 0", doc.getRange().getFields().get(0).getFieldCode());
         Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(1).getType());
-        Assert.assertEquals("DISPLAYBARCODE \"DEF456\" QR \\q 3 \\s 250 \\h 1000 \\r 0 \\b 0xF8BD69 \\f 0xB5413B", doc.getRange().getFields().get(1).getFieldCode());
+        Assert.assertEquals(" DISPLAYBARCODE  DEF456 QR \\b 0xF8BD69 \\f 0xB5413B \\q 3 \\s 250 \\h 1000 \\r 0", doc.getRange().getFields().get(1).getFieldCode());
 
         doc.save(getArtifactsDir() + "Field.MERGEBARCODE.QR.docx");
         //ExEnd
@@ -4330,15 +4330,15 @@ public class ExField extends ApiExampleBase
 
         FieldDisplayBarcode barcode = (FieldDisplayBarcode)doc.getRange().getFields().get(0);
 
-        TestUtil.verifyField(FieldType.FIELD_DISPLAY_BARCODE, 
-            "DISPLAYBARCODE \"ABC123\" QR \\q 3 \\s 250 \\h 1000 \\r 0 \\b 0xF8BD69 \\f 0xB5413B", "", barcode);
+        TestUtil.verifyField(FieldType.FIELD_DISPLAY_BARCODE,
+            " DISPLAYBARCODE  ABC123 QR \\b 0xF8BD69 \\f 0xB5413B \\q 3 \\s 250 \\h 1000 \\r 0", "", barcode);
         Assert.assertEquals("ABC123", barcode.getBarcodeValue());
         Assert.assertEquals("QR", barcode.getBarcodeType());
 
         barcode = (FieldDisplayBarcode)doc.getRange().getFields().get(1);
 
-        TestUtil.verifyField(FieldType.FIELD_DISPLAY_BARCODE, 
-            "DISPLAYBARCODE \"DEF456\" QR \\q 3 \\s 250 \\h 1000 \\r 0 \\b 0xF8BD69 \\f 0xB5413B", "", barcode);
+        TestUtil.verifyField(FieldType.FIELD_DISPLAY_BARCODE,
+            " DISPLAYBARCODE  DEF456 QR \\b 0xF8BD69 \\f 0xB5413B \\q 3 \\s 250 \\h 1000 \\r 0", "", barcode);
         Assert.assertEquals("DEF456", barcode.getBarcodeValue());
         Assert.assertEquals("QR", barcode.getBarcodeType());
     }
@@ -4383,9 +4383,9 @@ public class ExField extends ApiExampleBase
         doc.getMailMerge().execute(table);
 
         Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(0).getType());
-        Assert.assertEquals("DISPLAYBARCODE \"501234567890\" EAN13 \\t \\p CASE \\x", doc.getRange().getFields().get(0).getFieldCode());
+        Assert.assertEquals(" DISPLAYBARCODE  501234567890 EAN13 \\t \\p CASE \\x", doc.getRange().getFields().get(0).getFieldCode());
         Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(1).getType());
-        Assert.assertEquals("DISPLAYBARCODE \"123456789012\" EAN13 \\t \\p CASE \\x", doc.getRange().getFields().get(1).getFieldCode());
+        Assert.assertEquals(" DISPLAYBARCODE  123456789012 EAN13 \\t \\p CASE \\x", doc.getRange().getFields().get(1).getFieldCode());
 
         doc.save(getArtifactsDir() + "Field.MERGEBARCODE.EAN13.docx");
         //ExEnd
@@ -4396,13 +4396,13 @@ public class ExField extends ApiExampleBase
 
         FieldDisplayBarcode barcode = (FieldDisplayBarcode)doc.getRange().getFields().get(0);
 
-        TestUtil.verifyField(FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"501234567890\" EAN13 \\t \\p CASE \\x", "", barcode);
+        TestUtil.verifyField(FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  501234567890 EAN13 \\t \\p CASE \\x", "", barcode);
         Assert.assertEquals("501234567890", barcode.getBarcodeValue());
         Assert.assertEquals("EAN13", barcode.getBarcodeType());
 
         barcode = (FieldDisplayBarcode)doc.getRange().getFields().get(1);
 
-        TestUtil.verifyField(FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"123456789012\" EAN13 \\t \\p CASE \\x", "", barcode);
+        TestUtil.verifyField(FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  123456789012 EAN13 \\t \\p CASE \\x", "", barcode);
         Assert.assertEquals("123456789012", barcode.getBarcodeValue());
         Assert.assertEquals("EAN13", barcode.getBarcodeType());
     }
@@ -4442,9 +4442,9 @@ public class ExField extends ApiExampleBase
         doc.getMailMerge().execute(table);
 
         Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(0).getType());
-        Assert.assertEquals("DISPLAYBARCODE \"12345ABCDE\" CODE39 \\d", doc.getRange().getFields().get(0).getFieldCode());
+        Assert.assertEquals(" DISPLAYBARCODE  12345ABCDE CODE39 \\d", doc.getRange().getFields().get(0).getFieldCode());
         Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(1).getType());
-        Assert.assertEquals("DISPLAYBARCODE \"67890FGHIJ\" CODE39 \\d", doc.getRange().getFields().get(1).getFieldCode());
+        Assert.assertEquals(" DISPLAYBARCODE  67890FGHIJ CODE39 \\d", doc.getRange().getFields().get(1).getFieldCode());
 
         doc.save(getArtifactsDir() + "Field.MERGEBARCODE.CODE39.docx");
         //ExEnd
@@ -4455,13 +4455,13 @@ public class ExField extends ApiExampleBase
 
         FieldDisplayBarcode barcode = (FieldDisplayBarcode)doc.getRange().getFields().get(0);
 
-        TestUtil.verifyField(FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"12345ABCDE\" CODE39 \\d", "", barcode);
+        TestUtil.verifyField(FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  12345ABCDE CODE39 \\d", "", barcode);
         Assert.assertEquals("12345ABCDE", barcode.getBarcodeValue());
         Assert.assertEquals("CODE39", barcode.getBarcodeType());
 
         barcode = (FieldDisplayBarcode)doc.getRange().getFields().get(1);
 
-        TestUtil.verifyField(FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"67890FGHIJ\" CODE39 \\d", "", barcode);
+        TestUtil.verifyField(FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  67890FGHIJ CODE39 \\d", "", barcode);
         Assert.assertEquals("67890FGHIJ", barcode.getBarcodeValue());
         Assert.assertEquals("CODE39", barcode.getBarcodeType());
     }
@@ -4498,9 +4498,9 @@ public class ExField extends ApiExampleBase
         doc.getMailMerge().execute(table);
 
         Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(0).getType());
-        Assert.assertEquals("DISPLAYBARCODE \"09312345678907\" ITF14 \\c STD", doc.getRange().getFields().get(0).getFieldCode());
+        Assert.assertEquals(" DISPLAYBARCODE  09312345678907 ITF14 \\c STD", doc.getRange().getFields().get(0).getFieldCode());
         Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(1).getType());
-        Assert.assertEquals("DISPLAYBARCODE \"1234567891234\" ITF14 \\c STD", doc.getRange().getFields().get(1).getFieldCode());
+        Assert.assertEquals(" DISPLAYBARCODE  1234567891234 ITF14 \\c STD", doc.getRange().getFields().get(1).getFieldCode());
 
         doc.save(getArtifactsDir() + "Field.MERGEBARCODE.ITF14.docx");
         //ExEnd
@@ -4511,13 +4511,13 @@ public class ExField extends ApiExampleBase
 
         FieldDisplayBarcode barcode = (FieldDisplayBarcode)doc.getRange().getFields().get(0);
 
-        TestUtil.verifyField(FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"09312345678907\" ITF14 \\c STD", "", barcode);
+        TestUtil.verifyField(FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  09312345678907 ITF14 \\c STD", "", barcode);
         Assert.assertEquals("09312345678907", barcode.getBarcodeValue());
         Assert.assertEquals("ITF14", barcode.getBarcodeType());
 
         barcode = (FieldDisplayBarcode)doc.getRange().getFields().get(1);
 
-        TestUtil.verifyField(FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"1234567891234\" ITF14 \\c STD", "", barcode);
+        TestUtil.verifyField(FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  1234567891234 ITF14 \\c STD", "", barcode);
         Assert.assertEquals("1234567891234", barcode.getBarcodeValue());
         Assert.assertEquals("ITF14", barcode.getBarcodeType());
     }

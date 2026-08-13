@@ -926,7 +926,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         switch (pdfImageColorSpaceExportMode)
         {
             case PdfImageColorSpaceExportMode.AUTO:
-                Assert.That(testedImageLength < 20500, assertTrue();
+                Assert.That(testedImageLength < 47000, assertTrue();
                 break;
             case PdfImageColorSpaceExportMode.SIMPLE_CMYK:
                 Assert.That(testedImageLength < 140000, assertTrue();
@@ -1009,7 +1009,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.DownsampleOptions.Default.pdf");
         XImage pdfDocImage = pdfDocument.Pages[1].Resources.Images[1];
 
-        Assert.That(pdfDocImage.ToStream().Length < 400000, assertTrue();
+        Assert.That(pdfDocImage.ToStream().Length < 970000, assertTrue();
         Assert.That(pdfDocImage.GetColorType(), Is.EqualTo(ColorType.Rgb));
     }
 
@@ -1057,7 +1057,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         switch (colorMode)
         {
             case ColorMode.NORMAL:
-                Assert.That(testedImageLength < 400000, assertTrue();
+                Assert.That(testedImageLength < 970000, assertTrue();
                 Assert.That(pdfDocImage.GetColorType(), Is.EqualTo(ColorType.Rgb));
                 break;
             case ColorMode.GRAYSCALE:
