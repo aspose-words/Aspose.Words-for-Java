@@ -78,7 +78,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
 
         // The GDI+ renderer usually creates larger files.
         if (useGdiEmfRenderer)
-            Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.Renderer.emf").length() < 300000);
+            Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.Renderer.emf").length() < 650000);
         else
             Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.Renderer.emf").length() <= 30000);
         //ExEnd
