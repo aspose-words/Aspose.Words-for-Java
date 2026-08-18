@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
@@ -201,7 +201,7 @@ public class ExXpsSaveOptions extends ApiExampleBase {
     public void compressionLevelXps() throws Exception
     {
         //ExStart:CompressionLevelXps
-        //GistId:7d9e4e6d70159060102d291fbe71c144
+        //GistId:69abb121764495ab78ca47d76a4fdecc
         //ExFor:XpsSaveOptions.CompressionLevel
         //ExFor:CompressionLevel
         //ExSummary:Shows how to control the compression level when saving a document to XPS format.
