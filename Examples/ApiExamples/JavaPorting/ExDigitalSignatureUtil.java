@@ -28,6 +28,8 @@ import com.aspose.words.Document;
 import com.aspose.words.IncorrectPasswordException;
 import com.aspose.words.XmlDsigLevel;
 import com.aspose.ms.System.IO.File;
+import com.aspose.words.DigitalSignatureTimestampSettings;
+import com.aspose.ms.System.TimeSpan;
 
 
 @Test
@@ -313,5 +315,56 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         Assert.assertEquals(768, signature.getVerticalResolution());
         Assert.assertEquals(24, signature.getColorDepth());
         //ExEnd:SignDocumentWithOptions
+    }
+
+    @Test
+    public void signDocumentWithTimestamping() throws Exception
+    {
+        //ExStart:SignDocumentWithTimestamping
+        //GistId:a6f77f12161f1577c687e4456007f964
+        //ExFor:DigitalSignatureUtil.Sign(String,String,CertificateHolder,SignOptions)
+        //ExFor:SignOptions.TimestampSettings
+        //ExFor:DigitalSignatureTimestampSettings
+        //ExFor:DigitalSignatureTimestampSettings.#ctor(String,String,String)
+        //ExFor:DigitalSignatureTimestampSettings.#ctor(String,String,String,TimeSpan)
+        //ExFor:DigitalSignatureTimestampSettings.Password
+        //ExFor:DigitalSignatureTimestampSettings.ServerUrl
+        //ExFor:DigitalSignatureTimestampSettings.Timeout
+        //ExFor:DigitalSignatureTimestampSettings.UserName
+        //ExFor:XmlDsigLevel
+        //ExSummary:Shows how to sign a document with timestamping using DigitalSignatureUtil.
+        SignOptions signOptions = new SignOptions();
+        {
+            signOptions.setXmlDsigLevel(XmlDsigLevel.X_AD_ES_T);
+            signOptions.setTimestampSettings(new DigitalSignatureTimestampSettings(
+                "https://freetsa.org/tsr",
+                "JohnDoe",
+                "MyPassword"));
+        }
+
+        CertificateHolder cert = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
+
+        DigitalSignatureUtil.sign(getMyDir() + "Digitally signed.docx", getArtifactsDir() + "DigitalSignatureUtil.Timestamped.docx", cert, signOptions);
+
+        Document signedDoc = new Document(getArtifactsDir() + "DigitalSignatureUtil.Timestamped.docx");
+
+        Assert.assertEquals(1, signedDoc.getDigitalSignatures().getCount());
+        Assert.assertTrue(signedDoc.getDigitalSignatures().get(0).isValid());
+
+        // Verify timestamp settings are applied.
+        Assert.assertEquals("https://freetsa.org/tsr", signOptions.getTimestampSettings().getServerUrl());
+        Assert.assertEquals("JohnDoe", signOptions.getTimestampSettings().getUserName());
+        Assert.assertEquals("MyPassword", signOptions.getTimestampSettings().getPassword());
+        Assert.assertEquals(100.0d, signOptions.getTimestampSettings().getTimeoutInternal().getTotalSeconds());
+
+        // Test with custom timeout.
+        signOptions.setTimestampSettings(new DigitalSignatureTimestampSettings(
+            "https://freetsa.org/tsr",
+            "JohnDoe",
+            "MyPassword",
+            TimeSpan.fromMinutes(30.0)));
+
+        Assert.assertEquals(1800.0d, signOptions.getTimestampSettings().getTimeoutInternal().getTotalSeconds());
+        //ExEnd:SignDocumentWithTimestamping
     }
 }

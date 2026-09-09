@@ -69,9 +69,11 @@
 		<File project="Examples" dir="" name="ExParagraph" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExParagraphFormat" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExPclSaveOptions" status="AUTO" isTest="false" />
+		<File project="Examples" dir="" name="ExPdf2Word" status="NEW" isTest="false" />
 		<File project="Examples" dir="" name="ExPdfLoadOptions" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExPdfSaveOptions" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExPlainTextDocument" status="AUTO" isTest="false" />
+		<File project="Examples" dir="" name="ExPrinting" status="NEW" isTest="false" />
 		<File project="Examples" dir="" name="ExPsSaveOptions" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExRange" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExRenameMergeFields" status="AUTO" isTest="false" />

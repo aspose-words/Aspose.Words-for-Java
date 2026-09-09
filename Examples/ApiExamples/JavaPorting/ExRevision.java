@@ -825,5 +825,53 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         doc.save(getArtifactsDir() + "Revision.RevisionCellColor.pdf");
         //ExEnd:RevisionCellColor
     }
+
+    @Test (dataProvider = "compareListDefinitionsDataProvider")
+    public void compareListDefinitions(boolean isCompareListDefinitions) throws Exception
+    {
+        //ExStart:CompareListDefinitions
+        //GistId:a6f77f12161f1577c687e4456007f964
+        //ExFor:AdvancedCompareOptions.CompareListDefinitions
+        //ExSummary:Shows how to control whether list definition content will be compared during document comparison.
+        Document docA = new Document();
+        DocumentBuilder builderA = new DocumentBuilder(docA);
+        builderA.getListFormat().applyNumberDefault();
+        builderA.writeln("Item 1");
+        builderA.writeln("Item 2");
+        builderA.getListFormat().removeNumbers();
+
+        Document docB = new Document();
+        DocumentBuilder builderB = new DocumentBuilder(docB);
+        builderB.getListFormat().applyBulletDefault();
+        builderB.writeln("Item 1");
+        builderB.writeln("Item 2");
+        builderB.getListFormat().removeNumbers();
+
+        // Compare documents with CompareListDefinitions enabled.
+        CompareOptions options = new CompareOptions();
+        {
+            options.setAdvancedOptions({ options.getAdvancedOptions().setCompareListDefinitions(isCompareListDefinitions); });
+        }
+        docA.compareInternal(docB, "test", new Date, options);
+        //ExEnd:CompareListDefinitions
+
+        // Verify that comparison completed without exceptions.
+        // Since the lists are identical, no revisions should be produced.
+        if (isCompareListDefinitions)
+            Assert.assertEquals(2, docA.getRevisions().getCount());
+        else
+            Assert.assertEquals(0, docA.getRevisions().getCount());
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "compareListDefinitionsDataProvider")
+	public static Object[][] compareListDefinitionsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
 }
 
