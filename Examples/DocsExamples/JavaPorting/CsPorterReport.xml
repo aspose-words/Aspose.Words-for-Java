@@ -23,6 +23,7 @@
 		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with TxtSaveOptions" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="File Formats and Conversions" name="Working with FileFormat" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="Getting started" name="Apply License" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Getting started" name="Hello world" status="NEW" isTest="false" />
 		<File project="DocsExamples" dir="LINQ Reporting Engine" name="Base operations" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="LINQ Reporting Engine" name="BuildOptions" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="LINQ Reporting Engine" name="Charts" status="AUTO" isTest="false" />
@@ -59,7 +60,7 @@
 		<File project="DocsExamples" dir="Programming with Documents\Split Documents" name="Split into html pages" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="Programming with Documents" name="Working with Comments" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Add content using DocumentBuilder" status="AUTO" isTest="false" />
-		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Clone and combine documents" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Clone and combine documents" status="DELETED-IN-DOTNET" isTest="false" />
 		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Compare documents" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Document formatting" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Join and append documents" status="AUTO" isTest="false" />
