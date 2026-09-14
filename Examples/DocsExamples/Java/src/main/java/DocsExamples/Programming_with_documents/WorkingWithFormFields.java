@@ -1,4 +1,4 @@
-package DocsExamples.Programming_with_documents;
+﻿package DocsExamples.Programming_with_documents;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.*;
@@ -11,7 +11,7 @@ public class WorkingWithFormFields extends DocsExamplesBase {
     @Test
     public void insertFormFields() throws Exception {
         //ExStart:InsertFormFields
-        //GistId:b09907fef4643433271e4e0e912921b0
+        //GistId:1d9d7d13906d89380213310f7a0dffdc
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -23,7 +23,7 @@ public class WorkingWithFormFields extends DocsExamplesBase {
     @Test
     public void formFieldsWorkWithProperties() throws Exception {
         //ExStart:FormFieldsWorkWithProperties
-        //GistId:b09907fef4643433271e4e0e912921b0
+        //GistId:1d9d7d13906d89380213310f7a0dffdc
         Document doc = new Document(getMyDir() + "Form fields.docx");
         FormField formField = doc.getRange().getFormFields().get(3);
 
@@ -35,7 +35,7 @@ public class WorkingWithFormFields extends DocsExamplesBase {
     @Test
     public void formFieldsGetFormFieldsCollection() throws Exception {
         //ExStart:FormFieldsGetFormFieldsCollection
-        //GistId:b09907fef4643433271e4e0e912921b0
+        //GistId:1d9d7d13906d89380213310f7a0dffdc
         Document doc = new Document(getMyDir() + "Form fields.docx");
 
         FormFieldCollection formFields = doc.getRange().getFormFields();
@@ -45,9 +45,9 @@ public class WorkingWithFormFields extends DocsExamplesBase {
     @Test
     public void formFieldsGetByName() throws Exception {
         //ExStart:FormFieldsFontFormatting
-        //GistId:b09907fef4643433271e4e0e912921b0
+        //GistId:1d9d7d13906d89380213310f7a0dffdc
         //ExStart:FormFieldsGetByName
-        //GistId:b09907fef4643433271e4e0e912921b0
+        //GistId:1d9d7d13906d89380213310f7a0dffdc
         Document doc = new Document(getMyDir() + "Form fields.docx");
 
         FormFieldCollection documentFormFields = doc.getRange().getFormFields();

@@ -1,4 +1,4 @@
-package DocsExamples.Mail_Merge_And_Reporting;
+﻿package DocsExamples.Mail_Merge_And_Reporting;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.Document;
@@ -26,7 +26,7 @@ public class WorkingWithXmlData extends DocsExamplesBase {
     @Test
     public void xmlMailMerge() throws Exception {
         //ExStart:XmlMailMerge
-        //GistId:0441f68c5209fec25c47d1a0a203fbb0
+        //GistId:c4826e8042bd86942cd060b5f3bec3d0
         DataSet customersDs = new DataSet();
         customersDs.readXml(getMyDir() + "Mail merge data - Customers.xml");
 
@@ -40,7 +40,7 @@ public class WorkingWithXmlData extends DocsExamplesBase {
     @Test
     public void nestedMailMerge() throws Exception {
         //ExStart:NestedMailMerge
-        //GistId:c68048adceb3bda6a1511c7d6f5ebf7b
+        //GistId:6ad68bd56dfc60c2162398d02d2fc1a5
         // The Datatable.TableNames and the DataSet.Relations are defined implicitly by .NET through ReadXml.
         DataSet pizzaDs = new DataSet();
         pizzaDs.readXml(getMyDir() + "Mail merge data - Orders.xml");

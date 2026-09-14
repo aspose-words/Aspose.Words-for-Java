@@ -1,4 +1,4 @@
-package DocsExamples.Programming_with_documents;
+﻿package DocsExamples.Programming_with_documents;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.*;
@@ -15,7 +15,7 @@ public class WorkingWithOleObjectsAndActiveX extends DocsExamplesBase {
     @Test
     public void insertOleObject() throws Exception {
         //ExStart:InsertOleObject
-        //GistId:4996b573cf231d9f66ab0d1f3f981222
+        //GistId:79b218ed58e95a7aea639e04882cbd9b
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -28,7 +28,7 @@ public class WorkingWithOleObjectsAndActiveX extends DocsExamplesBase {
     @Test
     public void insertOleObjectWithOlePackage() throws Exception {
         //ExStart:InsertOleObjectwithOlePackage
-        //GistId:4996b573cf231d9f66ab0d1f3f981222
+        //GistId:79b218ed58e95a7aea639e04882cbd9b
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -45,7 +45,7 @@ public class WorkingWithOleObjectsAndActiveX extends DocsExamplesBase {
         //ExEnd:InsertOleObjectwithOlePackage
 
         //ExStart:GetAccessToOleObjectRawData
-        //GistId:4996b573cf231d9f66ab0d1f3f981222
+        //GistId:79b218ed58e95a7aea639e04882cbd9b
         Shape oleShape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         byte[] oleRawData = oleShape.getOleFormat().getRawData();
         //ExEnd:GetAccessToOleObjectRawData
@@ -54,7 +54,7 @@ public class WorkingWithOleObjectsAndActiveX extends DocsExamplesBase {
     @Test
     public void insertOleObjectAsIcon() throws Exception {
         //ExStart:InsertOleObjectAsIcon
-        //GistId:4996b573cf231d9f66ab0d1f3f981222
+        //GistId:79b218ed58e95a7aea639e04882cbd9b
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -68,7 +68,7 @@ public class WorkingWithOleObjectsAndActiveX extends DocsExamplesBase {
     @Test
     public void insertOleObjectAsIconUsingStream() throws Exception {
         //ExStart:InsertOleObjectAsIconUsingStream
-        //GistId:4996b573cf231d9f66ab0d1f3f981222
+        //GistId:79b218ed58e95a7aea639e04882cbd9b
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -110,7 +110,7 @@ public class WorkingWithOleObjectsAndActiveX extends DocsExamplesBase {
     @Test
     public void insertOnlineVideo() throws Exception {
         //ExStart:InsertOnlineVideo
-        //GistId:4996b573cf231d9f66ab0d1f3f981222
+        //GistId:79b218ed58e95a7aea639e04882cbd9b
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -127,7 +127,7 @@ public class WorkingWithOleObjectsAndActiveX extends DocsExamplesBase {
     @Test
     public void insertOnlineVideoWithEmbedHtml() throws Exception {
         //ExStart:InsertOnlineVideoWithEmbedHtml
-        //GistId:4996b573cf231d9f66ab0d1f3f981222
+        //GistId:79b218ed58e95a7aea639e04882cbd9b
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 

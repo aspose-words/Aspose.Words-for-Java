@@ -1,4 +1,4 @@
-package DocsExamples.Programming_with_documents;
+﻿package DocsExamples.Programming_with_documents;
 
 import com.aspose.words.Document;
 import com.aspose.words.Shape;
@@ -11,7 +11,7 @@ public class WorkingWithTextboxes {
     @Test
     public void createLink() throws Exception {
         //ExStart:CreateLink
-        //GistId:68b6041746b3d6bf5137cff8e6385b5f
+        //GistId:8efa479dedfc5a2f45b37e8c900d50a2
         Document doc = new Document();
 
         Shape shape1 = new Shape(doc, ShapeType.TEXT_BOX);
@@ -28,7 +28,7 @@ public class WorkingWithTextboxes {
     @Test
     public void checkSequence() throws Exception {
         //ExStart:CheckSequence
-        //GistId:68b6041746b3d6bf5137cff8e6385b5f
+        //GistId:8efa479dedfc5a2f45b37e8c900d50a2
         Document doc = new Document();
 
         Shape shape = new Shape(doc, ShapeType.TEXT_BOX);
@@ -51,7 +51,7 @@ public class WorkingWithTextboxes {
     @Test
     public void breakLink() throws Exception {
         //ExStart:BreakLink
-        //GistId:68b6041746b3d6bf5137cff8e6385b5f
+        //GistId:8efa479dedfc5a2f45b37e8c900d50a2
         Document doc = new Document();
 
         Shape shape = new Shape(doc, ShapeType.TEXT_BOX);

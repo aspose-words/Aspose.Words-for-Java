@@ -1,4 +1,4 @@
-package DocsExamples.Mail_Merge_And_Reporting.Complex_examples_and_helpers;
+﻿package DocsExamples.Mail_Merge_And_Reporting.Complex_examples_and_helpers;
 
 import com.aspose.words.BreakType;
 import com.aspose.words.Document;
@@ -11,7 +11,7 @@ public class CreateMailMergeTemplate {
 
     public Document template() throws Exception {
         //ExStart:CreateMailMergeTemplate
-        //GistId:0a1baaa127443b485cc692c8d98ee353
+        //GistId:5088a3aa54a6cb4f6dc8ee8a4e19da52
         DocumentBuilder builder = new DocumentBuilder();
 
         // Insert a text input field the unique name of this field is "Hello", the other parameters define

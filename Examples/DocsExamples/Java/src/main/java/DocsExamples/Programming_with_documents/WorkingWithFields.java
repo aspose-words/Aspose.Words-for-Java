@@ -1,4 +1,4 @@
-package DocsExamples.Programming_with_documents;
+﻿package DocsExamples.Programming_with_documents;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.*;
@@ -18,7 +18,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void fieldCode() throws Exception {
         //ExStart:FieldCode
-        //GistId:7c2b7b650a88375b1d438746f78f0d64
+        //GistId:75e4246a1d11ac29064f36124af0accc
         Document doc = new Document(getMyDir() + "Hyperlinks.docx");
 
         for (Field field : doc.getRange().getFields()) {
@@ -31,7 +31,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void changeFieldUpdateCultureSource() throws Exception {
         //ExStart:ChangeFieldUpdateCultureSource
-        //GistId:9e90defe4a7bcafb004f73a2ef236986
+        //GistId:fcfbd6fdf2f0e87153794df8e570a96c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -53,7 +53,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void specifyLocaleAtFieldLevel() throws Exception {
         //ExStart:SpecifyLocaleAtFieldLevel
-        //GistId:1cf07762df56f15067d6aef90b14b3db
+        //GistId:eae698972bc6e939d7d403a32732da83
         DocumentBuilder builder = new DocumentBuilder();
 
         Field field = builder.insertField(FieldType.FIELD_DATE, true);
@@ -66,7 +66,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void replaceHyperlinks() throws Exception {
         //ExStart:ReplaceHyperlinks
-        //GistId:0213851d47551e83af42233f4d075cf6
+        //GistId:d94085c26baf5235d4e7ab5483980108
         Document doc = new Document(getMyDir() + "Hyperlinks.docx");
 
         for (Field field : doc.getRange().getFields()) {
@@ -89,7 +89,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void renameMergeFields() throws Exception {
         //ExStart:RenameMergeFields
-        //GistId:bf0f8a6b40b69a5274ab3553315e147f
+        //GistId:022e103c106b865dff94e9c742357573
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -111,7 +111,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void removeField() throws Exception {
         //ExStart:RemoveField
-        //GistId:8c604665c1b97795df7a1e665f6b44ce
+        //GistId:a91d9deeec5a712c459cee506e7e7fc0
         Document doc = new Document(getMyDir() + "Various fields.docx");
 
         Field field = doc.getRange().getFields().get(0);
@@ -122,7 +122,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void unlinkFields() throws Exception {
         //ExStart:UnlinkFields
-        //GistId:f3592014d179ecb43905e37b2a68bc92
+        //GistId:13297c901241a5a87660303fbcdd8a92
         Document doc = new Document(getMyDir() + "Various fields.docx");
         doc.unlinkFields();
         //ExEnd:UnlinkFields
@@ -131,7 +131,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void insertToaFieldWithoutDocumentBuilder() throws Exception {
         //ExStart:InsertToaFieldWithoutDocumentBuilder
-        //GistId:1cf07762df56f15067d6aef90b14b3db
+        //GistId:eae698972bc6e939d7d403a32732da83
         Document doc = new Document();
         Paragraph para = new Paragraph(doc);
 
@@ -160,7 +160,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void insertNestedFields() throws Exception {
         //ExStart:InsertNestedFields
-        //GistId:1cf07762df56f15067d6aef90b14b3db
+        //GistId:eae698972bc6e939d7d403a32732da83
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -187,7 +187,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void insertMergeFieldUsingDom() throws Exception {
         //ExStart:InsertMergeFieldUsingDom
-        //GistId:1cf07762df56f15067d6aef90b14b3db
+        //GistId:eae698972bc6e939d7d403a32732da83
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -217,7 +217,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void insertAddressBlockFieldUsingDom() throws Exception {
         //ExStart:InsertAddressBlockFieldUsingDom
-        //GistId:1cf07762df56f15067d6aef90b14b3db
+        //GistId:eae698972bc6e939d7d403a32732da83
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -247,7 +247,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void insertFieldIncludeTextWithoutDocumentBuilder() throws Exception {
         //ExStart:InsertFieldIncludeTextWithoutDocumentBuilder
-        //GistId:1cf07762df56f15067d6aef90b14b3db
+        //GistId:eae698972bc6e939d7d403a32732da83
         Document doc = new Document();
 
         Paragraph para = new Paragraph(doc);
@@ -269,7 +269,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void insertFieldNone() throws Exception {
         //ExStart:InsertFieldNone
-        //GistId:1cf07762df56f15067d6aef90b14b3db
+        //GistId:eae698972bc6e939d7d403a32732da83
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -282,7 +282,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void insertField() throws Exception {
         //ExStart:InsertField
-        //GistId:1cf07762df56f15067d6aef90b14b3db
+        //GistId:eae698972bc6e939d7d403a32732da83
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -295,7 +295,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void insertFieldUsingFieldBuilder() throws Exception {
         //ExStart:InsertFieldUsingFieldBuilder
-        //GistId:1cf07762df56f15067d6aef90b14b3db
+        //GistId:eae698972bc6e939d7d403a32732da83
         Document doc = new Document();
 
         // Prepare IF field with two nested MERGEFIELD fields: { IF "left expression" = "right expression" "Firstname: { MERGEFIELD firstname }" "Lastname: { MERGEFIELD lastname }"}
@@ -323,7 +323,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void insertAuthorField() throws Exception {
         //ExStart:InsertAuthorField
-        //GistId:1cf07762df56f15067d6aef90b14b3db
+        //GistId:eae698972bc6e939d7d403a32732da83
         Document doc = new Document();
 
         Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
@@ -342,7 +342,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void insertAskFieldWithoutDocumentBuilder() throws Exception {
         //ExStart:InsertAskFieldWithoutDocumentBuilder
-        //GistId:1cf07762df56f15067d6aef90b14b3db
+        //GistId:eae698972bc6e939d7d403a32732da83
         Document doc = new Document();
 
         Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
@@ -367,7 +367,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void insertAdvanceFieldWithoutDocumentBuilder() throws Exception {
         //ExStart:InsertAdvanceFieldWithoutDocumentBuilder
-        //GistId:1cf07762df56f15067d6aef90b14b3db
+        //GistId:eae698972bc6e939d7d403a32732da83
         Document doc = new Document();
 
         Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
@@ -396,7 +396,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void getMailMergeFieldNames() throws Exception {
         //ExStart:GetFieldNames
-        //GistId:b4bab1bf22437a86d8062e91cf154494
+        //GistId:7d267f5905ac7f3d5144e8d4126a0d6d
         Document doc = new Document();
 
         String[] fieldNames = doc.getMailMerge().getFieldNames();
@@ -407,7 +407,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void mappedDataFields() throws Exception {
         //ExStart:MappedDataFields
-        //GistId:b4bab1bf22437a86d8062e91cf154494
+        //GistId:7d267f5905ac7f3d5144e8d4126a0d6d
         Document doc = new Document();
 
         doc.getMailMerge().getMappedDataFields().add("MyFieldName_InDocument", "MyFieldName_InDataSource");
@@ -417,7 +417,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void deleteFields() throws Exception {
         //ExStart:DeleteFields
-        //GistId:f39874821cb317d245a769c9ce346fea
+        //GistId:edcbce3062678d7d067aef459c4acb46
         Document doc = new Document();
 
         doc.getMailMerge().deleteFields();
@@ -427,7 +427,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void fieldUpdateCulture() throws Exception {
         //ExStart:FieldUpdateCulture
-        //GistId:79b46682fbfd7f02f64783b163ed95fc
+        //GistId:de2643d9d0ea757bcbb6934f66f9f841
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -441,7 +441,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     }
 
     //ExStart:FieldUpdateCultureProvider
-    //GistId:79b46682fbfd7f02f64783b163ed95fc
+    //GistId:de2643d9d0ea757bcbb6934f66f9f841
     private static class FieldUpdateCultureProvider implements IFieldUpdateCultureProvider {
         public CultureInfo getCulture(String name, Field field) {
             switch (name) {
@@ -493,9 +493,9 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void fieldDisplayResults() throws Exception {
         //ExStart:FieldDisplayResults
-        //GistId:bf0f8a6b40b69a5274ab3553315e147f
+        //GistId:022e103c106b865dff94e9c742357573
         //ExStart:UpdateDocFields
-        //GistId:08db64c4d86842c4afd1ecb925ed07c4
+        //GistId:cffe9d4fecedd3037a074e56c4c92054
         Document doc = new Document(getMyDir() + "Various fields.docx");
 
         doc.updateFields();
@@ -509,7 +509,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void evaluateIfCondition() throws Exception {
         //ExStart:EvaluateIfCondition
-        //GistId:79b46682fbfd7f02f64783b163ed95fc
+        //GistId:de2643d9d0ea757bcbb6934f66f9f841
         DocumentBuilder builder = new DocumentBuilder();
 
         FieldIf field = (FieldIf) builder.insertField("IF 1 = 1", null);
@@ -522,7 +522,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void unlinkFieldsInParagraph() throws Exception {
         //ExStart:UnlinkFieldsInParagraph
-        //GistId:f3592014d179ecb43905e37b2a68bc92
+        //GistId:13297c901241a5a87660303fbcdd8a92
         Document doc = new Document(getMyDir() + "Linked fields.docx");
 
         // Pass the appropriate parameters to convert all IF fields to text that are encountered only in the last 
@@ -540,7 +540,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void unlinkFieldsInDocument() throws Exception {
         //ExStart:UnlinkFieldsInDocument
-        //GistId:f3592014d179ecb43905e37b2a68bc92
+        //GistId:13297c901241a5a87660303fbcdd8a92
         Document doc = new Document(getMyDir() + "Linked fields.docx");
 
         // Pass the appropriate parameters to convert all IF fields encountered in the document (including headers and footers) to text.
@@ -558,7 +558,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void unlinkFieldsInBody() throws Exception {
         //ExStart:UnlinkFieldsInBody
-        //GistId:f3592014d179ecb43905e37b2a68bc92
+        //GistId:13297c901241a5a87660303fbcdd8a92
         Document doc = new Document(getMyDir() + "Linked fields.docx");
 
         // Pass the appropriate parameters to convert PAGE fields encountered to text only in the body of the first section.
@@ -575,7 +575,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void changeLocale() throws Exception {
         //ExStart:ChangeLocale
-        //GistId:9e90defe4a7bcafb004f73a2ef236986
+        //GistId:fcfbd6fdf2f0e87153794df8e570a96c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -595,7 +595,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     }
 
     //ExStart:ConvertFieldsToStaticText
-    //GistId:f3592014d179ecb43905e37b2a68bc92
+    //GistId:13297c901241a5a87660303fbcdd8a92
     /// <summary>
     /// Converts any fields of the specified type found in the descendants of the node into static text.
     /// </summary>
@@ -617,7 +617,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void fieldResultFormatting() throws Exception {
         //ExStart:FieldResultFormatting
-        //GistId:79b46682fbfd7f02f64783b163ed95fc
+        //GistId:de2643d9d0ea757bcbb6934f66f9f841
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         FieldResultFormatter formatter = new FieldResultFormatter("$%d", "Date: %s", "Item # %s:");
@@ -649,7 +649,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     }
 
     //ExStart:FieldResultFormatter
-    //GistId:79b46682fbfd7f02f64783b163ed95fc
+    //GistId:de2643d9d0ea757bcbb6934f66f9f841
     /// <summary>
     /// When fields with formatting are updated, this formatter will override their formatting
     /// with a custom format, while tracking every invocation.

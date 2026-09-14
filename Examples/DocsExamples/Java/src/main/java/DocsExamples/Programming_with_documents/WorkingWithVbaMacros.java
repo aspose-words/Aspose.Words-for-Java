@@ -1,4 +1,4 @@
-package DocsExamples.Programming_with_documents;
+﻿package DocsExamples.Programming_with_documents;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.*;
@@ -9,7 +9,7 @@ public class WorkingWithVbaMacros extends DocsExamplesBase {
     @Test
     public void createVbaProject() throws Exception {
         //ExStart:CreateVbaProject
-        //GistId:d9bac4ed890f81ea3de392ecfeedbc55
+        //GistId:b4005e4d5f26b32e4d1b017d1b98aaa0
         Document doc = new Document();
 
         VbaProject project = new VbaProject();
@@ -32,7 +32,7 @@ public class WorkingWithVbaMacros extends DocsExamplesBase {
     @Test
     public void readVbaMacros() throws Exception {
         //ExStart:ReadVbaMacros
-        //GistId:d9bac4ed890f81ea3de392ecfeedbc55
+        //GistId:b4005e4d5f26b32e4d1b017d1b98aaa0
         Document doc = new Document(getMyDir() + "VBA project.docm");
 
         if (doc.getVbaProject() != null) {
@@ -46,7 +46,7 @@ public class WorkingWithVbaMacros extends DocsExamplesBase {
     @Test
     public void modifyVbaMacros() throws Exception {
         //ExStart:ModifyVbaMacros
-        //GistId:d9bac4ed890f81ea3de392ecfeedbc55
+        //GistId:b4005e4d5f26b32e4d1b017d1b98aaa0
         Document doc = new Document(getMyDir() + "VBA project.docm");
 
         VbaProject project = doc.getVbaProject();
@@ -62,7 +62,7 @@ public class WorkingWithVbaMacros extends DocsExamplesBase {
     @Test
     public void cloneVbaProject() throws Exception {
         //ExStart:CloneVbaProject
-        //GistId:d9bac4ed890f81ea3de392ecfeedbc55
+        //GistId:b4005e4d5f26b32e4d1b017d1b98aaa0
         Document doc = new Document(getMyDir() + "VBA project.docm");
         Document destDoc = new Document();
         {
@@ -76,7 +76,7 @@ public class WorkingWithVbaMacros extends DocsExamplesBase {
     @Test
     public void cloneVbaModule() throws Exception {
         //ExStart:CloneVbaModule
-        //GistId:d9bac4ed890f81ea3de392ecfeedbc55
+        //GistId:b4005e4d5f26b32e4d1b017d1b98aaa0
         Document doc = new Document(getMyDir() + "VBA project.docm");
         Document destDoc = new Document();
         {
@@ -93,7 +93,7 @@ public class WorkingWithVbaMacros extends DocsExamplesBase {
     @Test
     public void removeVbaReferences() throws Exception {
         //ExStart:RemoveVbaReferences
-        //GistId:d9bac4ed890f81ea3de392ecfeedbc55
+        //GistId:b4005e4d5f26b32e4d1b017d1b98aaa0
         Document doc = new Document(getMyDir() + "VBA project.docm");
 
         // Find and remove the reference with some LibId path.
@@ -112,7 +112,7 @@ public class WorkingWithVbaMacros extends DocsExamplesBase {
     }
 
     //ExStart:GetLibIdAndReferencePath
-    //GistId:d9bac4ed890f81ea3de392ecfeedbc55
+    //GistId:b4005e4d5f26b32e4d1b017d1b98aaa0
     /// <summary>
     /// Returns string representing LibId path of a specified reference. 
     /// </summary>

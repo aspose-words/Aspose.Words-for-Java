@@ -1,4 +1,4 @@
-package DocsExamples.Programming_with_documents.Working_with_graphic_elements;
+﻿package DocsExamples.Programming_with_documents.Working_with_graphic_elements;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.Shape;
@@ -91,7 +91,7 @@ public class WorkingWithImages extends DocsExamplesBase
     public void insertBarcodeImage() throws Exception
     {
         //ExStart:InsertBarcodeImage
-        //GistId:6f849e51240635a6322ab0460938c922
+        //GistId:5b273ed7ba940f81b6a42a3a78609316
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -118,7 +118,7 @@ public class WorkingWithImages extends DocsExamplesBase
     }
 
     //ExStart:InsertBarcodeIntoFooter
-    //GistId:6f849e51240635a6322ab0460938c922
+    //GistId:5b273ed7ba940f81b6a42a3a78609316
     private void insertBarcodeIntoFooter(DocumentBuilder builder, Section section, int footerType) throws Exception
     {
         // Move to the footer type in the specific section.
@@ -182,7 +182,7 @@ public class WorkingWithImages extends DocsExamplesBase
     public void cropImages() throws Exception
     {
         //ExStart:CropImages
-        //GistId:6f849e51240635a6322ab0460938c922
+        //GistId:5b273ed7ba940f81b6a42a3a78609316
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 

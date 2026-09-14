@@ -1,4 +1,4 @@
-package DocsExamples.Mail_Merge_And_Reporting;
+﻿package DocsExamples.Mail_Merge_And_Reporting;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.Shape;
@@ -23,7 +23,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void mailMergeFormFields() throws Exception {
         //ExStart:MailMergeFormFields
-        //GistId:0a1baaa127443b485cc692c8d98ee353
+        //GistId:5088a3aa54a6cb4f6dc8ee8a4e19da52
         Document doc = new Document(getMyDir() + "Mail merge destinations - Fax.docx");
 
         // Setup mail merge event handler to do the custom work.
@@ -48,7 +48,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     }
 
     //ExStart:HandleMergeField
-    //GistId:8a66b5cea0f9f8b862c092c9b93ccb3c
+    //GistId:1aaa54a374c2ea8cda06bae3d084108e
     private static class HandleMergeField implements IFieldMergingCallback {
         /// <summary>
         /// This handler is called for every mail merge field found in the document,
@@ -85,7 +85,7 @@ public class WorkingWithFields extends DocsExamplesBase {
         }
 
         //ExStart:ImageFieldMerging
-        //GistId:0a1baaa127443b485cc692c8d98ee353
+        //GistId:5088a3aa54a6cb4f6dc8ee8a4e19da52
         public void imageFieldMerging(ImageFieldMergingArgs args) {
             args.setImageFileName("Image.png");
             args.getImageWidth().setValue(200.0);
@@ -100,7 +100,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void mailMergeImageField() throws Exception {
         //ExStart:MailMergeImageField
-        //GistId:8a66b5cea0f9f8b862c092c9b93ccb3c
+        //GistId:1aaa54a374c2ea8cda06bae3d084108e
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -124,7 +124,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     }
 
     //ExStart:ImageFieldMergingHandler
-    //GistId:8a66b5cea0f9f8b862c092c9b93ccb3c
+    //GistId:1aaa54a374c2ea8cda06bae3d084108e
     private static class ImageFieldMergingHandler implements IFieldMergingCallback {
         public void fieldMerging(FieldMergingArgs args) {
             //  Implementation is not required.
@@ -144,7 +144,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     //ExEnd:ImageFieldMergingHandler
 
     //ExStart:DataSourceRoot
-    //GistId:8a66b5cea0f9f8b862c092c9b93ccb3c
+    //GistId:1aaa54a374c2ea8cda06bae3d084108e
     public static class DataSourceRoot implements IMailMergeDataSourceRoot {
         public IMailMergeDataSource getDataSource(String s) {
             return new DataSource();
@@ -211,7 +211,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void mailMergeImageFromBlob() throws Exception {
         //ExStart:MailMergeImageFromBlob
-        //GistId:8a66b5cea0f9f8b862c092c9b93ccb3c
+        //GistId:1aaa54a374c2ea8cda06bae3d084108e
         Document doc = new Document(getMyDir() + "Mail merge destination - Northwind employees.docx");
 
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeImageFieldFromBlob());
@@ -236,7 +236,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     }
 
     //ExStart:HandleMergeImageFieldFromBlob
-    //GistId:8a66b5cea0f9f8b862c092c9b93ccb3c
+    //GistId:1aaa54a374c2ea8cda06bae3d084108e
     public static class HandleMergeImageFieldFromBlob implements IFieldMergingCallback {
         public void fieldMerging(FieldMergingArgs args) {
             // Do nothing.
@@ -372,7 +372,7 @@ public class WorkingWithFields extends DocsExamplesBase {
     @Test
     public void fieldNext() throws Exception {
         //ExStart:FieldNext
-        //GistId:b4bab1bf22437a86d8062e91cf154494
+        //GistId:7d267f5905ac7f3d5144e8d4126a0d6d
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 

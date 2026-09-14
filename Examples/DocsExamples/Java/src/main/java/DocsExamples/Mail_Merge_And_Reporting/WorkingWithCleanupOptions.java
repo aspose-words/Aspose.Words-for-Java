@@ -1,4 +1,4 @@
-package DocsExamples.Mail_Merge_And_Reporting;
+﻿package DocsExamples.Mail_Merge_And_Reporting;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.Document;
@@ -55,7 +55,7 @@ public class WorkingWithCleanupOptions extends DocsExamplesBase {
     @Test
     public void removeUnmergedRegions() throws Exception {
         //ExStart:RemoveUnmergedRegions
-        //GistId:f39874821cb317d245a769c9ce346fea
+        //GistId:edcbce3062678d7d067aef459c4acb46
         Document doc = new Document(getMyDir() + "Mail merge destination - Northwind suppliers.docx");
 
         DataSet data = new DataSet();
@@ -78,7 +78,7 @@ public class WorkingWithCleanupOptions extends DocsExamplesBase {
     @Test
     public void removeEmptyParagraphs() throws Exception {
         //ExStart:RemoveEmptyParagraphs
-        //GistId:f39874821cb317d245a769c9ce346fea
+        //GistId:edcbce3062678d7d067aef459c4acb46
         Document doc = new Document(getMyDir() + "Table with fields.docx");
 
         doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_EMPTY_PARAGRAPHS);
@@ -93,7 +93,7 @@ public class WorkingWithCleanupOptions extends DocsExamplesBase {
     @Test
     public void removeUnusedFields() throws Exception {
         //ExStart:RemoveUnusedFields
-        //GistId:f39874821cb317d245a769c9ce346fea
+        //GistId:edcbce3062678d7d067aef459c4acb46
         Document doc = new Document(getMyDir() + "Table with fields.docx");
 
         doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_UNUSED_FIELDS);
@@ -108,7 +108,7 @@ public class WorkingWithCleanupOptions extends DocsExamplesBase {
     @Test
     public void removeContainingFields() throws Exception {
         //ExStart:RemoveContainingFields
-        //GistId:f39874821cb317d245a769c9ce346fea
+        //GistId:edcbce3062678d7d067aef459c4acb46
         Document doc = new Document(getMyDir() + "Table with fields.docx");
 
         doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_CONTAINING_FIELDS);
@@ -123,7 +123,7 @@ public class WorkingWithCleanupOptions extends DocsExamplesBase {
     @Test
     public void removeEmptyTableRows() throws Exception {
         //ExStart:RemoveEmptyTableRows
-        //GistId:f39874821cb317d245a769c9ce346fea
+        //GistId:edcbce3062678d7d067aef459c4acb46
         Document doc = new Document(getMyDir() + "Table with fields.docx");
 
         doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_EMPTY_TABLE_ROWS);
