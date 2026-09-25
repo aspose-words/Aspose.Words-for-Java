@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -777,7 +777,7 @@ public class ExRevision extends ApiExampleBase {
     public void compareListDefinitions(boolean isCompareListDefinitions) throws Exception
     {
         //ExStart:CompareListDefinitions
-        //GistId:a6f77f12161f1577c687e4456007f964
+        //GistId:1de291ad9891479450958e7126a9034d
         //ExFor:AdvancedCompareOptions.CompareListDefinitions
         //ExSummary:Shows how to control whether list definition content will be compared during document comparison.
         Document docA = new Document();

@@ -295,7 +295,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
     public void signDocumentWithTimestamping() throws Exception
     {
         //ExStart:SignDocumentWithTimestamping
-        //GistId:a6f77f12161f1577c687e4456007f964
+        //GistId:1de291ad9891479450958e7126a9034d
         //ExFor:DigitalSignatureUtil.Sign(String,String,CertificateHolder,SignOptions)
         //ExFor:SignOptions.TimestampSettings
         //ExFor:DigitalSignatureTimestampSettings
