@@ -157,7 +157,7 @@ public class BaseConversions extends DocsExamplesBase {
     @Test
     public void DocxToJpeg() throws Exception {
         //ExStart:DocxToJpeg
-        //GistId:b237846932dfcde42358bd0c887661a5
+        //GistId:3e41a25b97b6091491b45ebf20f273b5
         Document doc = new Document(getMyDir() + "Document.docx");
         doc.save(getArtifactsDir() + "BaseConversions.DocxToJpeg.jpeg");
         //ExEnd:DocxToJpeg
