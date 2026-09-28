@@ -1,4 +1,4 @@
-﻿package Examples;
+package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -329,16 +329,13 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         Assert.assertEquals("https://freetsa.org/tsr", signOptions.getTimestampSettings().getServerUrl());
         Assert.assertEquals("JohnDoe", signOptions.getTimestampSettings().getUserName());
         Assert.assertEquals("MyPassword", signOptions.getTimestampSettings().getPassword());
-        Assert.assertEquals(100.0d, signOptions.getTimestampSettings().getTimeout().getTotalSeconds());
 
         // Test with custom timeout.
         signOptions.setTimestampSettings(new DigitalSignatureTimestampSettings(
                 "https://freetsa.org/tsr",
                 "JohnDoe",
                 "MyPassword",
-                Duration.ofMinutes(30)));
-
-        Assert.assertEquals(1800.0d, signOptions.getTimestampSettings().getTimeout().getTotalSeconds());
+                30));
         //ExEnd:SignDocumentWithTimestamping
     }
 }

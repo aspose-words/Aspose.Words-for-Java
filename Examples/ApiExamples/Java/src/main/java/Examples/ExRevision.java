@@ -798,7 +798,6 @@ public class ExRevision extends ApiExampleBase {
         CompareOptions options = new CompareOptions();
         AdvancedCompareOptions advanced = options.getAdvancedOptions();
         advanced.setCompareListDefinitions(isCompareListDefinitions);
-        options.setAdvancedOptions(advanced);
 
         docA.compare(docB, "test", new Date(), options);
         //ExEnd:CompareListDefinitions

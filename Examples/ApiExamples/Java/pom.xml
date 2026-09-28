@@ -44,6 +44,14 @@
             <url>https://releases.aspose.com/java/repo/</url>
         </repository>
         <repository>
+            <id>jogamp-remote</id>
+            <url>https://mvnrepository.com/artifact/org.jogamp.jogl/jogl-all-main</url>
+        </repository>
+        <repository>
+            <id>gluegen-remote</id>
+            <url>https://mvnrepository.com/artifact/org.jogamp.gluegen/gluegen-rt-main</url>
+        </repository>
+        <repository>
             <id>com.springsource.repository.bundles.external</id>
             <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
             <url>https://repository.springsource.com/maven/bundles/external</url>
@@ -54,14 +62,26 @@
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>26.7</version>
+            <version>26.9.1</version>
             <classifier>jdk17</classifier>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>26.7</version>
+            <version>26.9.1</version>
             <classifier>shaping-harfbuzz-plugin</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.jogamp.jogl</groupId>
+            <artifactId>jogl-all-main</artifactId>
+            <version>2.3.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jogamp.gluegen</groupId>
+            <artifactId>gluegen-rt-main</artifactId>
+            <version>2.3.2</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
