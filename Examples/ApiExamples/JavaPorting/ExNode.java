@@ -27,6 +27,7 @@ import com.aspose.words.Inline;
 import com.aspose.ms.System.msString;
 import com.aspose.words.TableCollection;
 import com.aspose.words.Table;
+import com.aspose.words.Row;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.BreakType;
 import com.aspose.words.Section;
@@ -360,8 +361,12 @@ public class ExNode extends ApiExampleBase
 
         for (Table table : tables.<Table>OfType())
         {
-            table.getFirstRow()?.Remove();
-            table.getLastRow()?.Remove();
+            Row first = table.getFirstRow();
+            if (first!= null)
+                first.remove();
+            Row last = table.getLastRow();
+            if (last!= null)
+                last.remove();
         }
 
         Assert.assertEquals(3, tables.get(0).getRows().getCount());

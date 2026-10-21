@@ -115,6 +115,15 @@ public class ApiExampleBase
         return Class.GetType("Mono.Runtime") != null;
     }
 
+    /// <summary>
+    /// Determine if environment is Linux.
+    /// </summary>
+    /// <returns>True if being executed on Linux, false otherwise.</returns>
+    static boolean isRunningOnLinux()
+    {
+        return Environment.getOSVersion().Platform == PlatformID.Unix;
+    }
+
     static void setUnlimitedLicense() throws Exception
     {
         // This is where the test license is on my development machine.

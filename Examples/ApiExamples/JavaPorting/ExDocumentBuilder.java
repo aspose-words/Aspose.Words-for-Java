@@ -99,8 +99,6 @@ import com.aspose.words.StyleType;
 import com.aspose.words.WarningInfoCollection;
 import com.aspose.words.WarningInfo;
 import com.aspose.words.WarningSource;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 import com.aspose.words.OlePackage;
 import com.aspose.words.HtmlInsertOptions;
 import org.testng.annotations.DataProvider;
@@ -3636,25 +3634,25 @@ public class ExDocumentBuilder extends ApiExampleBase
         MemoryStream stream = new MemoryStream(thumbnailImageBytes);
         try /*JAVA: was using*/
         {
-            BufferedImage image = ImageIO.read(stream);
+            SKBitmap image = SKBitmap.Decode(stream);
             try /*JAVA: was using*/
             {
                 // Below are two ways of creating a shape with a custom thumbnail, which links to an online video
                 // that will play when we click on the shape in Microsoft Word.
                 // 1 -  Insert an inline shape at the builder's node insertion cursor:
-                builder.insertOnlineVideo(videoUrl, videoEmbedCode, thumbnailImageBytes, image.getWidth(), image.getHeight());
+                builder.InsertOnlineVideo(videoUrl, videoEmbedCode, thumbnailImageBytes, image.Width, image.Height);
 
                 builder.insertBreak(BreakType.PAGE_BREAK);
 
                 // 2 -  Insert a floating shape:
-                double left = builder.getPageSetup().getRightMargin() - image.getWidth();
-                double top = builder.getPageSetup().getBottomMargin() - image.getHeight();
+                double left = builder.getPageSetup().getRightMargin() - image.Width;
+                double top = builder.getPageSetup().getBottomMargin() - image.Height;
 
-                builder.insertOnlineVideo(videoUrl, videoEmbedCode, thumbnailImageBytes,
+                builder.InsertOnlineVideo(videoUrl, videoEmbedCode, thumbnailImageBytes,
                     RelativeHorizontalPosition.RIGHT_MARGIN, left, RelativeVerticalPosition.BOTTOM_MARGIN, top,
-                    image.getWidth(), image.getHeight(), WrapType.SQUARE);
+                    image.Width, image.Height, WrapType.SQUARE);
             }
-            finally { if (image != null) image.flush(); }
+            finally { if (image != null) image.close(); }
         }
         finally { if (stream != null) stream.close(); }
 

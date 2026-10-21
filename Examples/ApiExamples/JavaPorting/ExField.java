@@ -41,6 +41,8 @@ import com.aspose.words.LoadOptions;
 import com.aspose.words.Run;
 import com.aspose.words.FieldArgumentBuilder;
 import com.aspose.barcode.License;
+import com.aspose.words.ImageSaveOptions;
+import com.aspose.words.PageSet;
 import com.aspose.words.FieldDatabase;
 import com.aspose.words.Table;
 import com.aspose.words.NodeType;
@@ -66,10 +68,10 @@ import com.aspose.words.IFieldUserPromptRespondent;
 import com.aspose.words.FieldAdvance;
 import com.aspose.words.FieldAddressBlock;
 import com.aspose.words.FieldCollection;
+import com.aspose.words.FieldSeparator;
 import com.aspose.words.DocumentVisitor;
 import com.aspose.words.VisitorAction;
 import com.aspose.ms.System.Text.msStringBuilder;
-import com.aspose.words.FieldSeparator;
 import com.aspose.words.FieldEnd;
 import com.aspose.words.FieldCompare;
 import com.aspose.words.FieldIfComparisonResult;
@@ -601,7 +603,7 @@ public class ExField extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Field.BarCodeWord2Pdf.pdf");
 
-        BarCodeReader barCodeReader = barCodeReaderPdf(getArtifactsDir() + "Field.BarCodeWord2Pdf.pdf");
+        BarCodeReader barCodeReader = barCodeReaderPage(doc);
         try /*JAVA: was using*/
         {
             Assert.That(barCodeReader.FoundBarCodes[0].CodeTypeName, assertEquals("QR", );
@@ -609,23 +611,22 @@ public class ExField extends ApiExampleBase
         finally { if (barCodeReader != null) barCodeReader.close(); }
     }
 
-    private BarCodeReader barCodeReaderPdf(String filename) throws Exception
+    private BarCodeReader barCodeReaderPage(Document doc) throws Exception
     {
         // Set license for Aspose.BarCode.
         License licenceBarCode = new License();
         licenceBarCode.setLicense(getLicenseDir() + "Aspose.Total.NET.lic");
 
-        Aspose.Pdf.Facades.PdfExtractor pdfExtractor = new Aspose.Pdf.Facades.PdfExtractor();
-        pdfExtractor.BindPdf(filename);
-
-        // Set page range for image extraction.
-        pdfExtractor.StartPage = 1;
-        pdfExtractor.EndPage = 1;
-
-        pdfExtractor.ExtractImage();
+        // Render the first page to PNG instead of extracting the image from the PDF,
+        // because PdfExtractor image extraction is not reliable on Linux.
+        ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.PNG);
+        {
+            saveOptions.setPageSet(new PageSet(0));
+            saveOptions.setResolution(300f);
+        }
 
         MemoryStream imageStream = new MemoryStream();
-        pdfExtractor.GetNextImage(imageStream);
+        doc.save(imageStream, saveOptions);
         imageStream.setPosition(0);
 
         // Recognize the barcode from the image stream above.
@@ -1276,7 +1277,9 @@ public class ExField extends ApiExampleBase
                 if (fieldEnumerator.next() != null)
                 {
                     fieldEnumerator.next().getStart().accept(fieldVisitor);
-                    fieldEnumerator.next().getSeparator()?.Accept(fieldVisitor);
+                    FieldSeparator separator = fieldEnumerator.next().getSeparator();
+                    if (separator != null)
+                        separator.accept(fieldVisitor);
                     fieldEnumerator.next().getEnd().accept(fieldVisitor);
                 }
                 else

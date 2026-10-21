@@ -39,9 +39,6 @@ import com.aspose.ms.System.IO.FileMode;
 import com.aspose.words.IDocumentSavingCallback;
 import com.aspose.words.DocumentSavingArgs;
 import com.aspose.ms.System.Random;
-import java.awt.image.BufferedImage;
-import java.awt.Graphics2D;
-import java.awt.Color;
 import com.aspose.words.Zip64Mode;
 import com.aspose.words.CertificateHolder;
 import com.aspose.words.SignOptions;
@@ -468,22 +465,21 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
 
         for (int i = 0; i < 10000; i++)
         {
-            BufferedImage bmp = new BufferedImage(5, 5);
+            SKBitmap bmp = new SKBitmap(5, 5);
             try /*JAVA: was using*/
         	{
-            Graphics2D g = Graphics2D.FromImage(bmp);
+            SKCanvas canvas = new SKCanvas(bmp);
             try /*JAVA: was using*/
             {
-                g.Clear(new Color((random.next(0, 254)), (random.next(0, 254)), (random.next(0, 254))));
-                MemoryStream ms = new MemoryStream();
+                canvas.Clear(new SKColor((byte)random.next(0, 254), (byte)random.next(0, 254), (byte)random.next(0, 254)));
+                SKData data = bmp.Encode(SKEncodedImageFormat.Png, 100);
                 try /*JAVA: was using*/
-                {
-                    bmp.Save(ms, ImageFormat.Png);
-                    builder.insertImage(ms.toArray());
-                }
-                finally { if (ms != null) ms.close(); }
+            	{
+                    builder.InsertImage(data.ToArray());
+            	}
+                finally { if (data != null) data.close(); }
             }
-            finally { if (g != null) g.close(); }
+            finally { if (canvas != null) canvas.close(); }
         	}
             finally { if (bmp != null) bmp.close(); }
         }

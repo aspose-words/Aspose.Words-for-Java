@@ -823,7 +823,6 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     {
         imageCompression(pdfImageCompression);
 
-
         Aspose.Pdf.Document pdfDocument =
             new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ImageCompression.pdf");
         XImage image = pdfDocument.Pages[1].Resources.Images[1];
@@ -836,6 +835,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         finally { if (stream != null) stream.close(); }
 
         TestUtil.verifyImage(400, 400, imagePath);
+        Assert.That(image.FilterType, Is.EqualTo(ImageFilterType.Jpeg));
 
         image = pdfDocument.Pages[1].Resources.Images[2];
         imagePath = getArtifactsDir() + $"PdfSaveOptions.ImageCompression.Image2.{image.FilterType}";
@@ -846,18 +846,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     	}
         finally { if (stream1 != null) stream1.close(); }
 
-        long testedFileLength = new FileInfo(getArtifactsDir() + "PdfSaveOptions.ImageCompression.pdf").getLength();
-        switch (pdfImageCompression)
-        {
-            case PdfImageCompression.AUTO:
-                Assert.assertTrue(testedFileLength < 54000);
-                TestUtil.verifyImage(400, 400, imagePath);
-                break;
-            case PdfImageCompression.JPEG:
-                Assert.assertTrue(testedFileLength < 40000);
-                TestUtil.verifyImage(400, 400, imagePath);
-                break;
-        }
+        TestUtil.verifyImage(400, 400, imagePath);
+        // Check the image encoding rather than the PDF file size, which depends on the embedded font subset.
+        Assert.That(image.FilterType, Is.EqualTo(pdfImageCompression == PdfImageCompression.JPEG
+            ? ImageFilterType.Jpeg
+            : ImageFilterType.Flate));
     }
 
 	//JAVA-added data provider for test method
@@ -2449,17 +2442,15 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf", options);
         //ExEnd
 
+        // Font resources and object numbers depend on installed fonts, so check only
+        // the transparency graphics states that the fallback shapes add to the page.
         switch (dmlRenderingMode)
         {
             case DmlRenderingMode.DRAWING_ML:
-                TestUtil.fileContainsString(
-                    "<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
-                    getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf");
+                Assert.Does.Not.Contain("/ExtGState")File.readAllText(getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf"));
                 break;
             case DmlRenderingMode.FALLBACK:
-                TestUtil.fileContainsString(
-                    "<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABE 14 0 R>>/ExtGState<</GS1 11 0 R/GS2 12 0 R/GS3 17 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
-                    getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf");
+                TestUtil.fileContainsString("/ExtGState<</GS1 ", getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf");
                 break;
         }
     }

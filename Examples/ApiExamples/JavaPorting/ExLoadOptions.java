@@ -17,8 +17,7 @@ import com.aspose.words.ResourceLoadingAction;
 import com.aspose.words.ResourceLoadingArgs;
 import com.aspose.words.ResourceType;
 import com.aspose.ms.System.msConsole;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
+import com.aspose.ms.System.IO.File;
 import org.testng.Assert;
 import com.aspose.words.NodeType;
 import com.aspose.ms.NUnit.Framework.msAssert;
@@ -73,7 +72,7 @@ public class ExLoadOptions extends ApiExampleBase
     /// </summary>
     private static class HtmlLinkedResourceLoadingCallback implements IResourceLoadingCallback
     {
-        public /*ResourceLoadingAction*/int resourceLoading(ResourceLoadingArgs args)
+        public /*ResourceLoadingAction*/int resourceLoading(ResourceLoadingArgs args) throws Exception
         {
             switch (args.getResourceType())
             {
@@ -86,10 +85,7 @@ public class ExLoadOptions extends ApiExampleBase
                     final String NEW_IMAGE_FILENAME = "Logo.jpg";
                     System.out.println("\tImage will be substituted with: {newImageFilename}");
 
-                    BufferedImage newImage = ImageIO.read(getImageDir() + NEW_IMAGE_FILENAME);
-
-                    ImageConverter converter = new ImageConverter();
-                    byte[] imageBytes = (byte[])converter.ConvertTo(newImage, byte[].class);
+                    byte[] imageBytes = File.readAllBytes(getImageDir() + NEW_IMAGE_FILENAME);
                     args.setData(imageBytes);
 
                     return ResourceLoadingAction.USER_PROVIDED;

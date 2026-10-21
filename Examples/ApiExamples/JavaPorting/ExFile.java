@@ -69,8 +69,10 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         Assert.assertEquals(LoadFormat.HTML, info.getLoadFormat());
 
         // The Encoding property is used only when we create a FileFormatInfo object for an html document.
-        Assert.assertEquals("Western European (Windows)", info.getEncodingInternal().getEncodingName());
-        Assert.assertEquals(1252, info.getEncodingInternal().getCodePage());
+        // On Windows, the detected ISO-8859-1 encoding is reported as its Windows-1252 superset.
+        boolean isLinux = isRunningOnLinux(); //ExSkip
+        Assert.assertEquals(isLinux ? "Western European (ISO)" : "Western European (Windows)", info.getEncodingInternal().getEncodingName());
+        Assert.assertEquals(isLinux ? 28591 : 1252, info.getEncodingInternal().getCodePage());
         //ExEnd
 
         info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.docx");
