@@ -2639,4 +2639,97 @@ public class ExCharts extends ApiExampleBase {
         Assert.assertEquals(ShapeTextOrientation.HORIZONTAL, chart.getAxisX().getTitle().getOrientation());
         Assert.assertEquals(-90, chart.getAxisX().getTitle().getRotation());
     }
+
+    @Test
+    public void chartSeriesAndDataPointIsTotal() throws Exception
+    {
+        //ExStart:ChartSeriesAndDataPointIsTotal
+        //GistId:13ac22ab31bbd694d29ab4db2a496206
+        //ExFor:ChartSeries.IsTotal(Int32)
+        //ExFor:ChartDataPoint.IsTotal
+        //ExSummary:Shows how to determine whether a data point is a total in a waterfall chart.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a Waterfall chart.
+        Shape shape = builder.insertChart(ChartType.WATERFALL, 450.0, 450.0);
+        Chart chart = shape.getChart();
+        chart.getTitle().setText("New Zealand GDP");
+
+        // Delete default generated series.
+        chart.getSeries().clear();
+
+        // Add a series where the start value, the subtotal and the final value are totals.
+        ChartSeries series = chart.getSeries().add(
+                "New Zealand GDP",
+                new String[] { "2018", "2019 growth", "2020 growth", "2020", "2021 growth", "2022 growth", "2022" },
+                new double[] { 100.0, 0.57, -0.25, 100.32, 20.22, -2.92, 117.62 },
+                new boolean[] { true, false, false, true, false, false, true });
+
+        // Print the type of each data point.
+        for (int i = 0; i < series.getYValues().getCount(); i++)
+        {
+            if (series.isTotal(i))
+                System.out.println("Data point {i} is Subtotal");
+            else if (series.getYValues().get(i).getDoubleValue() > 0)
+                System.out.println("Data point {i} is Increase");
+            else
+                System.out.println("Data point {i} is Decrease");
+        }
+
+        // The same flag is available on the data point itself.
+        System.out.println("Data point 3 is total: {series.DataPoints[3].IsTotal}");
+
+        doc.save(getArtifactsDir() + "Charts.ChartSeriesAndDataPointIsTotal.docx");
+        //ExEnd:ChartSeriesAndDataPointIsTotal
+
+        doc = new Document(getArtifactsDir() + "Charts.ChartSeriesAndDataPointIsTotal.docx");
+        series = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart().getSeries().get(0);
+
+        boolean[] expectedTotals = { true, false, false, true, false, false, true };
+        for (int i = 0; i < expectedTotals.length; i++)
+        {
+            Assert.assertEquals(expectedTotals[i], series.isTotal(i));
+            Assert.assertEquals(expectedTotals[i], series.getDataPoints().get(i).isTotal());
+        }
+    }
+
+    @Test
+    public void plotAreaFormat() throws Exception
+    {
+        //ExStart:PlotAreaFormat
+        //GistId:13ac22ab31bbd694d29ab4db2a496206
+        //ExFor:ChartPlotArea
+        //ExFor:Chart.PlotArea
+        //ExFor:ChartPlotArea.Format
+        //ExSummary:Shows how to set fill and line formatting for the plot area of a chart.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
+        Chart chart = shape.getChart();
+
+        // Delete default generated series and add our own.
+        ChartSeriesCollection seriesColl = chart.getSeries();
+        seriesColl.clear();
+        String[] categories = new String[] { "Category 1", "Category 2" };
+        seriesColl.add("Series 1", categories, new double[] { 1.0, 2.0 });
+        seriesColl.add("Series 2", categories, new double[] { 3.0, 4.0 });
+
+        // Fill the plot area with a gradient and outline it with a thin blue line.
+        ChartPlotArea plotArea = chart.getPlotArea();
+        plotArea.getFormat().getFill().oneColorGradient(Color.blue, GradientStyle.DIAGONAL_UP, GradientVariant.VARIANT_2, 1.0);
+        plotArea.getFormat().getStroke().setForeColor(Color.BLUE);
+        plotArea.getFormat().getStroke().setWeight(0.25);
+
+        doc.save(getArtifactsDir() + "Charts.PlotAreaFormat.docx");
+        //ExEnd:PlotAreaFormat
+
+        doc = new Document(getArtifactsDir() + "Charts.PlotAreaFormat.docx");
+        plotArea = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart().getPlotArea();
+
+        Assert.assertEquals(GradientStyle.DIAGONAL_UP, plotArea.getFormat().getFill().getGradientStyle());
+        Assert.assertEquals(Color.BLUE.getRGB(), plotArea.getFormat().getStroke().getForeColor().getRGB());
+        Assert.assertEquals(0.25, plotArea.getFormat().getStroke().getWeight());
+    }
 }
