@@ -1,4 +1,4 @@
-package DocsExamples.LINQ_Reporting_Engine;
+﻿package DocsExamples.LINQ_Reporting_Engine;
 
 import DocsExamples.DocsExamplesBase;
 import TestData.Common;
@@ -18,8 +18,9 @@ import java.util.ArrayList;
 @Test
 public class BaseOperations extends DocsExamplesBase {
     @Test
-    public void helloWorld() throws Exception {
-        //ExStart:HelloWorld
+    public void liqnHelloWorld() throws Exception {
+        //ExStart:LinqHelloWorld
+        //GistId:4732fa15eef8fceb1219ff2c1309d5e4
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -33,7 +34,7 @@ public class BaseOperations extends DocsExamplesBase {
         engine.buildReport(doc, sender, "sender");
 
         doc.save(getArtifactsDir() + "ReportingEngine.HelloWorld.docx");
-        //ExEnd:HelloWorld
+        //ExEnd:LinqHelloWorld
     }
 
     @Test

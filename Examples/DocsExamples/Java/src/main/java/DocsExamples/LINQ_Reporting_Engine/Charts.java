@@ -1,4 +1,4 @@
-package DocsExamples.LINQ_Reporting_Engine;
+﻿package DocsExamples.LINQ_Reporting_Engine;
 
 import DocsExamples.DocsExamplesBase;
 import TestData.Common;
@@ -24,8 +24,9 @@ public class Charts extends DocsExamplesBase {
     }
 
     @Test
-    public void setChartSeriesNameDynamically() throws Exception {
-        //ExStart:SetChartSeriesNameDynamically
+    public void chartSeriesNameDynamically() throws Exception {
+        //ExStart:ChartSeriesNameDynamically
+        //GistId:03002c5226758f1b335cdbb07c0efb4b
         Document doc = new Document(getMyDir() + "Reporting engine template - Chart (Java).docx");
 
         ReportingEngine engine = new ReportingEngine();
@@ -33,7 +34,7 @@ public class Charts extends DocsExamplesBase {
         engine.buildReport(doc, Common.getManagers(), "managers");
 
         doc.save(getArtifactsDir() + "ReportingEngine.SetChartSeriesNameDynamically.docx");
-        //ExEnd:SetChartSeriesNameDynamically
+        //ExEnd:ChartSeriesNameDynamically
     }
 
     @Test
@@ -65,6 +66,7 @@ public class Charts extends DocsExamplesBase {
     @Test
     public void scatterChart() throws Exception {
         //ExStart:ScatterChart
+        //GistId:a52d00e47498ab8a340b7c79ab79b9aa
         Document doc = new Document(getMyDir() + "Reporting engine template - Scatter chart (Java).docx");
 
         ReportingEngine engine = new ReportingEngine();

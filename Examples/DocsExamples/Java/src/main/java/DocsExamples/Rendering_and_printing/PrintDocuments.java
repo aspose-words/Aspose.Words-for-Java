@@ -1,4 +1,4 @@
-package DocsExamples.Rendering_and_printing;
+﻿package DocsExamples.Rendering_and_printing;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.Document;
@@ -19,6 +19,7 @@ public class PrintDocuments extends DocsExamplesBase {
     @Test(enabled = false, description = "Run only when the printer driver is installed")
     public void printMultiplePages() throws Exception {
         //ExStart:PrintMultiplePagesOnOneSheet
+        //GistId:c0adc651a9fe8fdc3c6c327bf3537daf
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         //ExStart:PrintDialogSettings
