@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 //
@@ -207,7 +207,7 @@ public class ExAI extends ApiExampleBase
     public void asposeLlmSummarize() throws Exception
     {
         //ExStart:AsposeLlmSummarize
-        //GistId:13ac22ab31bbd694d29ab4db2a496206
+        //GistId:ff42f5ee00cb36dbab06ad2fbc0d1cbe
         //ExFor:AsposeLlmModel.#ctor(String)
         //ExFor:AsposeLlmModel.Summarize(Document, SummarizeOptions)
         //ExFor:AsposeLlmModel.Summarize(Document[], SummarizeOptions)
@@ -236,7 +236,7 @@ public class ExAI extends ApiExampleBase
     public void asposeLlmTranslate() throws Exception
     {
         //ExStart:AsposeLlmTranslate
-        //GistId:13ac22ab31bbd694d29ab4db2a496206
+        //GistId:ff42f5ee00cb36dbab06ad2fbc0d1cbe
         //ExFor:AsposeLlmModel.Translate(Document, AI.Language)
         //ExSummary:Shows how to translate a document with a local model.
         Document doc = new Document(getMyDir() + "Document.docx");

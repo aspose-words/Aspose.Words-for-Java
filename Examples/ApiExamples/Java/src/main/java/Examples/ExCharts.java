@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
@@ -2644,7 +2644,7 @@ public class ExCharts extends ApiExampleBase {
     public void chartSeriesAndDataPointIsTotal() throws Exception
     {
         //ExStart:ChartSeriesAndDataPointIsTotal
-        //GistId:13ac22ab31bbd694d29ab4db2a496206
+        //GistId:ff42f5ee00cb36dbab06ad2fbc0d1cbe
         //ExFor:ChartSeries.IsTotal(Int32)
         //ExFor:ChartDataPoint.IsTotal
         //ExSummary:Shows how to determine whether a data point is a total in a waterfall chart.
@@ -2698,7 +2698,7 @@ public class ExCharts extends ApiExampleBase {
     public void plotAreaFormat() throws Exception
     {
         //ExStart:PlotAreaFormat
-        //GistId:13ac22ab31bbd694d29ab4db2a496206
+        //GistId:ff42f5ee00cb36dbab06ad2fbc0d1cbe
         //ExFor:ChartPlotArea
         //ExFor:Chart.PlotArea
         //ExFor:ChartPlotArea.Format
